@@ -13,7 +13,7 @@ file(COPY ${OGRE_CONFIG_DIR}/plugins.cfg # ${OGRE_CONFIG_DIR}/resources.cfg
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(Boost COMPONENTS system thread REQUIRED)
+find_package(Boost COMPONENTS system thread OPTIONAL)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
