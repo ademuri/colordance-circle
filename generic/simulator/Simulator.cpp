@@ -1,4 +1,5 @@
 #include "Simulator.hpp"
+#include <OgreBitesConfigDialog.h>
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
@@ -12,9 +13,11 @@
 #include "SimulatorLightController.hpp"
 
 Simulator::Simulator()
-    : OgreBites::ApplicationContext("ColorDance Circle Simulator3") {}
+    : OgreBites::ApplicationContext("ColorDance Circle Simulator") {}
 
 void Simulator::setup() {
+  // Note: use this line if you need to change the rendering config
+  // OgreBites::getNativeConfigDialog()->display();
   OgreBites::ApplicationContext::setup();
 
   // register for input events
