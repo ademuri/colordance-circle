@@ -99,6 +99,18 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   return true;
 }
 
+bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
+  if (evt.keysym.sym == SDLK_ESCAPE) {
+    getRoot()->queueEndRendering();
+  }
+
+  return true;
+}
+
+bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
+  return true;
+}
+
 int main(int argc, char **argv) {
   Simulator app;
   app.initApp();

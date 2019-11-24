@@ -19,6 +19,8 @@ class Simulator : public OgreBites::ApplicationContext,
 
   void setup() override;
   bool frameEnded(const Ogre::FrameEvent &evt) override;
+  bool keyPressed(const OgreBites::KeyboardEvent &evt) override;
+  bool keyReleased(const OgreBites::KeyboardEvent &evt) override;
 
  private:
   SimulatorLightController *controller;
