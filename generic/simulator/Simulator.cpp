@@ -1,4 +1,3 @@
-#include "../Types.hpp"
 #include "Simulator.hpp"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -9,10 +8,11 @@
 #include <OgreViewport.h>
 #include <cmath>
 #include <iostream>
+#include "../Types.hpp"
 #include "SimulatorLightController.hpp"
 
 Simulator::Simulator()
-    : OgreBites::ApplicationContext("ColorDance Circle Simulator2") {}
+    : OgreBites::ApplicationContext("ColorDance Circle Simulator3") {}
 
 void Simulator::setup() {
   OgreBites::ApplicationContext::setup();
@@ -29,9 +29,11 @@ void Simulator::setup() {
   shadergen->addSceneManager(scnMgr);
 
   Ogre::SceneNode *camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-  camNode->setPosition(0, SimulatorLightController::inchesToCoords(69), SimulatorLightController::feetToCoords(20));
-  camNode->lookAt(Ogre::Vector3(0, 0, SimulatorLightController::inchesToCoords(30)),
-                  Ogre::Node::TransformSpace::TS_WORLD);
+  camNode->setPosition(0, SimulatorLightController::inchesToCoords(69),
+                       SimulatorLightController::feetToCoords(20));
+  camNode->lookAt(
+      Ogre::Vector3(0, 0, SimulatorLightController::inchesToCoords(30)),
+      Ogre::Node::TransformSpace::TS_WORLD);
 
   Ogre::Camera *cam = scnMgr->createCamera("cam1");
   cam->setNearClipDistance(5);
@@ -71,9 +73,9 @@ void Simulator::setup() {
   lightController = new SimulatorLightController(scnMgr);
   for (int i = 0; i < 6; i++) {
     lights.push_back(lightController->createLight(Ogre::Vector3(
-            SimulatorLightController::feetToCoords(7.5) * sin(3.14 / 3.0 * i),
-            SimulatorLightController::feetToCoords(10),
-            SimulatorLightController::feetToCoords(7.5) * cos(3.14 / 3.0 * i))));
+        SimulatorLightController::feetToCoords(7.5) * sin(3.14 / 3.0 * i),
+        SimulatorLightController::feetToCoords(10),
+        SimulatorLightController::feetToCoords(7.5) * cos(3.14 / 3.0 * i))));
   }
 }
 

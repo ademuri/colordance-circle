@@ -26,8 +26,8 @@ class Simulator : public OgreBites::ApplicationContext,
   Ogre::SceneNode *ninjaNode;
   int ninjaClock = 0;
 
-  SimulatorLightController* lightController;
-  std::vector<Ogre::Light*> lights;
+  SimulatorLightController *lightController;
+  std::vector<Ogre::Light *> lights;
 };
 
 #endif

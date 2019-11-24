@@ -2,13 +2,12 @@
 #include <OgreLight.h>
 #include <OgreSceneNode.h>
 #include <chrono>
+#include <cstdio>
 #include <map>
 #include <utility>
-#include <cstdio>
 
 SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
-    : scnMgr(scnMgr) {
-}
+    : scnMgr(scnMgr) {}
 
 Ogre::Light *SimulatorLightController::createLight(
     Ogre::Vector3 const position) {
