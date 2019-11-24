@@ -25,6 +25,8 @@ target_include_directories(generic PUBLIC
   $<INSTALL_INTERFACE:.>
   $<INSTALL_INTERFACE:./FakeFastLED>)
 
+add_subdirectory(simulator)
+
 #enable_testing()
 #
 #file(GLOB TEST_SOURCES "test/*.cpp" "test/*.hpp")
