@@ -1,4 +1,5 @@
 #include "Simulator.hpp"
+#include <OgreAxisAlignedBox.h>
 #include <OgreBitesConfigDialog.h>
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -33,9 +34,9 @@ void Simulator::setup() {
 
   Ogre::SceneNode *camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
   camNode->setPosition(0, SimulatorLightController::inchesToCoords(69),
-                       SimulatorLightController::feetToCoords(20));
+                       SimulatorLightController::feetToCoords(15));
   camNode->lookAt(
-      Ogre::Vector3(0, 0, SimulatorLightController::inchesToCoords(30)),
+      Ogre::Vector3(0, SimulatorLightController::feetToCoords(0), 0),
       Ogre::Node::TransformSpace::TS_WORLD);
 
   Ogre::Camera *cam = scnMgr->createCamera("cam1");
@@ -61,13 +62,32 @@ void Simulator::setup() {
   wallNode->setPosition(0, 0, 0);
   wallNode->attachObject(wallEntity);
 
-  Ogre::Entity *obstacleEntity = scnMgr->createEntity("ninja.mesh");
-  obstacleEntity->setCastShadows(true);
-  obstacleEntity->setMaterialName("Template/OffBlack");
-  ninjaNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-  ninjaNode->setPosition(SimulatorLightController::feetToCoords(2), 0,
-                         SimulatorLightController::feetToCoords(5));
-  ninjaNode->attachObject(obstacleEntity);
+  for (int i = 0; i < 6; i++) {
+    Ogre::Entity *pole_entity = scnMgr->createEntity("column.mesh");
+    pole_entity->setCastShadows(true);
+    pole_entity->setMaterialName("Template/White");
+    Ogre::AxisAlignedBox bounding_box = pole_entity->getBoundingBox();
+    Ogre::Vector3 size = bounding_box.getSize();
+
+    Ogre::SceneNode *pole_node =
+        scnMgr->getRootSceneNode()->createChildSceneNode();
+    pole_node->setPosition(
+        SimulatorLightController::feetToCoords(7.5) * cos(3.14 / 3.0 * i), 0,
+        SimulatorLightController::feetToCoords(7.5) * sin(3.14 / 3.0 * i));
+    pole_node->attachObject(pole_entity);
+    pole_node->setScale(
+        Ogre::Vector3(SimulatorLightController::inchesToCoords(2) / size.x,
+                      SimulatorLightController::feetToCoords(10) / size.y,
+                      SimulatorLightController::inchesToCoords(2) / size.z));
+  }
+
+  Ogre::Entity *ninja_entity = scnMgr->createEntity("ninja.mesh");
+  ninja_entity->setCastShadows(true);
+  ninja_entity->setMaterialName("Template/OffBlack");
+  ninja_node = scnMgr->getRootSceneNode()->createChildSceneNode();
+  ninja_node->setPosition(SimulatorLightController::feetToCoords(2), 0,
+                          SimulatorLightController::feetToCoords(5));
+  ninja_node->attachObject(ninja_entity);
 
   scnMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));
   scnMgr->setShadowTechnique(
@@ -83,12 +103,12 @@ void Simulator::setup() {
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
-  ninjaNode->setPosition(
+  ninja_node->setPosition(
       SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 60.0), 0,
       SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 60.0));
 
   for (int i = 0; i < 6; i++) {
-    CHSV hsv = {255 / 6 * i + ninjaClock, 255, 255};
+    CHSV hsv = {255 / 6 * i + ninjaClock, 255, 220};
     CRGB rgb = hsv;
     lights[i]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
     lights[i]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);

@@ -21,8 +21,8 @@ class SimulatorLightController {
    * relative to the height of the ninja mesh used, which is 192 coordinate
    * units tall. This assumes that the ninja is 5'4" (average human height).
    */
-  static int inchesToCoords(int inches);
-  static int feetToCoords(int inches);
+  static float inchesToCoords(float inches);
+  static float feetToCoords(float inches);
 
  private:
   Ogre::SceneManager *const scnMgr;
