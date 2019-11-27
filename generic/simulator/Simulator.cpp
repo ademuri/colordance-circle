@@ -12,6 +12,7 @@
 #include <iostream>
 #include "../Types.hpp"
 #include "ColorCycleEffect.hpp"
+#include "RotateThreeEffect.hpp"
 #include "SimulatorLightController.hpp"
 
 Simulator::Simulator()
@@ -97,13 +98,14 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
-  effect = new ColorCycleEffect(lightController->get_poles());
+  // effect = new ColorCycleEffect(lightController->get_poles());
+  effect = new RotateThreeEffect(lightController->get_poles());
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
-  ninja_node->setPosition(
+  /*ninja_node->setPosition(
       SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 20.0), 0,
-      SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 20.0));
+      SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 20.0));*/
 
   effect->Run();
   lightController->WriteOutLights();
