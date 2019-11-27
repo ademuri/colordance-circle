@@ -12,4 +12,5 @@ void ColorCycleEffect::DoRun() {
     }
   }
   timer++;
+  SleepMs(10);
 }

@@ -19,7 +19,16 @@ class Effect {
    */
   virtual void DoRun() = 0;
 
+  /*
+   * Delays execution of this effect for the specified milliseconds, or 0 to
+   * disable.
+   */
+  void SleepMs(uint32_t ms_to_sleep);
+
   const std::vector<Pole*> poles;
+
+ private:
+  uint32_t sleep_until_ms = 0;
 };
 
 #endif
