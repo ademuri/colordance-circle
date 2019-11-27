@@ -11,8 +11,12 @@ Pole::Pole() {
   }
 }
 
-void Pole::SetGridLight(uint8_t x, uint8_t y, CRGB &rgb) {
+void Pole::SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb) {
   grid_lights[x][y] = rgb;
+}
+
+void Pole::SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv) {
+  grid_lights[x][y] = hsv;
 }
 
 const std::vector<std::vector<CRGB>> Pole::get_grid_lights() {
