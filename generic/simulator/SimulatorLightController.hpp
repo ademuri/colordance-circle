@@ -18,8 +18,6 @@ class SimulatorLightController : public LightController {
 
   void WriteOutLights() override;
 
-  Ogre::Light *createLight(Ogre::Vector3 const position);
-
   /*
    * Converts inches to the x-y-z coordinates used by Ogre. This is all
    * relative to the height of the ninja mesh used, which is 192 coordinate
@@ -29,9 +27,16 @@ class SimulatorLightController : public LightController {
   static float feetToCoords(float inches);
 
  private:
+  Ogre::Light *createLight(Ogre::Vector3 const position);
+
   Ogre::SceneManager *const scnMgr;
 
   std::vector<std::vector<std::vector<Ogre::Light *>>> lights;
+
+  // Tuning constants
+  static constexpr float kPixelPitchInches = 3;
+  static constexpr float kCircleRadiusInches = 7.5 * 12;
+  static constexpr float kPoleHeightInches = 10 * 12;
 };
 
 #endif

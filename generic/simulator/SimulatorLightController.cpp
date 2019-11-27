@@ -1,6 +1,7 @@
 #include "SimulatorLightController.hpp"
 #include <OgreLight.h>
 #include <OgreSceneNode.h>
+#include <math.h>
 #include <chrono>
 #include <cstdio>
 #include <map>
@@ -17,17 +18,18 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
     for (unsigned long row = 0; row < grid_num_rows; row++) {
       std::vector<Ogre::Light *> light_row;
       for (unsigned long col = 0; col < grid_num_cols; col++) {
-        Ogre::Vector3 vector = Ogre::Vector3(
-            SimulatorLightController::inchesToCoords(90) *
-                    cos(3.14 / 3.0 * pole_index) +
-                SimulatorLightController::inchesToCoords(col * 3) *
-                    sin(3.14 / 3.0 * pole_index),
-            SimulatorLightController::inchesToCoords(120 - row * 9),
-            SimulatorLightController::inchesToCoords(90) *
-                    sin(3.14 / 3.0 * pole_index) +
-                SimulatorLightController::inchesToCoords(col * 3) *
-                    cos(3.14 / 3.0 * pole_index));
-        light_row.push_back(createLight(vector));
+        Ogre::Vector3 unscaled = Ogre::Vector3(
+            kCircleRadiusInches * cos(M_PI / 3.0 * pole_index) +
+                col * kPixelPitchInches * sin(M_PI / 3.0 * pole_index),
+            kPoleHeightInches - row * kPixelPitchInches,
+            kCircleRadiusInches * sin(M_PI / 3.0 * pole_index) +
+                col * kPixelPitchInches * cos(M_PI / 3.0 * pole_index));
+
+        Ogre::Vector3 scaled =
+            Ogre::Vector3(SimulatorLightController::inchesToCoords(unscaled.x),
+                          SimulatorLightController::inchesToCoords(unscaled.y),
+                          SimulatorLightController::inchesToCoords(unscaled.z));
+        light_row.push_back(createLight(scaled));
       }
       light_pole.push_back(light_row);
     }

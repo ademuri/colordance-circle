@@ -107,7 +107,7 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
     for (int j = 0; j < 3; j++) {
       CHSV hsv = {255 / 3 * i + ninjaClock * 3, 255, 150};
       CRGB rgb = hsv;
-      lightController->get_poles()[j]->SetGridLight(i, i, rgb);
+      lightController->get_poles()[j * 2]->SetGridLight(i, i, rgb);
     }
   }
   lightController->WriteOutLights();
