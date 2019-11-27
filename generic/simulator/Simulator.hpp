@@ -10,6 +10,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "Effect.hpp"
 #include "SimulatorLightController.hpp"
 
 class Simulator : public OgreBites::ApplicationContext,
@@ -29,7 +30,6 @@ class Simulator : public OgreBites::ApplicationContext,
   int ninjaClock = 0;
 
   SimulatorLightController *lightController;
-  std::vector<Ogre::Light *> lights;
 };
 
 #endif

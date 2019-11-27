@@ -5,14 +5,18 @@
 #include <OgreSceneManager.h>
 #include <chrono>
 #include <map>
+#include <vector>
+#include "LightController.hpp"
+#include "Pole.hpp"
 
 /*
- * Interface class for controlling the output lights. Eventually, there will be
- * a subclass of this that uses DMX to control real lights.
+ * Interface class for controlling the output lights.
  */
-class SimulatorLightController {
+class SimulatorLightController : public LightController {
  public:
   SimulatorLightController(Ogre::SceneManager *scnMgr);
+
+  void WriteOutLights() override;
 
   Ogre::Light *createLight(Ogre::Vector3 const position);
 
@@ -26,6 +30,8 @@ class SimulatorLightController {
 
  private:
   Ogre::SceneManager *const scnMgr;
+
+  std::vector<std::vector<std::vector<Ogre::Light *>>> lights;
 };
 
 #endif

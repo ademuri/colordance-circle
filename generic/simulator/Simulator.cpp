@@ -64,7 +64,9 @@ void Simulator::setup() {
 
   for (int i = 0; i < 6; i++) {
     Ogre::Entity *pole_entity = scnMgr->createEntity("column.mesh");
-    pole_entity->setCastShadows(true);
+    // With very many lights, turning on shadows for the poles makes this too
+    // slow.
+    pole_entity->setCastShadows(false);
     pole_entity->setMaterialName("Template/White");
     Ogre::AxisAlignedBox bounding_box = pole_entity->getBoundingBox();
     Ogre::Vector3 size = bounding_box.getSize();
@@ -94,25 +96,21 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
-  for (int i = 0; i < 6; i++) {
-    lights.push_back(lightController->createLight(Ogre::Vector3(
-        SimulatorLightController::feetToCoords(7.5) * sin(3.14 / 3.0 * i),
-        SimulatorLightController::feetToCoords(10),
-        SimulatorLightController::feetToCoords(7.5) * cos(3.14 / 3.0 * i))));
-  }
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   ninja_node->setPosition(
-      SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 60.0), 0,
-      SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 60.0));
+      SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 20.0), 0,
+      SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 20.0));
 
-  for (int i = 0; i < 6; i++) {
-    CHSV hsv = {255 / 6 * i + ninjaClock, 255, 220};
-    CRGB rgb = hsv;
-    lights[i]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
-    lights[i]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      CHSV hsv = {255 / 3 * i + ninjaClock * 3, 255, 150};
+      CRGB rgb = hsv;
+      lightController->get_poles()[j]->SetGridLight(i, i, rgb);
+    }
   }
+  lightController->WriteOutLights();
 
   ninjaClock++;
 

@@ -1,10 +1,13 @@
 #include "Pole.hpp"
+#include <cstdio>
 
 Pole::Pole() {
   for (int x = 0; x < grid_height; x++) {
+    std::vector<CRGB> row;
     for (int y = 0; y < grid_width; y++) {
-      grid_lights[x].push_back({0, 0, 0});
+      row.push_back({0, 0, 0});
     }
+    grid_lights.push_back(row);
   }
 }
 
