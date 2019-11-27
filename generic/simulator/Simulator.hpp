@@ -30,6 +30,7 @@ class Simulator : public OgreBites::ApplicationContext,
   int ninjaClock = 0;
 
   SimulatorLightController *lightController;
+  Effect *effect;
 };
 
 #endif

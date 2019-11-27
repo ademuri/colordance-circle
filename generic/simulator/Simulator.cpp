@@ -11,6 +11,7 @@
 #include <cmath>
 #include <iostream>
 #include "../Types.hpp"
+#include "ColorCycleEffect.hpp"
 #include "SimulatorLightController.hpp"
 
 Simulator::Simulator()
@@ -96,6 +97,7 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
+  effect = new ColorCycleEffect(lightController->get_poles());
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
@@ -103,13 +105,7 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
       SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 20.0), 0,
       SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 20.0));
 
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      CHSV hsv = {255 / 3 * i + ninjaClock * 3, 255, 150};
-      CRGB rgb = hsv;
-      lightController->get_poles()[j * 2]->SetGridLight(i, i, rgb);
-    }
-  }
+  effect->Run();
   lightController->WriteOutLights();
 
   ninjaClock++;
