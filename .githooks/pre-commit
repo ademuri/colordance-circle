@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -eu
+
+command -v clang-format >/dev/null 2>&1 || { echo >&2 "Warning: clang-format not installed; not auto-formatting code."; exit 1; }
+
+REPO_ROOT_DIR="$(git rev-parse --show-toplevel)"
+
+files=$( (git diff --cached --name-only --diff-filter=ACMR | grep -Ei "\.[ch]pp$") || true)
+if [ ! -z "${files}" ]; then
+    clang-format -i -style=Google $(echo "$files" | paste -s -d " " -)
+    git add $(echo "$files" | paste -s -d " " -)
+fi
