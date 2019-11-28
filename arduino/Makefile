@@ -2,9 +2,12 @@ CLI="arduino-cli --config-file arduino-cli.yaml"
 libraries:=build/Arduino/libraries
 
 build: direct/direct.ino $(libraries)
-	"$(CLI)" compile direct/direct.ino --fqbn="$(FQBN)" --build-path=$(PWD)/build -v
-
+	"$(CLI)" compile direct/direct.ino --fqbn="$(FQBN)" --build-path="$(PWD)/build"
 .PHONY: build
+
+upload: direct/direct.ino $(libraries)
+	"$(CLI)" compile direct/direct.ino -u -t --port /dev/ttyACM0 -o "$(PWD)/build/direct.bin" --fqbn="$(FQBN)" --build-path="$(PWD)/build"
+.PHONY: upload
 
 .ONESHELL:
 $(libraries):
