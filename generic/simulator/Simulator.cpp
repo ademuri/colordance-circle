@@ -1,3 +1,5 @@
+#define SIMULATOR
+
 #include "Simulator.hpp"
 #include <OgreAxisAlignedBox.h>
 #include <OgreBitesConfigDialog.h>

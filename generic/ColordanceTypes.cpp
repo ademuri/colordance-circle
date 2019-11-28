@@ -11,6 +11,8 @@ void __throw_length_error(char const* e) {
 }  // namespace std
 
 #else
+
+#ifdef SIMULATOR
 uint32_t millis() {
   static const std::chrono::steady_clock::time_point start_time =
       std::chrono::steady_clock::now();
@@ -21,4 +23,14 @@ uint32_t millis() {
                                                                start_time)
       .count();
 }
+#else
+uint32_t current_time = 0;
+
+uint32_t millis() { return current_time; }
+
+void set_millis(uint32_t ms) { current_time = ms; }
+
+void advance_millis(uint32_t ms) { current_time += ms; }
+#endif
+
 #endif
