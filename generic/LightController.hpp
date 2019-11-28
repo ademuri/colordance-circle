@@ -1,6 +1,7 @@
 #ifndef LIGHT_CONTROLLER_HPP_
 #define LIGHT_CONTROLLER_HPP_
 
+#include <ColordanceTypes.hpp>
 #include <vector>
 #include "Pole.hpp"
 

@@ -1,5 +1,5 @@
 #include "Effect.hpp"
-#include "Types.hpp"
+#include "ColordanceTypes.hpp"
 
 Effect::Effect(std::vector<Pole*> poles) : poles(poles) {}
 

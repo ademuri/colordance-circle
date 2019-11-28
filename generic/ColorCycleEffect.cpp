@@ -1,5 +1,5 @@
 #include "ColorCycleEffect.hpp"
-#include "Types.hpp"
+#include "ColordanceTypes.hpp"
 
 ColorCycleEffect::ColorCycleEffect(std::vector<Pole*> poles) : Effect(poles) {}
 

@@ -1,0 +1,6 @@
+proxy_type: auto
+# Set this so we get the libraries, but don't set the arduino15 path, so that
+# we get the user's board definitions
+sketchbook_path: ./build/Arduino
+board_manager: {}
+

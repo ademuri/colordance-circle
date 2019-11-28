@@ -10,8 +10,8 @@
 #include <OgreViewport.h>
 #include <cmath>
 #include <iostream>
-#include "../Types.hpp"
 #include "ColorCycleEffect.hpp"
+#include "ColordanceTypes.hpp"
 #include "RotateThreeEffect.hpp"
 #include "SimulatorLightController.hpp"
 

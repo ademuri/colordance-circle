@@ -1,5 +1,16 @@
-#include "Types.hpp"
+#include "ColordanceTypes.hpp"
 
+#ifdef ARDUINO
+namespace std {
+void __throw_bad_alloc() { Serial.println("Unable to allocate memory"); }
+
+void __throw_length_error(char const* e) {
+  Serial.print("Length Error :");
+  Serial.println(e);
+}
+}  // namespace std
+
+#else
 uint32_t millis() {
   static const std::chrono::steady_clock::time_point start_time =
       std::chrono::steady_clock::now();
@@ -10,3 +21,4 @@ uint32_t millis() {
                                                                start_time)
       .count();
 }
+#endif

@@ -2,7 +2,7 @@
 #define POLE_HPP_
 
 #include <vector>
-#include "Types.hpp"
+#include "ColordanceTypes.hpp"
 
 class Pole {
  public:

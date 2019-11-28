@@ -1,5 +1,5 @@
 #include "RotateThreeEffect.hpp"
-#include "Types.hpp"
+#include "ColordanceTypes.hpp"
 
 RotateThreeEffect::RotateThreeEffect(std::vector<Pole*> poles)
     : Effect(poles) {}
