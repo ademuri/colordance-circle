@@ -79,9 +79,14 @@ TEST(Effects, power_consumption) {
       }
     }
 
+    float average_power = power_sum / (kRunTimeMs / kStepMs);
     printf("Power report for '%s':\n", name.c_str());
-    printf("  Average power:  %5.1f W\n", power_sum / (kRunTimeMs / kStepMs));
+    printf("  Average power:  %5.1f W\n", average_power);
     printf("  Max power:      %5.1f W\n\n", max_power);
+
+    // TODO: decide on appropriate values for these
+    EXPECT_LT(average_power, 60.0) << name;
+    EXPECT_LT(max_power, 120.0) << name;
 
     // Clear all lights
     for (Pole* pole : poles) {
