@@ -34,7 +34,7 @@ TEST(Effects, stable) {
 
     for (uint32_t time = 0; time < 12 * 60 * 60 * 1000; time += 10) {
       effect->Run();
-      set_millis(time);
+      SetMillis(time);
     }
   }
 }
@@ -58,7 +58,7 @@ TEST(Effects, power_consumption) {
     float max_power = 0;
     float power_sum = 0;
     for (uint32_t time = 0; time < kRunTimeMs; time += kStepMs) {
-      set_millis(time);
+      SetMillis(time);
       effect->Run();
 
       float instantaneous_power = 0;

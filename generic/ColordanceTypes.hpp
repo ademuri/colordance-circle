@@ -22,10 +22,9 @@
 // call of this function.
 uint32_t millis();
 
-#ifndef SIMULATOR
-void set_millis(uint32_t ms);
-void advance_millis(uint32_t ms);
-#endif
+void UseRealMillis();
+void SetMillis(uint32_t ms);
+void AdvanceMillis(uint32_t ms);
 
 #endif
 

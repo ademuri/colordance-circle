@@ -21,6 +21,8 @@ Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Circle Simulator") {}
 
 void Simulator::setup() {
+  UseRealMillis();
+
   // Note: use this line if you need to change the rendering config
   // OgreBites::getNativeConfigDialog()->display();
   OgreBites::ApplicationContext::setup();
