@@ -12,6 +12,7 @@
 #include <OgreViewport.h>
 #include <cmath>
 #include <iostream>
+#include "BrightDarkEffect.hpp"
 #include "ColorCycleEffect.hpp"
 #include "ColordanceTypes.hpp"
 #include "RotateThreeEffect.hpp"
@@ -102,7 +103,8 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
-  effect = new ColorCycleEffect(lightController->get_poles());
+  effect = new BrightDarkEffect(lightController->get_poles());
+  // effect = new ColorCycleEffect(lightController->get_poles());
   // effect = new RotateThreeEffect(lightController->get_poles());
 }
 
