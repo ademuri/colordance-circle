@@ -102,19 +102,20 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
-  // effect = new ColorCycleEffect(lightController->get_poles());
-  effect = new RotateThreeEffect(lightController->get_poles());
+  effect = new ColorCycleEffect(lightController->get_poles());
+  // effect = new RotateThreeEffect(lightController->get_poles());
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
-  /*ninja_node->setPosition(
-      SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 20.0), 0,
-      SimulatorLightController::feetToCoords(2) * cos(ninjaClock / 20.0));*/
+  if (!ninja_follow_mouse) {
+    ninja_node->setPosition(
+        SimulatorLightController::feetToCoords(2) * sin(ninja_clock / 20.0), 0,
+        SimulatorLightController::feetToCoords(2) * cos(ninja_clock / 20.0));
+    ninja_clock++;
+  }
 
   effect->Run();
   lightController->WriteOutLights();
-
-  ninjaClock++;
 
   return true;
 }
@@ -122,6 +123,8 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
 bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
   if (evt.keysym.sym == SDLK_ESCAPE) {
     getRoot()->queueEndRendering();
+  } else if (evt.keysym.sym == SDLK_SPACE) {
+    ninja_follow_mouse = !ninja_follow_mouse;
   }
 
   return true;
@@ -129,6 +132,13 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
 
 bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
   return true;
+}
+
+bool Simulator::mouseMoved(const OgreBites::MouseMotionEvent &evt) {
+  ninja_follow_mouse = true;
+  ninja_pos.x += evt.xrel;
+  ninja_pos.z += evt.yrel;
+  ninja_node->setPosition(ninja_pos);
 }
 
 int main(int argc, char **argv) {
