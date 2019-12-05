@@ -15,6 +15,7 @@
 #include "BrightDarkEffect.hpp"
 #include "ColorCycleEffect.hpp"
 #include "ColordanceTypes.hpp"
+#include "MiniCircleEffect.hpp"
 #include "RotateThreeEffect.hpp"
 #include "SimulatorLightController.hpp"
 
@@ -103,8 +104,9 @@ void Simulator::setup() {
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
   lightController = new SimulatorLightController(scnMgr);
-  effect = new BrightDarkEffect(lightController->get_poles());
+  // effect = new BrightDarkEffect(lightController->get_poles());
   // effect = new ColorCycleEffect(lightController->get_poles());
+  effect = new MiniCircleEffect(lightController->get_poles());
   // effect = new RotateThreeEffect(lightController->get_poles());
 }
 
