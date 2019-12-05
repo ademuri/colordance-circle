@@ -34,9 +34,13 @@ class SimulatorLightController : public LightController {
   std::vector<std::vector<std::vector<Ogre::Light *>>> lights;
 
   // Tuning constants
+  // Physical
   static constexpr float kPixelPitchInches = 3;
   static constexpr float kCircleRadiusInches = 7.5 * 12;
   static constexpr float kPoleHeightInches = 10 * 12;
+
+  // Dims the lights by this factor, to avoid clipping.
+  static constexpr float kLightScale = 0.3;
 };
 
 #endif

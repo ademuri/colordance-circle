@@ -14,6 +14,7 @@ class ColorCycleEffect : public Effect {
 
  private:
   uint32_t timer = 0;
+  uint8_t mode = 4;
 };
 
 #endif

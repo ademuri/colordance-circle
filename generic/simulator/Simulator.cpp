@@ -72,7 +72,7 @@ void Simulator::setup() {
     Ogre::Entity *pole_entity = scnMgr->createEntity("column.mesh");
     // With very many lights, turning on shadows for the poles makes this too
     // slow.
-    pole_entity->setCastShadows(false);
+    pole_entity->setCastShadows(true);
     pole_entity->setMaterialName("Template/White");
     Ogre::AxisAlignedBox bounding_box = pole_entity->getBoundingBox();
     Ogre::Vector3 size = bounding_box.getSize();
