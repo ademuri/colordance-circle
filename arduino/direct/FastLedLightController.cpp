@@ -17,6 +17,8 @@ void FastLedLightController::WriteOutLights() {
         pole->get_grid_lights()[0][1];
     leds[kLedOffset + pole_index * kGridSize + 2] =
         pole->get_grid_lights()[0][2];
+    leds[kLedOffset + pole_index * kGridSize + 3] =
+        pole->get_grid_lights()[0][3];
 
     leds[kLedOffset + pole_index * kGridSize + 7] =
         pole->get_grid_lights()[1][0];
@@ -24,6 +26,8 @@ void FastLedLightController::WriteOutLights() {
         pole->get_grid_lights()[1][1];
     leds[kLedOffset + pole_index * kGridSize + 5] =
         pole->get_grid_lights()[1][2];
+    leds[kLedOffset + pole_index * kGridSize + 4] =
+        pole->get_grid_lights()[1][3];
 
     leds[kLedOffset + pole_index * kGridSize + 8] =
         pole->get_grid_lights()[2][0];
@@ -31,6 +35,17 @@ void FastLedLightController::WriteOutLights() {
         pole->get_grid_lights()[2][1];
     leds[kLedOffset + pole_index * kGridSize + 10] =
         pole->get_grid_lights()[2][2];
+    leds[kLedOffset + pole_index * kGridSize + 11] =
+        pole->get_grid_lights()[2][3];
+
+    leds[kLedOffset + pole_index * kGridSize + 15] =
+        pole->get_grid_lights()[3][0];
+    leds[kLedOffset + pole_index * kGridSize + 14] =
+        pole->get_grid_lights()[3][1];
+    leds[kLedOffset + pole_index * kGridSize + 13] =
+        pole->get_grid_lights()[3][2];
+    leds[kLedOffset + pole_index * kGridSize + 12] =
+        pole->get_grid_lights()[3][3];
   }
   FastLED.show();
 }

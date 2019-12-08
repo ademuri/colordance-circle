@@ -14,8 +14,8 @@ class Pole {
   const std::vector<std::vector<CRGB>> get_grid_lights();
 
  private:
-  static const uint8_t grid_width = 3;
-  static const uint8_t grid_height = 3;
+  static const uint8_t grid_width = 4;
+  static const uint8_t grid_height = 4;
 
   std::vector<std::vector<CRGB>> grid_lights;
 };

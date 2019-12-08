@@ -15,9 +15,9 @@ void setup() {
 
   light_controller = new FastLedLightController();
   //effect = new BrightDarkEffect(light_controller->get_poles()); 
-  effect = new ColorCycleEffect(light_controller->get_poles()); 
+  //effect = new ColorCycleEffect(light_controller->get_poles()); 
   //effect = new MiniCircleEffect(light_controller->get_poles()); 
-  //effect = new RotateThreeEffect(light_controller->get_poles()); 
+  effect = new RotateThreeEffect(light_controller->get_poles()); 
 }
 
 void loop() {
