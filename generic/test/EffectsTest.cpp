@@ -6,6 +6,7 @@
 #include <string>
 #include "BrightDarkEffect.hpp"
 #include "ColorCycleEffect.hpp"
+#include "CrossEffect.hpp"
 #include "Effect.hpp"
 #include "MiniCircleEffect.hpp"
 #include "Pole.hpp"
@@ -23,6 +24,7 @@ std::map<Effect*, std::string> CreateEffects(std::vector<Pole*> poles) {
   return {
       {new BrightDarkEffect(poles), "BrightDark"},
       {new ColorCycleEffect(poles), "ColorCycle"},
+      {new CrossEffect(poles), "Cross"},
       {new MiniCircleEffect(poles), "MiniCircle"},
       {new RotateThreeEffect(poles), "RotateThree"},
   };
