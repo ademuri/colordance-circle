@@ -1,4 +1,5 @@
 CLI="arduino-cli --config-file arduino-cli.yaml"
+PORT ?= "/dev/ttyACMO"
 libraries:=build/Arduino/libraries
 
 build: direct/direct.ino $(libraries)
@@ -6,7 +7,7 @@ build: direct/direct.ino $(libraries)
 .PHONY: build
 
 upload: direct/direct.ino $(libraries)
-	"$(CLI)" compile direct/direct.ino -u -t --port /dev/ttyACM0 -o "$(PWD)/build/direct.bin" --fqbn="$(FQBN)" --build-path="$(PWD)/build"
+	"$(CLI)" compile direct/direct.ino -u -t --port "$(PORT)" -o "$(PWD)/build/direct.bin" --fqbn="$(FQBN)" --build-path="$(PWD)/build"
 .PHONY: upload
 
 .ONESHELL:
