@@ -25,7 +25,10 @@ target_include_directories(generic PUBLIC
   $<INSTALL_INTERFACE:.>
   $<INSTALL_INTERFACE:./FakeFastLED>)
 
-add_subdirectory(simulator)
+set(BUILD_SIMULATOR true CACHE BOOL "Whether to build the simulator")
+if(BUILD_SIMULATOR)
+  add_subdirectory(simulator)
+endif(BUILD_SIMULATOR)
 
 enable_testing()
 
