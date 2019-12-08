@@ -5,28 +5,32 @@ MiniCircleEffect::MiniCircleEffect(std::vector<Pole*> poles) : Effect(poles) {}
 
 void MiniCircleEffect::DoRun() {
   for (uint16_t pole = 0; pole < 6; pole++) {
-    poles[pole]->SetGridLight(LineToCircle(timer), LineToCircle(timer + 1),
+    poles[pole]->SetGridLight(LineToCircle(timer), LineToCircle(timer + 2),
                               CHSV(0, 255, 0));
-    poles[pole]->SetGridLight(LineToCircle(timer + 1), LineToCircle(timer + 2),
+    poles[pole]->SetGridLight(LineToCircle(timer + circle_offset),
+                              LineToCircle(timer + circle_offset + 2),
                               CHSV(0, 255, 0));
   }
 
   timer++;
 
-  for (uint16_t pole = 0; pole < 6; pole++) {
-    poles[pole]->SetGridLight(LineToCircle(timer), LineToCircle(timer + 1),
-                              CHSV(timer * 5, 255, 255));
-    poles[pole]->SetGridLight(LineToCircle(timer + 1), LineToCircle(timer + 2),
-                              CHSV(timer * 5 + 120, 255, 255));
+  for (uint16_t pole = 0; pole < 3; pole++) {
+    poles[pole * 2]->SetGridLight(LineToCircle(timer), LineToCircle(timer + 2),
+                                  CHSV(pole * 255 / 3 + timer * 5, 255, 255));
+    poles[pole * 2]->SetGridLight(
+        LineToCircle(timer + circle_offset),
+        LineToCircle(timer + circle_offset + 2),
+        CHSV(pole * 255 / 3 + timer * 5 + 30, 255, 255));
   }
 
   SleepMs(100);
 }
 
 uint16_t MiniCircleEffect::LineToCircle(uint16_t line) {
-  uint16_t circle = line % 4;
-  if (circle == 3) {
-    circle = 1;
+  // 0 1 2 3 3 2 1 0
+  uint16_t circle = line % 8;
+  if (circle > 3) {
+    circle = 7 - circle;
   }
   return circle;
 }

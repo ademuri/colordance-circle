@@ -18,8 +18,8 @@ void setup() {
   //effect = new BrightDarkEffect(light_controller->get_poles()); 
   //effect = new ColorCycleEffect(light_controller->get_poles()); 
   //effect = new CrossEffect(light_controller->get_poles()); 
-  //effect = new MiniCircleEffect(light_controller->get_poles()); 
-  effect = new RotateThreeEffect(light_controller->get_poles()); 
+  effect = new MiniCircleEffect(light_controller->get_poles()); 
+  //effect = new RotateThreeEffect(light_controller->get_poles()); 
 }
 
 void loop() {
