@@ -14,6 +14,9 @@ class RotateThreeEffect : public Effect {
 
  private:
   uint32_t timer = 0;
+  // 0 to 3, controls up-down or left-right and same direction or alternating
+  // directions.
+  uint8_t mode = 3;
 };
 
 #endif
