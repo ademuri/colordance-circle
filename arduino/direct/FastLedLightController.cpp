@@ -4,13 +4,13 @@ FastLedLightController::FastLedLightController() {
   FastLED.addLeds<NEOPIXEL, kLedPin>(leds, kNumLeds);
   FastLED.showColor(CRGB(0, 0, 0));
 
-  for (uint8_t pole_index = 0; pole_index < 6; pole_index++) {
+  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
     poles.push_back(new Pole());
   }
 }
 
 void FastLedLightController::WriteOutLights() {
-  for (uint8_t pole_index = 0; pole_index < poles.size(); pole_index++) {
+  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
     Pole* pole = poles[pole_index];
     leds[kLedOffset + pole_index * kGridSize] = pole->get_grid_lights()[0][0];
     leds[kLedOffset + pole_index * kGridSize + 1] =
