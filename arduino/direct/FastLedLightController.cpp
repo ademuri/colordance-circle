@@ -2,6 +2,7 @@
 
 FastLedLightController::FastLedLightController() {
   FastLED.addLeds<NEOPIXEL, kLedPin>(leds, kNumLeds);
+  FastLED.setDither(0);
   FastLED.showColor(CRGB(0, 0, 0));
 
   for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
