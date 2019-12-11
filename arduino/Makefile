@@ -1,5 +1,5 @@
 CLI="arduino-cli --config-file arduino-cli.yaml"
-PORT ?= "/dev/ttyACMO"
+PORT ?= "/dev/ttyACM0"
 libraries:=build/Arduino/libraries
 
 build: direct/direct.ino $(libraries)
