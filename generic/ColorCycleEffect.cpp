@@ -44,6 +44,25 @@ void ColorCycleEffect::DoRun() {
       poles[pole]->SetGridLight(
           0, 2, CHSV((uint8_t)(255 / 3 * pole + timer + 128), 255, 255));
     }
+  } else if (mode == 5) {
+    // One color per pole, fade in between them
+    for (uint16_t pole = 0; pole < 6; pole++) {
+      CHSV hsv = CHSV(pole * 256 / 6, 255, sin8(pole * 256 / 3 + timer / 5));
+      poles[pole]->SetGridLight(0, 0, hsv);
+      poles[pole]->SetGridLight(0, 1, hsv);
+      poles[pole]->SetGridLight(0, 2, hsv);
+      poles[pole]->SetGridLight(0, 3, hsv);
+    }
+  } else if (mode == 6) {
+    // One color per pole, fade in between them
+    for (uint16_t pole = 0; pole < 3; pole++) {
+      for (uint16_t i = 0; i < 4; i++) {
+        poles[pole * 2]->SetGridLight(
+            i, i,
+            CHSV(i * 256 / 4 + timer / 3, 255,
+                 sin8(i * 256 / 4 + timer / 2 + pole * 256 / 3)));
+      }
+    }
   } else if (mode == 10) {
     // Three poles, each has rgb
     for (int i = 0; i < 3; i++) {
