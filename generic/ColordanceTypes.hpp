@@ -14,9 +14,16 @@
 #else
 #include <chrono>
 
+// Ignore warnings for FakeFastLED
+#pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wpedantic"
+
 #include "FakeFastLED/colorutils.h"
 #include "FakeFastLED/hsv2rgb.h"
 #include "FakeFastLED/pixeltypes.h"
+
+#pragma GCC diagnostic pop
 
 // Replace the Arduino millis() function. Note that this counts from the first
 // call of this function.

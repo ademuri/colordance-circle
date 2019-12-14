@@ -71,8 +71,8 @@ TEST(Effects, power_consumption) {
 
       float instantaneous_power = 0;
       for (Pole* pole : poles) {
-        for (int row = 0; row < pole->get_grid_lights().size(); row++) {
-          for (int col = 0; col < pole->get_grid_lights()[row].size(); col++) {
+        for (uint row = 0; row < pole->get_grid_lights().size(); row++) {
+          for (uint col = 0; col < pole->get_grid_lights()[row].size(); col++) {
             CRGB rgb = pole->get_grid_lights()[row][col];
             float light_power =
                 (rgb.r * kRedPower + rgb.g * kGreenPower + rgb.b * kBluePower) /
@@ -98,8 +98,8 @@ TEST(Effects, power_consumption) {
 
     // Clear all lights
     for (Pole* pole : poles) {
-      for (int row = 0; row < pole->get_grid_lights().size(); row++) {
-        for (int col = 0; col < pole->get_grid_lights()[row].size(); col++) {
+      for (uint row = 0; row < pole->get_grid_lights().size(); row++) {
+        for (uint col = 0; col < pole->get_grid_lights()[row].size(); col++) {
           pole->SetGridLight(row, col, CRGB(0, 0, 0));
         }
       }

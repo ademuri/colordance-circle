@@ -19,10 +19,14 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
+
 target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<INSTALL_INTERFACE:.>)
+
+# Add FastLED as -isystem instead of -I to reduce compiler warnings.
+target_include_directories(generic SYSTEM PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FakeFastLED>
-  $<INSTALL_INTERFACE:.>
   $<INSTALL_INTERFACE:./FakeFastLED>)
 
 set(BUILD_SIMULATOR true CACHE BOOL "Whether to build the simulator")
