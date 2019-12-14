@@ -4,6 +4,9 @@
 ///@file colorutils.h
 /// functions for color fill, paletters, blending, and more
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+
 #include "FastLED.h"
 #include "pixeltypes.h"
 #include "fastled_progmem.h"
@@ -1701,6 +1704,8 @@ void   napplyGamma_video( CRGB* rgbarray, uint16_t count, float gammaR, float ga
 
 
 FASTLED_NAMESPACE_END
+
+#pragma GCC diagnostic pop
 
 ///@}
 #endif
