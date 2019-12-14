@@ -3,12 +3,19 @@
 
 #include "ColordanceTypes.hpp"
 
+enum class Param {
+  kMode,
+  kEffectIndex,
+
+  // Sentinel value, used for sizing. Needs to be the last param.
+  kLastParam,
+};
+
 class ParamController {
  public:
   ParamController();
 
-  virtual uint8_t GetMode() = 0;
-  virtual uint8_t GetEffectIndex() = 0;
+  virtual uint8_t GetRawParam(Param param) = 0;
 };
 
 #endif  // PARAM_CONTROLLER_HPP_

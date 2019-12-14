@@ -6,7 +6,7 @@ ColorCycleEffect::ColorCycleEffect(std::vector<Pole*> poles,
     : Effect(poles, paramController) {}
 
 void ColorCycleEffect::DoRun() {
-  mode = paramController->GetMode();
+  mode = paramController->GetRawParam(Param::kMode);
 
   if (mode == 0) {
     // Each pole has RGB

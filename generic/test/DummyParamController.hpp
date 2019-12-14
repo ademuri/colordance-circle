@@ -8,8 +8,7 @@ class DummyParamController : public ParamController {
  public:
   DummyParamController();
 
-  uint8_t GetMode() override;
-  uint8_t GetEffectIndex() override;
+  uint8_t GetRawParam(Param param) override;
 };
 
 #endif  // PARAM_CONTROLLER_HPP_
