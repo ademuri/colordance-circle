@@ -7,7 +7,7 @@
 
 class ColorCycleEffect : public Effect {
  public:
-  ColorCycleEffect(std::vector<Pole*> poles);
+  ColorCycleEffect(std::vector<Pole*> poles, ParamController* paramController);
 
  protected:
   void DoRun() override;

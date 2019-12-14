@@ -7,7 +7,7 @@
 
 class RotateThreeEffect : public Effect {
  public:
-  RotateThreeEffect(std::vector<Pole*> poles);
+  RotateThreeEffect(std::vector<Pole*> poles, ParamController* paramController);
 
  protected:
   void DoRun() override;

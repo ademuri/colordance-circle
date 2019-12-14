@@ -7,7 +7,7 @@
 
 class MiniCircleEffect : public Effect {
  public:
-  MiniCircleEffect(std::vector<Pole*> poles);
+  MiniCircleEffect(std::vector<Pole*> poles, ParamController* paramController);
 
  protected:
   void DoRun() override;

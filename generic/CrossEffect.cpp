@@ -1,7 +1,9 @@
 #include "CrossEffect.hpp"
 #include "ColordanceTypes.hpp"
 
-CrossEffect::CrossEffect(std::vector<Pole*> poles) : Effect(poles) {}
+CrossEffect::CrossEffect(std::vector<Pole*> poles,
+                         ParamController* paramController)
+    : Effect(poles, paramController) {}
 
 void CrossEffect::DoRun() {
   static uint8_t hue_base = 0;

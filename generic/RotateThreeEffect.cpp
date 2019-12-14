@@ -1,8 +1,9 @@
 #include "RotateThreeEffect.hpp"
 #include "ColordanceTypes.hpp"
 
-RotateThreeEffect::RotateThreeEffect(std::vector<Pole*> poles)
-    : Effect(poles) {}
+RotateThreeEffect::RotateThreeEffect(std::vector<Pole*> poles,
+                                     ParamController* paramController)
+    : Effect(poles, paramController) {}
 
 void RotateThreeEffect::DoRun() {
   static uint8_t hue_base = 0;

@@ -1,7 +1,9 @@
 #include "BrightDarkEffect.hpp"
 #include "ColordanceTypes.hpp"
 
-BrightDarkEffect::BrightDarkEffect(std::vector<Pole *> poles) : Effect(poles) {}
+BrightDarkEffect::BrightDarkEffect(std::vector<Pole *> poles,
+                                   ParamController *paramController)
+    : Effect(poles, paramController) {}
 
 void BrightDarkEffect::DoRun() {
   if (mode == 0) {

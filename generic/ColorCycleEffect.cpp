@@ -1,9 +1,13 @@
 #include "ColorCycleEffect.hpp"
 #include "ColordanceTypes.hpp"
 
-ColorCycleEffect::ColorCycleEffect(std::vector<Pole*> poles) : Effect(poles) {}
+ColorCycleEffect::ColorCycleEffect(std::vector<Pole*> poles,
+                                   ParamController* paramController)
+    : Effect(poles, paramController) {}
 
 void ColorCycleEffect::DoRun() {
+  mode = paramController->GetMode();
+
   if (mode == 0) {
     // Each pole has RGB
     for (uint16_t pole = 0; pole < 6; pole++) {
@@ -63,7 +67,7 @@ void ColorCycleEffect::DoRun() {
                  sin8(i * 256 / 4 + timer / 2 + pole * 256 / 3)));
       }
     }
-  } else if (mode == 10) {
+  } else {
     // Three poles, each has rgb
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {

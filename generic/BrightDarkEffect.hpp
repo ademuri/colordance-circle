@@ -7,7 +7,7 @@
 
 class BrightDarkEffect : public Effect {
  public:
-  BrightDarkEffect(std::vector<Pole *> poles);
+  BrightDarkEffect(std::vector<Pole *> poles, ParamController *paramController);
 
  protected:
   void DoRun() override;

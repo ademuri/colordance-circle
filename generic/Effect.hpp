@@ -2,11 +2,12 @@
 #define EFFECT_HPP_
 
 #include <vector>
+#include "ParamController.hpp"
 #include "Pole.hpp"
 
 class Effect {
  public:
-  Effect(std::vector<Pole*> poles);
+  Effect(std::vector<Pole*> poles, ParamController* paramController);
 
   /* Runs this effect. */
   void Run();
@@ -26,6 +27,7 @@ class Effect {
   void SleepMs(uint32_t ms_to_sleep);
 
   const std::vector<Pole*> poles;
+  ParamController* const paramController;
 
  private:
   uint32_t sleep_until_ms = 0;

@@ -1,7 +1,9 @@
 #include "MiniCircleEffect.hpp"
 #include "ColordanceTypes.hpp"
 
-MiniCircleEffect::MiniCircleEffect(std::vector<Pole*> poles) : Effect(poles) {}
+MiniCircleEffect::MiniCircleEffect(std::vector<Pole*> poles,
+                                   ParamController* paramController)
+    : Effect(poles, paramController) {}
 
 void MiniCircleEffect::DoRun() {
   for (uint16_t pole = 0; pole < 6; pole++) {

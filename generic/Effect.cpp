@@ -1,7 +1,8 @@
 #include "Effect.hpp"
 #include "ColordanceTypes.hpp"
 
-Effect::Effect(std::vector<Pole*> poles) : poles(poles) {}
+Effect::Effect(std::vector<Pole*> poles, ParamController* paramController)
+    : poles(poles), paramController(paramController) {}
 
 void Effect::Run() {
   if (millis() > sleep_until_ms) {

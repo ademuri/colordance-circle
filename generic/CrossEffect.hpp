@@ -7,7 +7,7 @@
 
 class CrossEffect : public Effect {
  public:
-  CrossEffect(std::vector<Pole*> poles);
+  CrossEffect(std::vector<Pole*> poles, ParamController* paramController);
 
  protected:
   void DoRun() override;
