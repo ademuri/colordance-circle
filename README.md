@@ -17,3 +17,7 @@ To compile for Arduino, go into the `arduino` directory and run `make`. To
 upload, run `make upload`. By default, it will use the port `/dev/ttyACM0`,
 which should work for Ubuntu. You can set the `PORT` environment variable from
 the output of the arduino-cli command as above if needed.
+
+On Mac, if you're using Homebrew, you'll need to use `gmake` instead of `make`,
+since the `make` version is very old and doesn't support the multi-line bash
+function used in the `Makefile`.
