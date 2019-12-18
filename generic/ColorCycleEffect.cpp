@@ -7,6 +7,9 @@ ColorCycleEffect::ColorCycleEffect(std::vector<Pole*> poles,
 
 void ColorCycleEffect::DoRun() {
   mode = paramController->GetRawParam(Param::kMode);
+  for (uint8_t pole = 0; pole < Pole::kNumPoles; pole++) {
+    poles[pole]->ClearGridLights();
+  }
 
   if (mode == 0) {
     // Each pole has RGB

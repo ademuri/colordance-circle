@@ -9,8 +9,7 @@ class SerialParamController : public ParamController {
 
   void Tick();
 
-  uint8_t GetMode() override;
-  uint8_t GetEffectIndex() override;
+  uint8_t GetRawParam(Param param);
 
  private:
   uint8_t mode;
