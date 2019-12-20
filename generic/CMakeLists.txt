@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(colordance-circle LANGUAGES CXX)
 
 # Download GoogleTest for mocks and test runner.
-include(DownloadProject.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../third_party/DownloadProject/DownloadProject.cmake)
 download_project(PROJ                googletest
                  GIT_REPOSITORY      https://github.com/google/googletest.git
                  GIT_TAG             master
@@ -17,7 +17,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
 # Generate the file needed for YCM integration
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
-file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp")
+file(GLOB LIBRARY_SOURCES "*.cpp" "../third_party/FakeFastLED/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
 
 target_include_directories(generic PUBLIC
@@ -26,8 +26,8 @@ target_include_directories(generic PUBLIC
 
 # Add FastLED as -isystem instead of -I to reduce compiler warnings.
 target_include_directories(generic SYSTEM PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FakeFastLED>
-  $<INSTALL_INTERFACE:./FakeFastLED>)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../third_party/FakeFastLED>
+  $<INSTALL_INTERFACE:../third_party/FakeFastLED>)
 
 set(BUILD_SIMULATOR true CACHE BOOL "Whether to build the simulator")
 if(BUILD_SIMULATOR)

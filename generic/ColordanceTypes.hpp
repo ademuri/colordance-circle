@@ -19,9 +19,9 @@
 
 #pragma GCC diagnostic ignored "-Wpedantic"
 
-#include "FakeFastLED/colorutils.h"
-#include "FakeFastLED/hsv2rgb.h"
-#include "FakeFastLED/pixeltypes.h"
+#include "../third_party/FakeFastLED/colorutils.h"
+#include "../third_party/FakeFastLED/hsv2rgb.h"
+#include "../third_party/FakeFastLED/pixeltypes.h"
 
 #pragma GCC diagnostic pop
 

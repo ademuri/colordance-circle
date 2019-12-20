@@ -25,5 +25,5 @@ endif()
 add_executable(Simulator Simulator.cpp Simulator.hpp SimulatorLightController.cpp)
 target_link_libraries(Simulator ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Boost_LIBRARIES} ${FREETYPE_LIBRARIES} generic)
 
-file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ../../third_party/textures DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY config/resources.cfg DESTINATION ${CMAKE_BINARY_DIR})
