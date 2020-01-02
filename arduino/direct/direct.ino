@@ -1,12 +1,12 @@
-#include <ColordanceTypes.hpp>
-#include "FastLedLightController.hpp"
-#include <LightController.hpp>
-#include <Effect.hpp>
 #include <BrightDarkEffect.hpp>
-#include <CrossEffect.hpp>
 #include <ColorCycleEffect.hpp>
-#include <RotateThreeEffect.hpp>
+#include <ColordanceTypes.hpp>
+#include <CrossEffect.hpp>
+#include <Effect.hpp>
+#include <LightController.hpp>
 #include <MiniCircleEffect.hpp>
+#include <RotateThreeEffect.hpp>
+#include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"
 
 LightController* light_controller;
@@ -19,11 +19,13 @@ void setup() {
   paramController = new SerialParamController();
   light_controller = new FastLedLightController();
 
-  //effect = new BrightDarkEffect(light_controller->get_poles(), paramController);
+  // effect = new BrightDarkEffect(light_controller->get_poles(),
+  // paramController);
   effect = new ColorCycleEffect(light_controller->get_poles(), paramController);
-  //effect = new CrossEffect(light_controller->get_poles(), paramController); 
-  //effect = new MiniCircleEffect(light_controller->get_poles(), paramController); 
-  //effect = new RotateThreeEffect(light_controller->get_poles(), paramController); 
+  // effect = new CrossEffect(light_controller->get_poles(), paramController);
+  // effect = new MiniCircleEffect(light_controller->get_poles(),
+  // paramController); effect = new
+  // RotateThreeEffect(light_controller->get_poles(), paramController);
 }
 
 void loop() {
