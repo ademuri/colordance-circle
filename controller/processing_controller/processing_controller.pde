@@ -4,7 +4,6 @@ import controlP5.*;
 SerialPortHandler serialPortHandler;
 ControlP5 cp5;
 DropdownList serialPortSelector;
-Slider slider;
 
 void setup() {
   size(400, 400);
@@ -12,12 +11,10 @@ void setup() {
   serialPortHandler = new SerialPortHandler(this);
   serialPortSelector = cp5.addDropdownList("serialPortSelector")
     .setPosition(0, 0)
-    .onChange(serialPortHandler);
-
-  serialPortSelector.addItem("none", null)
+    .onChange(serialPortHandler)
+    .addItem("none", null)
     .addItems(Serial.list())
     .close();
-
 
   MagicSlider slider = new MagicSlider(cp5, "m");
   slider.getControl().setPosition(100, 100);
