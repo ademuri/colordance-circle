@@ -2,3 +2,4 @@ generic/build
 arduino/build
 *.bin
 *.elf
+*.autosave

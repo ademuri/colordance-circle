@@ -1,4 +1,5 @@
 public abstract class MagicControl<T extends Controller> implements CallbackListener {
+  // This is the token that identifies the param for this control - this is used to communicate this param to the Colordance program. Probably a single character.
   private final String paramIdentifier;
   private final T control;
 
