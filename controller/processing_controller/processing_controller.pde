@@ -16,8 +16,11 @@ void setup() {
     .addItems(Serial.list())
     .close();
 
-  MagicSlider slider = new MagicSlider(cp5, "m");
+  MagicSlider slider = new MagicSlider(cp5, "m", "speed");
   slider.getControl().setPosition(100, 100);
+
+  new MagicButton(cp5, "b", "awesome")
+    .getControl().setPosition(200, 100);
 }
 
 void draw() {

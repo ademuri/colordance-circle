@@ -1,7 +1,7 @@
 public class MagicSlider extends MagicControl<Slider> {
 
-  MagicSlider(ControlP5 cp5, String paramIdentifier) {
-    super(paramIdentifier, cp5.addSlider("slider")
+  MagicSlider(ControlP5 cp5, String paramIdentifier, String name) {
+    super(paramIdentifier, cp5.addSlider(name)
       .setRange(0, 255)
       .setWidth(50)
       .setHeight(255)
