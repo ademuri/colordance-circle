@@ -16,7 +16,7 @@ class BrightDarkEffect : public Effect {
   void SetPole(Pole *pole, CRGB rgb);
 
   uint32_t timer = 0;
-  uint8_t mode = 1;
+  uint8_t mode = 4;
 };
 
 #endif

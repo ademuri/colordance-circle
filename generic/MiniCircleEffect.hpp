@@ -16,7 +16,7 @@ class MiniCircleEffect : public Effect {
   uint16_t LineToCircle(uint16_t line);
 
   uint32_t timer = 0;
-  uint8_t circle_offset = 3;
+  uint8_t circle_offset = 2;
 };
 
 #endif
