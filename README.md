@@ -1,5 +1,7 @@
 # Colordance Circle
 
+This is not an official Google project.
+
 ## Arduino
 
 To build or upload for Arduino, you'll need the Fully Qualified Board Name
