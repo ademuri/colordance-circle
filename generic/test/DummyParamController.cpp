@@ -3,7 +3,9 @@
 DummyParamController::DummyParamController() : ParamController() {}
 
 uint8_t DummyParamController::GetRawParam(Param param) {
-  // Ignore unused
-  (void)param;
-  return 0;
+  return params[static_cast<uint8_t>(param)];
+}
+
+void DummyParamController::SetRawParam(Param param, uint8_t value) {
+  params[static_cast<uint8_t>(param)] = value;
 }
