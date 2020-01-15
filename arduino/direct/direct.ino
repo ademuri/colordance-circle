@@ -21,10 +21,10 @@ void setup() {
 
   // effect = new BrightDarkEffect(light_controller->get_poles(),
   // paramController);
-  effect = new ColorCycleEffect(light_controller->get_poles(), paramController);
+  //effect = new ColorCycleEffect(light_controller->get_poles(), paramController);
   // effect = new CrossEffect(light_controller->get_poles(), paramController);
-  // effect = new MiniCircleEffect(light_controller->get_poles(),
-  // paramController); effect = new
+   effect = new MiniCircleEffect(light_controller->get_poles(), paramController);
+   //effect = new
   // RotateThreeEffect(light_controller->get_poles(), paramController);
 }
 

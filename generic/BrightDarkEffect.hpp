@@ -2,6 +2,7 @@
 #define BRIGHT_DARK_EFFECT_HPP_
 
 #include <vector>
+#include "ColordanceTypes.hpp"
 #include "Effect.hpp"
 #include "Pole.hpp"
 

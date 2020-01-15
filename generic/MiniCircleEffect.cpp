@@ -25,7 +25,7 @@ void MiniCircleEffect::DoRun() {
         CHSV(pole * 255 / 3 + timer * 5 + 30, 255, 255));
   }
 
-  SleepMs(100);
+  SleepMs(paramController->GetRawParam(Param::kSpeed) + 10);
 }
 
 uint16_t MiniCircleEffect::LineToCircle(uint16_t line) {

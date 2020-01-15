@@ -4,8 +4,10 @@
 #include "ColordanceTypes.hpp"
 
 enum class Param {
-  kMode,
   kEffectIndex,
+
+  kMode,
+  kSpeed,
 
   // Sentinel value, used for sizing. Needs to be the last param.
   kLastParam,
