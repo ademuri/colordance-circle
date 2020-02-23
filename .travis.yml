@@ -1,0 +1,17 @@
+# Enable validating this file
+version: ~> 1.0
+
+language: python
+python:
+    - "2.7"
+
+sudo: false
+cache:
+    directories:
+        - "~/.arduino15"
+
+jobs:
+  include:
+    - script: ./test.sh
+      name: "test"
+
