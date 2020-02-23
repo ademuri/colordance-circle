@@ -1,6 +1,7 @@
+#include <ColordanceTypes.hpp>
+
 #include <BrightDarkEffect.hpp>
 #include <ColorCycleEffect.hpp>
-#include <ColordanceTypes.hpp>
 #include <CrossEffect.hpp>
 #include <Effect.hpp>
 #include <LightController.hpp>

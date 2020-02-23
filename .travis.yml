@@ -8,10 +8,14 @@ python:
 sudo: false
 cache:
     directories:
-        - "~/.arduino15"
+        - "~/.platformio"
 
 jobs:
   include:
     - script: ./test.sh
       name: "test"
-
+    - install:
+      - pip install -U platformio
+      - platformio update
+      script: ./build.sh
+      name: "build"

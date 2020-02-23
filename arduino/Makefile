@@ -39,6 +39,7 @@ endif
 endif
 
 	tar xf "$(arduino_cli_or_link).tar.gz" -C build
+	"$(arduino_cli_or_link)" core update-index
 else
 	ln -s "$(shell which arduino-cli)" "$(arduino_cli_or_link)"
 endif
