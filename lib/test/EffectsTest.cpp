@@ -8,6 +8,7 @@
 #include "CrossEffect.hpp"
 #include "DummyParamController.hpp"
 #include "Effect.hpp"
+#include "FlashEffect.hpp"
 #include "MiniCircleEffect.hpp"
 #include "Pole.hpp"
 #include "RotateThreeEffect.hpp"
@@ -27,6 +28,7 @@ std::map<Effect*, std::string> CreateEffects(std::vector<Pole*> poles) {
       {new BrightDarkEffect(poles, paramController), "BrightDark"},
       {new ColorCycleEffect(poles, paramController), "ColorCycle"},
       {new CrossEffect(poles, paramController), "Cross"},
+      {new FlashEffect(poles, paramController), "Flash"},
       {new MiniCircleEffect(poles, paramController), "MiniCircle"},
       {new RotateThreeEffect(poles, paramController), "RotateThree"},
   };
