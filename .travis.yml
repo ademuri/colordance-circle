@@ -18,4 +18,6 @@ jobs:
       - pip install -U platformio
       - platformio update
       script: ./build.sh
-      name: "build"
+      name: "build platformio"
+    - script: ./build_arduino-cli.sh
+      name: "build arduino-cli"
