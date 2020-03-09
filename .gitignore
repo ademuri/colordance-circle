@@ -5,3 +5,4 @@ arduino/build
 *.elf
 *.autosave
 .pio
+.DS_Store
