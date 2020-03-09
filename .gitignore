@@ -3,3 +3,4 @@ arduino/build
 *.bin
 *.elf
 *.autosave
+.DS_Store
