@@ -4,11 +4,21 @@
 #include "ColordanceTypes.hpp"
 
 enum class Param {
-  kEffectIndex,
-
+  kActivePoles,
+  kMovementMode,
+  kMovementSpeed,
+  kBalanceColor,
+  kPollHueShift,
+  kGridHueShift,
+  kGridHueDistance,
+  kGridMode,
+  kGridLightCount,
+  kGridSpeed,
+  kGridBackForth,
+  kGridSmoothColor,
+  kGridReverse,
   kMode,
   kSpeed,
-
   // Sentinel value, used for sizing. Needs to be the last param.
   kLastParam,
 };
