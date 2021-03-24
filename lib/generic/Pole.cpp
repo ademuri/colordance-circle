@@ -20,6 +20,14 @@ void Pole::SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv) {
   SetGridLight(x, y, CRGB(hsv));
 }
 
+void Pole::SetGridLights(std::vector<std::vector<CHSV>> grid_lights) {
+  for (int x = 0; x < kGridWidth; x++) {
+    for (int y = 0; y < kGridHeight; y++) {
+      SetGridLight(x, y, grid_lights[x][y]);
+    }
+  }
+}
+
 void Pole::ClearGridLights() {
   for (int x = 0; x < kGridWidth; x++) {
     for (int y = 0; y < kGridHeight; y++) {
