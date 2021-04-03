@@ -1,12 +1,23 @@
 import processing.serial.*;
 import controlP5.*;  
+import http.*;
 
 SerialPortHandler serialPortHandler;
 ControlP5 cp5;
 DropdownList serialPortSelector;
 
+// To get this library, download this zip, and extract it into ~/sketchbook/libraries
+// https://diskordier.net/simpleHTTPServer/download/SimpleHTTPServer-6.zip
+SimpleHTTPServer server;
+
 void setup() {
   size(1000, 1000);
+  
+  // This creates an HTTP server listening on http://localhost:8000/
+  server = new SimpleHTTPServer(this); 
+  DynamicResponseHandler responder = new DynamicResponseHandler(new JsonHandler(), "application/json");
+  server.createContext("set", responder);
+  
   cp5 = new ControlP5(this);
   serialPortHandler = new SerialPortHandler(this);
   serialPortSelector = cp5.addDropdownList("serialPortSelector")
@@ -16,7 +27,7 @@ void setup() {
     .addItems(Serial.list())
     .close();
   
-   /* Poll stuff */
+   /* Pole stuff */
    
   MagicPoleButtons poles = new MagicPoleButtons(cp5, "p");
   MagicMovementButtons poleMovement = new MagicMovementButtons(cp5, "m");
@@ -58,4 +69,14 @@ void setup() {
 
 void draw() {
   background(128);
+}
+
+class JsonHandler extends ResponseBuilder {
+  public String getResponse(String requestBody) {
+    JSONObject json = parseJSONObject(requestBody);
+    String name = json.getString("name");
+    String value = json.getString("value");
+    System.out.format("(%s, %s)\n", name, value);
+    return "{'error': false}";
+  }
 }

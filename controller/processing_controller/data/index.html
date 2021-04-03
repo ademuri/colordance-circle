@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+     font-family: Arial;
+     font-size: 3.0rem;
+     background-color: black;
+     color: white;
+    }
+  </style>
+</head>
+<body>
+  <h3>Colordance Circle</h3>
+  <input type="button" value="Set" class="volume-button" style="float: right;" onclick="setValue()">
+</body>
+
+<script>
+function setValue() {
+  var xhr = new XMLHttpRequest();
+  xhr.timeout = 10 * 1000;
+  xhr.open("POST", "/set", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify({"name": "hue", "value": "27"}));
+}
+</script>
+
+</html>
