@@ -1,0 +1,25 @@
+Item,Qty,Reference(s),Value,LibPart,Footprint,Datasheet,MPN
+1,1,C1,10uF,Device:C,Capacitor_SMD:C_0805_2012Metric,~,TMK212BBJ106KG-T
+2,1,C2,10nF,Device:C,Capacitor_SMD:C_0603_1608Metric,~,CL10B122KB8NNNC
+3,1,C3,22uF,Device:C,Capacitor_SMD:C_0805_2012Metric,~,LMK212BBJ226MG-T
+4,2,"C4, C5",1300pF,Device:C,Capacitor_SMD:C_0603_1608Metric,~,CL10B122KB8NNNC
+5,5,"C6, C7, C8, C9, C10",.1uF,Device:C,Capacitor_SMD:C_0603_1608Metric,~,CL10B104KB8NNNC
+6,2,"C11, C12",470uF,Device:CP,Capacitor_THT:CP_Radial_D10.0mm_P5.00mm,~,ESC477M035AH4EA
+7,1,D1,SCHOTTKY,Device:D,Diode_SMD:D_SOD-123,~,MBR230LSTR
+8,1,D2,D,Device:D,Diode_SMD:D_SOD-323,~,1N4148WS-7-F
+9,5,"D3, D5, D13, D14, D15",D_TVS_5V,Device:D_TVS,Diode_SMD:D_SMB,~,SMBJ6.0CD-M3/H
+10,1,D4,LED,Device:LED,LED_SMD:LED_0603_1608Metric,~,150060RS75000
+11,4,"D6, D8, D9, D11",D_TVS_DATA,Device:D_TVS,Diode_SMD:D_SMB,~,SMBJ6.0CD-M3/H
+12,1,D12,D_TVS_12V,Device:D_TVS,Diode_SMD:D_SMB,~,SMBJ13CA
+13,2,"H1, H2",HOLE,Homebrew:HOLE,homebrew:HOLE_5MM_#8,,
+14,1,J1,Anderson,Homebrew:Anderson_two_redblack_src,homebrew:Anderson_1336G1_right_angle_bottom_two,,
+15,1,J2,RJ45,Connector:RJ45,Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal,~,54601-908WPLF
+16,4,"J3, J4, J5, J6",Conn_01x03,Connector_Generic:Conn_01x03,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal,~,78208-103HLF
+17,1,J7,Anderson,Homebrew:Anderson_two_redblack_sink,homebrew:Anderson_1336G1_right_angle_bottom_two,,
+18,1,L1,5.6uH,Device:L,Inductor_SMD:L_Taiyo-Yuden_NR-60xx,~,NR6028T6R0M
+19,1,R1,11.5k,Device:R,Resistor_SMD:R_0603_1608Metric,~,RMCF0603FT11K5
+20,1,R2,2.21k,Device:R,Resistor_SMD:R_0603_1608Metric,~,RC1608F2211CS
+21,2,"R3, R4",120,Device:R,Resistor_SMD:R_0603_1608Metric,~,RMCF0603JG120R
+22,1,R5,10k,Device:R,Resistor_SMD:R_0603_1608Metric,~,RMCF0603JT10K0
+23,1,U1,AP3211,Homebrew:AP3211,Package_TO_SOT_SMD:SOT-23-6,,AP3211KTR-G1
+24,2,"U2, U3",MAX485E,Interface_UART:MAX485E,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,https://datasheets.maximintegrated.com/en/ds/MAX1487E-MAX491E.pdf,SP485ECN-L/TR
