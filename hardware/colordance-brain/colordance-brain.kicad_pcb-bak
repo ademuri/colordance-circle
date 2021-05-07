@@ -6166,7 +6166,7 @@
   (gr_text P0 (at 36 108) (layer F.SilkS) (tstamp 60A9A794)
     (effects (font (size 2 2) (thickness 0.2)))
   )
-  (gr_text "colordance-brain v1.0" (at 68.7 99.4) (layer F.SilkS)
+  (gr_text "colordance-brain v1.0" (at 61.3 88.3) (layer F.SilkS)
     (effects (font (size 2 2) (thickness 0.2)))
   )
   (gr_arc (start 143.5 47.5) (end 144.5 47.5) (angle -90) (layer Edge.Cuts) (width 0.05))
