@@ -1,12 +1,9 @@
 #include "ControlPoleEffectCross.hpp"
 
-ControlPoleEffectCross::ControlPoleEffectCross() : ControlPoleEffect() {}
+ControlPoleEffectCross::ControlPoleEffectCross(uint16_t framesPerLoop)
+    : ControlPoleEffect(framesPerLoop) {}
 
-uint16_t ControlPoleEffectCross::GetSpeedConstant() { return SPEED_CONSTANT; }
-
-uint8_t ControlPoleEffectCross::GetShiftsPerLoop() {
-  return backAndForth ? 6 : 4;
-}
+uint8_t ControlPoleEffectCross::GetShiftsPerLoop() { return 4; }
 
 void ControlPoleEffectCross::DoSetGrid(uint8_t shiftIndex) {
   grid_lights[shiftIndex][shiftIndex] =

@@ -4,13 +4,17 @@
 
 #include "ControlPoleEffectCircle.hpp"
 #include "ControlPoleEffectCross.hpp"
+#include "ControlPoleEffectDiverge.hpp"
 #include "ControlPoleEffectLine.hpp"
+#include "ControlPoleEffectTwinkle.hpp"
 
-ControlPole::ControlPole(uint8_t index) {
+ControlPole::ControlPole(uint8_t index, uint16_t framesPerLoop) {
   this->index = index;
-  effectCross = new ControlPoleEffectCross();
-  effectLine = new ControlPoleEffectLine();
-  effectCircle = new ControlPoleEffectCircle();
+  effectCross = new ControlPoleEffectCross(framesPerLoop);
+  effectLine = new ControlPoleEffectLine(framesPerLoop);
+  effectCircle = new ControlPoleEffectCircle(framesPerLoop);
+  effectDiverge = new ControlPoleEffectDiverge(framesPerLoop);
+  effectPinwheel = new ControlPoleEffectTwinkle(framesPerLoop);
   currentEffect = effectLine;
 }
 
@@ -34,6 +38,10 @@ void ControlPole::SetMode(uint8_t mode) {
   } else if (mode < 10) {
     currentEffect = effectCircle;
     effectCircle->SetRotation(mode - 6);
+  } else if (mode < 11) {
+    currentEffect = effectDiverge;
+  } else {
+    currentEffect = effectPinwheel;
   }
   lastMode = mode;
 }
@@ -41,8 +49,6 @@ void ControlPole::SetMode(uint8_t mode) {
 void ControlPole::SetLightCount(uint8_t count) {
   currentEffect->SetLightCount(count);
 }
-
-void ControlPole::SetSpeed(uint8_t speed) { currentEffect->SetSpeed(speed); }
 
 void ControlPole::SetHueShift(uint8_t shift) {
   currentEffect->SetHueShift(shift);
@@ -64,24 +70,12 @@ void ControlPole::SetReverse(bool reverse) {
   currentEffect->SetReverse(reverse);
 }
 
-uint32_t ControlPole::GetMillisPerShift() {
-  return currentEffect->GetMillisPerShift();
-}
-
-uint32_t ControlPole::GetMillisPerLoop() {
-  return currentEffect->GetMillisPerLoop();
-}
-
-uint32_t ControlPole::GetPartialMillisPerLoop() {
-  return currentEffect->GetPartialMillisPerLoop();
-}
-
 uint32_t ControlPole::GetTimerShiftOffset() {
   return currentEffect->GetTimerShiftOffset();
 }
 
-std::vector<std::vector<CHSV>> ControlPole::GetGrid(uint32_t timer,
-                                                    uint16_t timeElapsed) {
-  currentEffect->SetGrid(timer, timeElapsed);
+std::vector<std::vector<CHSV>> ControlPole::GetGrid(uint16_t frame,
+                                                    uint16_t lastFrame) {
+  currentEffect->SetGrid(frame, lastFrame);
   return currentEffect->GetGrid();
 }

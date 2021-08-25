@@ -8,15 +8,11 @@
 
 class ControlPoleEffectLine : public ControlPoleEffect {
  public:
-  ControlPoleEffectLine();
+  ControlPoleEffectLine(uint16_t framesPerLoop);
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;
-  uint16_t GetSpeedConstant() override;
   uint8_t GetShiftsPerLoop() override;
-
- private:
-  const uint16_t SPEED_CONSTANT = 1200;  // Millis per shift at speed 1
 };
 
 #endif

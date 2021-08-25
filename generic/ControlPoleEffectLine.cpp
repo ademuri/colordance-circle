@@ -1,10 +1,9 @@
 #include "ControlPoleEffectLine.hpp"
 
-ControlPoleEffectLine::ControlPoleEffectLine() : ControlPoleEffect() {
+ControlPoleEffectLine::ControlPoleEffectLine(uint16_t framesPerLoop)
+    : ControlPoleEffect(framesPerLoop) {
   lightCount = 4;
 }
-
-uint16_t ControlPoleEffectLine::GetSpeedConstant() { return SPEED_CONSTANT; }
 
 uint8_t ControlPoleEffectLine::GetShiftsPerLoop() {
   uint8_t shiftsPerLoop = 4;
@@ -13,11 +12,12 @@ uint8_t ControlPoleEffectLine::GetShiftsPerLoop() {
   } else if (rotation % 2 == 1 && lightCount == 4) {
     shiftsPerLoop = 7;
   }
-  return backAndForth ? shiftsPerLoop * 2 - 2 : shiftsPerLoop;
+  return shiftsPerLoop;
 }
 
 void ControlPoleEffectLine::DoSetGrid(uint8_t shiftIndex) {
-  bool isStill = GetMillisPerShift() == 0;
+  // bool isStill = GetMillisPerShift() == 0;
+  bool isStill = false;
   // For still animation, make diagonal in the middle
   if (isStill && lightCount >= 3 && rotation % 2 == 1) {
     shiftIndex = lightCount == 4 ? 3 : 1;
