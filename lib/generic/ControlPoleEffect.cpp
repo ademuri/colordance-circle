@@ -1,6 +1,7 @@
 #include "ControlPoleEffect.hpp"
 
-ControlPoleEffect::ControlPoleEffect() {
+ControlPoleEffect::ControlPoleEffect(uint16_t framesPerLoop)
+    : FRAMES_PER_LOOP(framesPerLoop) {
   for (int x = 0; x < kGridWidth; x++) {
     std::vector<CHSV> row;
     for (int y = 0; y < kGridHeight; y++) {
@@ -18,32 +19,54 @@ void ControlPoleEffect::TurnOffAll() {
   }
 }
 
-void ControlPoleEffect::SetGrid(uint32_t timer, uint16_t timeElapsedelapsed) {
-  uint16_t millisPerShift = GetMillisPerShift();
-  uint8_t shiftIndex = GetShiftIndexAndSetOffset(timer + timerShiftOffset);
+/**
+ * frame = frame of loop
+ */
+void ControlPoleEffect::SetGrid(uint16_t frame, uint16_t lastFrame) {
+  // uint8_t shiftIndex = GetShiftIndex(frame, lastFrame);
 
-  uint16_t adjustedMillisPerShift =
-      millisPerShift == 0 ? GetSpeedConstant() : millisPerShift;
-  if (!smoothColor && shiftIndex == lastShiftIndex) {
-    return;
-  } else if (!smoothColor) {
-    currentHueShift += (hueShift + hueOffset);
-  } else {
-    currentHueShift = (hueShift + hueOffset) * timer / adjustedMillisPerShift;
+  uint16_t framesPerShift = GetFramesPerShift();
+  uint16_t shiftsPerLoop = GetAdjustedShiftsPerLoop();
+  uint8_t shiftIndex = frame / framesPerShift;
+
+  if (backAndForth && shiftIndex == 0 && lastFrame / framesPerShift != 0) {
+    goBackwards = !goBackwards;
   }
 
-  lastHueShift = currentHueShift;
+  if (!smoothColor && lastFrame / framesPerShift == shiftIndex) {
+    return;
+  } else if (!smoothColor) {
+    currentHueShift += hueShift;
+  } else {
+    if (lastFrame > frame) {
+      frame += FRAMES_PER_LOOP - lastFrame;
+      lastFrame = 0;
+    }
+    currentHueShift += hueShift * (frame - lastFrame) / framesPerShift;
+    hueShiftRemainder += (hueShift * (frame - lastFrame)) % framesPerShift;
+  }
+  currentHueShift += hueShiftRemainder / framesPerShift;
+  hueShiftRemainder %= framesPerShift;
   currentHue = baseHue + currentHueShift;
 
+  if (goBackwards) {
+    shiftIndex = shiftsPerLoop - shiftIndex - (backAndForth ? 0 : 1);
+  }
+
   TurnOffAll();
-  DoSetGrid(AdjustShiftIndex(shiftIndex));
-  lastShiftIndex = shiftIndex;
+  DoSetGrid(shiftIndex);
+}
+
+/**
+ * shiftsPerLoop should divide framesPerLoop
+ */
+uint16_t ControlPoleEffect::GetFramesPerShift() {
+  return FRAMES_PER_LOOP / GetAdjustedShiftsPerLoop();
 }
 
 void ControlPoleEffect::SetBaseHue(uint8_t hue) {
-  // currentHue += hue - baseHue;
   if (baseHue != hue) {
-    currentHue = hue;
+    currentHueShift = 0;
   }
   baseHue = hue;
 }
@@ -53,8 +76,6 @@ void ControlPoleEffect::SetBaseSat(uint8_t sat) { baseSat = sat; }
 void ControlPoleEffect::SetBaseVal(uint8_t val) { baseVal = val; }
 
 void ControlPoleEffect::SetLightCount(uint8_t count) { lightCount = count; }
-
-void ControlPoleEffect::SetSpeed(uint8_t speed) { this->speed = speed; }
 
 void ControlPoleEffect::SetHueShift(uint8_t shift) { hueShift = shift; }
 
@@ -70,59 +91,17 @@ void ControlPoleEffect::SetSmoothColor(bool smoothColor) {
   this->smoothColor = smoothColor;
 }
 
-void ControlPoleEffect::SetReverse(bool reverse) { this->reverse = reverse; }
+void ControlPoleEffect::SetReverse(bool reverse) {
+  if (reverse != this->reverse) {
+    goBackwards = !goBackwards;
+  }
+  this->reverse = reverse;
+}
 
 void ControlPoleEffect::SetRotation(uint8_t rotate) { rotation = rotate; }
 
-uint16_t ControlPoleEffect::GetMillisPerShift() {
-  return speed == 0 ? 0 : GetSpeedConstant() / speed;
-}
-
-uint16_t ControlPoleEffect::GetMillisPerLoop() {
-  return GetMillisPerShift() * GetShiftsPerLoop();
-}
-
-uint16_t ControlPoleEffect::GetPartialMillisPerLoop() {
-  return GetMillisPerShift() * 2;
-}
-
-uint8_t ControlPoleEffect::GetShiftIndexAndSetOffset(uint32_t timer) {
-  uint16_t millisPerShift = GetMillisPerShift();
-  uint8_t shiftsPerLoop = GetShiftsPerLoop();
-
-  uint16_t adjustedMillisPerShift =
-      millisPerShift == 0 ? GetSpeedConstant() : millisPerShift;
-  uint8_t shiftIndex = (timer % (adjustedMillisPerShift * shiftsPerLoop)) /
-                       adjustedMillisPerShift;
-  if (reverse) {
-    shiftIndex = shiftsPerLoop - shiftIndex - 1;
-  }
-
-  if (shiftsPerLoop != lastShiftsPerLoop) {
-    timerShiftOffset = 0;
-  } else if (millisPerShift != 0 &&
-             (millisPerShift != lastMillisPerShift || lastReverse != reverse)) {
-    uint8_t indexDifference = shiftsPerLoop + lastShiftIndex - shiftIndex;
-    timerShiftOffset += millisPerShift * (indexDifference % shiftsPerLoop);
-    shiftIndex = lastShiftIndex;
-  }
-  lastShiftsPerLoop = shiftsPerLoop;
-  lastMillisPerShift = millisPerShift;
-  lastReverse = reverse;
-
-  return shiftIndex;
-}
-
-uint8_t ControlPoleEffect::AdjustShiftIndex(uint8_t shiftIndex) {
-  uint16_t millisPerShift = GetMillisPerShift();
-  uint8_t shiftsPerLoop = GetShiftsPerLoop();
-  if (millisPerShift == 0) {
-    return 0;
-  }
-  if (backAndForth && shiftIndex > shiftsPerLoop / 2) {
-    return shiftsPerLoop - shiftIndex;
-  }
-  return shiftIndex;
+uint8_t ControlPoleEffect::GetAdjustedShiftsPerLoop() {
+  return GetShiftsPerLoop() - (backAndForth ? 1 : 0);
 }
 
 uint32_t ControlPoleEffect::GetTimerShiftOffset() { return timerShiftOffset; }

@@ -6,14 +6,14 @@ ControlledEffect::ControlledEffect(std::vector<Pole*> poles,
                                    ParamController* paramController)
     : Effect(poles, paramController) {
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles.push_back(new ControlPole(i));
+    ControlPole* pole = new ControlPole(i, FRAMES_PER_LOOP);
+    controlPoles.push_back(pole);
   }
-  // Used for timing.
-  standardPole = new ControlPole(0);
 }
 
 void ControlledEffect::DoRun() {
-  if (Pole::kNumPoles == 0) return;
+  uint8_t pause = paramController->GetRawParam(Param::kPause);
+  if (Pole::kNumPoles == 0 || pause) return;
 
   lastMovementMode = movementMode;
   uint8_t lastMovementSpeed = movementSpeed;
@@ -34,15 +34,11 @@ void ControlledEffect::DoRun() {
   uint8_t gridSmoothColor =
       paramController->GetRawParam(Param::kGridSmoothColor);
   uint8_t gridReverse = paramController->GetRawParam(Param::kGridReverse);
-
-  if (gridMode != lastGridMode) {
-    standardPole->SetMode(gridMode);
-    lastGridMode = gridMode;
-  }
+  bpm = paramController->GetRawParam(Param::kBpm);
 
   uint8_t numberOfPolesOn = GetNumberOfPolesOn(setPoles);
 
-  uint8_t poleHueShiftOffest = poleHueShift;
+  // uint8_t poleHueShiftOffest = poleHueShift;
   if (balanceColor == 1) {
     poleHueShift = 255 / numberOfPolesOn;
   }
@@ -52,10 +48,8 @@ void ControlledEffect::DoRun() {
     poles[i]->ClearGridLights();
     controlPoles[i]->SetMode(gridMode);
     if (setPoles & (1 << i)) {
-      controlPoles[i]->SetHue(polesOnCount++ * poleHueShift +
-                              poleHueShiftOffest);
+      controlPoles[i]->SetHue(polesOnCount++ * poleHueShift);
       controlPoles[i]->SetLightCount(gridLightCount == 0 ? 1 : gridLightCount);
-      controlPoles[i]->SetSpeed(gridSpeed);
       controlPoles[i]->SetHueShift(gridHueShift);
       controlPoles[i]->SetHueDistance(gridHueDistance);
       controlPoles[i]->SetBackAndForth(gridBackForth);
@@ -63,27 +57,32 @@ void ControlledEffect::DoRun() {
       controlPoles[i]->SetReverse(gridReverse == 1);
     }
   }
-  // Only need to set what affects speed
-  standardPole->SetSpeed(gridSpeed);
-  standardPole->SetLightCount(gridLightCount);
 
-  uint32_t timer = millis();
+  bool resetBeat = (paramController->GetRawParam(Param::kBeatReset) == 1);
 
-  uint16_t millisPerLoop = standardPole->GetMillisPerLoop();
-  uint32_t millisPerMovement = 0;
-  switch (movementSpeed) {
-    case 4:
-      millisPerMovement = standardPole->GetMillisPerShift();
-      break;
-    case 3:
-      millisPerMovement = standardPole->GetPartialMillisPerLoop();
-      break;
-    default:
-      millisPerMovement = millisPerLoop * (3 - movementSpeed);
+  uint32_t millisPerBeat = 60000 / (bpm == 0 ? 80 : bpm);
+  uint8_t beatsPerLoop = gridSpeed == 0 ? 1 : gridSpeed;
+  uint32_t timer = 0;
+  if (resetBeat != beatSet) {
+    timerOffset = millis();
+    beatSet = resetBeat;
   }
 
-  uint32_t timerWithOffset = timer + standardPole->GetTimerShiftOffset();
-  uint8_t movement = (timer / millisPerMovement) % 6;
+  uint16_t frame = 0;
+  do {
+    SleepMs(10);
+    timer = millis() - timerOffset;
+    frame = (timer * FRAMES_PER_LOOP / (millisPerBeat * beatsPerLoop)) %
+            FRAMES_PER_LOOP;
+    // frame = (timer * loopsPerBeat / millisPerBeat) % FRAMES_PER_LOOP;
+  } while (frame == lastFrame && resetBeat == beatSet);
+
+  if (frame < lastFrame) {
+    movementCount++;
+  }
+  movementSpeed = movementSpeed == 0 ? 1 : movementSpeed;
+  movementCount %= 6 * movementSpeed;
+  uint8_t movement = (movementCount / movementSpeed) % 6;
   switch (movementMode) {
     case 1:
     case 2:
@@ -103,12 +102,11 @@ void ControlledEffect::DoRun() {
     if (setPoles & (1 << pole)) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;
       poles[effectivePole]->SetGridLights(
-          controlPoles[pole]->GetGrid(timer, timer - lastTimer));
+          controlPoles[pole]->GetGrid(frame, lastFrame));
     }
   }
 
-  lastTimer = timer;
-  SleepMs(10);
+  lastFrame = frame;
 }
 
 uint8_t ControlledEffect::GetNumberOfPolesOn(uint8_t polesBitMap) {

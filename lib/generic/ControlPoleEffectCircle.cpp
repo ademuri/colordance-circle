@@ -1,12 +1,9 @@
 #include "ControlPoleEffectCircle.hpp"
 
-ControlPoleEffectCircle::ControlPoleEffectCircle() : ControlPoleEffect() {}
+ControlPoleEffectCircle::ControlPoleEffectCircle(uint16_t framesPerLoop)
+    : ControlPoleEffect(framesPerLoop) {}
 
-uint16_t ControlPoleEffectCircle::GetSpeedConstant() { return SPEED_CONSTANT; }
-
-uint8_t ControlPoleEffectCircle::GetShiftsPerLoop() {
-  return backAndForth ? 14 : 8;
-}
+uint8_t ControlPoleEffectCircle::GetShiftsPerLoop() { return 8; }
 
 void ControlPoleEffectCircle::DoSetGrid(uint8_t shiftIndex) {
   uint8_t rotationOffset = rotation + 1;

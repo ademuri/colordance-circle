@@ -7,14 +7,14 @@ public class ModeGroup extends ButtonGroup {
   
   ModeGroup(ControlP5 cp5) {
    super(cp5,
-         new String[] {"Line", "Cross", "Circle", "Breathe", "Twinke"},
+         new String[] {"Line", "Cross", "Circle", "Diverge", "Twinke"},
          new int[][] {{420,450},{490,450},{560,450},{420,550},{490,550}});
    getButton(0).setOn();
    buttonIndex = 0;
    value = 0;
-   lineValue = 0;    //max 8
-   crossValue = 0;   //max 4
-   circleValue = 0;  //max 2
+   lineValue = 0;    //max 4
+   crossValue = 0;   //max 2
+   circleValue = 0;  //max 4
   }
 
   protected int getValue() {
