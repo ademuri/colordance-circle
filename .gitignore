@@ -4,5 +4,8 @@ arduino/build
 *.bin
 *.elf
 *.autosave
+<<<<<<< HEAD
 .pio
+=======
+>>>>>>> origin/sam
 .DS_Store

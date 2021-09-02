@@ -1,4 +1,4 @@
-#include "ColordanceTypes.hpp"
+#include <ColordanceTypes.hpp>
 
 // #include <BrightDarkEffect.hpp>
 // #include <ColorCycleEffect.hpp>
