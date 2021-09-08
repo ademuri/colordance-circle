@@ -1,8 +1,12 @@
 #include "TeensyLightController.hpp"
 
 TeensyLightController::TeensyLightController() {
-  FastLED.addLeds</* numStrips */ 14, WS2812, /* first pin */ 1, RGB>(
+  FastLED.addLeds<kNumLedOutputs, WS2812, /* first pin */ 1, RGB>(
       leds, kLedsPerOutput);
+
+  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
+    poles.push_back(new Pole());
+  }
 }
 
 void TeensyLightController::WriteOutLights() {
