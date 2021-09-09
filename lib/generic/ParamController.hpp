@@ -36,6 +36,9 @@ class ParamController {
   virtual uint8_t GetRawParam(Param param) = 0;
 
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
+
+  virtual bool Random() {return false;};
+  virtual bool Next() {return false;};
 };
 
 #endif  // PARAM_CONTROLLER_HPP_

@@ -3,7 +3,7 @@
 #include "ColordanceTypes.hpp"
 
 DemoController::DemoController(std::vector<Pole*> poles,
-                               ParamController* paramController)
+                               LocalButtonController* paramController)
     : Effect(poles, paramController) {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     ControlPole* pole = new ControlPole(i, FRAMES_PER_LOOP);
@@ -14,20 +14,33 @@ DemoController::DemoController(std::vector<Pole*> poles,
 void DemoController::DoRun() {
   uint8_t numOfEffects = 5;
 
-  bool previous = paramController->GetRawParam(Param::kPrevious) == 1;
-  bool next = paramController->GetRawParam(Param::kNext) == 1;
-  bool randomize = paramController->GetRawParam(Param::kRandom) == 1;
+  // bool previous = paramController->GetRawParam(Param::kPrevious) == 1;
+  // bool next = paramController->GetRawParam(Param::kNext) == 1;
+  // bool randomize = paramController->GetRawParam(Param::kRandom) == 1;
 
-  uint8_t effect = (lastEffect + (next != lastNext ? 1 : 0) +
-                    (previous != lastPrevious ? numOfEffects - 1 : 0)) %
-                   numOfEffects;
+  // uint8_t effect = (lastEffect + (next != lastNext ? 1 : 0) +
+  //                   (previous != lastPrevious ? numOfEffects - 1 : 0)) %
+  //                  numOfEffects;
 
-  bool effectChanged = lastEffect != effect;
-  bool initalize = randomize != lastRandom || effectChanged;
+  // bool effectChanged = lastEffect != effect;
+  // bool initalize = randomize != lastRandom || effectChanged;
+  bool initalize = paramController->Random();
 
-  lastPrevious = previous;
-  lastNext = next;
-  lastRandom = randomize;
+  if (millis() > randomAt) {
+    effect = random(5);
+    randomAt = millis() + 30000;
+    initalize = true;
+  }
+
+  if (paramController->Next()) {
+    effect = (effect + 1) % numOfEffects;
+    initalize = true;
+    randomAt = millis() + 5 * 60000;
+  }
+
+  // lastPrevious = previous;
+  // lastNext = next;
+  // lastRandom = randomize;
   lastEffect = effect;
 
   if (initalize) {

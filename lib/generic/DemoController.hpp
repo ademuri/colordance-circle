@@ -6,10 +6,11 @@
 #include "ControlPole.hpp"
 #include "Effect.hpp"
 #include "Pole.hpp"
+#include "LocalButtonController.hpp"
 
 class DemoController : public Effect {
  public:
-  DemoController(std::vector<Pole*> poles, ParamController* paramController);
+  DemoController(std::vector<Pole*> poles, LocalButtonController* paramController);
 
  protected:
   void DoRun() override;
@@ -44,6 +45,9 @@ class DemoController : public Effect {
   uint8_t hues[4];
   uint8_t hueDistances[4];
   uint8_t vals[4] = {255, 255, 255, 255};
+
+  long randomAt = 0;
+  uint8_t effect = 0;
 };
 
 #endif
