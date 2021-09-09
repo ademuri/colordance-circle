@@ -6,3 +6,4 @@ arduino/build
 *.autosave
 .pio
 .DS_Store
+.vscode
