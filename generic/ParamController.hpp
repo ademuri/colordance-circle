@@ -22,6 +22,9 @@ enum class Param {
   kPause,
   kPollHueShift,
   kSpeed,
+  kPrevious,
+  kNext,
+  kRandom,
   // Sentinel value, used for sizing. Needs to be the last param.
   kLastParam,
 };

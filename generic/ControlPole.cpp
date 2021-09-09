@@ -6,16 +6,18 @@
 #include "ControlPoleEffectCross.hpp"
 #include "ControlPoleEffectDiverge.hpp"
 #include "ControlPoleEffectLine.hpp"
+#include "ControlPoleEffectSquare.hpp"
 #include "ControlPoleEffectTwinkle.hpp"
 
 ControlPole::ControlPole(uint8_t index, uint16_t framesPerLoop) {
   this->index = index;
+  effectSquare = new ControlPoleEffectSquare(framesPerLoop);
   effectCross = new ControlPoleEffectCross(framesPerLoop);
   effectLine = new ControlPoleEffectLine(framesPerLoop);
   effectCircle = new ControlPoleEffectCircle(framesPerLoop);
   effectDiverge = new ControlPoleEffectDiverge(framesPerLoop);
   effectPinwheel = new ControlPoleEffectTwinkle(framesPerLoop);
-  currentEffect = effectLine;
+  currentEffect = effectSquare;
 }
 
 void ControlPole::SetHue(uint8_t hue) { currentEffect->SetBaseHue(hue); }
@@ -29,19 +31,22 @@ void ControlPole::SetMode(uint8_t mode) {
     return;
   }
   currentEffect->ResetTimerShiftOffset();
-  if (mode < 4) {
-    currentEffect = effectLine;
-    effectLine->SetRotation(mode);
+  if (mode < 2) {
+    currentEffect = effectSquare;  // 0-1
+    effectSquare->SetRotation(mode);
   } else if (mode < 6) {
-    currentEffect = effectCross;
-    effectCross->SetRotation(mode - 4);
+    currentEffect = effectLine;  // 2-5
+    effectLine->SetRotation(mode - 2);
   } else if (mode < 10) {
-    currentEffect = effectCircle;
+    currentEffect = effectCircle;  // 6-9
     effectCircle->SetRotation(mode - 6);
   } else if (mode < 11) {
-    currentEffect = effectDiverge;
+    currentEffect = effectPinwheel;  // 10
+  } else if (mode < 13) {
+    currentEffect = effectCross;  // 11-12
+    effectCross->SetRotation(mode - 11);
   } else {
-    currentEffect = effectPinwheel;
+    currentEffect = effectDiverge;  // 13
   }
   lastMode = mode;
 }
@@ -69,6 +74,12 @@ void ControlPole::SetSmoothColor(bool smoothColor) {
 void ControlPole::SetReverse(bool reverse) {
   currentEffect->SetReverse(reverse);
 }
+
+void ControlPole::SetStaticShiftIndex(uint8_t index) {
+  currentEffect->SetStaticShiftIndex(index);
+}
+
+void ControlPole::Reset() { currentEffect->Reset(); }
 
 uint32_t ControlPole::GetTimerShiftOffset() {
   return currentEffect->GetTimerShiftOffset();

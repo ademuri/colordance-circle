@@ -16,8 +16,6 @@ uint8_t ControlPoleEffectLine::GetShiftsPerLoop() {
 }
 
 void ControlPoleEffectLine::DoSetGrid(uint8_t shiftIndex) {
-  // bool isStill = GetMillisPerShift() == 0;
-  bool isStill = false;
   // For still animation, make diagonal in the middle
   if (isStill && lightCount >= 3 && rotation % 2 == 1) {
     shiftIndex = lightCount == 4 ? 3 : 1;
