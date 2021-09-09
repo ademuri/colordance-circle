@@ -8,6 +8,7 @@
 #include "ControlPoleEffectCross.hpp"
 #include "ControlPoleEffectDiverge.hpp"
 #include "ControlPoleEffectLine.hpp"
+#include "ControlPoleEffectSquare.hpp"
 #include "ControlPoleEffectTwinkle.hpp"
 
 class ControlPole {
@@ -23,11 +24,14 @@ class ControlPole {
   void SetBackAndForth(bool backAndForth);
   void SetSmoothColor(bool smoothColor);
   void SetReverse(bool flash);
+  void SetStaticShiftIndex(uint8_t index);
+  void Reset();
   uint32_t GetTimerShiftOffset();
   std::vector<std::vector<CHSV>> GetGrid(uint16_t frame, uint16_t lastFrame);
 
  private:
   ControlPoleEffect* currentEffect;
+  ControlPoleEffectSquare* effectSquare;
   ControlPoleEffectCross* effectCross;
   ControlPoleEffectLine* effectLine;
   ControlPoleEffectCircle* effectCircle;

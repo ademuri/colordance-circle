@@ -34,8 +34,11 @@ class ControlPoleEffect {
 
   uint32_t GetTimerShiftOffset();
   void ResetTimerShiftOffset();
+  void Reset();
 
   uint16_t GetFramesPerShift();
+
+  void SetStaticShiftIndex(uint8_t index);
 
   static const uint8_t kGridWidth = 4;
   static const uint8_t kGridHeight = 4;
@@ -77,6 +80,10 @@ class ControlPoleEffect {
   uint8_t rotation = 0;
   bool reverse = false;
   bool goBackwards = false;
+
+  uint8_t staticShiftIndex = 255;
+
+  bool isStill = false;
 
   const uint16_t FRAMES_PER_LOOP;
 };

@@ -64,19 +64,26 @@ void SerialParamController::Tick() {
             in.substring(2).toInt();
         break;
 
+      case 'n':
+        params[static_cast<uint8_t>(Param::kNext)] = in.substring(2).toInt();
+        break;
+
       case 'o':
         params[static_cast<uint8_t>(Param::kGridSmoothColor)] =
             in.substring(2).toInt();
         break;
 
       case 'p':
-        params[static_cast<uint8_t>(Param::kActivePoles)] =
+        // params[static_cast<uint8_t>(Param::kActivePoles)] =
+        //     in.substring(2).toInt();
+        params[static_cast<uint8_t>(Param::kPrevious)] =
             in.substring(2).toInt();
         break;
 
       case 'r':
-        params[static_cast<uint8_t>(Param::kGridReverse)] =
-            in.substring(2).toInt();
+        // params[static_cast<uint8_t>(Param::kGridReverse)] =
+        //     in.substring(2).toInt();
+        params[static_cast<uint8_t>(Param::kRandom)] = in.substring(2).toInt();
         break;
 
       case 's':
