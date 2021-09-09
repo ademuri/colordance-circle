@@ -6,7 +6,6 @@
 
 LightController* light_controller;
 Effect* effect;
-// TODO: possibly replace this
 LocalButtonController* param_controller;
 
 void setup() {
@@ -20,5 +19,4 @@ void setup() {
 void loop() {
   effect->Run();
   light_controller->WriteOutLights();
-  //param_controller->Tick();
 }

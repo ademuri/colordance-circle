@@ -20,13 +20,18 @@ class TeensyLightController : public LightController {
 
   CRGB leds[kTotalLeds];
 
+  // FastLED pin order:
+  // 1,0,24,25,19,18,14,15,17,16,22,23,20,21,26,27
+
   // Map from pole number (position in vector) to the index for that pole's main
   // light in the LED array
-  const std::vector<int> kPoleGridIndexes = {7, 9, 5, 13, 10, 0};
+  // Pins: 14, 16, 18, 20, 22, 1
+  const std::vector<int> kPoleGridIndexes = {6, 9, 5, 12, 10, 0};
 
   // Map from pole number (position in vector) to the index for that pole's pole
   // lights in the LED array
-  const std::vector<int> kPoleLightIndexes = {6, 8, 4, 12, 11, 1};
+  // Pins: 15, 17, 19, 21, 23, 0
+  const std::vector<int> kPoleLightIndexes = {7, 8, 4, 13, 11, 1};
 
   static const int kPodiumIndex = 3;
   static const int kControlPanelIndex = 2;

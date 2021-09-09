@@ -19,6 +19,8 @@ class LocalButtonController : public ParamController {
 
         bool randomOn = false;
         bool nextOn = false;
+
+        bool randomInit = false;
 };
 
 #endif
