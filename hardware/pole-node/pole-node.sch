@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Homebrew:AP3211 U1
+L pole-node-rescue:AP3211-Homebrew U1
 U 1 1 5E594E3E
 P 2800 1400
 F 0 "U1" H 2800 1775 50  0000 C CNN
@@ -257,7 +257,7 @@ Connection ~ 4400 1400
 Wire Wire Line
 	4400 1400 4700 1400
 $Comp
-L Homebrew:Anderson_two_redblack_src J1
+L pole-node-rescue:Anderson_two_redblack_src-Homebrew J1
 U 1 1 5E5A16EF
 P 700 1300
 F 0 "J1" H 592 1597 60  0000 C CNN
@@ -814,7 +814,7 @@ F 3 "" H 8000 3700 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H1
+L pole-node-rescue:HOLE-Homebrew H1
 U 1 1 5E650CB4
 P 4450 3500
 F 0 "H1" H 4559 3553 60  0000 L CNN
@@ -825,7 +825,7 @@ F 3 "" H 4450 3500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H2
+L pole-node-rescue:HOLE-Homebrew H2
 U 1 1 5E652DE7
 P 4450 3750
 F 0 "H2" H 4559 3803 60  0000 L CNN
@@ -997,7 +997,7 @@ F 3 "" H 9200 5400 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Homebrew:Anderson_two_redblack_sink J7
+L pole-node-rescue:Anderson_two_redblack_sink-Homebrew J7
 U 1 1 607786F1
 P 9550 5350
 F 0 "J7" H 9728 5408 60  0000 L CNN

@@ -85,7 +85,7 @@ Wire Wire Line
 Wire Wire Line
 	1150 2550 1550 2550
 $Comp
-L Homebrew:AM26LS31x U?
+L colordance-brain-rescue:AM26LS31x-Homebrew U?
 U 1 1 60932044
 P 1550 3400
 AR Path="/60932044" Ref="U?"  Part="1" 

@@ -96,6 +96,7 @@ F 0 "U3" H 1850 2550 50  0000 C CNN
 F 1 "AM26LS31x" H 2000 2650 50  0000 C CNN
 F 2 "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm" H 1500 4150 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/am26ls31.pdf" H 1550 3400 50  0001 C CNN
+F 4 "AM26LS31CDR" H 1550 3400 50  0001 C CNN "MPN"
 	1    1550 3400
 	1    0    0    -1  
 $EndComp

@@ -40,7 +40,7 @@ F 3 "" H 13400 2150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:AP3211 U1
+L colordance-brain-rescue:AP3211-Homebrew U1
 U 1 1 5E594E3E
 P 2800 1400
 F 0 "U1" H 2800 1775 50  0000 C CNN
@@ -283,7 +283,7 @@ Connection ~ 4400 1400
 Wire Wire Line
 	4400 1400 4700 1400
 $Comp
-L Homebrew:Anderson_two_redblack_src J1
+L colordance-brain-rescue:Anderson_two_redblack_src-Homebrew J1
 U 1 1 5E5A16EF
 P 700 1300
 F 0 "J1" H 592 1597 60  0000 C CNN
@@ -1564,7 +1564,7 @@ F 4 "78208-103HLF" H 4700 8900 50  0001 C CNN "MPN"
 	-1   0    0    1   
 $EndComp
 $Comp
-L Homebrew:HOLE H1
+L colordance-brain-rescue:HOLE-Homebrew H1
 U 1 1 60A08675
 P 10450 8500
 F 0 "H1" H 10559 8553 60  0000 L CNN
@@ -1575,7 +1575,7 @@ F 3 "" H 10450 8500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H2
+L colordance-brain-rescue:HOLE-Homebrew H2
 U 1 1 60A09861
 P 10450 8750
 F 0 "H2" H 10559 8803 60  0000 L CNN
@@ -1586,7 +1586,7 @@ F 3 "" H 10450 8750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H3
+L colordance-brain-rescue:HOLE-Homebrew H3
 U 1 1 60A09A47
 P 10450 9000
 F 0 "H3" H 10559 9053 60  0000 L CNN
@@ -1597,7 +1597,7 @@ F 3 "" H 10450 9000 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H4
+L colordance-brain-rescue:HOLE-Homebrew H4
 U 1 1 60A09CE3
 P 10450 9250
 F 0 "H4" H 10559 9303 60  0000 L CNN
@@ -1707,7 +1707,7 @@ LOCAL_PIR1
 Text GLabel 10750 3300 0    50   Input ~ 0
 CS_AUDIO
 $Comp
-L teensy_library:Teensy4.1 U2
+L colordance-brain-rescue:Teensy4.1-teensy_library U2
 U 1 1 607BEEC0
 P 11850 4450
 F 0 "U2" H 11850 7015 50  0000 C CNN
