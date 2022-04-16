@@ -4,27 +4,14 @@
 #include "ColordanceTypes.hpp"
 
 enum class Param {
-  kActivePoles,
-  kBalanceColor,
-  kBeatReset,
-  kBpm,
-  kGridBackForth,
-  kGridHueShift,
-  kGridHueDistance,
-  kGridLightCount,
-  kGridMode,
-  kGridReverse,
-  kGridSmoothColor,
-  kGridSpeed,
-  kMode,
-  kMovementMode,
-  kMovementSpeed,
+  kBeat,
+  kLoopShift,
+  kShift,
   kPause,
-  kPollHueShift,
-  kSpeed,
-  kPrevious,
-  kNext,
-  kRandom,
+  kOption1,
+  kOption2,
+  kSlider1,
+  kSlider2,
   // Sentinel value, used for sizing. Needs to be the last param.
   kLastParam,
 };
@@ -36,9 +23,6 @@ class ParamController {
   virtual uint8_t GetRawParam(Param param) = 0;
 
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
-
-  virtual bool Random() {return false;};
-  virtual bool Next() {return false;};
 };
 
 #endif  // PARAM_CONTROLLER_HPP_

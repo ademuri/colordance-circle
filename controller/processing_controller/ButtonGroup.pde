@@ -5,9 +5,9 @@ public abstract class ButtonGroup {
     buttons = new ArrayList();
     for (int i=0; i<positions.length; i++) {
       buttons.add(cp5.addButton(names[i])
-      .setSize(50, 50)
+      .setSize(100, 100)
       .setSwitch(true)
-      .setPosition(positions[i][0]-25, positions[i][1]-25));
+      .setPosition(positions[i][0], positions[i][1]));
     }
   }
   
