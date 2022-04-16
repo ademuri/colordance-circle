@@ -18,57 +18,46 @@ void setup() {
   
    /* Poll stuff */
    
-  MagicPoleButtons poles = new MagicPoleButtons(cp5, "p");
-  MagicMovementButtons poleMovement = new MagicMovementButtons(cp5, "m");
+  MagicEffectButtons effect = new MagicEffectButtons(cp5, "e");
   
-  MagicSlider bpm = new MagicSlider(cp5, "b", "BPM", 60, 180);
-  bpm.getControl().setPosition(700, 100);
-  bpm.getControl().setHeight(200);
- 
-  MagicButtons setBeat= new MagicButtons(cp5, "a", "Set Beat");
-  setBeat.getControl().setPosition(750, 120);
-  setBeat.getControl().setHeight(60);
-  setBeat.getControl().setWidth(60);
- 
-  MagicButtons pause = new MagicButtons(cp5, "u", "Pause");
-  pause.getControl().setPosition(750, 220);
-  pause.getControl().setHeight(60);
-  pause.getControl().setWidth(60);
+  MagicSlider s1 = new MagicSlider(cp5, "v", "S1", 0, 100);
+  s1.getControl().setPosition(333, 530);
   
+  MagicSlider s2 = new MagicSlider(cp5, "w", "S2", 0, 100);
+  s2.getControl().setPosition(533, 530);
   
-  MagicSlider movementSpeed = new MagicSlider(cp5, "s", "Movement Speed", 1, 4);
-  movementSpeed.getControl().setPosition(500, 100);
-  MagicSlider pollHueShift = new MagicSlider(cp5, "h", "Pole Hue Shift", 0, 127);
-  pollHueShift.getControl().setPosition(400, 100);
+  MagicButtons b1 = new MagicButtons(cp5, "x", "Shift Fade");
+  b1.getControl().setPosition(205, 517);
+  b1.getControl().setHeight(75);
+  b1.getControl().setWidth(75);
   
-  MagicButtons colorBalance= new MagicButtons(cp5, "l", "Balance Color");
-  colorBalance.getControl().setPosition(300, 100);
+  MagicButtons b2 = new MagicButtons(cp5, "y", "Option");
+  b2.getControl().setPosition(720, 517);
+  b2.getControl().setHeight(75);
+  b2.getControl().setWidth(75);
   
-  
-  /* Grid stuff */
 
-  MagicModeButtons gridMode = new MagicModeButtons(cp5, "g");
   
-  MagicButtons gridSmoothColor = new MagicButtons(cp5, "o", "Grid Smooth Color");
-  gridSmoothColor.getControl().setPosition(420, 600);
-  MagicButtons gridReverse= new MagicButtons(cp5, "r", "Grid Reverse");
-  gridReverse.getControl().setPosition(520, 350);
-  MagicButtons gridBackForth= new MagicButtons(cp5, "f", "Grid Back Forth");
-  gridBackForth.getControl().setPosition(430, 350);
+  MagicButtons reverse = new MagicButtons(cp5, "s", "Shift");
+  reverse.getControl().setPosition(279, 650);
+  reverse.getControl().setHeight(83);
+  reverse.getControl().setWidth(83);
   
-  MagicSlider gridLightCount = new MagicSlider(cp5, "c", "Grid Light Count", 1, 4); 
-  gridLightCount.getControl().setPosition(350, 350);
-  gridLightCount.getControl().setNumberOfTickMarks(4);
-  gridLightCount.getControl().snapToTickMarks(true);
+  MagicButtons shiftLoop = new MagicButtons(cp5, "l", "Shift Loop");
+  shiftLoop.getControl().setPosition(221, 629);
+  shiftLoop.getControl().setHeight(33);
+  shiftLoop.getControl().setWidth(33);
   
-  MagicSlider gridSpeed = new MagicSlider(cp5, "e", "Grid Speed", 1, 4);
-  gridSpeed.getControl().setPosition(620, 350);
+  MagicButtons beat = new MagicButtons(cp5, "b", "BEAT");
+  beat.getControl().setPosition(409, 621);
+  beat.getControl().setHeight(141);
+  beat.getControl().setWidth(182);
   
-  MagicSlider gridHueShift = new MagicSlider(cp5, "i", "Grid Hue Shift", 0, 127);
-  gridHueShift.getControl().setPosition(350, 580);
-  MagicSlider gridHueDistance = new MagicSlider(cp5, "d", "Grid Hue Distance", 0, 127);
-  gridHueDistance.getControl().setPosition(620, 580);
-
+  MagicButtons pause = new MagicButtons(cp5, "p", "Pause");
+  pause.getControl().setPosition(637, 650);
+  pause.getControl().setHeight(83);
+  pause.getControl().setWidth(83);
+  
 }
 
 void draw() {
