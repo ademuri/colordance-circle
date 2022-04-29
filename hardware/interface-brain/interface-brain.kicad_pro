@@ -151,12 +151,7 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [
-      "pin_to_pin|2032000|342900|e63fac52-79af-4027-a2a7-3233c4524c07|d89bb8ae-89df-4a6e-a006-0105d22cda45",
-      "pin_to_pin|2032000|368300|f2a567e2-f2d4-486a-8ec3-061a0c8e738d|a71cc197-f5b3-470b-8174-907f2f4241b4",
-      "pin_to_pin|2184400|368300|a71cc197-f5b3-470b-8174-907f2f4241b4|f2a567e2-f2d4-486a-8ec3-061a0c8e738d",
-      "pin_to_pin|812800|533400|d89bb8ae-89df-4a6e-a006-0105d22cda45|e63fac52-79af-4027-a2a7-3233c4524c07"
-    ],
+    "erc_exclusions": [],
     "meta": {
       "version": 0
     },
@@ -436,7 +431,7 @@
       "workbook_filename": ""
     },
     "page_layout_descr_file": "",
-    "plot_directory": "",
+    "plot_directory": "ref",
     "spice_adjust_passive_values": false,
     "spice_external_command": "spice \"%I\"",
     "subpart_first_id": 65,
