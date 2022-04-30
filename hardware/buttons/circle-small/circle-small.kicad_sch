@@ -626,7 +626,7 @@
   (symbol (lib_id "LED:WS2812B") (at 99.06 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 02bff9b1-9203-4f37-bf1c-6ee1eccbc392)
-    (property "Reference" "D6" (id 0) (at 101.6 67.31 0))
+    (property "Reference" "D4" (id 0) (at 101.6 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 104.14 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 100.33 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -662,7 +662,7 @@
   (symbol (lib_id "power:VCC") (at 228.6 71.12 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 1ab7224c-ffaa-4c74-819b-94253ce85cca)
-    (property "Reference" "#PWR07" (id 0) (at 228.6 74.93 0)
+    (property "Reference" "#PWR05" (id 0) (at 228.6 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 228.6 67.5442 0))
@@ -694,7 +694,7 @@
   (symbol (lib_id "LED:WS2812B") (at 119.38 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 20782696-388e-42ef-97ca-719f57e101d3)
-    (property "Reference" "D8" (id 0) (at 121.92 67.31 0))
+    (property "Reference" "D5" (id 0) (at 121.92 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 124.46 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 120.65 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -734,7 +734,7 @@
   (symbol (lib_id "LED:WS2812B") (at 200.66 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 334b2c16-d097-4cce-8c3d-7157ae5e63ad)
-    (property "Reference" "D3" (id 0) (at 203.2 67.31 0))
+    (property "Reference" "D9" (id 0) (at 203.2 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 205.74 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 201.93 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -790,7 +790,7 @@
   (symbol (lib_id "LED:WS2812B") (at 180.34 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 64c6c979-a234-4d9b-ab9c-77c628dd08ef)
-    (property "Reference" "D12" (id 0) (at 182.88 67.31 0))
+    (property "Reference" "D8" (id 0) (at 182.88 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 185.42 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 181.61 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -832,7 +832,7 @@
   (symbol (lib_id "LED:WS2812B") (at 160.02 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 94378265-5f22-41d2-8818-a990c6248fd6)
-    (property "Reference" "D11" (id 0) (at 162.56 67.31 0))
+    (property "Reference" "D7" (id 0) (at 162.56 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 165.1 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 161.29 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -942,7 +942,7 @@
   (symbol (lib_id "LED:WS2812B") (at 78.74 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid bab416e9-3455-4ba8-90b1-7fa285f9caad)
-    (property "Reference" "D4" (id 0) (at 81.28 67.31 0))
+    (property "Reference" "D3" (id 0) (at 81.28 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 83.82 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 80.01 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -979,7 +979,7 @@
   (symbol (lib_id "power:GND") (at 228.6 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid c04f397d-2a5e-43d1-ae5e-9b665050180f)
-    (property "Reference" "#PWR08" (id 0) (at 228.6 82.55 0)
+    (property "Reference" "#PWR06" (id 0) (at 228.6 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 228.6 80.6434 0))
@@ -1062,7 +1062,7 @@
   (symbol (lib_id "LED:WS2812B") (at 139.7 73.66 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid f0b95a06-dfe9-4c93-8acb-565fee56976a)
-    (property "Reference" "D10" (id 0) (at 142.24 67.31 0))
+    (property "Reference" "D6" (id 0) (at 142.24 67.31 0))
     (property "Value" "WS2812B" (id 1) (at 144.78 80.01 0))
     (property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" (id 2) (at 140.97 81.28 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
@@ -1120,10 +1120,10 @@
       (reference "#PWR04") (unit 1) (value "GND") (footprint "")
     )
     (path "/1ab7224c-ffaa-4c74-819b-94253ce85cca"
-      (reference "#PWR07") (unit 1) (value "VCC") (footprint "")
+      (reference "#PWR05") (unit 1) (value "VCC") (footprint "")
     )
     (path "/c04f397d-2a5e-43d1-ae5e-9b665050180f"
-      (reference "#PWR08") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR06") (unit 1) (value "GND") (footprint "")
     )
     (path "/a6fa8848-4e9a-4036-a361-c72261fcb04a"
       (reference "C1") (unit 1) (value "10uF") (footprint "Capacitor_SMD:C_0603_1608Metric")
@@ -1137,26 +1137,26 @@
     (path "/57af834f-420a-4e8e-9296-ec2e88836249"
       (reference "D2") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
-    (path "/334b2c16-d097-4cce-8c3d-7157ae5e63ad"
+    (path "/bab416e9-3455-4ba8-90b1-7fa285f9caad"
       (reference "D3") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
-    (path "/bab416e9-3455-4ba8-90b1-7fa285f9caad"
+    (path "/02bff9b1-9203-4f37-bf1c-6ee1eccbc392"
       (reference "D4") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
-    (path "/02bff9b1-9203-4f37-bf1c-6ee1eccbc392"
-      (reference "D6") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
-    )
     (path "/20782696-388e-42ef-97ca-719f57e101d3"
-      (reference "D8") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
+      (reference "D5") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
     (path "/f0b95a06-dfe9-4c93-8acb-565fee56976a"
-      (reference "D10") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
+      (reference "D6") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
     (path "/94378265-5f22-41d2-8818-a990c6248fd6"
-      (reference "D11") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
+      (reference "D7") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
     (path "/64c6c979-a234-4d9b-ab9c-77c628dd08ef"
-      (reference "D12") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
+      (reference "D8") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
+    )
+    (path "/334b2c16-d097-4cce-8c3d-7157ae5e63ad"
+      (reference "D9") (unit 1) (value "WS2812B") (footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm")
     )
     (path "/bbdba0a7-e6e5-49aa-b56b-290880c06ec7"
       (reference "H1") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
