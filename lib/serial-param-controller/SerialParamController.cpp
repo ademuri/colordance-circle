@@ -23,7 +23,15 @@ void SerialParamController::Tick() {
       case 's':
         params[static_cast<uint8_t>(Param::kShift)] = in.substring(2).toInt();
         break;
-
+      case 'v':
+        params[static_cast<uint8_t>(Param::kSlider1)] = in.substring(2).toInt();
+        break;
+      case 'w':
+        params[static_cast<uint8_t>(Param::kSlider2)] = in.substring(2).toInt();
+      case 'x':
+        params[static_cast<uint8_t>(Param::kOption1)] = in.substring(2).toInt();
+      case 'y':
+        params[static_cast<uint8_t>(Param::kOption2)] = in.substring(2).toInt();
       default:
         break;
     }

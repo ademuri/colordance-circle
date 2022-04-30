@@ -20,18 +20,18 @@ void setup() {
    
   MagicEffectButtons effect = new MagicEffectButtons(cp5, "e");
   
-  MagicSlider s1 = new MagicSlider(cp5, "v", "S1", 0, 100);
+  MagicSlider s1 = new MagicSlider(cp5, "v", "S1", 0, 255);
   s1.getControl().setPosition(333, 530);
   
-  MagicSlider s2 = new MagicSlider(cp5, "w", "S2", 0, 100);
+  MagicSlider s2 = new MagicSlider(cp5, "w", "S2", 0, 255);
   s2.getControl().setPosition(533, 530);
   
-  MagicButtons b1 = new MagicButtons(cp5, "x", "Shift Fade");
+  MagicButtons b1 = new MagicButtons(cp5, "x", "Option 1");
   b1.getControl().setPosition(205, 517);
   b1.getControl().setHeight(75);
   b1.getControl().setWidth(75);
   
-  MagicButtons b2 = new MagicButtons(cp5, "y", "Option");
+  MagicButtons b2 = new MagicButtons(cp5, "y", "Option 2");
   b2.getControl().setPosition(720, 517);
   b2.getControl().setHeight(75);
   b2.getControl().setWidth(75);

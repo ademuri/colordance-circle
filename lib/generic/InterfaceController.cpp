@@ -1,6 +1,7 @@
 #include "InterfaceController.hpp"
 
 #include "ColordanceTypes.hpp"
+#include "InterfaceEffect.hpp"
 
 InterfaceController::InterfaceController(std::vector<Pole*> poles,
                                          ParamController* paramController)
@@ -9,9 +10,24 @@ InterfaceController::InterfaceController(std::vector<Pole*> poles,
     beatQueue.push(750);
   }
   beatTrackingTime = 4 * 750;
+
+  effect1 = new InterfaceEffect1();
+  currentEffect = effect1;
 }
 
+/**
+ * Sets the effect parameters from the interface, and handles timing.
+ */
 void InterfaceController::DoRun() {
+  /*
+   * Sets the effect
+   */
+  // effect = GetEffect(paramController->GetRawParam(Param::kEffect));
+  currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
+  currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
+  currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
+  currentEffect->SetSlider2(paramController->GetRawParam(Param::kSlider2));
+
   uint32_t systemTime = millis();
 
   /*
@@ -37,31 +53,53 @@ void InterfaceController::DoRun() {
    * Updates beat timing.
    */
   uint8_t setBeat = paramController->GetRawParam(Param::kBeat);
+  bool lastFrameWasBeat = false;  // includes this frame if it lands on the beat
+
+  if (effectTime >= nextBeatTime) {
+    lastBeatTime = nextBeatTime;
+    if (timeSetForNextBeat != 0) {
+      nextBeatTime = timeSetForNextBeat;
+      timeSetForNextBeat = 0;
+    } else {
+      nextBeatTime = lastBeatTime + millisPerBeat;
+    }
+    lastFrameWasBeat = true;
+  }
 
   uint32_t timeSinceLastSetBeat = effectTime - lastSetBeatTime;
   uint32_t beatsSinceLastSet = timeSinceLastSetBeat / millisPerBeat;
   if (lastSetBeat != setBeat) {
     // The beat button was pressed
-    lastSetBeat = setBeat;  // For button toggeling
+    lastSetBeat = setBeat;  // Track button state
     if (beatsSinceLastSet < 4) {
       millisPerBeat = GetUpdatedBeat(timeSinceLastSetBeat);
+    }
+    // If this time is close to the next beat, start beat here
+    if (nextBeatTime - effectTime < MILLIS_PER_RUN_LOOP * 4) {
+      lastFrameWasBeat = true;
+    }
+    if (lastFrameWasBeat) {
+      lastBeatTime = effectTime;
+      nextBeatTime = effectTime + millisPerBeat;
+    } else {
+      // This will be set after this current beat.
+      timeSetForNextBeat = effectTime + 2 * millisPerBeat;
     }
     lastSetBeatTime = effectTime;
   } else if (effectTime - lastSetBeatTime > BEAT_RESET_WAIT_TIME) {
     // A signifanct amount of time has passed since the beat has been set
     // Resets to the default beat over BEATS_TO_RECORD # of beats
+    // Keeping track of the exact beat time does not matter in this situation
+    // Also resets the beats per shift unless it has been recently pressed
     millisPerBeat = GetUpdatedBeat(DEFAULT_MILLIS_PER_BEAT);
-    beatResetCount++;
-    if (beatResetCount == BEATS_TO_RECORD) {
-      lastSetBeatTime = effectTime;
-      beatResetCount = 0;
+    if (beatsSinceLastShift > MAX_BEATS_PER_SHIFT) {
+      beatsPerShift = DEFAULT_BEATS_PER_SHIFT;
     }
-  } else if (beatsSinceLastSet > 4) {
-    // Remove oldest beat from tracking but keeps millisPerBeat
-    GetUpdatedBeat(0);
   }
-  if (millisPerBeat < MIN_MILLIS_PER_BEAT) {
-    millisPerBeat = MIN_MILLIS_PER_BEAT;
+
+  // Adjust the next beat time if isn't past the last beat due to adjustments
+  while (lastBeatTime + MIN_MILLIS_PER_BEAT >= nextBeatTime) {
+    nextBeatTime += millisPerBeat;
   }
 
   /*
@@ -70,79 +108,51 @@ void InterfaceController::DoRun() {
   uint8_t setShift = paramController->GetRawParam(Param::kShift);
   bool loopShift = paramController->GetRawParam(Param::kLoopShift) == 1;
 
-  uint16_t beatsSinceLastShift =
-      GetBeatsOverTime(effectTime - lastShiftTime, millisPerBeat);
-  if (lastSetShift != setShift) {
-    // The shift button was pressed
-    // The shift will occur on the next beat, or this loop if we just missed it
-    doShiftOnNextBeat = true;
+  if (lastFrameWasBeat) {
+    beatsSinceLastShift++;
+  }
 
-    uint16_t beatsSinceLastShiftSet =
-        GetBeatsOverTime(effectTime - lastSetShiftTime, millisPerBeat);
-    if (beatsSinceLastShiftSet > 0 &&
-        beatsSinceLastShiftSet <= MAX_BEATS_PER_SHIFT) {
+  // The shift button was pressed
+  if (lastSetShift != setShift) {
+    lastSetShift = setShift;  // Track button state
+    // The shift will occur on the next beat, or this loop if we just missed it
+    uint16_t timeSinceLastShiftSet = effectTime - lastSetShiftTime;
+    uint8_t beatsSinceLastShiftSet = timeSinceLastShiftSet / millisPerBeat;
+    // Add to the beats if the next beat is close
+    if (timeSinceLastShiftSet % millisPerBeat >
+        millisPerBeat - SET_BEAT_TOLERANCE) {
+      beatsSinceLastShiftSet++;
+    }
+    if (beatsSinceLastShiftSet <= MAX_BEATS_PER_SHIFT) {
       beatsPerShift = beatsSinceLastShiftSet;
-    } else if (beatsSinceLastShift > 0 &&
-               beatsSinceLastShift <= MAX_BEATS_PER_SHIFT) {
+    } else if (beatsSinceLastShift <= MAX_BEATS_PER_SHIFT) {
       beatsPerShift = beatsSinceLastShift;
     } else {
       beatsPerShift = DEFAULT_BEATS_PER_SHIFT;
     }
-
-    lastSetShift = setShift;
+    if (beatsSinceLastShift > 1 || !loopShift) {
+      doShiftOnNextBeat = true;
+    }
     lastSetShiftTime = effectTime;
   }
 
-  uint32_t lastBeatTime = lastSetBeatTime + beatsSinceLastSet * millisPerBeat;
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
-  bool lastFrameWasBeat =
-      lastTimeSinceLastBeat > timeSinceLastBeat &&
-      lastTimeSinceLastBeat - timeSinceLastBeat > millisPerBeat / 2;
-
-  bool doShiftNow = false;
-  if (doShiftOnNextBeat && timeSinceLastBeat < millisPerBeat / 4) {
-    // Shift when shift button is press
-    doShiftNow = true;
+  // This frame is a beat and we're looping, or we set a shit right after a beat
+  if (doShiftOnNextBeat && timeSinceLastBeat < millisPerBeat / 4 ||
+      loopShift && lastFrameWasBeat && beatsSinceLastShift >= beatsPerShift) {
+    currentEffect->Shift();  // Shift needs to be done after updating settings
+    beatsSinceLastShift = 0;
     doShiftOnNextBeat = false;
-  } else if (loopShift && lastFrameWasBeat &&
-             beatsSinceLastShift == beatsPerShift) {
-    // Shift when we are looping
-    doShiftNow = true;
-  }
-  if (doShiftNow) {
-    lastShiftTime = effectTime;
+    // lastShiftTime = lastBeatTime;
   }
 
-  /*
-   * Sets the effect
-   * The frame of this given beat is timeSinceLastBeat / millisPerBeat
-   * The effect should not be updated if this frame is now before the previous
-   * do to timing changes.
-   */
-  bool lastFrameWasSmaller = lastTimeSinceLastBeat * millisPerBeat <
-                             timeSinceLastBeat * lastMillisPerBeat;
-  if (lastFrameWasBeat || lastFrameWasSmaller) {
-    // InterfaceEffect* effect = new InterfaceEffect(poles);
-    // InterfaceEffect effect =
-    // GetEffect(paramController->GetRawParam(Param::kEffect));
-    // effect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
-    // effect->SetOption1(paramController->GetRawParam(Param::kOption2) == 1);
-    // effect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
-    // effect->SetSlider2(paramController->GetRawParam(Param::kSlider2));
-    // effect->SetShift(doShiftNow);
-
-    if (doShiftNow) {
-      shiftI++;
-    }
-    poles[0]->SetGridLight(
-        shiftI % 4, 1,
-        CHSV(0, 255, 255 - 255 * timeSinceLastBeat / millisPerBeat));
-    poles[0]->SetGridLight((shiftI + 4 - 1) % 4, 1, CHSV(0, 255, 0));
+  for (int i = 0; i < Pole::kNumPoles; i++) {
+    poles[i]->ClearGridLights();
   }
-  lastTimeSinceLastBeat = timeSinceLastBeat;
-  lastMillisPerBeat = millisPerBeat;
+  uint16_t interval = nextBeatTime - lastBeatTime;
+  currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
 
-  SleepMs(20);
+  SleepMs(MILLIS_PER_RUN_LOOP);
 }
 
 /*
@@ -162,14 +172,24 @@ uint16_t InterfaceController::GetBeatsOverTime(uint32_t elapsedTime,
  * Keeps track of a certain amount of beats and returns the average.
  */
 uint32_t InterfaceController::GetUpdatedBeat(uint16_t timeSinceLastBeat) {
-  beatTrackingTime += timeSinceLastBeat;
-  if (timeSinceLastBeat != 0) {
-    beatQueue.push(timeSinceLastBeat);
+  if (timeSinceLastBeat < MIN_MILLIS_PER_BEAT) {
+    timeSinceLastBeat = MIN_MILLIS_PER_BEAT;
+  } else if (timeSinceLastBeat > MAX_MILLIS_PER_BEAT) {
+    timeSinceLastBeat = MAX_MILLIS_PER_BEAT;
   }
+  beatTrackingTime += timeSinceLastBeat;
+  beatQueue.push(timeSinceLastBeat);
   if ((beatQueue.size() > BEATS_TO_RECORD || timeSinceLastBeat == 0) &&
       beatQueue.size() > 0) {
     beatTrackingTime -= beatQueue.front();
     beatQueue.pop();
   }
   return beatTrackingTime / beatQueue.size();
+}
+
+void InterfaceController::ResetBeatQueue() {
+  while (beatQueue.size() > 0) {
+    beatQueue.pop();
+  }
+  beatTrackingTime = 0;
 }
