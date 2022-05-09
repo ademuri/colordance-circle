@@ -356,7 +356,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "square.kicad_pro",
+    "filename": "heart.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -390,7 +390,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "heart.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
