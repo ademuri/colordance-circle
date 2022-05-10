@@ -3,6 +3,10 @@
 
 #include <vector>
 
+// Behavior flags
+const constexpr bool kDebugFlashAtBoot = true;
+
+
 // Buttons
 const int kButton1 = 2;
 const int kButton2 = 3;
@@ -41,8 +45,31 @@ const std::vector<int> analog_inputs = {
 
 // FastLED Teensy 4.1 parallel output pin strings:
 // [1, 0, 24, 25, 19, 18, 14, 15, 17, 16, 22, 23,] 20, 21, 26, 27
-// 10, 12, 11, 13, [6, 9, 32, 8, 7]
+// 10, 12, 11, 13, [6, 9, 32, 8,] 7
 // 37, 36, 35, 34, 39, 38, 28, 31, 30
+
+/*
+Index  LED_number
+Bank 1:
+ 0  1
+ 1  2
+ 2 14
+ 3 15
+ 4  7
+ 5  8
+ 6 12
+ 7 11
+ 8  9
+ 9 10
+10  6
+11  5
+
+Bank 2:
+0  3
+1 13
+2 16
+3  4
+*/
 
 const int kMaxLedsPerStrip = 15;
 const int kStripsPerBank1 = 12;
@@ -53,6 +80,18 @@ const int kBank2FirstPin = 6;
 
 CRGB bank1[kMaxLedsPerStrip * kStripsPerBank1];
 CRGB bank2[kMaxLedsPerStrip * kStripsPerBank2];
+
+CRGB* getStrip(CRGB *const bank, const int index) {
+  return &bank[index * kMaxLedsPerStrip];
+}
+
+// LED strips in numeric order - e.g. LED1, LED2, etc.
+std::vector<CRGB*> strips = {
+  getStrip(bank1, 0), getStrip(bank1, 1), getStrip(bank2, 0), getStrip(bank2, 3),
+  getStrip(bank1, 11), getStrip(bank1, 10), getStrip(bank1, 4), getStrip(bank1, 5),
+  getStrip(bank1, 8), getStrip(bank1, 9), getStrip(bank1, 7), getStrip(bank1, 6),
+  getStrip(bank2, 1), getStrip(bank1, 2), getStrip(bank1, 3), getStrip(bank2, 2),
+};
 
 SPISlave_T4<&SPI, SPI_8_BITS> spi_out;
 
@@ -72,6 +111,19 @@ void setup() {
       bank1, kStripsPerBank1);
   FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, RGB>(
       bank2, kStripsPerBank2);
+  FastLED.clear();
+  // colordance-brain power supply can source 1A at 5V. Leave lots of margin for its load (the RS422 is power-hungry).
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
+
+  if (kDebugFlashAtBoot) {
+    // Quickly flash all of the controls R, G, B. This facilitates checking that all LEDS work on startup.
+    FastLED.showColor(CRGB(255, 0, 0));
+    FastLED.delay(1000);
+    FastLED.showColor(CRGB(0, 255, 0));
+    FastLED.delay(1000);
+    FastLED.showColor(CRGB(0, 0, 255));
+    FastLED.delay(1000);
+  }
 
   Serial.println("Local assets initialized. Beginning SPI communication...");
 
