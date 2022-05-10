@@ -1,6 +1,7 @@
 #include <FastLED.h>
 #include <SPISlave_T4.h>
 #include <debounce-filter.h>
+#include <median-filter.h>
 
 #include <vector>
 
@@ -49,10 +50,12 @@ const int kAnalog6 = 21;
 const int kAnalog7 = 39;
 const int kAnalog8 = 27;
 
-const std::vector<int> analog_inputs = {
+const std::vector<int> ANALOG_INPUT_PINS = {
     kAnalog1, kAnalog2, kAnalog3, kAnalog4,
     kAnalog5, kAnalog6, kAnalog7, kAnalog8,
 };
+
+std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
 
 // FastLED Teensy 4.1 parallel output pin strings:
 // [1, 0, 24, 25, 19, 18, 14, 15, 17, 16, 22, 23,] 20, 21, 26, 27
@@ -130,8 +133,9 @@ void setup() {
     button_rose.push_back(false);
   }
 
-  for (auto analog_pin : analog_inputs) {
+  for (auto analog_pin : ANALOG_INPUT_PINS) {
     pinMode(analog_pin, INPUT);
+    analog_inputs.push_back(MedianFilter<uint16_t, uint16_t, 3>(filter_functions::ForAnalogReadDynamic(analog_pin)));
   }
 
   // Controls only use 8 bits of resolution
@@ -205,9 +209,9 @@ void debugControls() {
   }
 
   // Analog inputs
-  for (uint8_t analog_index = 0; analog_index < analog_inputs.size();
+  for (uint8_t analog_index = 0; analog_index < ANALOG_INPUT_PINS.size();
        analog_index++) {
-    uint16_t input = analogRead(analog_inputs[analog_index]);
+    uint16_t input = analogRead(ANALOG_INPUT_PINS[analog_index]);
     // Range from dark red to bright white
     CHSV color = CHSV(HUE_RED, 255 - input, input);
     for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
