@@ -6,6 +6,13 @@
 // Behavior flags
 const constexpr bool kDebugFlashAtBoot = true;
 
+enum class RunType {
+  NORMAL,
+  DEBUG_LIGHTS,
+  DEBUG_CONTROLS,
+};
+
+const constexpr RunType run_mode = RunType::NORMAL;
 
 // Buttons
 const int kButton1 = 2;
@@ -81,17 +88,29 @@ const int kBank2FirstPin = 6;
 CRGB bank1[kMaxLedsPerStrip * kStripsPerBank1];
 CRGB bank2[kMaxLedsPerStrip * kStripsPerBank2];
 
-CRGB* getStrip(CRGB *const bank, const int index) {
+CRGB* getStrip(CRGB* const bank, const int index) {
   return &bank[index * kMaxLedsPerStrip];
 }
 
-// LED strips in numeric order - e.g. LED1, LED2, etc.
+// LED strips matching the order of the buttons, then the analog inputs, based on their positions on the PCB.
+// clang-format off
 std::vector<CRGB*> strips = {
-  getStrip(bank1, 0), getStrip(bank1, 1), getStrip(bank2, 0), getStrip(bank2, 3),
-  getStrip(bank1, 11), getStrip(bank1, 10), getStrip(bank1, 4), getStrip(bank1, 5),
-  getStrip(bank1, 8), getStrip(bank1, 9), getStrip(bank1, 7), getStrip(bank1, 6),
-  getStrip(bank2, 1), getStrip(bank1, 2), getStrip(bank1, 3), getStrip(bank2, 2),
+    getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
+    getStrip(bank1,  1), getStrip(bank1, 10), getStrip(bank1,  9), getStrip(bank1,  2),
+    getStrip(bank2,  0), getStrip(bank1,  4), getStrip(bank1,  7), getStrip(bank1,  3),
+    getStrip(bank2,  3), getStrip(bank1,  5), getStrip(bank1,  6), getStrip(bank2,  2),
+
+    // Original, in LED_1, LED_2, etc. order
+    /*
+    getStrip(bank1, 0), getStrip(bank1, 1),  getStrip(bank2, 0),
+    getStrip(bank2, 3), getStrip(bank1, 11), getStrip(bank1, 10),
+    getStrip(bank1, 4), getStrip(bank1, 5),  getStrip(bank1, 8),
+    getStrip(bank1, 9), getStrip(bank1, 7),  getStrip(bank1, 6),
+    getStrip(bank2, 1), getStrip(bank1, 2),  getStrip(bank1, 3),
+    getStrip(bank2, 2),
+    */
 };
+// clang-format on
 
 SPISlave_T4<&SPI, SPI_8_BITS> spi_out;
 
@@ -112,11 +131,13 @@ void setup() {
   FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, RGB>(
       bank2, kStripsPerBank2);
   FastLED.clear();
-  // colordance-brain power supply can source 1A at 5V. Leave lots of margin for its load (the RS422 is power-hungry).
+  // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
+  // its load (the RS422 is power-hungry).
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-
+  
   if (kDebugFlashAtBoot) {
-    // Quickly flash all of the controls R, G, B. This facilitates checking that all LEDS work on startup.
+    // Quickly flash all of the controls R, G, B. This facilitates checking that
+    // all LEDS work on startup.
     FastLED.showColor(CRGB(255, 0, 0));
     FastLED.delay(1000);
     FastLED.showColor(CRGB(0, 255, 0));
@@ -134,13 +155,63 @@ void setup() {
 }
 
 void loop() {
-  // TODO: read sensors
-  // TODO: output LEDs
+  
+
+  switch (run_mode) {
+    case RunType::NORMAL:
+      // TODO: read sensors
+      // TODO: output LEDs
+      break;
+
+    case RunType::DEBUG_CONTROLS:
+      debugControls();
+      break;
+
+    case RunType::DEBUG_LIGHTS:
+      debugLights();
+      break;
+  }
+}
+
+void debugControls() {
+  // Buttons
+  for (uint8_t button_index = 0; button_index < buttons.size(); button_index++) {
+    CRGB color = digitalRead(buttons[button_index]) ? CHSV(HUE_RED, 255, 16) : CHSV(HUE_BLUE, 255, 255);
+    for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
+      strips[button_index][light_index] = color;
+    }
+  }
+
+  // Analog inputs
+  for (uint8_t analog_index = 0; analog_index < analog_inputs.size(); analog_index++) {
+    uint16_t input = analogRead(analog_inputs[analog_index]) >> 2;
+    // Range from dark red to bright white
+    CHSV color = CHSV(HUE_RED, 255 - input, input);
+    for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
+      strips[analog_index + buttons.size()][light_index] = color;
+    }
+  }
+
+  FastLED.show();
+  delay(10);
+}
+
+// Flash the lights RED, GREEN, BLUE
+void debugLights() {
+  CRGB color = CRGB(255, 0, 0);
+  if ((millis() / 1000) % 3 == 1) {
+    color = CRGB(0, 255, 0);
+  } else if ((millis() / 1000) % 3 == 2) {
+    color = CRGB(0, 0, 255);
+  } 
+  FastLED.showColor(color);
+  delay(10);
 }
 
 void onReceive() {
   // TODO: send sensor data
-  // Note: SPI is full-duplex. The controller (colordance-brain) writes out one byte at a time, and the peripheral (us) simultaneously writes data back.
+  // Note: SPI is full-duplex. The controller (colordance-brain) writes out one
+  // byte at a time, and the peripheral (us) simultaneously writes data back.
   while (spi_out.active()) {
     if (spi_out.available()) {
       spi_out.pushr(0);
