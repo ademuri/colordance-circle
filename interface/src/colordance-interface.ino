@@ -1,5 +1,6 @@
 #include <FastLED.h>
 #include <SPISlave_T4.h>
+#include <debounce-filter.h>
 
 #include <vector>
 
@@ -30,10 +31,13 @@ const int kButton12 = 36;
 const int kButton13 = 37;
 const int kButton14 = 34;
 
-const std::vector<int> buttons = {
+const std::vector<int> BUTTON_PINS = {
     kButton1, kButton2, kButton3,  kButton4,  kButton5,  kButton6,  kButton7,
     kButton8, kButton9, kButton10, kButton11, kButton12, kButton13, kButton14,
 };
+
+std::vector<DebounceFilter> buttons;
+std::vector<bool> button_rose;
 
 // Analog inputs
 const int kAnalog1 = 38;
@@ -92,7 +96,8 @@ CRGB* getStrip(CRGB* const bank, const int index) {
   return &bank[index * kMaxLedsPerStrip];
 }
 
-// LED strips matching the order of the buttons, then the analog inputs, based on their positions on the PCB.
+// LED strips matching the order of the buttons, then the analog inputs, based
+// on their positions on the PCB.
 // clang-format off
 std::vector<CRGB*> strips = {
     getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
@@ -118,13 +123,19 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Booting...");
 
-  for (auto button_pin : buttons) {
+  for (auto button_pin : BUTTON_PINS) {
     pinMode(button_pin, INPUT_PULLUP);
+    buttons.push_back(DebounceFilter(
+        filter_functions::ForInvertedDigitalReadDynamic(button_pin)));
+    button_rose.push_back(false);
   }
 
   for (auto analog_pin : analog_inputs) {
     pinMode(analog_pin, INPUT);
   }
+
+  // Controls only use 8 bits of resolution
+  analogReadResolution(8);
 
   FastLED.addLeds<kStripsPerBank1, WS2812, kBank1FirstPin, RGB>(
       bank1, kStripsPerBank1);
@@ -134,7 +145,7 @@ void setup() {
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  
+
   if (kDebugFlashAtBoot) {
     // Quickly flash all of the controls R, G, B. This facilitates checking that
     // all LEDS work on startup.
@@ -155,11 +166,9 @@ void setup() {
 }
 
 void loop() {
-  
-
   switch (run_mode) {
     case RunType::NORMAL:
-      // TODO: read sensors
+      readControls();
       // TODO: output LEDs
       break;
 
@@ -173,22 +182,36 @@ void loop() {
   }
 }
 
+void readControls() {
+  for (uint8_t button_index = 0; button_index < buttons.size();
+       button_index++) {
+    buttons[button_index].Run();
+    if (buttons[button_index].Rose()) {
+      button_rose[button_index] = true;
+    }
+  }
+}
+
 void debugControls() {
   // Buttons
-  for (uint8_t button_index = 0; button_index < buttons.size(); button_index++) {
-    CRGB color = digitalRead(buttons[button_index]) ? CHSV(HUE_RED, 255, 16) : CHSV(HUE_BLUE, 255, 255);
+  for (uint8_t button_index = 0; button_index < BUTTON_PINS.size();
+       button_index++) {
+    CRGB color = digitalRead(BUTTON_PINS[button_index])
+                     ? CHSV(HUE_RED, 255, 16)
+                     : CHSV(HUE_BLUE, 255, 255);
     for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
       strips[button_index][light_index] = color;
     }
   }
 
   // Analog inputs
-  for (uint8_t analog_index = 0; analog_index < analog_inputs.size(); analog_index++) {
-    uint16_t input = analogRead(analog_inputs[analog_index]) >> 2;
+  for (uint8_t analog_index = 0; analog_index < analog_inputs.size();
+       analog_index++) {
+    uint16_t input = analogRead(analog_inputs[analog_index]);
     // Range from dark red to bright white
     CHSV color = CHSV(HUE_RED, 255 - input, input);
     for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
-      strips[analog_index + buttons.size()][light_index] = color;
+      strips[analog_index + BUTTON_PINS.size()][light_index] = color;
     }
   }
 
@@ -203,7 +226,7 @@ void debugLights() {
     color = CRGB(0, 255, 0);
   } else if ((millis() / 1000) % 3 == 2) {
     color = CRGB(0, 0, 255);
-  } 
+  }
   FastLED.showColor(color);
   delay(10);
 }
