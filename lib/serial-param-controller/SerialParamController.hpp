@@ -11,7 +11,7 @@ class SerialParamController : public ParamController {
 
   void Tick();
 
-  uint8_t GetRawParam(Param param);
+  uint8_t GetRawParam(Param param) override;
 
  private:
   std::vector<uint8_t> params =

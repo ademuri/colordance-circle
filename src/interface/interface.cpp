@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#include "debug.h"
+
 // Behavior flags
 const constexpr bool kDebugFlashAtBoot = true;
 
@@ -123,17 +125,35 @@ std::vector<CRGB*> strips = {
 
 SPISlave_T4<&SPI, SPI_8_BITS> spi_out;
 
+// Writes out the button bitmask and analog input values to SPI
 void onReceive() {
-  // TODO: send sensor data
-  // Note: SPI is full-duplex. The controller (colordance-brain) writes out one
-  // byte at a time, and the peripheral (us) simultaneously writes data back.
-  while (spi_out.active()) {
-    if (spi_out.available()) {
-      spi_out.pushr(0);
-      Serial.print(spi_out.popr());
-    }
+  if (!spi_out.active()) {
+    debug_printf("onReceive called, but received 0 bytes");
+    return;
   }
-  Serial.println();
+  uint8_t buttons_bitmask = 0;
+  for (uint8_t button_index = 0; button_index < 8; button_index++) {
+    buttons_bitmask |= button_rose[button_index] << 7 - button_index;
+  }
+  spi_out.pushr(buttons_bitmask);
+
+  if (!spi_out.active()) {
+    debug_printf("onReceive called, but only received 1 bytes");
+    return;
+  }
+  for (uint8_t button_index = 8; button_index < buttons.size();
+       button_index++) {
+    buttons_bitmask |= button_rose[button_index] << 16 - button_index;
+  }
+  spi_out.pushr(buttons_bitmask);
+
+  for (uint8_t i = 0; i < analog_inputs.size(); i++) {
+    if (!spi_out.active()) {
+      debug_printf("onReceive called, but only received %u bytes", i + 2);
+      return;
+    }
+    spi_out.pushr(analog_inputs[i].GetFilteredValue());
+  }
 }
 
 void setup() {
