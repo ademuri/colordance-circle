@@ -13,5 +13,3 @@ void InterfaceEffect::SetSlider1(uint8_t val) { slider1 = val; }
 void InterfaceEffect::SetSlider2(uint8_t val) { slider2 = val; }
 
 void InterfaceEffect::SetShift(bool doShift) { shift = doShift; }
-
-void InterfaceEffect::Run(uint16_t timeSinceLastBeat, uint16_t millisPerBeat) {}

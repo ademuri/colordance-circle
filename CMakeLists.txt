@@ -19,7 +19,7 @@ FetchContent_MakeAvailable(fake-fast-led)
 
 FetchContent_Declare(googletest
     GIT_REPOSITORY      https://github.com/google/googletest.git
-    GIT_TAG             master
+    GIT_TAG             main
 )
 FetchContent_MakeAvailable(googletest)
 

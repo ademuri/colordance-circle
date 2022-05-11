@@ -3,15 +3,9 @@
 #include <map>
 #include <string>
 
-#include "BrightDarkEffect.hpp"
-#include "ColorCycleEffect.hpp"
-#include "CrossEffect.hpp"
 #include "DummyParamController.hpp"
 #include "Effect.hpp"
-#include "FlashEffect.hpp"
-#include "MiniCircleEffect.hpp"
 #include "Pole.hpp"
-#include "RotateThreeEffect.hpp"
 #include "gtest/gtest.h"
 
 std::vector<Pole*> CreatePoles() {
@@ -25,12 +19,7 @@ std::vector<Pole*> CreatePoles() {
 std::map<Effect*, std::string> CreateEffects(std::vector<Pole*> poles) {
   DummyParamController* paramController = new DummyParamController();
   return {
-      {new BrightDarkEffect(poles, paramController), "BrightDark"},
-      {new ColorCycleEffect(poles, paramController), "ColorCycle"},
-      {new CrossEffect(poles, paramController), "Cross"},
-      {new FlashEffect(poles, paramController), "Flash"},
-      {new MiniCircleEffect(poles, paramController), "MiniCircle"},
-      {new RotateThreeEffect(poles, paramController), "RotateThree"},
+      //{new ColorCycleEffect(poles, paramController), "ColorCycle"},
   };
 }
 
