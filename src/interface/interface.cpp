@@ -56,6 +56,7 @@ const std::vector<int> ANALOG_INPUT_PINS = {
 };
 
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
+std::vector<uint16_t> prev_analog_inputs;
 
 // FastLED Teensy 4.1 parallel output pin strings:
 // [1, 0, 24, 25, 19, 18, 14, 15, 17, 16, 22, 23,] 20, 21, 26, 27
@@ -122,6 +123,19 @@ std::vector<CRGB*> strips = {
 
 SPISlave_T4<&SPI, SPI_8_BITS> spi_out;
 
+void onReceive() {
+  // TODO: send sensor data
+  // Note: SPI is full-duplex. The controller (colordance-brain) writes out one
+  // byte at a time, and the peripheral (us) simultaneously writes data back.
+  while (spi_out.active()) {
+    if (spi_out.available()) {
+      spi_out.pushr(0);
+      Serial.print(spi_out.popr());
+    }
+  }
+  Serial.println();
+}
+
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting...");
@@ -135,7 +149,9 @@ void setup() {
 
   for (auto analog_pin : ANALOG_INPUT_PINS) {
     pinMode(analog_pin, INPUT);
-    analog_inputs.push_back(MedianFilter<uint16_t, uint16_t, 3>(filter_functions::ForAnalogReadDynamic(analog_pin)));
+    analog_inputs.push_back(MedianFilter<uint16_t, uint16_t, 3>(
+        filter_functions::ForAnalogReadDynamic(analog_pin)));
+    prev_analog_inputs.push_back(analogRead(analog_pin));
   }
 
   // Controls only use 8 bits of resolution
@@ -169,23 +185,6 @@ void setup() {
   Serial.println("SPI started successfully");
 }
 
-void loop() {
-  switch (run_mode) {
-    case RunType::NORMAL:
-      readControls();
-      // TODO: output LEDs
-      break;
-
-    case RunType::DEBUG_CONTROLS:
-      debugControls();
-      break;
-
-    case RunType::DEBUG_LIGHTS:
-      debugLights();
-      break;
-  }
-}
-
 void readControls() {
   for (uint8_t button_index = 0; button_index < buttons.size();
        button_index++) {
@@ -193,6 +192,10 @@ void readControls() {
     if (buttons[button_index].Rose()) {
       button_rose[button_index] = true;
     }
+  }
+
+  for (auto filter : analog_inputs) {
+    filter.Run();
   }
 }
 
@@ -235,15 +238,19 @@ void debugLights() {
   delay(10);
 }
 
-void onReceive() {
-  // TODO: send sensor data
-  // Note: SPI is full-duplex. The controller (colordance-brain) writes out one
-  // byte at a time, and the peripheral (us) simultaneously writes data back.
-  while (spi_out.active()) {
-    if (spi_out.available()) {
-      spi_out.pushr(0);
-      Serial.print(spi_out.popr());
-    }
+void loop() {
+  switch (run_mode) {
+    case RunType::NORMAL:
+      readControls();
+      // TODO: output LEDs
+      break;
+
+    case RunType::DEBUG_CONTROLS:
+      debugControls();
+      break;
+
+    case RunType::DEBUG_LIGHTS:
+      debugLights();
+      break;
   }
-  Serial.println();
 }
