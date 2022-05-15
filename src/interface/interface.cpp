@@ -16,7 +16,7 @@ enum class RunType {
   DEBUG_CONTROLS,
 };
 
-const constexpr RunType run_mode = RunType::NORMAL;
+const constexpr RunType run_mode = RunType::DEBUG_CONTROLS;
 
 // Buttons
 const int kButton1 = 2;
@@ -44,7 +44,7 @@ std::vector<bool> button_rose;
 
 // Analog inputs
 const int kAnalog1 = 38;
-const int kAnalog2 = 30;
+const int kAnalog2 = 20;
 const int kAnalog3 = 40;
 const int kAnalog4 = 41;
 const int kAnalog5 = 26;
@@ -177,32 +177,37 @@ void setup() {
   // Controls only use 8 bits of resolution
   analogReadResolution(8);
 
-  FastLED.addLeds<kStripsPerBank1, WS2812, kBank1FirstPin, RGB>(
-      bank1, kStripsPerBank1);
-  FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, RGB>(
-      bank2, kStripsPerBank2);
+  Serial.println("Pins initialized");
+
+  FastLED.addLeds<kStripsPerBank1, WS2812, kBank1FirstPin, GRB>(
+      bank1, kMaxLedsPerStrip);
+  FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, GRB>(
+      bank2, kMaxLedsPerStrip);
   FastLED.clear();
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
 
+  Serial.println("FastLED initialized");
+  delay(100);
+
   if (kDebugFlashAtBoot) {
     // Quickly flash all of the controls R, G, B. This facilitates checking that
     // all LEDS work on startup.
     FastLED.showColor(CRGB(255, 0, 0));
-    FastLED.delay(1000);
+    delay(100);
     FastLED.showColor(CRGB(0, 255, 0));
-    FastLED.delay(1000);
+    delay(100);
     FastLED.showColor(CRGB(0, 0, 255));
-    FastLED.delay(1000);
+    delay(100);
   }
 
   Serial.println("Local assets initialized. Beginning SPI communication...");
 
-  spi_out.begin();
-  spi_out.onReceive(onReceive);
-
-  Serial.println("SPI started successfully");
+  // TODO: this hangs, possibly because no SPI is connected so CS is ??
+  //spi_out.begin();
+  //spi_out.onReceive(onReceive);
+  //Serial.println("SPI started successfully");
 }
 
 void readControls() {
@@ -220,25 +225,32 @@ void readControls() {
 }
 
 void debugControls() {
+  const uint8_t kButtons = 12;
   // Buttons
-  for (uint8_t button_index = 0; button_index < BUTTON_PINS.size();
+  for (uint8_t button_index = 0; button_index < kButtons;
        button_index++) {
-    CRGB color = digitalRead(BUTTON_PINS[button_index])
-                     ? CHSV(HUE_RED, 255, 16)
-                     : CHSV(HUE_BLUE, 255, 255);
+    bool button_pressed = !digitalRead(BUTTON_PINS[button_index]);
+    CRGB color = button_pressed
+                     ? CHSV(HUE_BLUE, 255, 255)
+                     : CHSV(HUE_RED, 255, 255);
     for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
       strips[button_index][light_index] = color;
     }
   }
+  FastLED.show();
 
   // Analog inputs
   for (uint8_t analog_index = 0; analog_index < ANALOG_INPUT_PINS.size();
        analog_index++) {
+    uint8_t strip_index = analog_index + kButtons;
+    if (strip_index >= strips.size()) {
+      continue;
+    }
     uint16_t input = analogRead(ANALOG_INPUT_PINS[analog_index]);
     // Range from dark red to bright white
     CHSV color = CHSV(HUE_RED, 255 - input, input);
     for (int light_index = 0; light_index < kMaxLedsPerStrip; light_index++) {
-      strips[analog_index + BUTTON_PINS.size()][light_index] = color;
+      strips[strip_index][light_index] = color;
     }
   }
 

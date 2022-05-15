@@ -3,6 +3,8 @@
 #include <cstdarg>
 #include <cstdio>
 
+#define DEBUG 1
+
 #if DEBUG
 #ifdef ARDUINO
 #include "Arduino.h"
