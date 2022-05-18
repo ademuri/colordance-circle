@@ -1,12 +1,12 @@
-%TF.GenerationSoftware,KiCad,Pcbnew,6.0.4-6f826c9f35~116~ubuntu20.04.1*%
-%TF.CreationDate,2022-04-30T09:47:03-06:00*%
+%TF.GenerationSoftware,KiCad,Pcbnew,6.0.5-a6ca702e91~116~ubuntu20.04.1*%
+%TF.CreationDate,2022-05-17T22:14:20-06:00*%
 %TF.ProjectId,button-holder,62757474-6f6e-42d6-986f-6c6465722e6b,rev?*%
 %TF.SameCoordinates,Original*%
 %TF.FileFunction,Soldermask,Top*%
 %TF.FilePolarity,Negative*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 6.0.4-6f826c9f35~116~ubuntu20.04.1) date 2022-04-30 09:47:03*
+G04 Created by KiCad (PCBNEW 6.0.5-a6ca702e91~116~ubuntu20.04.1) date 2022-05-17 22:14:20*
 %MOMM*%
 %LPD*%
 G01*
@@ -19,9 +19,9 @@ G04 APERTURE LIST*
 G04 APERTURE END LIST*
 D10*
 %TO.C,SW1*%
-X91900000Y-48750000D03*
-X96900000Y-48750000D03*
 X96900000Y-61250000D03*
+X96900000Y-48750000D03*
+X91900000Y-48750000D03*
 X91900000Y-61250000D03*
 D11*
 X98900000Y-55000000D03*
