@@ -1,17 +1,17 @@
-#include "InterfaceEffect1.hpp"
+#include "SideToSide.hpp"
 
 #include "ColordanceTypes.hpp"
 
-InterfaceEffect1::InterfaceEffect1() : InterfaceEffect() {
+SideToSide::SideToSide() : InterfaceEffect() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    ControlPole* pole = new ControlPole(i, FRAMES_PER_LOOP);
+    ControlPole* pole = new ControlPole(FRAMES_PER_LOOP);
     pole->SetBackAndForth(true);
     pole->SetSmoothColor(true);
     controlPoles.push_back(pole);
   }
 }
 
-void InterfaceEffect1::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
+void SideToSide::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     std::vector<std::vector<CHSV>> grid =
         controlPoles[pole]->GetGrid(frame, lastFrame);  // Update all grids
@@ -23,7 +23,7 @@ void InterfaceEffect1::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
   lastFrame = frame;
 }
 
-void InterfaceEffect1::UpdateOption1() {
+void SideToSide::UpdateOption1() {
   modeIndex++;
   modeIndex %= sizeof(modes);
   for (int i = 0; i < Pole::kNumPoles; i++) {
@@ -33,12 +33,12 @@ void InterfaceEffect1::UpdateOption1() {
   SetBackAndForth();
 }
 
-void InterfaceEffect1::UpdateOption2() {
+void SideToSide::UpdateOption2() {
   backAndForth = !backAndForth;
   SetBackAndForth();
 }
 
-void InterfaceEffect1::SetBackAndForth() {
+void SideToSide::SetBackAndForth() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i]->SetBackAndForth(backAndForth);
   }
@@ -47,7 +47,7 @@ void InterfaceEffect1::SetBackAndForth() {
 /**
  * Change the number of poles on.
  */
-void InterfaceEffect1::UpdateSlider1(uint8_t val) {
+void SideToSide::UpdateSlider1(uint8_t val) {
   uint8_t newNumOfPolesOn = 1 + val / 51;
   if (newNumOfPolesOn + poleOffset >= Pole::kNumPoles) {
     poleOffset = Pole::kNumPoles - newNumOfPolesOn;
@@ -58,7 +58,7 @@ void InterfaceEffect1::UpdateSlider1(uint8_t val) {
   }
 }
 
-void InterfaceEffect1::UpdateHues() {
+void SideToSide::UpdateHues() {
   uint8_t poleHueDifference = 255 / numOfPolesOn;
   uint8_t polesOnCount = 0;
   for (int i = 0; i < numOfPolesOn; i++) {
@@ -67,16 +67,22 @@ void InterfaceEffect1::UpdateHues() {
 }
 
 /**
- * Chages the huge distance
+ * Chages the hue distance
  */
-void InterfaceEffect1::UpdateSlider2(uint8_t val) {
+void SideToSide::UpdateSlider2(uint8_t val) {
   uint8_t hueDistance = val / 4;
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i]->SetHueDistance(hueDistance);
   }
 }
 
-void InterfaceEffect1::DoShift() {
+void SideToSide::DoShift(uint8_t shiftPosition) {
+  if (shiftPosition != 0) {
+    return;
+  }
+  for (ControlPole* pole : controlPoles) {
+    pole->ResetFade();
+  }
   if (numOfPolesOn == Pole::kNumPoles) {
     return;
   }
@@ -84,7 +90,16 @@ void InterfaceEffect1::DoShift() {
       !goBackwards && poleOffset == Pole::kNumPoles - numOfPolesOn) {
     goBackwards = !goBackwards;
   }
+  if (smoothPoleShift && numOfPolesOn > 1) {
+    if (goBackwards) {
+      controlPoles[0]->FadeIn(600);
+      controlPoles[numOfPolesOn - 1]->FadeOut(600);
+    } else {
+      controlPoles[numOfPolesOn - 1]->FadeIn(600);
+      controlPoles[0]->FadeOut(600);
+    }
+  }
   poleOffset += goBackwards ? -1 : 1;
 }
 
-void InterfaceEffect1::Reset() { poleOffset = 0; }
+void SideToSide::Reset() { poleOffset = 0; }

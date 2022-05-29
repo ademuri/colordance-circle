@@ -1,16 +1,16 @@
-#ifndef INTERFACE_EFFECT_1_HPP_
-#define INTERFACE_EFFECT_1_HPP_
+#ifndef HUE_POLES_HPP_
+#define HUE_POLES_HPP_
 
 #include <vector>
 
 #include "ColordanceTypes.hpp"
-#include "InterfaceEffect.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
+#include "interface/InterfaceEffect.hpp"
 
-class InterfaceEffect1 : public InterfaceEffect {
+class HuePoles : public InterfaceEffect {
  public:
-  InterfaceEffect1();
+  SideToSide();
 
  protected:
   void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) override;
@@ -18,7 +18,7 @@ class InterfaceEffect1 : public InterfaceEffect {
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
   void UpdateSlider2(uint8_t val) override;
-  void DoShift() override;
+  void DoShift(uint8_t shiftPosition) override;
   void Reset() override;
 
  private:
@@ -35,6 +35,7 @@ class InterfaceEffect1 : public InterfaceEffect {
   uint8_t modeIndex = 0;
   uint8_t numOfPolesOn = 1;
   bool backAndForth = true;
+  bool smoothPoleShift = true;
 };
 
 #endif

@@ -8,7 +8,7 @@
 
 class ControlPoleEffectCircle : public ControlPoleEffect {
  public:
-  ControlPoleEffectCircle(uint16_t framesPerLoop);
+  ControlPoleEffectCircle();
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;

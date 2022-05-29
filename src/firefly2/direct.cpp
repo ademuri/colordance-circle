@@ -1,5 +1,5 @@
 #include <ColordanceTypes.hpp>
-#include <InterfaceController.hpp>
+#include <Interface/InterfaceController.hpp>
 
 #include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"

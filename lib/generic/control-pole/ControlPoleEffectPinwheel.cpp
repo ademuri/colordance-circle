@@ -1,11 +1,10 @@
-#include "ControlPoleEffectTwinkle.hpp"
+#include "ControlPoleEffectPinwheel.hpp"
 
-ControlPoleEffectTwinkle::ControlPoleEffectTwinkle(uint16_t framesPerLoop)
-    : ControlPoleEffect(framesPerLoop) {}
+ControlPoleEffectPinwheel::ControlPoleEffectPinwheel() : ControlPoleEffect() {}
 
-uint8_t ControlPoleEffectTwinkle::GetShiftsPerLoop() { return 12; }
+uint8_t ControlPoleEffectPinwheel::GetShiftsPerLoop() { return 12; }
 
-void ControlPoleEffectTwinkle::DoSetGrid(uint8_t shiftIndex) {
+void ControlPoleEffectPinwheel::DoSetGrid(uint8_t shiftIndex) {
   grid_lights[GetBigSquare(shiftIndex)][GetBigSquare(12 - shiftIndex)] =
       CHSV(currentHue + GetHueDistance(hueDistance, 0, 4), baseSat, baseVal);
   grid_lights[GetLittleSquare(shiftIndex)][GetLittleSquare(12 - shiftIndex)] =
@@ -33,14 +32,15 @@ void ControlPoleEffectTwinkle::DoSetGrid(uint8_t shiftIndex) {
   }
 }
 
-uint8_t ControlPoleEffectTwinkle::GetBigSquare(uint8_t shiftIndex) {
+uint8_t ControlPoleEffectPinwheel::GetBigSquare(uint8_t shiftIndex) {
   shiftIndex %= 12;
-  return shiftIndex < 4
-             ? shiftIndex
-             : shiftIndex < 7 ? 3 : shiftIndex < 10 ? 9 - shiftIndex : 0;
+  return shiftIndex < 4    ? shiftIndex
+         : shiftIndex < 7  ? 3
+         : shiftIndex < 10 ? 9 - shiftIndex
+                           : 0;
 }
 
-uint8_t ControlPoleEffectTwinkle::GetLittleSquare(uint8_t shiftIndex) {
+uint8_t ControlPoleEffectPinwheel::GetLittleSquare(uint8_t shiftIndex) {
   shiftIndex %= 12;
   return shiftIndex < 2 ? 1 : shiftIndex < 8 ? 2 : 1;
 }

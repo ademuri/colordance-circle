@@ -1,7 +1,6 @@
 #include "ControlPoleEffectLine.hpp"
 
-ControlPoleEffectLine::ControlPoleEffectLine(uint16_t framesPerLoop)
-    : ControlPoleEffect(framesPerLoop) {
+ControlPoleEffectLine::ControlPoleEffectLine() : ControlPoleEffect() {
   lightCount = 4;
 }
 

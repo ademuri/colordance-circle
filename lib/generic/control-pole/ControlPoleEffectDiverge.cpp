@@ -1,7 +1,6 @@
 #include "ControlPoleEffectDiverge.hpp"
 
-ControlPoleEffectDiverge::ControlPoleEffectDiverge(uint16_t framesPerLoop)
-    : ControlPoleEffect(framesPerLoop) {}
+ControlPoleEffectDiverge::ControlPoleEffectDiverge() : ControlPoleEffect() {}
 
 uint8_t ControlPoleEffectDiverge::GetShiftsPerLoop() { return 4; }
 

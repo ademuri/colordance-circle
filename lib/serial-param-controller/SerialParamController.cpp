@@ -17,6 +17,9 @@ void SerialParamController::Tick() {
         params[static_cast<uint8_t>(Param::kLoopShift)] =
             in.substring(2).toInt();
         break;
+      case 'e':
+        params[static_cast<uint8_t>(Param::kEffect)] = in.substring(2).toInt();
+        break;
       case 'p':
         params[static_cast<uint8_t>(Param::kPause)] = in.substring(2).toInt();
         break;

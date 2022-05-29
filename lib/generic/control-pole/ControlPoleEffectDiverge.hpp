@@ -8,7 +8,7 @@
 
 class ControlPoleEffectDiverge : public ControlPoleEffect {
  public:
-  ControlPoleEffectDiverge(uint16_t framesPerLoop);
+  ControlPoleEffectDiverge();
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;

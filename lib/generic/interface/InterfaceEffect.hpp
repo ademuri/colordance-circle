@@ -15,7 +15,7 @@ class InterfaceEffect {
   void SetSlider1(uint8_t val);
   void SetSlider2(uint8_t val);
 
-  void Shift();
+  void Shift(uint8_t shiftPosition);
   void SetGrid(std::vector<Pole*> poles, uint16_t timeSinceLastBeat,
                uint16_t millisPerBeat);
 
@@ -25,7 +25,7 @@ class InterfaceEffect {
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;
   virtual void UpdateSlider2(uint8_t val) = 0;
-  virtual void DoShift() = 0;
+  virtual void DoShift(uint8_t shiftPosition) = 0;
   virtual void Reset() = 0;
 
   const uint16_t FRAMES_PER_LOOP = 840;

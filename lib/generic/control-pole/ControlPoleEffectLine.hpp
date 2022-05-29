@@ -8,7 +8,7 @@
 
 class ControlPoleEffectLine : public ControlPoleEffect {
  public:
-  ControlPoleEffectLine(uint16_t framesPerLoop);
+  ControlPoleEffectLine();
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;

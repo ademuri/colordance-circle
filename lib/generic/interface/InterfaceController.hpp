@@ -5,9 +5,10 @@
 #include <vector>
 
 #include "Effect.hpp"
-#include "InterfaceEffect.hpp"
-#include "InterfaceEffect1.hpp"
 #include "Pole.hpp"
+#include "interface/InterfaceEffect.hpp"
+#include "interface/effects/BackAndForth.hpp"
+#include "interface/effects/SideToSide.hpp"
 
 class InterfaceController : public Effect {
  public:
@@ -23,7 +24,7 @@ class InterfaceController : public Effect {
   void ResetBeatQueue();
 
   InterfaceEffect* currentEffect;
-  InterfaceEffect1* effect1;
+  InterfaceEffect* effects[7];
 
   static const uint16_t MILLIS_PER_RUN_LOOP = 20;
 

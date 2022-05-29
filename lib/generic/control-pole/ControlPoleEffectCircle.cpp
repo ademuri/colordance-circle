@@ -1,7 +1,6 @@
 #include "ControlPoleEffectCircle.hpp"
 
-ControlPoleEffectCircle::ControlPoleEffectCircle(uint16_t framesPerLoop)
-    : ControlPoleEffect(framesPerLoop) {}
+ControlPoleEffectCircle::ControlPoleEffectCircle() : ControlPoleEffect() {}
 
 uint8_t ControlPoleEffectCircle::GetShiftsPerLoop() { return 8; }
 

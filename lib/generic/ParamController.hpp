@@ -8,6 +8,7 @@ enum class Param {
   kLoopShift,
   kShift,
   kPause,
+  kEffect,
   kOption1,
   kOption2,
   kSlider1,

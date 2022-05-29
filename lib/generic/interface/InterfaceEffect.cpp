@@ -22,7 +22,7 @@ void InterfaceEffect::SetSlider1(uint8_t val) { UpdateSlider1(val); }
 
 void InterfaceEffect::SetSlider2(uint8_t val) { UpdateSlider2(val); }
 
-void InterfaceEffect::Shift() { DoShift(); };
+void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
 
 void InterfaceEffect::SetGrid(std::vector<Pole*> poles,
                               uint16_t timeSinceLastBeat,

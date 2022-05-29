@@ -11,8 +11,9 @@ InterfaceController::InterfaceController(std::vector<Pole*> poles,
   }
   beatTrackingTime = 4 * 750;
 
-  effect1 = new InterfaceEffect1();
-  currentEffect = effect1;
+  effects[0] = new BackAndForth();
+  effects[1] = new SideToSide();
+  currentEffect = effects[0];
 }
 
 /**
@@ -22,7 +23,7 @@ void InterfaceController::DoRun() {
   /*
    * Sets the effect
    */
-  // effect = GetEffect(paramController->GetRawParam(Param::kEffect));
+  currentEffect = effects[paramController->GetRawParam(Param::kEffect)];
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
@@ -136,11 +137,16 @@ void InterfaceController::DoRun() {
     lastSetShiftTime = effectTime;
   }
 
+  if (beatsSinceLastShift == beatsPerShift / 2 && lastFrameWasBeat) {
+    currentEffect->Shift(2);
+  }
+
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
-  // This frame is a beat and we're looping, or we set a shit right after a beat
+  // This frame is a beat and we're looping, or we set a shift right after a
+  // beat
   if (doShiftOnNextBeat && timeSinceLastBeat < millisPerBeat / 4 ||
       loopShift && lastFrameWasBeat && beatsSinceLastShift >= beatsPerShift) {
-    currentEffect->Shift();  // Shift needs to be done after updating settings
+    currentEffect->Shift(0);  // Shift needs to be done after updating settings
     beatsSinceLastShift = 0;
     doShiftOnNextBeat = false;
     // lastShiftTime = lastBeatTime;

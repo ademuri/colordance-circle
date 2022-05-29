@@ -1,14 +1,14 @@
-#ifndef CONTROL_POLE_EFFECT_TWINKLE_HPP_
-#define CONTROL_POLE_EFFECT_TWINKLE_HPP_
+#ifndef CONTROL_POLE_EFFECT_PINWHEEL_HPP_
+#define CONTROL_POLE_EFFECT_PINWHEEL_HPP_
 
 #include <vector>
 
 #include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
 
-class ControlPoleEffectTwinkle : public ControlPoleEffect {
+class ControlPoleEffectPinwheel : public ControlPoleEffect {
  public:
-  ControlPoleEffectTwinkle(uint16_t framesPerLoop);
+  ControlPoleEffectPinwheel();
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;

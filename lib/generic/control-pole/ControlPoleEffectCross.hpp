@@ -8,7 +8,7 @@
 
 class ControlPoleEffectCross : public ControlPoleEffect {
  public:
-  ControlPoleEffectCross(uint16_t framesPerLoop);
+  ControlPoleEffectCross();
 
  protected:
   void DoSetGrid(uint8_t shiftIndex) override;

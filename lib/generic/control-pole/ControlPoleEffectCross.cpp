@@ -1,7 +1,6 @@
 #include "ControlPoleEffectCross.hpp"
 
-ControlPoleEffectCross::ControlPoleEffectCross(uint16_t framesPerLoop)
-    : ControlPoleEffect(framesPerLoop) {}
+ControlPoleEffectCross::ControlPoleEffectCross() : ControlPoleEffect() {}
 
 uint8_t ControlPoleEffectCross::GetShiftsPerLoop() { return 4; }
 
