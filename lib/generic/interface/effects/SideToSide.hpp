@@ -13,6 +13,7 @@ class SideToSide : public InterfaceEffect {
   SideToSide();
 
  protected:
+  bool ContinuousShift();
   void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;

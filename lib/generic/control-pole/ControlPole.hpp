@@ -10,6 +10,14 @@
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
 
+// enum class Mode {
+//   kCircle,
+//   kCross,
+//   kDiverge,
+//   kLine,
+//   kPinwheel
+// };
+
 class ControlPole {
  public:
   ControlPole(uint16_t framesPerLoop);
@@ -28,7 +36,8 @@ class ControlPole {
   void FadeIn(uint16_t fadeFrames);
   void FadeOut(uint16_t fadeFrames);
   uint32_t GetTimerShiftOffset();
-  std::vector<std::vector<CHSV>> GetGrid(uint16_t frame, uint16_t lastFrame);
+  std::vector<std::vector<CHSV>> GetGrid(uint16_t frame, uint16_t lastFrame,
+                                         bool multiply);
 
  private:
   uint8_t GetUpdatedHueShift(uint16_t framesSinceLast);

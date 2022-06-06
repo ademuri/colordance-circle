@@ -7,11 +7,16 @@ BackAndForth::BackAndForth() : InterfaceEffect() {
   controlPoleRight = new ControlPole(FRAMES_PER_LOOP);
   controlPoleLeft->SetHue(0);
   controlPoleRight->SetHue(127);
+  controlPoleLeft->SetReverse(true);
 }
 
+bool BackAndForth::ContinuousShift() { return true; }
+
 void BackAndForth::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
-  poles[leftIndex]->SetGridLights(controlPoleLeft->GetGrid(frame, lastFrame));
-  poles[rightIndex]->SetGridLights(controlPoleRight->GetGrid(frame, lastFrame));
+  poles[leftIndex]->SetGridLights(
+      controlPoleLeft->GetGrid(frame, lastFrame, false));
+  poles[rightIndex]->SetGridLights(
+      controlPoleRight->GetGrid(frame, lastFrame, false));
   lastFrame = frame;
 }
 
@@ -22,10 +27,10 @@ void BackAndForth::UpdateOption1() {
   controlPoleRight->SetMode(modes[modeIndex]);
 }
 
-void BackAndForth::UpdateOption2() {}
+void BackAndForth::UpdateOption2() { cross = !cross; }
 
 /**
- * Change the number of poles on.
+ * Change the fade.
  */
 void BackAndForth::UpdateSlider1(uint8_t val) {}
 
@@ -39,11 +44,12 @@ void BackAndForth::UpdateSlider2(uint8_t val) {
 }
 
 void BackAndForth::DoShift(uint8_t shiftPosition) {
+  uint8_t endLeftIndex = cross ? 5 : 2;
   if (shiftPosition == 2) {
     if (leftIndex == 0) {
       controlPoleLeft->SetReverse(true);
       controlPoleRight->SetReverse(false);
-    } else if (leftIndex == 2) {
+    } else if (leftIndex == endLeftIndex) {
       controlPoleLeft->SetReverse(false);
       controlPoleRight->SetReverse(true);
     }
@@ -52,11 +58,12 @@ void BackAndForth::DoShift(uint8_t shiftPosition) {
       goIn = true;
       controlPoleLeft->SetReverse(true);
       controlPoleRight->SetReverse(false);
-    } else if (leftIndex == 2) {
+    } else if (leftIndex == endLeftIndex) {
       goIn = false;
       controlPoleLeft->SetReverse(false);
       controlPoleRight->SetReverse(true);
     }
+
     if (goIn) {
       leftIndex++;
       rightIndex--;

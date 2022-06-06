@@ -11,10 +11,12 @@ HuePoles::HuePoles() : InterfaceEffect() {
   }
 }
 
+bool HuePoles::ContinuousShift() { return true; }
+
 void HuePoles::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-    std::vector<std::vector<CHSV>> grid =
-        controlPoles[pole]->GetGrid(frame, lastFrame);  // Update all grids
+    std::vector<std::vector<CHSV>> grid = controlPoles[pole]->GetGrid(
+        frame, lastFrame, false);  // Update all grids
     if (pole < numOfPolesOn) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;
       poles[effectivePole]->SetGridLights(grid);
@@ -23,11 +25,15 @@ void HuePoles::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
   lastFrame = frame;
 }
 
+/**
+ * Change the mode (grid animation).
+ */
 void HuePoles::UpdateOption1() {
   modeIndex++;
   modeIndex %= sizeof(modes);
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i]->SetMode(modes[modeIndex]);
+    controlPoles[i]->SetBackAndForth(backAndForth);
   }
   UpdateHues();
   SetBackAndForth();

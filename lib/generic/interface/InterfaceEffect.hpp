@@ -10,6 +10,8 @@ class InterfaceEffect {
  public:
   InterfaceEffect();
 
+  bool GetContinuousShift();
+
   void SetOption1(bool pressed);
   void SetOption2(bool pressed);
   void SetSlider1(uint8_t val);
@@ -20,6 +22,7 @@ class InterfaceEffect {
                uint16_t millisPerBeat);
 
  protected:
+  virtual bool ContinuousShift() = 0;
   virtual void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;

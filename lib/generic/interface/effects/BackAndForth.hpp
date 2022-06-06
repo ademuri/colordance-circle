@@ -13,6 +13,7 @@ class BackAndForth : public InterfaceEffect {
   BackAndForth();
 
  protected:
+  bool ContinuousShift();
   void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
@@ -37,6 +38,7 @@ class BackAndForth : public InterfaceEffect {
   uint8_t modeIndex = 0;
 
   bool goIn = true;
+  bool cross = false;
 
   bool smoothPoleShift = true;
 };

@@ -10,7 +10,7 @@ class ControlPoleEffect {
   ControlPoleEffect();
 
   void TurnOffAll();
-  void SetGrid(uint8_t shiftIndex);
+  void SetGrid(uint8_t shiftIndex, bool multiply);
 
   CHSV GetLight(uint8_t x, uint8_t y);
   std::vector<std::vector<CHSV>> GetGrid();

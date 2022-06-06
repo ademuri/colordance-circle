@@ -6,9 +6,12 @@
 
 #include "Effect.hpp"
 #include "Pole.hpp"
+#include "helper-pole/HelperPole.hpp"
 #include "interface/InterfaceEffect.hpp"
-#include "interface/effects/BackAndForth.hpp"
-#include "interface/effects/SideToSide.hpp"
+// #include "interface/effects/BackAndForth.hpp"
+// #include "interface/effects/HuePoles.hpp"
+// #include "interface/effects/SideToSide.hpp"
+#include "interface/effects/Sliders.hpp"
 
 class InterfaceController : public Effect {
  public:
@@ -26,7 +29,10 @@ class InterfaceController : public Effect {
   InterfaceEffect* currentEffect;
   InterfaceEffect* effects[7];
 
+  HelperPole* helperPole;
+
   static const uint16_t MILLIS_PER_RUN_LOOP = 20;
+  const uint16_t FRAMES_PER_LOOP = 840;
 
   // Used to track button presses
   uint8_t lastSetBeat = 0;

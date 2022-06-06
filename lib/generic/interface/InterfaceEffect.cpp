@@ -4,6 +4,8 @@
 
 InterfaceEffect::InterfaceEffect() {}
 
+bool InterfaceEffect::GetContinuousShift() { return ContinuousShift(); }
+
 void InterfaceEffect::SetOption1(bool pressed) {
   if (option1WasPressed && !pressed) {
     UpdateOption1();

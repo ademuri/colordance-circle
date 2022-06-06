@@ -18,8 +18,10 @@ void ControlPoleEffect::TurnOffAll() {
   }
 }
 
-void ControlPoleEffect::SetGrid(uint8_t shiftIndex) {
-  TurnOffAll();
+void ControlPoleEffect::SetGrid(uint8_t shiftIndex, bool multiply) {
+  if (!multiply) {
+    TurnOffAll();
+  }
   DoSetGrid(shiftIndex);
 }
 

@@ -2,6 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
+#include "helper-pole/HelperPole.hpp"
 
 InterfaceController::InterfaceController(std::vector<Pole*> poles,
                                          ParamController* paramController)
@@ -11,9 +12,13 @@ InterfaceController::InterfaceController(std::vector<Pole*> poles,
   }
   beatTrackingTime = 4 * 750;
 
-  effects[0] = new BackAndForth();
-  effects[1] = new SideToSide();
+  // effects[0] = new BackAndForth();
+  // effects[1] = new SideToSide();
+  // effects[2] = new HuePoles();
+  effects[0] = new Sliders();
   currentEffect = effects[0];
+
+  helperPole = new HelperPole(FRAMES_PER_LOOP);
 }
 
 /**
@@ -23,7 +28,8 @@ void InterfaceController::DoRun() {
   /*
    * Sets the effect
    */
-  currentEffect = effects[paramController->GetRawParam(Param::kEffect)];
+  // uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
+  // currentEffect = effects[effectNumber];
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
@@ -87,15 +93,16 @@ void InterfaceController::DoRun() {
       timeSetForNextBeat = effectTime + 2 * millisPerBeat;
     }
     lastSetBeatTime = effectTime;
-  } else if (effectTime - lastSetBeatTime > BEAT_RESET_WAIT_TIME) {
-    // A signifanct amount of time has passed since the beat has been set
-    // Resets to the default beat over BEATS_TO_RECORD # of beats
-    // Keeping track of the exact beat time does not matter in this situation
-    // Also resets the beats per shift unless it has been recently pressed
-    millisPerBeat = GetUpdatedBeat(DEFAULT_MILLIS_PER_BEAT);
-    if (beatsSinceLastShift > MAX_BEATS_PER_SHIFT) {
-      beatsPerShift = DEFAULT_BEATS_PER_SHIFT;
-    }
+    // } else if (effectTime - lastSetBeatTime > BEAT_RESET_WAIT_TIME) {
+    //   // A signifanct amount of time has passed since the beat has been set
+    //   // Resets to the default beat over BEATS_TO_RECORD # of beats
+    //   // Keeping track of the exact beat time does not matter in this
+    //   situation
+    //   // Also resets the beats per shift unless it has been recently pressed
+    //   millisPerBeat = GetUpdatedBeat(DEFAULT_MILLIS_PER_BEAT);
+    //   if (beatsSinceLastShift > MAX_BEATS_PER_SHIFT) {
+    //     beatsPerShift = DEFAULT_BEATS_PER_SHIFT;
+    //   }
   }
 
   // Adjust the next beat time if isn't past the last beat due to adjustments
@@ -107,7 +114,8 @@ void InterfaceController::DoRun() {
    * Handles the shift and updates the beatsPerShift
    */
   uint8_t setShift = paramController->GetRawParam(Param::kShift);
-  bool loopShift = paramController->GetRawParam(Param::kLoopShift) == 1;
+  bool loopShift = paramController->GetRawParam(Param::kLoopShift) == 1 ||
+                   currentEffect->GetContinuousShift();
 
   if (lastFrameWasBeat) {
     beatsSinceLastShift++;

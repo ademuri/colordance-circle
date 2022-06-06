@@ -19,14 +19,14 @@ FetchContent_MakeAvailable(fake-fast-led)
 
 FetchContent_Declare(googletest
     GIT_REPOSITORY      https://github.com/google/googletest.git
-    GIT_TAG             master
+    GIT_TAG             main
 )
 FetchContent_MakeAvailable(googletest)
 
 # Set appropriate warning levels and include debug symbols.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
 
-file(GLOB LIBRARY_SOURCES "lib/generic/*.cpp")
+file(GLOB LIBRARY_SOURCES "lib/generic/*.cpp" "lib/generic/interface/*.cpp" "lib/generic/interface/effects/*.cpp" "lib/generic/control-pole/*.cpp" "lib/generic/helper-pole/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
 target_link_libraries(generic fake-fast-led)
 

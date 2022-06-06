@@ -43,8 +43,10 @@ void ControlPole::SetMode(uint8_t mode) {
     effects[2]->SetRotation(mode - 6);
   } else if (mode < 11) {
     currentEffect = effects[3];
-  } else {
+  } else if (mode < 12) {
     currentEffect = effects[4];
+  } else {
+    currentEffect = effects[5];
   }
   lastMode = mode;
 }
@@ -98,7 +100,8 @@ uint32_t ControlPole::GetTimerShiftOffset() {
 }
 
 std::vector<std::vector<CHSV>> ControlPole::GetGrid(uint16_t frame,
-                                                    uint16_t lastFrame) {
+                                                    uint16_t lastFrame,
+                                                    bool multiply) {
   uint16_t framesPerShift =
       currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
   uint8_t lastShiftIndex = lastFrame / framesPerShift;
@@ -138,7 +141,7 @@ std::vector<std::vector<CHSV>> ControlPole::GetGrid(uint16_t frame,
     currentEffect->SetBaseVal(baseVal);
   }
 
-  currentEffect->SetGrid(shiftIndex);
+  currentEffect->SetGrid(shiftIndex, multiply);
 
   return currentEffect->GetGrid();
 }
