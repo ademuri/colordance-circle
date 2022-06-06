@@ -7,3 +7,4 @@ arduino/build
 .pio
 .DS_Store
 .vscode
+.cache
