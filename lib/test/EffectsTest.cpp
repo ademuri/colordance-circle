@@ -1,4 +1,4 @@
-#include <Interface/InterfaceController.hpp>
+#include <interface/InterfaceController.hpp>
 #include <cstdio>
 #include <iostream>
 #include <map>
