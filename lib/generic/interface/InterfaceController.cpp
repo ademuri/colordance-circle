@@ -12,13 +12,17 @@ InterfaceController::InterfaceController(std::vector<Pole*> poles,
   }
   beatTrackingTime = 4 * 750;
 
+  std::vector<HelperPole*> helperPoles;
+
+  for (int i = 0; i < Pole::kNumPoles; i++) {
+    helperPoles.push_back(new HelperPole(FRAMES_PER_LOOP));
+  }
+
   // effects[0] = new BackAndForth();
   // effects[1] = new SideToSide();
-  // effects[2] = new HuePoles();
-  effects[0] = new Sliders();
+  // effects[0] = new HuePoles(helperPoles);
+  effects[0] = new Sliders(helperPoles);
   currentEffect = effects[0];
-
-  helperPole = new HelperPole(FRAMES_PER_LOOP);
 }
 
 /**

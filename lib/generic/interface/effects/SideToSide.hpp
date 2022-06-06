@@ -10,7 +10,7 @@
 
 class SideToSide : public InterfaceEffect {
  public:
-  SideToSide();
+  SideToSide(std::vector<HelperPole*> helperPoles);
 
  protected:
   bool ContinuousShift();

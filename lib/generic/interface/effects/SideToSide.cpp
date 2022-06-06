@@ -2,7 +2,8 @@
 
 #include "ColordanceTypes.hpp"
 
-SideToSide::SideToSide() : InterfaceEffect() {
+SideToSide::SideToSide(std::vector<HelperPole*> helperPoles)
+    : InterfaceEffect(helperPoles) {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     ControlPole* pole = new ControlPole(FRAMES_PER_LOOP);
     pole->SetBackAndForth(true);

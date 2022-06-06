@@ -2,7 +2,8 @@
 
 #include "ColordanceTypes.hpp"
 
-BackAndForth::BackAndForth() : InterfaceEffect() {
+BackAndForth::BackAndForth(std::vector<HelperPole*> helperPoles)
+    : InterfaceEffect(helperPoles) {
   controlPoleLeft = new ControlPole(FRAMES_PER_LOOP);
   controlPoleRight = new ControlPole(FRAMES_PER_LOOP);
   controlPoleLeft->SetHue(0);

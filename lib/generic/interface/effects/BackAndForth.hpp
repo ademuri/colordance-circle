@@ -10,7 +10,7 @@
 
 class BackAndForth : public InterfaceEffect {
  public:
-  BackAndForth();
+  BackAndForth(std::vector<HelperPole*> helperPoles);
 
  protected:
   bool ContinuousShift();

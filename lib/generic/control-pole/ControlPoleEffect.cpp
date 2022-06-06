@@ -53,10 +53,6 @@ uint8_t ControlPoleEffect::GetAdjustedShiftsPerLoop(bool backAndForth) {
   return GetShiftsPerLoop() - (backAndForth ? 1 : 0);
 }
 
-uint32_t ControlPoleEffect::GetTimerShiftOffset() { return timerShiftOffset; }
-
-void ControlPoleEffect::ResetTimerShiftOffset() { timerShiftOffset = 0; }
-
 CHSV ControlPoleEffect::GetLight(uint8_t x, uint8_t y) {
   return grid_lights[x][y];
 }

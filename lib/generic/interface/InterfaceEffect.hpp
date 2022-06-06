@@ -5,10 +5,11 @@
 
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
+#include "helper-pole/HelperPole.hpp"
 
 class InterfaceEffect {
  public:
-  InterfaceEffect();
+  InterfaceEffect(std::vector<HelperPole*> helperPoles);
 
   bool GetContinuousShift();
 

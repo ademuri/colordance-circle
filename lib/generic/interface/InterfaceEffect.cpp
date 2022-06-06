@@ -2,7 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-InterfaceEffect::InterfaceEffect() {}
+InterfaceEffect::InterfaceEffect(std::vector<HelperPole*> helperPoles) {}
 
 bool InterfaceEffect::GetContinuousShift() { return ContinuousShift(); }
 

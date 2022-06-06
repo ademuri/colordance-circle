@@ -9,11 +9,11 @@
 
 class Sliders : public InterfaceEffect {
  public:
-  Sliders();
+  Sliders(std::vector<HelperPole*> helperPoles);
 
  protected:
-  bool ContinuousShift();
-  void DoSetGrid(std::vector<Pole *> poles, uint16_t frame) override;
+  bool ContinuousShift() override;
+  void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
@@ -22,25 +22,18 @@ class Sliders : public InterfaceEffect {
   void Reset() override;
 
  private:
-  void UpdateHues();
-  void SetBackAndForth();
+  // void SetMode0(std::vector<Pole *> poles, uint8_t position);
+  // void SetMode1(std::vector<Pole *> poles);
+  // void UpdateGrid(std::vector<std::vector<CHSV>> &pole, uint8_t position,
+  //                 uint8_t hue, uint8_t sat);
+  // void TurnOffAll(std::vector<std::vector<CHSV>> &pole);
 
-  void SetMode0(std::vector<Pole *> poles, uint8_t position);
-  void SetMode1(std::vector<Pole *> poles);
-  void UpdateGrid(std::vector<std::vector<CHSV>> &pole, uint8_t position,
-                  uint8_t hue, uint8_t sat);
-  void TurnOffAll(std::vector<std::vector<CHSV>> &pole);
-
-  static const uint8_t kGridWidth = 4;
-  static const uint8_t kGridHeight = 4;
-  static const uint8_t kNumModes = 2;
+  HelperPole* pole_left;
+  HelperPole* pole_right;
 
   uint32_t lastFrame = 0;
 
   uint8_t count = 0;
-
-  std::vector<std::vector<CHSV>> pole_left;
-  std::vector<std::vector<CHSV>> pole_right;
 
   uint8_t leftIndex = 0;
   uint8_t rightIndex = 5;

@@ -10,7 +10,7 @@
 
 class HuePoles : public InterfaceEffect {
  public:
-  HuePoles();
+  HuePoles(std::vector<HelperPole*> helperPoles);
 
  protected:
   bool ContinuousShift();
