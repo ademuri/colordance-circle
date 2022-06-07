@@ -1,6 +1,6 @@
 #include "ControlPole.hpp"
 
-#include <cstdio>
+#include <stdexcept>
 
 #include "ControlPoleEffectCircle.hpp"
 #include "ControlPoleEffectCross.hpp"
@@ -8,14 +8,10 @@
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
 
-ControlPole::ControlPole(uint16_t framesPerLoop)
-    : FRAMES_PER_LOOP(framesPerLoop) {
-  effects[0] = new ControlPoleEffectCross();
-  effects[1] = new ControlPoleEffectLine();
-  effects[2] = new ControlPoleEffectCircle();
-  effects[3] = new ControlPoleEffectDiverge();
-  effects[4] = new ControlPoleEffectPinwheel();
-  currentEffect = effects[1];
+ControlPole::ControlPole(uint16_t framesPerLoop) :
+    currentEffect(std::addressof(effectLine)),
+    FRAMES_PER_LOOP(framesPerLoop)
+{
 }
 
 void ControlPole::SetHue(uint8_t hue) { baseHue = hue; }
@@ -33,20 +29,21 @@ void ControlPole::SetMode(uint8_t mode) {
   }
   currentEffect->ResetTimerShiftOffset();
   if (mode < 4) {
-    currentEffect = effects[1];
-    effects[1]->SetRotation(mode);
+    currentEffect = std::addressof(effectLine);
+    effectLine.SetRotation(mode);
   } else if (mode < 6) {
-    currentEffect = effects[0];
-    effects[0]->SetRotation(mode - 4);
+    currentEffect = std::addressof(effectCross);
+    effectCross.SetRotation(mode - 4);
   } else if (mode < 10) {
-    currentEffect = effects[2];
-    effects[2]->SetRotation(mode - 6);
+    currentEffect = std::addressof(effectCircle);
+    effectCircle.SetRotation(mode - 6);
   } else if (mode < 11) {
-    currentEffect = effects[3];
+    currentEffect = std::addressof(effectDiverge);
   } else if (mode < 12) {
-    currentEffect = effects[4];
+    currentEffect = std::addressof(effectPinwheel);
   } else {
-    currentEffect = effects[5];
+    // ???
+    std::terminate();
   }
   lastMode = mode;
 }
