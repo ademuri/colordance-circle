@@ -28,8 +28,8 @@ class BackAndForth : public InterfaceEffect {
 
   uint32_t lastFrame = 0;
 
-  ControlPole* controlPoleLeft;
-  ControlPole* controlPoleRight;
+  ControlPole controlPoleLeft;
+  ControlPole controlPoleRight;
 
   uint8_t leftIndex = 2;
   uint8_t rightIndex = 3;
