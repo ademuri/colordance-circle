@@ -4,11 +4,11 @@
 
 SideToSide::SideToSide(std::vector<HelperPole*> helperPoles)
     : InterfaceEffect(helperPoles) {
+  controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    ControlPole* pole = new ControlPole(FRAMES_PER_LOOP);
-    pole->SetBackAndForth(true);
-    pole->SetSmoothColor(true);
-    controlPoles.push_back(pole);
+    auto & pole = controlPoles.emplace_back(FRAMES_PER_LOOP);
+    pole.SetBackAndForth(true);
+    pole.SetSmoothColor(true);
   }
 }
 
@@ -16,7 +16,7 @@ bool SideToSide::ContinuousShift() { return true; }
 
 void SideToSide::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-    std::vector<std::vector<CHSV>> grid = controlPoles[pole]->GetGrid(
+    std::vector<std::vector<CHSV>> grid = controlPoles[pole].GetGrid(
         frame, lastFrame, false);  // Update all grids
     if (pole < numOfPolesOn) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;
@@ -33,8 +33,8 @@ void SideToSide::UpdateOption1() {
   modeIndex++;
   modeIndex %= sizeof(modes);
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i]->SetMode(modes[modeIndex]);
-    controlPoles[i]->SetBackAndForth(backAndForth);
+    controlPoles[i].SetMode(modes[modeIndex]);
+    controlPoles[i].SetBackAndForth(backAndForth);
   }
   UpdateHues();
   SetBackAndForth();
@@ -47,7 +47,7 @@ void SideToSide::UpdateOption2() {
 
 void SideToSide::SetBackAndForth() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i]->SetBackAndForth(backAndForth);
+    controlPoles[i].SetBackAndForth(backAndForth);
   }
 }
 
@@ -69,7 +69,7 @@ void SideToSide::UpdateHues() {
   uint8_t poleHueDifference = 255 / numOfPolesOn;
   uint8_t polesOnCount = 0;
   for (int i = 0; i < numOfPolesOn; i++) {
-    controlPoles[i]->SetHue(polesOnCount++ * poleHueDifference);
+    controlPoles[i].SetHue(polesOnCount++ * poleHueDifference);
   }
 }
 
@@ -79,7 +79,7 @@ void SideToSide::UpdateHues() {
 void SideToSide::UpdateSlider2(uint8_t val) {
   uint8_t hueDistance = val / 4;
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i]->SetHueDistance(hueDistance);
+    controlPoles[i].SetHueDistance(hueDistance);
   }
 }
 
@@ -87,8 +87,8 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   if (shiftPosition != 0) {
     return;
   }
-  for (ControlPole* pole : controlPoles) {
-    pole->ResetFade();
+  for (ControlPole& pole : controlPoles) {
+    pole.ResetFade();
   }
   if (numOfPolesOn == Pole::kNumPoles) {
     return;
@@ -99,11 +99,11 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   }
   if (smoothPoleShift && numOfPolesOn > 1) {
     if (goBackwards) {
-      controlPoles[0]->FadeIn(600);
-      controlPoles[numOfPolesOn - 1]->FadeOut(600);
+      controlPoles[0].FadeIn(600);
+      controlPoles[numOfPolesOn - 1].FadeOut(600);
     } else {
-      controlPoles[numOfPolesOn - 1]->FadeIn(600);
-      controlPoles[0]->FadeOut(600);
+      controlPoles[numOfPolesOn - 1].FadeIn(600);
+      controlPoles[0].FadeOut(600);
     }
   }
   poleOffset += goBackwards ? -1 : 1;
