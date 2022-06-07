@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.11)
 project(colordance-circle LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS Off)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-fetch-content)
 
@@ -24,7 +27,7 @@ FetchContent_Declare(googletest
 FetchContent_MakeAvailable(googletest)
 
 # Set appropriate warning levels and include debug symbols.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g")
 
 file(GLOB LIBRARY_SOURCES "lib/generic/*.cpp" "lib/generic/interface/*.cpp" "lib/generic/interface/effects/*.cpp" "lib/generic/control-pole/*.cpp" "lib/generic/helper-pole/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
