@@ -10,11 +10,11 @@
 
 class BackAndForth : public InterfaceEffect {
  public:
-  BackAndForth(std::vector<HelperPole*> helperPoles);
+  BackAndForth(std::vector<HelperPole*> const & helperPoles);
 
  protected:
   bool ContinuousShift();
-  void DoSetGrid(std::vector<Pole*> poles, uint16_t frame) override;
+  void DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;

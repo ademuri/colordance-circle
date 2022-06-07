@@ -2,7 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-Sliders::Sliders(std::vector<HelperPole *> helperPoles)
+Sliders::Sliders(std::vector<HelperPole *> const & helperPoles)
     : InterfaceEffect(helperPoles) {
   hueLeft = 0;
   hueRight = 127;
@@ -14,7 +14,7 @@ Sliders::Sliders(std::vector<HelperPole *> helperPoles)
 
 bool Sliders::ContinuousShift() { return true; }
 
-void Sliders::DoSetGrid(std::vector<Pole *> poles, uint16_t frame) {
+void Sliders::DoSetGrid(std::vector<Pole *> & poles, uint16_t frame) {
   // if (mode == 0) {
   //   SetMode0(poles, count);
   // } else {

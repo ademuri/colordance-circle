@@ -2,7 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-BackAndForth::BackAndForth(std::vector<HelperPole*> helperPoles)
+BackAndForth::BackAndForth(std::vector<HelperPole*> const & helperPoles)
     : InterfaceEffect(helperPoles),
       controlPoleLeft(FRAMES_PER_LOOP),
       controlPoleRight(FRAMES_PER_LOOP)
@@ -14,7 +14,7 @@ BackAndForth::BackAndForth(std::vector<HelperPole*> helperPoles)
 
 bool BackAndForth::ContinuousShift() { return true; }
 
-void BackAndForth::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {
+void BackAndForth::DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) {
   poles[leftIndex]->SetGridLights(
       controlPoleLeft.GetGrid(frame, lastFrame, false));
   poles[rightIndex]->SetGridLights(

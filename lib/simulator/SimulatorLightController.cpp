@@ -33,10 +33,10 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
                           SimulatorLightController::inchesToCoords(unscaled.z));
         light_row.push_back(createLight(scaled));
       }
-      light_pole.push_back(light_row);
+      light_pole.push_back(std::move(light_row));
     }
     poles.push_back(pole);
-    lights.push_back(light_pole);
+    lights.push_back(std::move(light_pole));
   }
 }
 

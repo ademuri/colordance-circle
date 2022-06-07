@@ -11,10 +11,12 @@ class Pole {
 
   void SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb);
   void SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv);
-  void SetGridLights(std::vector<std::vector<CHSV>> grid_lights);
+  void SetGridLights(std::vector<std::vector<CHSV>> const & grid_lights);
   void ClearGridLights();
 
-  const std::vector<std::vector<CRGB>> get_grid_lights();
+  std::vector<std::vector<CRGB>> const & get_grid_lights() const {
+    return grid_lights;
+  }
 
   static const uint8_t kGridWidth = 4;
   static const uint8_t kGridHeight = 4;

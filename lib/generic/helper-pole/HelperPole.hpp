@@ -33,7 +33,7 @@ class HelperPole {
 
   void Reset();
 
-  std::vector<std::vector<CHSV>> GetGrid(uint16_t frame, uint16_t lastFrame,
+  std::vector<std::vector<CHSV>> const & GetGrid(uint16_t frame, uint16_t lastFrame,
                                          bool multiply);
 
  private:

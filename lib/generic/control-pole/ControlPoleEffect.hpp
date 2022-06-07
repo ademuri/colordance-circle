@@ -13,7 +13,9 @@ class ControlPoleEffect {
   void SetGrid(uint8_t shiftIndex, bool multiply);
 
   CHSV GetLight(uint8_t x, uint8_t y);
-  std::vector<std::vector<CHSV>> GetGrid();
+  std::vector<std::vector<CHSV>> const & GetGrid() const {
+    return grid_lights;
+  }
 
   void SetHue(uint8_t hue);
   void SetBaseSat(uint8_t sat);

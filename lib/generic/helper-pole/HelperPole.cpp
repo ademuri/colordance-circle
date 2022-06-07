@@ -9,7 +9,7 @@ HelperPole::HelperPole(uint16_t framesPerLoop)
     for (int y = 0; y < Pole::kGridHeight; y++) {
       row.push_back({0, 0, 0});
     }
-    grid_lights.push_back(row);
+    grid_lights.push_back(std::move(row));
   }
 }
 
@@ -90,9 +90,11 @@ void HelperPole::TurnOffAll() {
   }
 }
 
-std::vector<std::vector<CHSV>> HelperPole::GetGrid(uint16_t frame,
+std::vector<std::vector<CHSV>> const & HelperPole::GetGrid(uint16_t frame,
                                                    uint16_t lastFrame,
                                                    bool multiply) {
+  // TODO: Is this return statement supposed to prevent the rest of the function
+  // from executing?
   return grid_lights;
   uint16_t framesPerShift = 4;
   //    currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);

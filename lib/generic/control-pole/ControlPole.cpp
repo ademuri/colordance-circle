@@ -96,7 +96,7 @@ uint32_t ControlPole::GetTimerShiftOffset() {
   return currentEffect->GetTimerShiftOffset();
 }
 
-std::vector<std::vector<CHSV>> ControlPole::GetGrid(uint16_t frame,
+std::vector<std::vector<CHSV>> const & ControlPole::GetGrid(uint16_t frame,
                                                     uint16_t lastFrame,
                                                     bool multiply) {
   uint16_t framesPerShift =

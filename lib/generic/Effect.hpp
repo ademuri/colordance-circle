@@ -28,7 +28,7 @@ class Effect {
    */
   void SleepMs(uint32_t ms_to_sleep);
 
-  const std::vector<Pole*> poles;
+  std::vector<Pole*> poles;
   std::unique_ptr<ParamController> paramController;
 
  private:

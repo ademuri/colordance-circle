@@ -26,7 +26,7 @@ std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
   auto result = std::vector<NamedEffect>();
   result.push_back({
     "Interface",
-    std::make_unique<InterfaceController>(poles, std::make_unique<DummyParamController>())
+    std::make_unique<InterfaceController>(std::move(poles), std::make_unique<DummyParamController>())
   });
   return result;
 }

@@ -8,7 +8,7 @@ Pole::Pole() {
     for (int y = 0; y < kGridHeight; y++) {
       row.push_back({0, 0, 0});
     }
-    grid_lights.push_back(row);
+    grid_lights.push_back(std::move(row));
   }
 }
 
@@ -20,7 +20,7 @@ void Pole::SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv) {
   SetGridLight(x, y, CRGB(hsv));
 }
 
-void Pole::SetGridLights(std::vector<std::vector<CHSV>> grid_lights) {
+void Pole::SetGridLights(std::vector<std::vector<CHSV>> const & grid_lights) {
   for (int x = 0; x < kGridWidth; x++) {
     for (int y = 0; y < kGridHeight; y++) {
       SetGridLight(x, y, grid_lights[x][y]);
@@ -34,8 +34,4 @@ void Pole::ClearGridLights() {
       SetGridLight(x, y, CRGB(0, 0, 0));
     }
   }
-}
-
-const std::vector<std::vector<CRGB>> Pole::get_grid_lights() {
-  return grid_lights;
 }

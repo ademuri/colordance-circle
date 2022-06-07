@@ -2,12 +2,12 @@
 
 #include "ColordanceTypes.hpp"
 
-HuePoles::HuePoles(std::vector<HelperPole*> helperPoles)
+HuePoles::HuePoles(std::vector<HelperPole*> const & helperPoles)
     : InterfaceEffect(helperPoles) {}
 
 bool HuePoles::ContinuousShift() { return true; }
 
-void HuePoles::DoSetGrid(std::vector<Pole*> poles, uint16_t frame) {}
+void HuePoles::DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) {}
 
 /**
  * Change the mode (grid animation).
