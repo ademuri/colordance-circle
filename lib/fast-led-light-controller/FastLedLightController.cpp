@@ -1,5 +1,21 @@
 #include "FastLedLightController.hpp"
 
+#include <cstdio>
+
+int print_compiler_version() {
+  std::printf("====================");
+#if defined __clang_major__
+  std::printf("clang version %d.%d\n", __clang_major__, __clang_minor__);
+#elif defined __GNUC__
+  std::printf("gcc version %d.%d\n", __GNUC__, __GNUC_MINOR__);
+#else
+  std::printf("Unknown compiler\n");
+#endif
+  std::printf("====================");
+}
+
+static int dummy = print_compiler_version();
+
 FastLedLightController::FastLedLightController() {
   FastLED.addLeds<NEOPIXEL, kLedPin>(leds, kNumLeds);
   FastLED.setDither(0);
