@@ -19,14 +19,14 @@ std::vector<Pole*> CreatePoles() {
 
 struct NamedEffect {
   std::string name;
-  Effect * effect;
+  std::unique_ptr<Effect> effect;
 };
 
 std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
   DummyParamController* paramController = new DummyParamController();
-  return {
-      {"Interface", new InterfaceController(poles, paramController)},
-  };
+  auto result = std::vector<NamedEffect>();
+  result.push_back({"Interface", std::make_unique<InterfaceController>(poles, paramController)});
+  return result;
 }
 
 TEST(Effects, stable) {
