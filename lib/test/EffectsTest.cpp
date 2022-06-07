@@ -17,23 +17,26 @@ std::vector<Pole*> CreatePoles() {
   return poles;
 }
 
-std::map<Effect*, std::string> CreateEffects(std::vector<Pole*> poles) {
+struct NamedEffect {
+  std::string name;
+  Effect * effect;
+};
+
+std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
   DummyParamController* paramController = new DummyParamController();
   return {
-      {new InterfaceController(poles, paramController), "Interface"},
+      {"Interface", new InterfaceController(poles, paramController)},
   };
 }
 
 TEST(Effects, stable) {
-  std::map<Effect*, std::string> effects = CreateEffects(CreatePoles());
+  auto const effects = CreateEffects(CreatePoles());
 
-  for (auto it : effects) {
-    Effect* effect = it.first;
-    std::string name = it.second;
-    std::cout << "Testing effect '" << name << "' for stability...\n";
+  for (auto const & element : effects) {
+    std::cout << "Testing effect '" << element.name << "' for stability...\n";
 
     for (uint32_t time = 0; time < 12 * 60 * 60 * 1000; time += 10) {
-      effect->Run();
+      element.effect->Run();
       SetMillis(time);
     }
   }
@@ -49,17 +52,14 @@ TEST(Effects, power_consumption) {
   const float kBluePower = 2.7;
 
   std::vector<Pole*> poles = CreatePoles();
-  std::map<Effect*, std::string> effects = CreateEffects(poles);
+  auto const effects = CreateEffects(poles);
 
-  for (auto it : effects) {
-    Effect* effect = it.first;
-    std::string name = it.second;
-
+  for (auto const & element : effects) {
     float max_power = 0;
     float power_sum = 0;
     for (uint32_t time = 0; time < kRunTimeMs; time += kStepMs) {
       SetMillis(time);
-      effect->Run();
+      element.effect->Run();
 
       float instantaneous_power = 0;
       for (Pole* pole : poles) {
@@ -80,13 +80,13 @@ TEST(Effects, power_consumption) {
     }
 
     float average_power = power_sum / (kRunTimeMs / kStepMs);
-    printf("Power report for '%s':\n", name.c_str());
+    printf("Power report for '%s':\n", element.name.c_str());
     printf("  Average power:  %5.1f W\n", average_power);
     printf("  Max power:      %5.1f W\n\n", max_power);
 
     // TODO: decide on appropriate values for these
-    EXPECT_LT(average_power, 60.0) << name;
-    EXPECT_LT(max_power, 120.0) << name;
+    EXPECT_LT(average_power, 60.0) << element.name;
+    EXPECT_LT(max_power, 120.0) << element.name;
 
     // Clear all lights
     for (Pole* pole : poles) {
