@@ -42,8 +42,12 @@ class ControlPole {
  private:
   uint8_t GetUpdatedHueShift(uint16_t framesSinceLast);
 
+  ControlPoleEffectCross effectCross;
+  ControlPoleEffectLine effectLine;
+  ControlPoleEffectCircle effectCircle;
+  ControlPoleEffectDiverge effectDiverge;
+  ControlPoleEffectPinwheel effectPinwheel;
   ControlPoleEffect* currentEffect;
-  ControlPoleEffect* effects[5];
 
   uint16_t fadeInFrames = 0;
   uint16_t fadeOutFrames = 0;
