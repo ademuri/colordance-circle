@@ -5,8 +5,8 @@
 #include "helper-pole/HelperPole.hpp"
 
 InterfaceController::InterfaceController(std::vector<Pole*> poles,
-                                         ParamController* paramController)
-    : Effect(poles, paramController) {
+                                         std::unique_ptr<ParamController> paramController)
+    : Effect(poles, std::move(paramController)) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
   }

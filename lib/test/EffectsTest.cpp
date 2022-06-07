@@ -23,9 +23,11 @@ struct NamedEffect {
 };
 
 std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
-  DummyParamController* paramController = new DummyParamController();
   auto result = std::vector<NamedEffect>();
-  result.push_back({"Interface", std::make_unique<InterfaceController>(poles, paramController)});
+  result.push_back({
+    "Interface",
+    std::make_unique<InterfaceController>(poles, std::make_unique<DummyParamController>())
+  });
   return result;
 }
 

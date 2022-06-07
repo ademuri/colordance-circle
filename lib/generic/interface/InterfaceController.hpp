@@ -1,6 +1,7 @@
 #ifndef INTERFACE_CONTROLLER_HPP_
 #define INTERFACE_CONTROLLER_HPP_
 
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -16,7 +17,7 @@
 class InterfaceController : public Effect {
  public:
   InterfaceController(std::vector<Pole*> poles,
-                      ParamController* paramController);
+                      std::unique_ptr<ParamController> paramController);
 
  protected:
   void DoRun() override;
