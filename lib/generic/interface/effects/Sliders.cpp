@@ -2,9 +2,11 @@
 
 #include "ColordanceTypes.hpp"
 
-Sliders::Sliders() : InterfaceEffect() {
-  pole_left = new ControlPole(FRAMES_PER_LOOP);
-  pole_right = new ControlPole(FRAMES_PER_LOOP);
+Sliders::Sliders() :
+  InterfaceEffect(),
+  pole_left(std::make_unique<ControlPole>(FRAMES_PER_LOOP)),
+  pole_right(std::make_unique<ControlPole>(FRAMES_PER_LOOP))
+{
   ResetModes();
 }
 
@@ -65,9 +67,8 @@ void Sliders::DoShift(uint8_t shiftPosition) {
       pole_left->SetHue(hueLeft);
       pole_right->SetHue(hueRight);
     } else {
-      ControlPole *leftOld = pole_left;
-      pole_left = pole_right;
-      pole_right = leftOld;
+      using std::swap;
+      swap(pole_left, pole_right);
     }
   }
 }

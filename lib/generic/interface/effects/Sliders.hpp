@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "ColordanceTypes.hpp"
@@ -29,8 +30,8 @@ class Sliders : public InterfaceEffect {
 
   void ResetModes();
 
-  ControlPole *pole_left;
-  ControlPole *pole_right;
+  std::unique_ptr<ControlPole> pole_left;
+  std::unique_ptr<ControlPole> pole_right;
 
   uint32_t lastFrame = 0;
 
