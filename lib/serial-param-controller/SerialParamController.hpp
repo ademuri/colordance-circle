@@ -1,5 +1,4 @@
-#ifndef SERIAL_PARAM_CONTROLLER_HPP_
-#define SERIAL_PARAM_CONTROLLER_HPP_
+#pragma once
 
 #include <vector>
 
@@ -19,5 +18,3 @@ class SerialParamController : public ParamController {
   std::vector<uint8_t> params =
       std::vector<uint8_t>(static_cast<uint8_t>(Param::kLastParam), 0);
 };
-
-#endif  // SERIAL_PARAM_CONTROLLER_HPP_

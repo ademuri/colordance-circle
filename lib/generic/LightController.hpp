@@ -1,5 +1,4 @@
-#ifndef LIGHT_CONTROLLER_HPP_
-#define LIGHT_CONTROLLER_HPP_
+#pragma once
 
 #include <ColordanceTypes.hpp>
 #include <vector>
@@ -11,12 +10,8 @@ class LightController {
   /* Writes the light values from the poles to the output device. */
   virtual void WriteOutLights() = 0;
 
-  std::vector<Pole*> const & get_poles() const {
-    return poles;
-  }
+  std::vector<Pole*> const& get_poles() const { return poles; }
 
  protected:
   std::vector<Pole*> poles;
 };
-
-#endif

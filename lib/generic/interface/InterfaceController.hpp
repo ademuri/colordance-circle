@@ -1,5 +1,4 @@
-#ifndef INTERFACE_CONTROLLER_HPP_
-#define INTERFACE_CONTROLLER_HPP_
+#pragma once
 
 #include <memory>
 #include <queue>
@@ -69,5 +68,3 @@ class InterfaceController : public Effect {
   std::queue<uint16_t> beatQueue;
   uint16_t beatTrackingTime = 0;
 };
-
-#endif

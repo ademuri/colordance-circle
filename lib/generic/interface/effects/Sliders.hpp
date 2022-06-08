@@ -1,5 +1,4 @@
-#ifndef SLIDERS_HPP_
-#define SLIDERS_HPP_
+#pragma once
 
 #include <vector>
 
@@ -52,5 +51,3 @@ class Sliders : public InterfaceEffect {
   bool backAndForth = false;
   bool smoothPoleShift = false;
 };
-
-#endif

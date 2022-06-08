@@ -1,5 +1,4 @@
-#ifndef PARAM_CONTROLLER_HPP_
-#define PARAM_CONTROLLER_HPP_
+#pragma once
 
 #include "ColordanceTypes.hpp"
 
@@ -25,5 +24,3 @@ class ParamController {
 
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
 };
-
-#endif  // PARAM_CONTROLLER_HPP_

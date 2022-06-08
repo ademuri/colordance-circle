@@ -2,7 +2,7 @@
 
 #include <ColordanceTypes.hpp>
 #include <LightController.hpp>
-#include <vector>
+#include <array>
 
 class TeensyLightController : public LightController {
  public:
@@ -23,15 +23,17 @@ class TeensyLightController : public LightController {
   // FastLED pin order:
   // 1,0,24,25,19,18,14,15,17,16,22,23,20,21,26,27
 
-  // Map from pole number (position in vector) to the index for that pole's main
+  // Map from pole number (position in array) to the index for that pole's main
   // light in the LED array
   // Pins: 14, 16, 18, 20, 22, 1
-  static inline const std::vector<int> kPoleGridIndexes = {6, 9, 5, 12, 10, 0};
+  static inline constexpr std::array<int, 6> kPoleGridIndexes = {6,  9,  5,
+                                                                 12, 10, 0};
 
-  // Map from pole number (position in vector) to the index for that pole's pole
+  // Map from pole number (position in array) to the index for that pole's pole
   // lights in the LED array
   // Pins: 15, 17, 19, 21, 23, 0
-  static inline const std::vector<int> kPoleLightIndexes = {7, 8, 4, 13, 11, 1};
+  static inline constexpr std::array<int, 6> kPoleLightIndexes = {7,  8,  4,
+                                                                  13, 11, 1};
 
   static inline constexpr int kPodiumIndex = 3;
   static inline constexpr int kControlPanelIndex = 2;

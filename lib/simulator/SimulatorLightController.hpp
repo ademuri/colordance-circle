@@ -1,5 +1,4 @@
-#ifndef __SIMULATOR_LIGHT_CONTROLLER_HPP__
-#define __SIMULATOR_LIGHT_CONTROLLER_HPP__
+#pragma once
 
 #include <OgreLight.h>
 #include <OgreSceneManager.h>
@@ -44,5 +43,3 @@ class SimulatorLightController : public LightController {
   // Dims the lights by this factor, to avoid clipping.
   static constexpr float kLightScale = 0.3;
 };
-
-#endif

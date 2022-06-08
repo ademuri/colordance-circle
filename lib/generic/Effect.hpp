@@ -1,5 +1,4 @@
-#ifndef EFFECT_HPP_
-#define EFFECT_HPP_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -9,7 +8,8 @@
 
 class Effect {
  public:
-  Effect(std::vector<Pole*> poles, std::unique_ptr<ParamController> paramController);
+  Effect(std::vector<Pole*> poles,
+         std::unique_ptr<ParamController> paramController);
 
   /* Runs this effect. */
   void Run();
@@ -34,5 +34,3 @@ class Effect {
  private:
   uint32_t sleep_until_ms = 0;
 };
-
-#endif

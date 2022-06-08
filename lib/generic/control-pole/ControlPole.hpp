@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_HPP_
-#define CONTROL_POLE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -78,5 +77,3 @@ class ControlPole {
 
   const uint16_t FRAMES_PER_LOOP;
 };
-
-#endif

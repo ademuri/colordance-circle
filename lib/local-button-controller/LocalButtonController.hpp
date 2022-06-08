@@ -1,26 +1,23 @@
-#ifndef LOCAL_BUTTON_CONTROLLER_H
-#define LOCAL_BUTTON_CONTROLLER_H
+#pragma once
 
 #include "ColordanceTypes.hpp"
 #include "ParamController.hpp"
 
 class LocalButtonController : public ParamController {
-    public:
-        LocalButtonController();
+ public:
+  LocalButtonController();
 
-        uint8_t GetRawParam(Param param) override {};
-        
-        bool Random();
-        bool Next();
-    
-    private:
-        const int kRandomPin = 2;
-        const int kNextPin = 3;
+  uint8_t GetRawParam(Param param) override{};
 
-        bool randomOn = false;
-        bool nextOn = false;
+  bool Random();
+  bool Next();
 
-        bool randomInit = false;
+ private:
+  const int kRandomPin = 2;
+  const int kNextPin = 3;
+
+  bool randomOn = false;
+  bool nextOn = false;
+
+  bool randomInit = false;
 };
-
-#endif

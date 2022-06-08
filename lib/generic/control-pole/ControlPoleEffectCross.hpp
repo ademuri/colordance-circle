@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_EFFECT_CROSS_HPP_
-#define CONTROL_POLE_EFFECT_CROSS_HPP_
+#pragma once
 
 #include <vector>
 
@@ -16,5 +15,3 @@ class ControlPoleEffectCross : public ControlPoleEffect {
                  uint8_t shiftIndex) override;
   uint8_t GetShiftsPerLoop() override;
 };
-
-#endif

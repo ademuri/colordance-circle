@@ -1,5 +1,4 @@
-#ifndef INTERFACE_EFFECT_HPP_
-#define INTERFACE_EFFECT_HPP_
+#pragma once
 
 #include <vector>
 
@@ -46,5 +45,3 @@ class InterfaceEffect {
  private:
   const uint16_t WAIT_TIME_TO_START_OVER = 8000;  // time effect was off
 };
-
-#endif

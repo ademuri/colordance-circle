@@ -1,5 +1,4 @@
-#ifndef FAST_LED_LIGHT_CONTROLLER_HPP_
-#define FAST_LED_LIGHT_CONTROLLER_HPP_
+#pragma once
 
 #include <ColordanceTypes.hpp>
 #include <LightController.hpp>
@@ -17,5 +16,3 @@ class FastLedLightController : public LightController {
   static const uint16_t kNumLeds = 6 * kGridSize + kLedOffset;
   CRGB leds[kNumLeds];
 };
-
-#endif
