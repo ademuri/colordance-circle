@@ -1,5 +1,4 @@
-#ifndef POLE_HPP_
-#define POLE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -25,5 +24,3 @@ class Pole {
  private:
   std::vector<std::vector<CRGB>> grid_lights;
 };
-
-#endif

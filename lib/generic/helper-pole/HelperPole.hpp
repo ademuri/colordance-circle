@@ -1,5 +1,4 @@
-#ifndef HELPER_POLE_HPP_
-#define HELPER_POLE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -80,5 +79,3 @@ class HelperPole {
 
   const uint16_t FRAMES_PER_LOOP;
 };
-
-#endif

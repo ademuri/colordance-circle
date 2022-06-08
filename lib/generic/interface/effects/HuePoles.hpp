@@ -1,5 +1,4 @@
-#ifndef HUE_POLES_HPP_
-#define HUE_POLES_HPP_
+#pragma once
 
 #include <vector>
 
@@ -38,5 +37,3 @@ class HuePoles : public InterfaceEffect {
   bool backAndForth = true;
   bool smoothPoleShift = true;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef COLORDANCE_TYPES_HPP_
-#define COLORDANCE_TYPES_HPP_
+#pragma once
 
 #ifdef ARDUINO
 
@@ -34,7 +33,5 @@ uint32_t millis();
 void UseRealMillis();
 void SetMillis(uint32_t ms);
 void AdvanceMillis(uint32_t ms);
-
-#endif
 
 #endif

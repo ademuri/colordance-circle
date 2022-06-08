@@ -1,5 +1,4 @@
-#ifndef LIGHT_CONTROLLER_HPP_
-#define LIGHT_CONTROLLER_HPP_
+#pragma once
 
 #include <ColordanceTypes.hpp>
 #include <vector>
@@ -18,5 +17,3 @@ class LightController {
  protected:
   std::vector<Pole*> poles;
 };
-
-#endif

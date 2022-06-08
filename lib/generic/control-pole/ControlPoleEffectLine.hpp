@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_EFFECT_LINE_HPP_
-#define CONTROL_POLE_EFFECT_LINE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -14,5 +13,3 @@ class ControlPoleEffectLine : public ControlPoleEffect {
   void DoSetGrid(uint8_t shiftIndex) override;
   uint8_t GetShiftsPerLoop() override;
 };
-
-#endif

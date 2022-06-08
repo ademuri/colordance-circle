@@ -1,5 +1,4 @@
-#ifndef BACK_AND_FORTH_HPP_
-#define BACK_AND_FORTH_HPP_
+#pragma once
 
 #include <vector>
 
@@ -42,5 +41,3 @@ class BackAndForth : public InterfaceEffect {
 
   bool smoothPoleShift = true;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_EFFECT_HPP_
-#define CONTROL_POLE_EFFECT_HPP_
+#pragma once
 
 #include <vector>
 
@@ -72,5 +71,3 @@ class ControlPoleEffect {
   bool reverse = false;
   bool goBackwards = false;
 };
-
-#endif

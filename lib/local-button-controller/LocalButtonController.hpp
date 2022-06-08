@@ -1,5 +1,4 @@
-#ifndef LOCAL_BUTTON_CONTROLLER_H
-#define LOCAL_BUTTON_CONTROLLER_H
+#pragma once
 
 #include "ColordanceTypes.hpp"
 #include "ParamController.hpp"
@@ -22,5 +21,3 @@ class LocalButtonController : public ParamController {
 
         bool randomInit = false;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __SIMULATOR_HPP__
-#define __SIMULATOR_HPP__
+#pragma once
 
 #include <OgreApplicationContext.h>
 #include <OgreInput.h>
@@ -39,5 +38,3 @@ class Simulator : public OgreBites::ApplicationContext,
   SimulatorLightController *lightController;
   Effect *effect;
 };
-
-#endif

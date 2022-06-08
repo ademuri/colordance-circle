@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_EFFECT_PINWHEEL_HPP_
-#define CONTROL_POLE_EFFECT_PINWHEEL_HPP_
+#pragma once
 
 #include <vector>
 
@@ -18,5 +17,3 @@ class ControlPoleEffectPinwheel : public ControlPoleEffect {
   uint8_t GetBigSquare(uint8_t shiftIndex);
   uint8_t GetLittleSquare(uint8_t shiftIndex);
 };
-
-#endif

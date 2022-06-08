@@ -1,5 +1,4 @@
-#ifndef CONTROL_POLE_EFFECT_CIRCLE_HPP_
-#define CONTROL_POLE_EFFECT_CIRCLE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -17,5 +16,3 @@ class ControlPoleEffectCircle : public ControlPoleEffect {
  private:
   uint8_t GetIndex(uint8_t shiftIndex);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef SIDE_TO_SIDE_HPP_
-#define SIDE_TO_SIDE_HPP_
+#pragma once
 
 #include <vector>
 
@@ -38,5 +37,3 @@ class SideToSide : public InterfaceEffect {
   bool backAndForth = true;
   bool smoothPoleShift = true;
 };
-
-#endif
