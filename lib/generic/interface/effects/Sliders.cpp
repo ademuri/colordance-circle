@@ -4,8 +4,9 @@
 
 Sliders::Sliders() :
   InterfaceEffect(),
-  pole_left(std::make_unique<ControlPole>(FRAMES_PER_LOOP)),
-  pole_right(std::make_unique<ControlPole>(FRAMES_PER_LOOP))
+  poles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
+  pole_left(poles.data() + 0),
+  pole_right(poles.data() + 1)
 {
   ResetModes();
 }
@@ -13,8 +14,9 @@ Sliders::Sliders() :
 bool Sliders::ContinuousShift() { return true; }
 
 void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
-  pole_right->TurnOffAll();
-  pole_left->TurnOffAll();
+  for (auto & pole : this->poles) {
+    pole.TurnOffAll();
+  }
   bool multiply = leftIndex == rightIndex ? true : false;
   poles[leftIndex]->MultiplyGridLights(
       pole_left->GetGrid(frame, lastFrame, false));
@@ -27,12 +29,12 @@ void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
 void Sliders::UpdateOption1() {
   mode++;
   mode %= kNumModes;
-  if (mode == 0) {
-    pole_left->SetMode(Mode::kLine);
-    pole_right->SetMode(Mode::kLine);
-  } else {
-    pole_left->SetMode(Mode::kCircle);
-    pole_right->SetMode(Mode::kCircle);
+  for (auto & pole : poles) {
+    if (mode == 0) {
+      pole.SetMode(Mode::kLine);
+    } else {
+      pole.SetMode(Mode::kCircle);
+    }
   }
   // Have to do this after setting mode because code is dumb - make code better.
   ResetModes();
@@ -67,23 +69,20 @@ void Sliders::DoShift(uint8_t shiftPosition) {
       pole_left->SetHue(hueLeft);
       pole_right->SetHue(hueRight);
     } else {
-      using std::swap;
-      swap(pole_left, pole_right);
+      std::swap(pole_left, pole_right);
     }
   }
 }
 
 void Sliders::ResetModes() {
-  pole_left->SetHueDistance(10);
-  pole_right->SetHueDistance(10);
   pole_left->SetHue(hueLeft);
   pole_right->SetHue(hueRight);
-  pole_left->SetLightCount(4);
-  pole_right->SetLightCount(4);
-  pole_left->SetReverse(false);
-  pole_right->SetReverse(false);
-  pole_left->SetSmoothColor(smoothHue);
-  pole_right->SetSmoothColor(smoothHue);
+  for (auto & pole : poles) {
+    pole.SetHueDistance(10);
+    pole.SetLightCount(4);
+    pole.SetReverse(false);
+    pole.SetSmoothColor(smoothHue);
+  }
 }
 
 void Sliders::ResetEffect() { ResetModes(); }

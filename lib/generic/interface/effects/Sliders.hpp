@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <array>
 #include <vector>
 
 #include "ColordanceTypes.hpp"
@@ -11,6 +11,8 @@
 class Sliders : public InterfaceEffect {
  public:
   Sliders();
+  Sliders(Sliders const &) = delete;
+  Sliders & operator=(Sliders const &) = delete;
 
  protected:
   bool ContinuousShift() override;
@@ -30,8 +32,9 @@ class Sliders : public InterfaceEffect {
 
   void ResetModes();
 
-  std::unique_ptr<ControlPole> pole_left;
-  std::unique_ptr<ControlPole> pole_right;
+  std::array<ControlPole, 2> poles;
+  ControlPole * pole_left;
+  ControlPole * pole_right;
 
   uint32_t lastFrame = 0;
 
