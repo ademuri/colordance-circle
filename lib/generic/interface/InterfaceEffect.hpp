@@ -5,11 +5,11 @@
 
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
-#include "helper-pole/HelperPole.hpp"
+#include "control-pole/ControlPole.hpp"
 
 class InterfaceEffect {
  public:
-  InterfaceEffect(std::vector<HelperPole*> const & helperPoles);
+  InterfaceEffect();
 
   bool GetContinuousShift();
 
@@ -19,18 +19,20 @@ class InterfaceEffect {
   void SetSlider2(uint8_t val);
 
   void Shift(uint8_t shiftPosition);
-  void SetGrid(std::vector<Pole*> & poles, uint16_t timeSinceLastBeat,
+  void SetGrid(std::vector<Pole *> &poles, uint16_t timeSinceLastBeat,
                uint16_t millisPerBeat);
+
+  void Reset();
 
  protected:
   virtual bool ContinuousShift() = 0;
-  virtual void DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) = 0;
+  virtual void DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;
   virtual void UpdateSlider2(uint8_t val) = 0;
   virtual void DoShift(uint8_t shiftPosition) = 0;
-  virtual void Reset() = 0;
+  virtual void ResetEffect() = 0;
 
   const uint16_t FRAMES_PER_LOOP = 840;
 
@@ -42,7 +44,7 @@ class InterfaceEffect {
   uint32_t lastTimeSinceLastBeat = 0;
 
  private:
-  const uint8_t WAIT_TIME_TO_START_OVER = 200;  // time effect was off
+  const uint16_t WAIT_TIME_TO_START_OVER = 8000;  // time effect was off
 };
 
 #endif

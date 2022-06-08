@@ -2,117 +2,87 @@
 
 #include "ColordanceTypes.hpp"
 
-Sliders::Sliders(std::vector<HelperPole *> const & helperPoles)
-    : InterfaceEffect(helperPoles) {
-  hueLeft = 0;
-  hueRight = 127;
-  pole_left = helperPoles[0];
-  pole_right = helperPoles[1];
-  pole_left->SetHue(0);
-  pole_right->SetHue(127);
+Sliders::Sliders() : InterfaceEffect() {
+  pole_left = new ControlPole(FRAMES_PER_LOOP);
+  pole_right = new ControlPole(FRAMES_PER_LOOP);
+  ResetModes();
 }
 
 bool Sliders::ContinuousShift() { return true; }
 
-void Sliders::DoSetGrid(std::vector<Pole *> & poles, uint16_t frame) {
-  // if (mode == 0) {
-  //   SetMode0(poles, count);
-  // } else {
-  //   SetMode1(poles);
-  // }
-
-  poles[leftIndex]->SetGridLights(pole_left->GetGrid(frame, lastFrame, false));
-  poles[rightIndex]->SetGridLights(
-      pole_right->GetGrid(frame, lastFrame, false));
+void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
+  pole_right->TurnOffAll();
+  pole_left->TurnOffAll();
+  bool multiply = leftIndex == rightIndex ? true : false;
+  poles[leftIndex]->MultiplyGridLights(
+      pole_left->GetGrid(frame, lastFrame, false));
+  poles[rightIndex]->MultiplyGridLights(
+      pole_right->GetGrid(frame, lastFrame, multiply));
 
   lastFrame = frame;
 }
 
-// void Sliders::SetMode0(std::vector<Pole *> poles, uint8_t position) {
-//   uint8_t adjustedPosition = 3 - position - 1;
-//   uint8_t sat =
-//       position % 3 == adjustedPosition % 3 && rightIndex == leftIndex ? 0 :
-//       255;
-
-//   pole_left->GetGrid()
-//   UpdateGrid(pole_left, position, hueLeft, sat);
-//   UpdateGrid(pole_right, adjustedPosition, hueRight, sat);
-//   if (rightIndex == leftIndex) {
-//     UpdateGrid(pole_left, adjustedPosition, hueRight, sat);
-//     UpdateGrid(pole_right, position, hueLeft, sat);
-//   } else {
-//     poles[rightIndex]->SetGridLights(swap ? pole_left : pole_right);
-//   }
-//   poles[leftIndex]->SetGridLights(swap ? pole_right : pole_left);
-
-//   helperPole->GetGrid
-// }
-
-// void Sliders::SetMode1(std::vector<Pole *> poles) {
-//   uint8_t sat = 255;
-//   if (rightIndex == leftIndex) {
-//     UpdateGrid(pole_left, 0, swap ? hueLeft : hueRight, sat);
-//     UpdateGrid(pole_left, 1, swap ? hueRight : hueLeft, sat);
-//     poles[leftIndex]->SetGridLights(pole_left);
-//   } else {
-//     UpdateGrid(pole_left, swap ? 1 : 0, swap ? hueLeft : hueRight, sat);
-//     UpdateGrid(pole_right, swap ? 0 : 1, swap ? hueRight : hueLeft, sat);
-//     poles[leftIndex]->SetGridLights(pole_left);
-//     poles[rightIndex]->SetGridLights(pole_right);
-//   }
-// }
-
-// void Sliders::UpdateGrid(std::vector<std::vector<CHSV>> &pole, uint8_t
-// position,
-//                          uint8_t hue, uint8_t sat) {
-//   const CHSV color = CHSV(hue, sat, 255);
-//   if (mode == 0) {
-//     position = position % 3;
-//     pole[0][position] = color;
-//     pole[3 - position][0] = color;
-//     pole[3][3 - position] = color;
-//     pole[position][3] = color;
-//   } else if (mode == 1) {
-//     position = position % 2;
-//     pole[position][position] = color;
-//     pole[3 - position][3 - position] = color;
-//     pole[position][3 - position] = color;
-//     pole[3 - position][position] = color;
-//   }
-// }
-
-// void Sliders::TurnOffAll(std::vector<std::vector<CHSV>> &pole) {
-//   for (int x = 0; x < 4; x++) {
-//     for (int y = 0; y < 4; y++) {
-//       pole[x][y].val = 0;
-//     }
-//   }
-// }
-
 void Sliders::UpdateOption1() {
   mode++;
-  // mode %= kNumModes;
+  mode %= kNumModes;
+  if (mode == 0) {
+    pole_left->SetMode(Mode::kLine);
+    pole_right->SetMode(Mode::kLine);
+  } else {
+    pole_left->SetMode(Mode::kCircle);
+    pole_right->SetMode(Mode::kCircle);
+  }
+  // Have to do this after setting mode because code is dumb - make code better.
+  ResetModes();
+  if (mode == 0) {
+  } else {
+    pole_right->SetReverse(true);
+  }
 }
 
 /**
  * Cycle hues.
  */
-void Sliders::UpdateOption2() { smoothHue = !smoothHue; }
+void Sliders::UpdateOption2() {
+  smoothHue = !smoothHue;
+  pole_left->SetSmoothColor(smoothHue);
+  pole_right->SetSmoothColor(smoothHue);
+}
 
 /**
- * Change the fade.
+ * Sliders move which pole the lights are on
  */
 void Sliders::UpdateSlider1(uint8_t val) { leftIndex = val / 43; }
 
-/**
- * Chages the hue distance
- */
 void Sliders::UpdateSlider2(uint8_t val) { rightIndex = val / 43; }
 
 void Sliders::DoShift(uint8_t shiftPosition) {
   if (shiftPosition == 0) {
-    swap = !swap;
+    if (leftIndex == rightIndex) {
+      uint8_t hueLeftOld = hueLeft;
+      hueLeft = hueRight;
+      hueRight = hueLeftOld;
+      pole_left->SetHue(hueLeft);
+      pole_right->SetHue(hueRight);
+    } else {
+      ControlPole *leftOld = pole_left;
+      pole_left = pole_right;
+      pole_right = leftOld;
+    }
   }
 }
 
-void Sliders::Reset() {}
+void Sliders::ResetModes() {
+  pole_left->SetHueDistance(10);
+  pole_right->SetHueDistance(10);
+  pole_left->SetHue(hueLeft);
+  pole_right->SetHue(hueRight);
+  pole_left->SetLightCount(4);
+  pole_right->SetLightCount(4);
+  pole_left->SetReverse(false);
+  pole_right->SetReverse(false);
+  pole_left->SetSmoothColor(smoothHue);
+  pole_right->SetSmoothColor(smoothHue);
+}
+
+void Sliders::ResetEffect() { ResetModes(); }

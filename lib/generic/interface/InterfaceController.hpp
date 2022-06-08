@@ -7,11 +7,10 @@
 
 #include "Effect.hpp"
 #include "Pole.hpp"
-#include "helper-pole/HelperPole.hpp"
 #include "interface/InterfaceEffect.hpp"
-// #include "interface/effects/BackAndForth.hpp"
+#include "interface/effects/BackAndForth.hpp"
 // #include "interface/effects/HuePoles.hpp"
-// #include "interface/effects/SideToSide.hpp"
+#include "interface/effects/SideToSide.hpp"
 #include "interface/effects/Sliders.hpp"
 
 class InterfaceController : public Effect {
@@ -27,8 +26,10 @@ class InterfaceController : public Effect {
   uint16_t GetBeatsOverTime(uint32_t elapsedTime, uint16_t interval);
   void ResetBeatQueue();
 
+  BackAndForth backAndForth;
+  Sliders sliders;
+  SideToSide sideToSide;
   InterfaceEffect* currentEffect;
-  InterfaceEffect* effects[7];
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;
   const uint16_t FRAMES_PER_LOOP = 840;

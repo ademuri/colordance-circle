@@ -2,7 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-InterfaceEffect::InterfaceEffect(std::vector<HelperPole*> const & helperPoles) {}
+InterfaceEffect::InterfaceEffect() {}
 
 bool InterfaceEffect::GetContinuousShift() { return ContinuousShift(); }
 
@@ -26,7 +26,7 @@ void InterfaceEffect::SetSlider2(uint8_t val) { UpdateSlider2(val); }
 
 void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
 
-void InterfaceEffect::SetGrid(std::vector<Pole*> & poles,
+void InterfaceEffect::SetGrid(std::vector<Pole*>& poles,
                               uint16_t timeSinceLastBeat,
                               uint16_t millisPerBeat) {
   if (lastTimeSinceLastBeat + WAIT_TIME_TO_START_OVER < timeSinceLastBeat) {
@@ -36,3 +36,5 @@ void InterfaceEffect::SetGrid(std::vector<Pole*> & poles,
   DoSetGrid(poles, FRAMES_PER_LOOP * timeSinceLastBeat / millisPerBeat);
   lastTimeSinceLastBeat = timeSinceLastBeat;
 }
+
+void InterfaceEffect::Reset() { ResetEffect(); }

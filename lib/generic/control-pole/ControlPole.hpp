@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
 #include "ControlPoleEffectCircle.hpp"
 #include "ControlPoleEffectCross.hpp"
@@ -10,13 +11,15 @@
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
 
-// enum class Mode {
-//   kCircle,
-//   kCross,
-//   kDiverge,
-//   kLine,
-//   kPinwheel
-// };
+enum class Mode {
+  kCircle,
+  kCross,
+  kDiverge,
+  kLine,
+  kPinwheel,
+  kSmallSquare,
+  kCorners
+};
 
 class ControlPole {
  public:
@@ -24,9 +27,9 @@ class ControlPole {
   void SetHue(uint8_t hue);
   void SetSat(uint8_t sat);
   void SetVal(uint8_t val);
-  void SetMode(uint8_t mode);
+  void SetMode(Mode mode);
+  void SetRotation(uint8_t rotation);
   void SetLightCount(uint8_t lightCount);
-  void SetSpeed(uint8_t speed);
   void SetHueShift(uint8_t hueShift);
   void SetHueDistance(uint8_t hueDistance);
   void SetBackAndForth(bool backAndForth);
@@ -35,9 +38,11 @@ class ControlPole {
   void ResetFade();
   void FadeIn(uint16_t fadeFrames);
   void FadeOut(uint16_t fadeFrames);
+  void TurnOffAll();
   uint32_t GetTimerShiftOffset();
-  std::vector<std::vector<CHSV>> const & GetGrid(uint16_t frame, uint16_t lastFrame,
-                                         bool multiply);
+  std::vector<std::vector<CHSV>> const& GetGrid(uint16_t frame,
+                                                uint16_t lastFrame,
+                                                bool multiply);
 
  private:
   uint8_t GetUpdatedHueShift(uint16_t framesSinceLast);
@@ -49,12 +54,15 @@ class ControlPole {
   ControlPoleEffectPinwheel effectPinwheel;
   ControlPoleEffect* currentEffect;
 
+  std::vector<std::vector<CHSV>> grid_lights;
+
   uint16_t fadeInFrames = 0;
   uint16_t fadeOutFrames = 0;
   uint16_t fadeOutFramesLeft = 0;
   uint16_t fadeInFramesLeft = 0;
 
-  uint8_t lastMode = 0;
+  Mode mode;
+  Mode lastMode;
 
   uint8_t baseHue = 0;
   uint8_t hueShift = 5;

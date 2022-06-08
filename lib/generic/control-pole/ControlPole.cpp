@@ -7,11 +7,21 @@
 #include "ControlPoleEffectDiverge.hpp"
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
+#include "Pole.hpp"
 
-ControlPole::ControlPole(uint16_t framesPerLoop) :
-    currentEffect(std::addressof(effectLine)),
-    FRAMES_PER_LOOP(framesPerLoop)
-{
+ControlPole::ControlPole(uint16_t framesPerLoop)
+    : currentEffect(std::addressof(effectLine)),
+      FRAMES_PER_LOOP(framesPerLoop) {
+  mode = Mode::kLine;
+  lastMode = Mode::kLine;
+
+  for (int x = 0; x < Pole::kGridWidth; x++) {
+    std::vector<CHSV> row;
+    for (int y = 0; y < Pole::kGridHeight; y++) {
+      row.push_back({0, 0, 0});
+    }
+    grid_lights.push_back(row);
+  }
 }
 
 void ControlPole::SetHue(uint8_t hue) { baseHue = hue; }
@@ -23,36 +33,39 @@ void ControlPole::SetVal(uint8_t val) {
   baseVal = val;
 }
 
-void ControlPole::SetMode(uint8_t mode) {
+void ControlPole::SetMode(Mode mode) {
   if (mode == lastMode) {
     return;
   }
-  currentEffect->ResetTimerShiftOffset();
-  if (mode < 4) {
-    currentEffect = std::addressof(effectLine);
-    effectLine.SetRotation(mode);
-  } else if (mode < 6) {
-    currentEffect = std::addressof(effectCross);
-    effectCross.SetRotation(mode - 4);
-  } else if (mode < 10) {
-    currentEffect = std::addressof(effectCircle);
-    effectCircle.SetRotation(mode - 6);
-  } else if (mode < 11) {
-    currentEffect = std::addressof(effectDiverge);
-  } else if (mode < 12) {
-    currentEffect = std::addressof(effectPinwheel);
-  } else {
-    // ???
-    std::terminate();
+  switch (mode) {
+    case Mode::kCircle:
+      currentEffect = std::addressof(effectCircle);
+      break;
+    case Mode::kCross:
+      currentEffect = std::addressof(effectCross);
+      break;
+    case Mode::kDiverge:
+      currentEffect = std::addressof(effectDiverge);
+      break;
+    case Mode::kLine:
+      currentEffect = std::addressof(effectLine);
+      break;
+    case Mode::kPinwheel:
+      currentEffect = std::addressof(effectPinwheel);
+      break;
+    default:
+      currentEffect = std::addressof(effectLine);
   }
   lastMode = mode;
+}
+
+void ControlPole::SetRotation(uint8_t rotation) {
+  currentEffect->SetRotation(rotation % currentEffect->GetRotations());
 }
 
 void ControlPole::SetLightCount(uint8_t count) {
   currentEffect->SetLightCount(count);
 }
-
-void ControlPole::SetSpeed(uint8_t speed) { currentEffect->SetSpeed(speed); }
 
 void ControlPole::SetHueShift(uint8_t shift) { hueShift = shift; }
 
@@ -92,13 +105,9 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
   fadeOutFramesLeft = fadeOutFrames;
 }
 
-uint32_t ControlPole::GetTimerShiftOffset() {
-  return currentEffect->GetTimerShiftOffset();
-}
-
-std::vector<std::vector<CHSV>> const & ControlPole::GetGrid(uint16_t frame,
-                                                    uint16_t lastFrame,
-                                                    bool multiply) {
+std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
+                                                           uint16_t lastFrame,
+                                                           bool multiply) {
   uint16_t framesPerShift =
       currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
   uint8_t lastShiftIndex = lastFrame / framesPerShift;
@@ -138,9 +147,13 @@ std::vector<std::vector<CHSV>> const & ControlPole::GetGrid(uint16_t frame,
     currentEffect->SetBaseVal(baseVal);
   }
 
-  currentEffect->SetGrid(shiftIndex, multiply);
+  if (!multiply) {
+    TurnOffAll();
+  }
 
-  return currentEffect->GetGrid();
+  currentEffect->SetGrid(grid_lights, shiftIndex);
+
+  return grid_lights;
 }
 
 uint8_t ControlPole::GetUpdatedHueShift(uint16_t framesSinceLast) {
@@ -153,4 +166,12 @@ uint8_t ControlPole::GetUpdatedHueShift(uint16_t framesSinceLast) {
   hueShiftRemainder %= framesPerShift;
 
   return currentHueShift;
+}
+
+void ControlPole::TurnOffAll() {
+  for (int x = 0; x < Pole::kGridWidth; x++) {
+    for (int y = 0; y < Pole::kGridHeight; y++) {
+      grid_lights[x][y].val = 0;
+    }
+  }
 }

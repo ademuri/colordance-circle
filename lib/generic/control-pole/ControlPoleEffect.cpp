@@ -1,28 +1,10 @@
 #include "ControlPoleEffect.hpp"
 
-ControlPoleEffect::ControlPoleEffect() {
-  for (int x = 0; x < kGridWidth; x++) {
-    std::vector<CHSV> row;
-    for (int y = 0; y < kGridHeight; y++) {
-      row.push_back({0, 0, 0});
-    }
-    grid_lights.push_back(std::move(row));
-  }
-}
+ControlPoleEffect::ControlPoleEffect() {}
 
-void ControlPoleEffect::TurnOffAll() {
-  for (int x = 0; x < kGridWidth; x++) {
-    for (int y = 0; y < kGridHeight; y++) {
-      grid_lights[x][y].val = 0;
-    }
-  }
-}
-
-void ControlPoleEffect::SetGrid(uint8_t shiftIndex, bool multiply) {
-  if (!multiply) {
-    TurnOffAll();
-  }
-  DoSetGrid(shiftIndex);
+void ControlPoleEffect::SetGrid(std::vector<std::vector<CHSV>>& grid_lights,
+                                uint8_t shiftIndex) {
+  DoSetGrid(grid_lights, shiftIndex);
 }
 
 /**
@@ -51,10 +33,6 @@ void ControlPoleEffect::SetRotation(uint8_t rotate) { rotation = rotate; }
 
 uint8_t ControlPoleEffect::GetAdjustedShiftsPerLoop(bool backAndForth) {
   return GetShiftsPerLoop() - (backAndForth ? 1 : 0);
-}
-
-CHSV ControlPoleEffect::GetLight(uint8_t x, uint8_t y) {
-  return grid_lights[x][y];
 }
 
 uint8_t ControlPoleEffect::AdjustedBrightness(uint8_t baseVal, uint8_t lightsOn,

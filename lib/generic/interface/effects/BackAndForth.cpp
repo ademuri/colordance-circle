@@ -2,11 +2,10 @@
 
 #include "ColordanceTypes.hpp"
 
-BackAndForth::BackAndForth(std::vector<HelperPole*> const & helperPoles)
-    : InterfaceEffect(helperPoles),
+BackAndForth::BackAndForth()
+    : InterfaceEffect(),
       controlPoleLeft(FRAMES_PER_LOOP),
-      controlPoleRight(FRAMES_PER_LOOP)
-{
+      controlPoleRight(FRAMES_PER_LOOP) {
   controlPoleLeft.SetHue(0);
   controlPoleRight.SetHue(127);
   controlPoleLeft.SetReverse(true);
@@ -14,10 +13,10 @@ BackAndForth::BackAndForth(std::vector<HelperPole*> const & helperPoles)
 
 bool BackAndForth::ContinuousShift() { return true; }
 
-void BackAndForth::DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) {
-  poles[leftIndex]->SetGridLights(
+void BackAndForth::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
+  poles[leftIndex % 6]->SetGridLights(
       controlPoleLeft.GetGrid(frame, lastFrame, false));
-  poles[rightIndex]->SetGridLights(
+  poles[rightIndex % 6]->SetGridLights(
       controlPoleRight.GetGrid(frame, lastFrame, false));
   lastFrame = frame;
 }
@@ -29,12 +28,21 @@ void BackAndForth::UpdateOption1() {
   controlPoleRight.SetMode(modes[modeIndex]);
 }
 
-void BackAndForth::UpdateOption2() { cross = !cross; }
+void BackAndForth::UpdateOption2() {
+  leftReverse = !leftReverse;
+  rightReverse = !rightReverse;
+  controlPoleLeft.SetReverse(leftReverse);
+  controlPoleRight.SetReverse(rightReverse);
+}
 
 /**
  * Change the fade.
  */
-void BackAndForth::UpdateSlider1(uint8_t val) {}
+void BackAndForth::UpdateSlider1(uint8_t val) {
+  val /= 4;
+  controlPoleLeft.SetHue(val);
+  controlPoleRight.SetHue(127 - val);
+}
 
 /**
  * Chages the hue distance
@@ -46,25 +54,17 @@ void BackAndForth::UpdateSlider2(uint8_t val) {
 }
 
 void BackAndForth::DoShift(uint8_t shiftPosition) {
-  uint8_t endLeftIndex = cross ? 5 : 2;
-  if (shiftPosition == 2) {
-    if (leftIndex == 0) {
-      controlPoleLeft.SetReverse(true);
-      controlPoleRight.SetReverse(false);
-    } else if (leftIndex == endLeftIndex) {
-      controlPoleLeft.SetReverse(false);
-      controlPoleRight.SetReverse(true);
-    }
+  if (shiftPosition == 2 && leftIndex == 0) {
+    leftReverse = !leftReverse;
+    rightReverse = !rightReverse;
   } else if (shiftPosition == 0) {
     if (leftIndex == 0) {
       goIn = true;
-      controlPoleLeft.SetReverse(true);
-      controlPoleRight.SetReverse(false);
-    } else if (leftIndex == endLeftIndex) {
+    } else if (rightIndex == 0) {
       goIn = false;
-      controlPoleLeft.SetReverse(false);
-      controlPoleRight.SetReverse(true);
     }
+    controlPoleLeft.SetReverse(leftReverse);
+    controlPoleRight.SetReverse(rightReverse);
 
     if (goIn) {
       leftIndex++;
@@ -76,4 +76,4 @@ void BackAndForth::DoShift(uint8_t shiftPosition) {
   }
 }
 
-void BackAndForth::Reset() {}
+void BackAndForth::ResetEffect() {}

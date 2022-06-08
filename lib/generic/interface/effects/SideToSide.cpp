@@ -2,11 +2,10 @@
 
 #include "ColordanceTypes.hpp"
 
-SideToSide::SideToSide(std::vector<HelperPole*> const & helperPoles)
-    : InterfaceEffect(helperPoles) {
+SideToSide::SideToSide() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    auto & pole = controlPoles.emplace_back(FRAMES_PER_LOOP);
+    auto& pole = controlPoles.emplace_back(FRAMES_PER_LOOP);
     pole.SetBackAndForth(true);
     pole.SetSmoothColor(true);
   }
@@ -14,9 +13,9 @@ SideToSide::SideToSide(std::vector<HelperPole*> const & helperPoles)
 
 bool SideToSide::ContinuousShift() { return true; }
 
-void SideToSide::DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) {
+void SideToSide::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-    std::vector<std::vector<CHSV>> const & grid = controlPoles[pole].GetGrid(
+    std::vector<std::vector<CHSV>> const& grid = controlPoles[pole].GetGrid(
         frame, lastFrame, false);  // Update all grids
     if (pole < numOfPolesOn) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;
@@ -109,4 +108,4 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   poleOffset += goBackwards ? -1 : 1;
 }
 
-void SideToSide::Reset() { poleOffset = 0; }
+void SideToSide::ResetEffect() { poleOffset = 0; }

@@ -10,17 +10,17 @@
 
 class SideToSide : public InterfaceEffect {
  public:
-  SideToSide(std::vector<HelperPole*> const & helperPoles);
+  SideToSide();
 
  protected:
   bool ContinuousShift();
-  void DoSetGrid(std::vector<Pole*> & poles, uint16_t frame) override;
+  void DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
   void UpdateSlider2(uint8_t val) override;
   void DoShift(uint8_t shiftPosition) override;
-  void Reset() override;
+  void ResetEffect() override;
 
  private:
   void UpdateHues();
@@ -32,7 +32,7 @@ class SideToSide : public InterfaceEffect {
   uint8_t poleOffset = 0;
   bool goBackwards = false;
 
-  uint8_t modes[5] = {0, 2, 6, 10, 11};
+  Mode modes[3] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel};
   uint8_t modeIndex = 0;
   uint8_t numOfPolesOn = 1;
   bool backAndForth = true;

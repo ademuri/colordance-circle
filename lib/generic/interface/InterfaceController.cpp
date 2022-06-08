@@ -2,27 +2,15 @@
 
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
-#include "helper-pole/HelperPole.hpp"
 
-InterfaceController::InterfaceController(std::vector<Pole*> poles,
-                                         std::unique_ptr<ParamController> paramController)
-    : Effect(std::move(poles), std::move(paramController)) {
+InterfaceController::InterfaceController(
+    std::vector<Pole*> poles, std::unique_ptr<ParamController> paramController)
+    : Effect(std::move(poles), std::move(paramController)),
+      currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
   }
   beatTrackingTime = 4 * 750;
-
-  std::vector<HelperPole*> helperPoles;
-
-  for (int i = 0; i < Pole::kNumPoles; i++) {
-    helperPoles.push_back(new HelperPole(FRAMES_PER_LOOP));
-  }
-
-  // effects[0] = new BackAndForth();
-  // effects[1] = new SideToSide();
-  // effects[0] = new HuePoles(helperPoles);
-  effects[0] = new Sliders(helperPoles);
-  currentEffect = effects[0];
 }
 
 /**
@@ -32,8 +20,17 @@ void InterfaceController::DoRun() {
   /*
    * Sets the effect
    */
-  // uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
-  // currentEffect = effects[effectNumber];
+  uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
+  switch (effectNumber) {
+    case 0:
+      currentEffect = std::addressof(backAndForth);
+      break;
+    case 1:
+      currentEffect = std::addressof(sliders);
+      break;
+    case 2:
+      currentEffect = std::addressof(sideToSide);
+  }
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
