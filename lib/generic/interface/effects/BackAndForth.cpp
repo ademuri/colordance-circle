@@ -76,4 +76,7 @@ void BackAndForth::DoShift(uint8_t shiftPosition) {
   }
 }
 
-void BackAndForth::ResetEffect() {}
+void BackAndForth::ResetEffect() {
+  controlPoleLeft.SetShiftSpeed(Speed::kDefault);
+  controlPoleRight.SetShiftSpeed(Speed::kDefault);
+}

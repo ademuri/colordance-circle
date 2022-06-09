@@ -2,17 +2,23 @@
 
 #include "ColordanceTypes.hpp"
 
-Sliders::Sliders() : InterfaceEffect() {
-  pole_left = new ControlPole(FRAMES_PER_LOOP);
-  pole_right = new ControlPole(FRAMES_PER_LOOP);
+Sliders::Sliders()
+    : InterfaceEffect(),
+      poles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
+      pole_left(poles.data() + 0),
+      pole_right(poles.data() + 1) {
+  pole_left->SetMode(Mode::kSmallSquare);
+  pole_right->SetMode(Mode::kCorners);
+  pole_right->SetReverse(true);
   ResetModes();
 }
 
 bool Sliders::ContinuousShift() { return true; }
 
 void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
-  pole_right->TurnOffAll();
-  pole_left->TurnOffAll();
+  for (auto &pole : this->poles) {
+    pole.TurnOffAll();
+  }
   bool multiply = leftIndex == rightIndex ? true : false;
   poles[leftIndex]->MultiplyGridLights(
       pole_left->GetGrid(frame, lastFrame, false));
@@ -25,28 +31,25 @@ void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
 void Sliders::UpdateOption1() {
   mode++;
   mode %= kNumModes;
-  if (mode == 0) {
-    pole_left->SetMode(Mode::kLine);
-    pole_right->SetMode(Mode::kLine);
-  } else {
-    pole_left->SetMode(Mode::kCircle);
-    pole_right->SetMode(Mode::kCircle);
+  pole_left->SetMode(Mode::kSmallSquare);
+  pole_right->SetMode(Mode::kCorners);
+  for (auto &pole : poles) {
+    if (mode == 1) {
+      pole.SetMode(Mode::kCircle);
+    }
   }
   // Have to do this after setting mode because code is dumb - make code better.
   ResetModes();
-  if (mode == 0) {
-  } else {
-    pole_right->SetReverse(true);
-  }
 }
 
 /**
  * Cycle hues.
  */
 void Sliders::UpdateOption2() {
-  smoothHue = !smoothHue;
-  pole_left->SetSmoothColor(smoothHue);
-  pole_right->SetSmoothColor(smoothHue);
+  backAndForth = !backAndForth;
+  for (auto &pole : this->poles) {
+    pole.SetBackAndForth(backAndForth);
+  }
 }
 
 /**
@@ -65,24 +68,22 @@ void Sliders::DoShift(uint8_t shiftPosition) {
       pole_left->SetHue(hueLeft);
       pole_right->SetHue(hueRight);
     } else {
-      ControlPole *leftOld = pole_left;
-      pole_left = pole_right;
-      pole_right = leftOld;
+      std::swap(pole_left, pole_right);
     }
   }
 }
 
 void Sliders::ResetModes() {
-  pole_left->SetHueDistance(10);
-  pole_right->SetHueDistance(10);
   pole_left->SetHue(hueLeft);
   pole_right->SetHue(hueRight);
-  pole_left->SetLightCount(4);
-  pole_right->SetLightCount(4);
   pole_left->SetReverse(false);
-  pole_right->SetReverse(false);
-  pole_left->SetSmoothColor(smoothHue);
-  pole_right->SetSmoothColor(smoothHue);
+  pole_right->SetReverse(true);
+  for (auto &pole : poles) {
+    pole.SetShiftSpeed(Speed::kDefault);
+    pole.SetHueDistance(10);
+    pole.SetLightCount(4);
+    pole.SetSmoothColor(true);
+  }
 }
 
 void Sliders::ResetEffect() { ResetModes(); }

@@ -14,6 +14,7 @@ ControlPole::ControlPole(uint16_t framesPerLoop)
       FRAMES_PER_LOOP(framesPerLoop) {
   mode = Mode::kLine;
   lastMode = Mode::kLine;
+  speed = Speed::kDefault;
 
   for (int x = 0; x < Pole::kGridWidth; x++) {
     std::vector<CHSV> row;
@@ -41,6 +42,9 @@ void ControlPole::SetMode(Mode mode) {
     case Mode::kCircle:
       currentEffect = std::addressof(effectCircle);
       break;
+    case Mode::kCorners:
+      currentEffect = std::addressof(effectCorners);
+      break;
     case Mode::kCross:
       currentEffect = std::addressof(effectCross);
       break;
@@ -53,6 +57,9 @@ void ControlPole::SetMode(Mode mode) {
     case Mode::kPinwheel:
       currentEffect = std::addressof(effectPinwheel);
       break;
+    case Mode::kSmallSquare:
+      currentEffect = std::addressof(effectSmallSquare);
+      break;
     default:
       currentEffect = std::addressof(effectLine);
   }
@@ -62,6 +69,8 @@ void ControlPole::SetMode(Mode mode) {
 void ControlPole::SetRotation(uint8_t rotation) {
   currentEffect->SetRotation(rotation % currentEffect->GetRotations());
 }
+
+void ControlPole::SetShiftSpeed(Speed speed) { this->speed = speed; }
 
 void ControlPole::SetLightCount(uint8_t count) {
   currentEffect->SetLightCount(count);
@@ -126,6 +135,7 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   }
   uint16_t shiftsPerLoop =
       currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
+
   if (goBackwards) {
     shiftIndex = shiftsPerLoop - shiftIndex - (backAndForth ? 0 : 1);
   }
@@ -150,6 +160,11 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   if (!multiply) {
     TurnOffAll();
   }
+
+  if (speed == Speed::kStill) {
+    shiftIndex = lastEffectiveShiftIndex;
+  }
+  lastEffectiveShiftIndex = shiftIndex;
 
   currentEffect->SetGrid(grid_lights, shiftIndex);
 

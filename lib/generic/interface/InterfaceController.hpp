@@ -8,7 +8,7 @@
 #include "Pole.hpp"
 #include "interface/InterfaceEffect.hpp"
 #include "interface/effects/BackAndForth.hpp"
-// #include "interface/effects/HuePoles.hpp"
+#include "interface/effects/HuePoles.hpp"
 #include "interface/effects/SideToSide.hpp"
 #include "interface/effects/Sliders.hpp"
 
@@ -28,6 +28,7 @@ class InterfaceController : public Effect {
   BackAndForth backAndForth;
   Sliders sliders;
   SideToSide sideToSide;
+  HuePoles huePoles;
   InterfaceEffect* currentEffect;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;

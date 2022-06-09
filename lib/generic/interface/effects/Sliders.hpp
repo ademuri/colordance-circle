@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "ColordanceTypes.hpp"
@@ -29,6 +30,7 @@ class Sliders : public InterfaceEffect {
 
   void ResetModes();
 
+  std::array<ControlPole, 2> poles;
   ControlPole *pole_left;
   ControlPole *pole_right;
 
@@ -45,7 +47,6 @@ class Sliders : public InterfaceEffect {
 
   uint8_t mode = 0;
   const uint8_t kNumModes = 2;
-  bool smoothHue = false;
 
   uint8_t numOfPolesOn = 1;
   bool backAndForth = false;

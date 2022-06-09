@@ -5,19 +5,28 @@
 #include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
 #include "ControlPoleEffectCircle.hpp"
+#include "ControlPoleEffectCorners.hpp"
 #include "ControlPoleEffectCross.hpp"
 #include "ControlPoleEffectDiverge.hpp"
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
+#include "ControlPoleEffectSmallSquare.hpp"
 
 enum class Mode {
   kCircle,
+  kCorners,
   kCross,
   kDiverge,
   kLine,
   kPinwheel,
   kSmallSquare,
-  kCorners
+};
+
+enum class Speed {
+  kStill,
+  kHalf,
+  kDefault,
+  kDouble,
 };
 
 class ControlPole {
@@ -28,6 +37,7 @@ class ControlPole {
   void SetVal(uint8_t val);
   void SetMode(Mode mode);
   void SetRotation(uint8_t rotation);
+  void SetShiftSpeed(Speed speed);
   void SetLightCount(uint8_t lightCount);
   void SetHueShift(uint8_t hueShift);
   void SetHueDistance(uint8_t hueDistance);
@@ -46,11 +56,13 @@ class ControlPole {
  private:
   uint8_t GetUpdatedHueShift(uint16_t framesSinceLast);
 
-  ControlPoleEffectCross effectCross;
-  ControlPoleEffectLine effectLine;
   ControlPoleEffectCircle effectCircle;
+  ControlPoleEffectCorners effectCorners;
+  ControlPoleEffectCross effectCross;
   ControlPoleEffectDiverge effectDiverge;
+  ControlPoleEffectLine effectLine;
   ControlPoleEffectPinwheel effectPinwheel;
+  ControlPoleEffectSmallSquare effectSmallSquare;
   ControlPoleEffect* currentEffect;
 
   std::vector<std::vector<CHSV>> grid_lights;
@@ -70,6 +82,11 @@ class ControlPole {
   bool smoothColor = true;
 
   uint8_t baseVal = 255;
+
+  Speed speed;
+
+  uint8_t lastShiftIndex = 0;
+  uint8_t lastEffectiveShiftIndex = 0;
 
   bool goBackwards = false;
   bool backAndForth = false;

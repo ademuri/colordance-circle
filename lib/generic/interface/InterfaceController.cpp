@@ -23,12 +23,15 @@ void InterfaceController::DoRun() {
   uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
   switch (effectNumber) {
     case 0:
-      currentEffect = std::addressof(backAndForth);
+      currentEffect = std::addressof(huePoles);
       break;
     case 1:
-      currentEffect = std::addressof(sliders);
+      currentEffect = std::addressof(backAndForth);
       break;
     case 2:
+      currentEffect = std::addressof(sliders);
+      break;
+    case 3:
       currentEffect = std::addressof(sideToSide);
   }
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);

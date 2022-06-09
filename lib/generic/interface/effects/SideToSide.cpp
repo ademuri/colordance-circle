@@ -108,4 +108,10 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   poleOffset += goBackwards ? -1 : 1;
 }
 
-void SideToSide::ResetEffect() { poleOffset = 0; }
+void SideToSide::ResetEffect() {
+  poleOffset = 0;
+  for (ControlPole& pole : controlPoles) {
+    pole.ResetFade();
+    pole.SetShiftSpeed(Speed::kDefault);
+  }
+}
