@@ -11,6 +11,8 @@
 class Sliders : public InterfaceEffect {
  public:
   Sliders();
+  Sliders(Sliders const &) = delete;
+  Sliders &operator=(Sliders const &) = delete;
 
  protected:
   bool ContinuousShift() override;
