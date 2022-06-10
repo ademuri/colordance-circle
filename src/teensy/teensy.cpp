@@ -12,24 +12,29 @@
 
 LightController* light_controller;
 Effect* effect;
-std::unique_ptr<SpiParamController> param_controller;
+SpiParamController* param_controller;
 
 void setup() {
   Serial.begin(115200);
+  while (!Serial);
 
-  param_controller = std::make_unique<SpiParamController>();
+  Serial.println("Brain initializing...");
+  param_controller = new SpiParamController();
   light_controller = new TeensyLightController();
   effect = new InterfaceController(light_controller->get_poles(),
-                                   std::move(param_controller));
+                                   param_controller);
 
   // See
   // https://forum.pjrc.com/threads/61974-Teensy4-x-Entropy-library-documentation
   Entropy.Initialize();
   randomSeed(Entropy.random(0, 32767));
+
+  Serial.println("Brain initialization complete");
 }
 
 void loop() {
   param_controller->Run();
   effect->Run();
   light_controller->WriteOutLights();
+  Serial.println(param_controller->controls_in.button_mask);
 }

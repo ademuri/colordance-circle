@@ -15,8 +15,8 @@ class SpiParamController : public ParamController {
 
   uint8_t GetRawParam(Param param) override;
 
-  ControlsIn controls_in;
-  ControlsOut controls_out;
+  ControlsIn controls_in = {};
+  ControlsOut controls_out = {};
 
  private:
   EasyTransfer transfer_in_;

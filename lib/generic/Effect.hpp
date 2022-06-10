@@ -9,7 +9,7 @@
 class Effect {
  public:
   Effect(std::vector<Pole*> poles,
-         std::unique_ptr<ParamController> paramController);
+         ParamController* paramController);
 
   /* Runs this effect. */
   void Run();
@@ -29,7 +29,7 @@ class Effect {
   void SleepMs(uint32_t ms_to_sleep);
 
   std::vector<Pole*> poles;
-  std::unique_ptr<ParamController> paramController;
+  ParamController* paramController;
 
  private:
   uint32_t sleep_until_ms = 0;

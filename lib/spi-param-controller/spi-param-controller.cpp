@@ -10,12 +10,12 @@ SpiParamController::SpiParamController() {
 }
 
 void SpiParamController::Run() {
-  controls_out.test++;
+  controls_out.test = millis();
   transfer_in_.receiveData();
   transfer_out_.sendData();
 }
 
-uint8_t GetRawParam(Param param) {
+uint8_t SpiParamController::GetRawParam(Param param) {
   // TODO: map raw inputs to Params
   return 0;
 }

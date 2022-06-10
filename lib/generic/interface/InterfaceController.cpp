@@ -4,7 +4,7 @@
 #include "InterfaceEffect.hpp"
 
 InterfaceController::InterfaceController(
-    std::vector<Pole*> poles, std::unique_ptr<ParamController> paramController)
+    std::vector<Pole*> poles, ParamController* paramController)
     : Effect(std::move(poles), std::move(paramController)),
       currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {

@@ -15,7 +15,7 @@
 class InterfaceController : public Effect {
  public:
   InterfaceController(std::vector<Pole*> poles,
-                      std::unique_ptr<ParamController> paramController);
+                      ParamController* paramController);
 
  protected:
   void DoRun() override;

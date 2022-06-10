@@ -1,5 +1,5 @@
-#include <FastLED.h>
 #include <EasyTransfer.h>
+#include <FastLED.h>
 #include <debounce-filter.h>
 #include <median-filter.h>
 
@@ -221,10 +221,11 @@ void setup() {
 }
 
 void readControls() {
-  brain_out_data.button_mask = 0;
+  // brain_out_data.button_mask = 0;
   for (uint8_t button_index = 0; button_index < buttons.size();
        button_index++) {
-    brain_out_data.button_mask = digitalRead(button_index) << button_index;
+    // brain_out_data.button_mask = digitalRead(button_index) << button_index;
+    brain_out_data.button_mask++;
   }
 
   for (int i = 0; i < ControlsIn::kAnalogInputSize; i++) {
