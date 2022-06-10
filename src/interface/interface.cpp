@@ -53,13 +53,13 @@ const int kAnalog7 = 39;
 const int kAnalog8 = 27;
 
 const std::vector<int> ANALOG_INPUT_PINS = {
-    kAnalog1, kAnalog2, kAnalog3, kAnalog4,
-    kAnalog5, kAnalog6, kAnalog7, kAnalog8,
+    kAnalog1, kAnalog3, kAnalog4,
+    kAnalog5, kAnalog7, kAnalog8,
 };
 
 const std::vector<int> PCB_ORDER_INPUT_PINS = {
     kButton1,  kButton5, kButton9,  kAnalog1, kButton2,  kButton6,
-    kButton10, kAnalog2, kButton3,  kButton7, kButton11, kAnalog3,
+    kButton10, /* No analog 2, */ kButton3,  kButton7, kButton11, kAnalog3,
     kButton4,  kButton8, kButton12, kAnalog4,
 };
 
