@@ -84,6 +84,7 @@ class ControlPole {
   uint8_t baseVal = 255;
 
   Speed speed;
+  bool didFirstHalf = false;
 
   uint8_t lastShiftIndex = 0;
   uint8_t lastEffectiveShiftIndex = 0;

@@ -31,13 +31,8 @@ void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
 void Sliders::UpdateOption1() {
   mode++;
   mode %= kNumModes;
-  pole_left->SetMode(Mode::kSmallSquare);
-  pole_right->SetMode(Mode::kCorners);
-  for (auto &pole : poles) {
-    if (mode == 1) {
-      pole.SetMode(Mode::kCircle);
-    }
-  }
+  pole_left->SetMode(modesLeft[mode]);
+  pole_right->SetMode(modesLeft[mode]);
   // Have to do this after setting mode because code is dumb - make code better.
   ResetModes();
 }
@@ -83,6 +78,8 @@ void Sliders::ResetModes() {
     pole.SetHueDistance(10);
     pole.SetLightCount(4);
     pole.SetSmoothColor(true);
+    pole.SetBackAndForth(false);
+    pole.SetRotation(0);
   }
 }
 

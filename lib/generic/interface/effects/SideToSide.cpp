@@ -5,16 +5,16 @@
 SideToSide::SideToSide() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    auto& pole = controlPoles.emplace_back(FRAMES_PER_LOOP);
-    pole.SetBackAndForth(true);
-    pole.SetSmoothColor(true);
+    controlPoles.emplace_back(FRAMES_PER_LOOP);
   }
+  ResetEffect();
 }
 
 bool SideToSide::ContinuousShift() { return true; }
 
 void SideToSide::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    controlPoles[pole].TurnOffAll();
     std::vector<std::vector<CHSV>> const& grid = controlPoles[pole].GetGrid(
         frame, lastFrame, false);  // Update all grids
     if (pole < numOfPolesOn) {
@@ -33,10 +33,8 @@ void SideToSide::UpdateOption1() {
   modeIndex %= sizeof(modes);
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i].SetMode(modes[modeIndex]);
-    controlPoles[i].SetBackAndForth(backAndForth);
   }
-  UpdateHues();
-  SetBackAndForth();
+  ResetModes();
 }
 
 void SideToSide::UpdateOption2() {
@@ -49,18 +47,20 @@ void SideToSide::SetBackAndForth() {
     controlPoles[i].SetBackAndForth(backAndForth);
   }
 }
-
 /**
  * Change the number of poles on.
  */
 void SideToSide::UpdateSlider1(uint8_t val) {
-  uint8_t newNumOfPolesOn = 1 + val / 51;
+  uint8_t newNumOfPolesOn = 1 + val / (255/4);
   if (newNumOfPolesOn + poleOffset >= Pole::kNumPoles) {
     poleOffset = Pole::kNumPoles - newNumOfPolesOn;
   }
   if (newNumOfPolesOn != numOfPolesOn) {
     numOfPolesOn = newNumOfPolesOn;
     UpdateHues();
+  }
+  for (ControlPole& pole : controlPoles) {
+    pole.SetLightCount(numOfPolesOn == 4 ? 3 : 4);
   }
 }
 
@@ -108,10 +108,23 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   poleOffset += goBackwards ? -1 : 1;
 }
 
+void SideToSide::ResetModes() {
+  for (ControlPole& pole : controlPoles) {
+    pole.ResetFade();
+    pole.SetShiftSpeed(Speed::kDefault);
+    pole.SetLightCount(4);
+    pole.SetBackAndForth(backAndForth);
+    pole.SetSmoothColor(true);
+    pole.SetReverse(false);
+    pole.SetRotation(0);
+  }
+  UpdateHues();
+}
+
 void SideToSide::ResetEffect() {
   poleOffset = 0;
   for (ControlPole& pole : controlPoles) {
     pole.ResetFade();
-    pole.SetShiftSpeed(Speed::kDefault);
   }
+  ResetModes();
 }

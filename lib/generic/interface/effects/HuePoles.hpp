@@ -25,12 +25,15 @@ class HuePoles : public InterfaceEffect {
   void UpdateHues();
   void SetBackAndForth();
 
+  void ResetModes();
   std::vector<ControlPole> controlPoles;
   uint32_t lastFrame = 0;
 
   uint8_t poleOffset = 0;
   bool goBackwards = false;
-  bool smoothColor;
+  bool smoothColor = true;
+  bool still = true;
+  uint8_t hueOffset = 0;
 
   Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
   uint8_t modeIndex = 0;

@@ -9,11 +9,14 @@ BackAndForth::BackAndForth()
   controlPoleLeft.SetHue(0);
   controlPoleRight.SetHue(127);
   controlPoleLeft.SetReverse(true);
+  ResetEffect();
 }
 
 bool BackAndForth::ContinuousShift() { return true; }
 
 void BackAndForth::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
+  controlPoleLeft.TurnOffAll();
+  controlPoleRight.TurnOffAll();
   poles[leftIndex % 6]->SetGridLights(
       controlPoleLeft.GetGrid(frame, lastFrame, false));
   poles[rightIndex % 6]->SetGridLights(
@@ -26,22 +29,21 @@ void BackAndForth::UpdateOption1() {
   modeIndex %= sizeof(modes);
   controlPoleLeft.SetMode(modes[modeIndex]);
   controlPoleRight.SetMode(modes[modeIndex]);
+  ResetModes();
 }
 
 void BackAndForth::UpdateOption2() {
-  leftReverse = !leftReverse;
-  rightReverse = !rightReverse;
-  controlPoleLeft.SetReverse(leftReverse);
-  controlPoleRight.SetReverse(rightReverse);
+  hueStart += 255/4;
+  controlPoleLeft.SetHue(hueStart + hueVal);
+  controlPoleRight.SetHue(hueStart + 127 - hueVal);
 }
 
 /**
- * Change the fade.
  */
 void BackAndForth::UpdateSlider1(uint8_t val) {
-  val /= 4;
-  controlPoleLeft.SetHue(val);
-  controlPoleRight.SetHue(127 - val);
+  hueVal = val/4;
+  controlPoleLeft.SetHue(hueStart + hueVal);
+  controlPoleRight.SetHue(hueStart + 127 - hueVal);
 }
 
 /**
@@ -76,7 +78,27 @@ void BackAndForth::DoShift(uint8_t shiftPosition) {
   }
 }
 
-void BackAndForth::ResetEffect() {
+void BackAndForth::ResetModes() {
   controlPoleLeft.SetShiftSpeed(Speed::kDefault);
   controlPoleRight.SetShiftSpeed(Speed::kDefault);
+  controlPoleLeft.SetLightCount(4);
+  controlPoleRight.SetLightCount(4);
+  controlPoleLeft.SetSmoothColor(false);
+  controlPoleRight.SetSmoothColor(false);
+  controlPoleLeft.SetBackAndForth(false);
+  controlPoleRight.SetBackAndForth(false);
+  controlPoleLeft.SetHue(0);
+  controlPoleRight.SetHue(127);
+  controlPoleLeft.ResetFade();
+  controlPoleRight.ResetFade();
+  controlPoleLeft.SetRotation(0);
+  controlPoleRight.SetRotation(0);
+  controlPoleLeft.SetReverse(leftReverse);
+  controlPoleRight.SetReverse(rightReverse);
+}
+
+void BackAndForth::ResetEffect() {
+  controlPoleLeft.SetMode(modes[modeIndex]);
+  controlPoleRight.SetMode(modes[modeIndex]);
+  ResetModes();
 }

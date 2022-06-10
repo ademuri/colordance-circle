@@ -14,6 +14,7 @@ bool HuePoles::ContinuousShift() { return true; }
 
 void HuePoles::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    controlPoles[pole].TurnOffAll();
     poles[pole]->SetGridLights(
         controlPoles[pole].GetGrid(frame, lastFrame, false));
   }
@@ -23,53 +24,82 @@ void HuePoles::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
 /**
  * Change the mode (grid animation).
  */
-void HuePoles::UpdateOption1() {}
-
-void HuePoles::UpdateOption2() {
-  smoothColor = !smoothColor;
-  for (auto& pole : controlPoles) {
-    pole.SetSmoothColor(smoothColor);
+void HuePoles::UpdateOption1() {
+  modeIndex++;
+  modeIndex %= sizeof(modes);
+  for (int i = 0; i < Pole::kNumPoles; i++) {
+    controlPoles[i].SetMode(modes[modeIndex]);
   }
+  ResetModes();
 }
 
-/**
- * Chages Speed
- */
-void HuePoles::UpdateSlider1(uint8_t val) {
-  val = val / 64;
-
+void HuePoles::UpdateOption2() {
+  still = !still;
   for (auto& pole : controlPoles) {
-    switch (val) {
-      case 0:
-        pole.SetShiftSpeed(Speed::kStill);
-        break;
-      case 1:
-        pole.SetShiftSpeed(Speed::kHalf);
-      case 3:
-        pole.SetShiftSpeed(Speed::kDouble);
-      default:
-        pole.SetShiftSpeed(Speed::kDefault);
-    }
+   pole.SetShiftSpeed(still? Speed::kStill : Speed::kDefault);
   }
 }
 
 /**
  * Change color shift.
  */
-void HuePoles::UpdateSlider2(uint8_t val) {
+void HuePoles::UpdateSlider1(uint8_t val) {
   for (auto& pole : controlPoles) {
-    pole.SetHueShift(val / 5);
+    pole.SetHueShift(val < 10 ? 2 : val / 5);
   }
 }
 
-void HuePoles::DoShift(uint8_t shiftPosition) {}
+/**
+ * Chages Hue Distance
+ */
+void HuePoles::UpdateSlider2(uint8_t val) {
+  for (auto& pole : controlPoles) {
+    pole.SetHueDistance(val / 2);
+  }
+  // val = val / 64;
+  // for (auto& pole : controlPoles) {
+  //   switch (val) {
+    //   case 0:
+    //     pole.SetShiftSpeed(Speed::kStill);
+    //     break;
+    //   case 1:
+    //     pole.SetShiftSpeed(Speed::kHalf);
+    //     break;
+    //   case 3:
+    //     pole.SetShiftSpeed(Speed::kDouble);
+    //     break;
+    //   default:
+    //     pole.SetShiftSpeed(Speed::kDefault);
+    // }
+  //}
+}
 
-void HuePoles::ResetEffect() {
+void HuePoles::DoShift(uint8_t shiftPosition) {
+  smoothColor = !smoothColor;
+  for (auto& pole : controlPoles) {
+    pole.SetSmoothColor(smoothColor);
+  }
+}
+
+void HuePoles::ResetModes() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i].SetMode(modes[0]);
-    controlPoles[i].SetBackAndForth(true);
+    if (modes[modeIndex] == Mode::kLine || modes[modeIndex] == Mode::kDiverge) {
+      controlPoles[i].SetBackAndForth(true);
+    } else {
+      controlPoles[i].SetBackAndForth(false);
+    }
+    //don't care about reverse
     controlPoles[i].SetSmoothColor(true);
     controlPoles[i].SetLightCount(2);
-    controlPoles[i].SetHue(43 * i);
+    controlPoles[i].SetHue(43 * i + hueOffset);
+    controlPoles[i].SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
+    controlPoles[i].ResetFade();
+    controlPoles[i].SetReverse(false);
+    controlPoles[i].SetRotation(0);
   }
+}
+
+void HuePoles::ResetEffect() {
+  still = true;
+  ResetModes();
 }

@@ -24,6 +24,7 @@ class SideToSide : public InterfaceEffect {
  private:
   void UpdateHues();
   void SetBackAndForth();
+  void ResetModes();
 
   std::vector<ControlPole> controlPoles;
   uint32_t lastFrame = 0;

@@ -24,6 +24,7 @@ class BackAndForth : public InterfaceEffect {
  private:
   void UpdateHues();
   void SetBackAndForth();
+  void ResetModes();
 
   uint32_t lastFrame = 0;
 
@@ -40,6 +41,8 @@ class BackAndForth : public InterfaceEffect {
   bool leftReverse = true;
   bool rightReverse = false;
   uint8_t hueDistance = 127;
+  uint8_t hueStart = 0;
+  uint8_t hueVal = 0;
 
   bool smoothPoleShift = true;
 };
