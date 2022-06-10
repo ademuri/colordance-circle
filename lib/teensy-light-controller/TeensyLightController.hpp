@@ -12,11 +12,11 @@ class TeensyLightController : public LightController {
 
  private:
   // The number of LED output pins
-  static inline constexpr int kNumLedOutputs = 14;
+  static constexpr int kNumLedOutputs = 14;
   // TODO: make this bigger when pole LEDs are added
-  static inline constexpr int kLedsPerOutput = 16;
+  static constexpr int kLedsPerOutput = 16;
 
-  static inline constexpr int kTotalLeds = kNumLedOutputs * kLedsPerOutput;
+  static constexpr int kTotalLeds = kNumLedOutputs * kLedsPerOutput;
 
   CRGB leds[kTotalLeds];
 
@@ -26,15 +26,14 @@ class TeensyLightController : public LightController {
   // Map from pole number (position in array) to the index for that pole's main
   // light in the LED array
   // Pins: 14, 16, 18, 20, 22, 1
-  static inline constexpr std::array<int, 6> kPoleGridIndexes = {6,  9,  5,
-                                                                 12, 10, 0};
+  static const std::array<int, 6> kPoleGridIndexes;
 
   // Map from pole number (position in array) to the index for that pole's pole
   // lights in the LED array
   // Pins: 15, 17, 19, 21, 23, 0
-  static inline constexpr std::array<int, 6> kPoleLightIndexes = {7,  8,  4,
+  static constexpr std::array<int, 6> kPoleLightIndexes = {7,  8,  4,
                                                                   13, 11, 1};
 
-  static inline constexpr int kPodiumIndex = 3;
-  static inline constexpr int kControlPanelIndex = 2;
+  static constexpr int kPodiumIndex = 3;
+  static constexpr int kControlPanelIndex = 2;
 };

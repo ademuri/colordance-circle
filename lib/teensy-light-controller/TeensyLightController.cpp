@@ -1,5 +1,8 @@
 #include "TeensyLightController.hpp"
 
+const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {6,  9,  5,
+                                                                 12, 10, 0};
+
 TeensyLightController::TeensyLightController() {
   for (int i = 0; i < kTotalLeds; i++) {
     leds[i] = CHSV(0, 0, 0);

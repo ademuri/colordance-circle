@@ -5,14 +5,15 @@
 #include <cstdio>
 
 #ifdef ARDUINO
-namespace std {
-void __throw_bad_alloc() { Serial.println("Unable to allocate memory"); }
+// TODO: this is not needed when using certain libraries
+// namespace std {
+// void __throw_bad_alloc() { Serial.println("Unable to allocate memory"); }
 
-void __throw_length_error(char const* e) {
-  Serial.print("Length Error :");
-  Serial.println(e);
-}
-}  // namespace std
+// void __throw_length_error(char const* e) {
+//   Serial.print("Length Error :");
+//   Serial.println(e);
+// }
+// }  // namespace std
 
 #else
 
