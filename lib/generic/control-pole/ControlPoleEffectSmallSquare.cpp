@@ -31,5 +31,5 @@ void ControlPoleEffectSmallSquare::DoSetGrid(
 
 uint8_t ControlPoleEffectSmallSquare::GetIndex(uint8_t shiftIndex,
                                                uint8_t offset) {
-  return (shiftIndex + offset) % 2 + 1;
+  return ((shiftIndex + offset) % 2 + 1)%4;
 }

@@ -31,7 +31,7 @@ class InterfaceEffect {
   virtual void UpdateSlider1(uint8_t val) = 0;
   virtual void UpdateSlider2(uint8_t val) = 0;
   virtual void DoShift(uint8_t shiftPosition) = 0;
-  virtual void ResetEffect() = 0;
+  virtual void ResetEffect() {};
 
   const uint16_t FRAMES_PER_LOOP = 840;
 

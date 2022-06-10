@@ -41,5 +41,5 @@ void ControlPoleEffectCircle::DoSetGrid(
 
 uint8_t ControlPoleEffectCircle::GetIndex(uint8_t shiftIndex) {
   shiftIndex %= 8;
-  return shiftIndex < 4 ? shiftIndex : 7 - shiftIndex;
+  return (shiftIndex < 4 ? shiftIndex : 7 - shiftIndex)%4;
 }

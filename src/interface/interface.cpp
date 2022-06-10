@@ -134,47 +134,15 @@ std::vector<CRGB*> strips = {
 };
 // clang-format on
 
-// Writes out the button bitmask and analog input values to SPI
-// void onReceive() {
-
-//   if (!Serial7.available() ) {
-//     debug_printf("onReceive called, but received 0 bytes");
-//     return;
-//   }
-//   uint8_t buttons_bitmask = 0;
-//   for (uint8_t button_index = 0; button_index < 8; button_index++) {
-//     buttons_bitmask |= button_rose[button_index] << 7 - button_index;
-//   }
-//   spi_out.pushr(buttons_bitmask);
-
-//   if (!spi_out.active()) {
-//     debug_printf("onReceive called, but only received 1 bytes");
-//     return;
-//   }
-//   for (uint8_t button_index = 8; button_index < buttons.size();
-//        button_index++) {
-//     buttons_bitmask |= button_rose[button_index] << 16 - button_index;
-//   }
-//   spi_out.pushr(buttons_bitmask);
-
-//   for (uint8_t i = 0; i < analog_inputs.size(); i++) {
-//     if (!spi_out.active()) {
-//       debug_printf("onReceive called, but only received %u bytes", i + 2);
-//       return;
-//     }
-//     spi_out.pushr(analog_inputs[i].GetFilteredValue());
-//   }
-// }
-
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting...");
 
   for (auto button_pin : BUTTON_PINS) {
     pinMode(button_pin, INPUT_PULLUP);
-    buttons.push_back(DebounceFilter(
-        filter_functions::ForInvertedDigitalReadDynamic(button_pin)));
-    button_rose.push_back(false);
+    // buttons.push_back(DebounceFilter(
+    //     filter_functions::ForInvertedDigitalReadDynamic(button_pin)));
+    // button_rose.push_back(false);
   }
 
   for (auto analog_pin : ANALOG_INPUT_PINS) {
@@ -221,11 +189,10 @@ void setup() {
 }
 
 void readControls() {
-  // brain_out_data.button_mask = 0;
-  for (uint8_t button_index = 0; button_index < buttons.size();
+  brain_out_data.button_mask = 0;
+  for (uint8_t button_index = 0; button_index < BUTTON_PINS.size();
        button_index++) {
-    // brain_out_data.button_mask = digitalRead(button_index) << button_index;
-    brain_out_data.button_mask++;
+    brain_out_data.button_mask |= !digitalRead(BUTTON_PINS[button_index]) << button_index;
   }
 
   for (int i = 0; i < ControlsIn::kAnalogInputSize; i++) {
@@ -283,5 +250,6 @@ void loop() {
 
   brain_out.sendData();
   brain_in.receiveData();
-  Serial.println(brain_in_data.test);
+  // Serial.println(brain_in_data.test);
+  // Serial.println(brain_out_data.button_mask);
 }

@@ -116,7 +116,7 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
 
 std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
                                                            uint16_t lastFrame,
-                                                           bool multiply) {                                                                                                         
+                                                           bool multiply) {                                                                                                                                                                 
   uint16_t framesPerShift =
       currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
   uint8_t lastShiftIndex = lastFrame / framesPerShift;
@@ -184,7 +184,6 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   lastEffectiveShiftIndex = shiftIndex;
 
   currentEffect->SetGrid(grid_lights, shiftIndex);
-
   return grid_lights;
 }
 

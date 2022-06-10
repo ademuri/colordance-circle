@@ -32,9 +32,17 @@ void setup() {
   Serial.println("Brain initialization complete");
 }
 
+uint32_t print_at = 0;
+
 void loop() {
+  if (millis() > print_at) {
+    Serial.print("Alive: ");
+    Serial.println(millis());
+    print_at = millis() + 5000;
+  }
   param_controller->Run();
+
   effect->Run();
-  light_controller->WriteOutLights();
-  Serial.println(param_controller->controls_in.button_mask);
+  // light_controller->WriteOutLights();
+  // Serial.println(param_controller->controls_in.button_mask);
 }

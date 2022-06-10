@@ -3,9 +3,9 @@
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
 
-InterfaceController::InterfaceController(
-    std::vector<Pole*> poles, ParamController* paramController)
-    : Effect(std::move(poles), std::move(paramController)),
+InterfaceController::InterfaceController(std::vector<Pole*> poles,
+                                         ParamController* paramController)
+    : Effect(std::move(poles), paramController),
       currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
@@ -22,18 +22,19 @@ void InterfaceController::DoRun() {
    */
   uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
   switch (effectNumber) {
-    case 0:
+    case 3:
       currentEffect = std::addressof(huePoles);
       break;
-    case 1:
+    case 4:
       currentEffect = std::addressof(backAndForth);
       break;
-    case 2:
+    case 5:
       currentEffect = std::addressof(sliders);
       break;
-    case 3:
+    case 6:
       currentEffect = std::addressof(sideToSide);
   }
+  Serial.println(effectNumber);
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
@@ -79,9 +80,8 @@ void InterfaceController::DoRun() {
 
   uint32_t timeSinceLastSetBeat = effectTime - lastSetBeatTime;
   uint32_t beatsSinceLastSet = timeSinceLastSetBeat / millisPerBeat;
-  if (lastSetBeat != setBeat) {
+  if (setBeat == 1 && lastSetBeat != 1) {
     // The beat button was pressed
-    lastSetBeat = setBeat;  // Track button state
     if (beatsSinceLastSet < 4) {
       millisPerBeat = GetUpdatedBeat(timeSinceLastSetBeat);
     }
@@ -108,6 +108,7 @@ void InterfaceController::DoRun() {
     //     beatsPerShift = DEFAULT_BEATS_PER_SHIFT;
     //   }
   }
+  lastSetBeat = setBeat;  // Track button state
 
   // Adjust the next beat time if isn't past the last beat due to adjustments
   while (lastBeatTime + MIN_MILLIS_PER_BEAT >= nextBeatTime) {
@@ -118,16 +119,16 @@ void InterfaceController::DoRun() {
    * Handles the shift and updates the beatsPerShift
    */
   uint8_t setShift = paramController->GetRawParam(Param::kShift);
-  bool loopShift = paramController->GetRawParam(Param::kLoopShift) == 1 ||
-                   currentEffect->GetContinuousShift();
+  bool loopShift = true;
 
   if (lastFrameWasBeat) {
     beatsSinceLastShift++;
   }
 
+  // Good?
+
   // The shift button was pressed
-  if (lastSetShift != setShift) {
-    lastSetShift = setShift;  // Track button state
+  if (setShift == 0 && lastSetShift != 0) {
     // The shift will occur on the next beat, or this loop if we just missed it
     uint16_t timeSinceLastShiftSet = effectTime - lastSetShiftTime;
     uint8_t beatsSinceLastShiftSet = timeSinceLastShiftSet / millisPerBeat;
@@ -148,10 +149,12 @@ void InterfaceController::DoRun() {
     }
     lastSetShiftTime = effectTime;
   }
+  lastSetShift = setShift;  // Track button state
 
   if (beatsSinceLastShift == beatsPerShift / 2 && lastFrameWasBeat) {
     currentEffect->Shift(2);
   }
+  // Good
 
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   // This frame is a beat and we're looping, or we set a shift right after a
@@ -167,7 +170,14 @@ void InterfaceController::DoRun() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     poles[i]->ClearGridLights();
   }
+  // Good
   uint16_t interval = nextBeatTime - lastBeatTime;
+
+  //Serial.printf("timeSinceLastBeat: %d, interval: %d\n", timeSinceLastBeat, interval);
+  // Serial.print("timeSinceLastBeat: ");
+  // Serial.print(timeSinceLastBeat);
+  // Serial.print(", interval: ");
+  // Serial.println(interval);
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
 
   SleepMs(MILLIS_PER_RUN_LOOP);

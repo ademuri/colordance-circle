@@ -32,7 +32,7 @@ void ControlPoleEffectLine::DoSetGrid(
     for (uint8_t trailIndex = 0; trailIndex < lightCount; trailIndex++) {
       int xIndex = isLeftRight ? shiftIndex : trailIndex;
       int yIndex = isLeftRight ? trailIndex : shiftIndex;
-      grid_lights[xReverse ? 3 - xIndex : xIndex][yIndex] =
+      grid_lights[(xReverse ? 3 - xIndex : xIndex)%4][yIndex%4] =
           CHSV(currentHue + GetHueDistance(hueDistance, trailIndex, lightCount),
                baseSat, baseVal);
     }
@@ -40,9 +40,9 @@ void ControlPoleEffectLine::DoSetGrid(
     int xIndex = xReverse ? 3 - shiftIndex : shiftIndex;
     int yIndex = shiftIndex;
     if (lightCount == 2) {
-      grid_lights[xIndex + 1 * (xReverse ? -1 : 1)][yIndex] = CHSV(
+      grid_lights[(xIndex + 1 * (xReverse ? -1 : 1))%4][yIndex%4] = CHSV(
           currentHue + GetHueDistance(hueDistance, 0, 2), baseSat, baseVal);
-      grid_lights[xIndex][yIndex + 1] = CHSV(
+      grid_lights[xIndex%4][(yIndex + 1)%4] = CHSV(
           currentHue + GetHueDistance(hueDistance, 1, 2), baseSat, baseVal);
     } else {
       // 1 or 3 lights
@@ -53,22 +53,22 @@ void ControlPoleEffectLine::DoSetGrid(
           brightness = AdjustedBrightness(baseVal, 3, 1 /* minLights */);
         }
         if (xReverse) {
-          grid_lights[xIndex - 1][yIndex - 1] =
+          grid_lights[(xIndex - 1)%4][(yIndex - 1)%4] =
               CHSV(currentHue + GetHueDistance(hueDistance, 0, 3), baseSat,
                    brightness);
-          grid_lights[xIndex + 1][yIndex + 1] =
+          grid_lights[(xIndex + 1)%4][(yIndex + 1)%4] =
               CHSV(currentHue + GetHueDistance(hueDistance, 2, 3), baseSat,
                    brightness);
         } else {
-          grid_lights[xIndex - 1][yIndex + 1] =
+          grid_lights[(xIndex - 1)%4][(yIndex + 1)%4] =
               CHSV(currentHue + GetHueDistance(hueDistance, 2, 3), baseSat,
                    brightness);
-          grid_lights[xIndex + 1][yIndex - 1] =
+          grid_lights[(xIndex + 1)%4][(yIndex - 1)%4] =
               CHSV(currentHue + GetHueDistance(hueDistance, 0, 3), baseSat,
                    brightness);
         }
       }
-      grid_lights[xIndex][yIndex] =
+      grid_lights[xIndex%4][yIndex%4] =
           CHSV(currentHue + GetHueDistance(hueDistance, 1, lightCount), baseSat,
                brightness);
     }
@@ -85,7 +85,7 @@ void ControlPoleEffectLine::DoSetGrid(
         int yIndex = diagonalAxis;
         uint8_t hue = currentHue + GetHueDistance(hueDistance, diagonalAxis,
                                                   shiftLightCount);
-        grid_lights[xIndex][yIndex] = CHSV(hue, baseSat, brightness);
+        grid_lights[xIndex%4][yIndex%4] = CHSV(hue, baseSat, brightness);
       }
     } else {
       for (int diagonalAxis = 3; diagonalAxis >= shiftIndex - 3;
@@ -94,7 +94,7 @@ void ControlPoleEffectLine::DoSetGrid(
         int yIndex = shiftIndex - diagonalAxis;
         uint8_t hue = currentHue + GetHueDistance(hueDistance, 3 - diagonalAxis,
                                                   shiftLightCount);
-        grid_lights[xIndex][yIndex] = CHSV(hue, baseSat, brightness);
+        grid_lights[xIndex%4][yIndex%4] = CHSV(hue, baseSat, brightness);
       }
     }
   }
