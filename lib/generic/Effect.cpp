@@ -3,7 +3,7 @@
 #include "ColordanceTypes.hpp"
 
 Effect::Effect(std::vector<Pole*> poles, ParamController* paramController)
-    : poles(std::move(poles)), paramController(std::move(paramController)) {}
+    : poles(poles), paramController(paramController) {}
 
 void Effect::Run() {
   if (millis() > sleep_until_ms) {

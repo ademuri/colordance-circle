@@ -8,7 +8,7 @@ Pole::Pole() {
     for (int y = 0; y < kGridHeight; y++) {
       row.push_back({0, 0, 0});
     }
-    grid_lights.push_back(std::move(row));
+    grid_lights.push_back(row);
   }
 }
 

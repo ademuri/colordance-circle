@@ -41,17 +41,19 @@ void loop() {
   }
   param_controller->Run();
 
-  // effect->Run();
-  for (Pole* pole : light_controller->get_poles()) {
-    for (int i = 0; i < 4; i++) {
-      pole->ClearGridLights();
-      for (int j = 0; j < 4; j++) {
-        pole->get_grid_lights()[i][j] = CHSV(0, 0, 128);
-      }
-      light_controller->WriteOutLights();
-      delay(200);
-    }
-    pole->ClearGridLights();
-  }
+  effect->Run();
+  light_controller->WriteOutLights();
+
+  // for (Pole* pole : light_controller->get_poles()) {
+  //   for (int i = 0; i < 4; i++) {
+  //     pole->ClearGridLights();
+  //     for (int j = 0; j < 4; j++) {
+  //       pole->SetGridLight(i, j, CHSV(0, 0, 128));
+  //     }
+  //     light_controller->WriteOutLights();
+  //     delay(200);
+  //   }
+  //   pole->ClearGridLights();
+  // }
   // Serial.println(param_controller->controls_in.button_mask);
 }

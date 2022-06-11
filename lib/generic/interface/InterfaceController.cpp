@@ -5,7 +5,7 @@
 
 InterfaceController::InterfaceController(std::vector<Pole*> poles,
                                          ParamController* paramController)
-    : Effect(std::move(poles), paramController),
+    : Effect(poles, paramController),
       currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
