@@ -34,12 +34,17 @@ void InterfaceController::DoRun() {
     case 6:
       currentEffect = std::addressof(sideToSide);
   }
-  Serial.println(effectNumber);
+  //Serial.println(effectNumber);
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
   currentEffect->SetSlider2(paramController->GetRawParam(Param::kSlider2));
 
+  Serial.println("Slider1:");
+  Serial.println(paramController->GetRawParam(Param::kSlider1));
+  Serial.println("Spider2");
+  Serial.println(paramController->GetRawParam(Param::kSlider2));
+  
   uint32_t systemTime = millis();
 
   /*
@@ -173,11 +178,6 @@ void InterfaceController::DoRun() {
   // Good
   uint16_t interval = nextBeatTime - lastBeatTime;
 
-  //Serial.printf("timeSinceLastBeat: %d, interval: %d\n", timeSinceLastBeat, interval);
-  // Serial.print("timeSinceLastBeat: ");
-  // Serial.print(timeSinceLastBeat);
-  // Serial.print(", interval: ");
-  // Serial.println(interval);
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
 
   SleepMs(MILLIS_PER_RUN_LOOP);

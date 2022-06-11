@@ -1,0 +1,5 @@
+"Comment","Designator","Footprint","LCSC Part #"
+"10uF","C1","C_0603_1608Metric","C96446"
+"100nF","C2","C_0402_1005Metric","C307331"
+"WS2812B","D1,D2,D3","LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm","C2761796"
+"33","R1","R_0603_1608Metric","C23140"

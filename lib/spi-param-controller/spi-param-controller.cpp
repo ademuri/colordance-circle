@@ -14,7 +14,7 @@ void SpiParamController::Run() {
   transfer_out_.sendData();
   
   // Effects 0-6
-  Serial.println(controls_in.button_mask);
+  
   for(uint8_t i = 0; i < 7; i++) {
     if(controls_in.button_mask & 1<<i != 0) {
       effect = i;
@@ -57,8 +57,8 @@ void SpiParamController::Run() {
     params[static_cast<uint8_t>(Param::kOption2)] = 0;
   }
 
-  params[static_cast<uint8_t>(Param::kSlider1)] = 10;
-  params[static_cast<uint8_t>(Param::kSlider2)] = 10;
+  params[static_cast<uint8_t>(Param::kSlider1)] = controls_in.analog_inputs[0];
+  params[static_cast<uint8_t>(Param::kSlider2)] = controls_in.analog_inputs[1];
 
   params[static_cast<uint8_t>(Param::kLoopShift)] = 1;
 

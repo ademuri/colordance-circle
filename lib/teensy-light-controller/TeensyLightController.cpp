@@ -1,16 +1,18 @@
 #include "TeensyLightController.hpp"
 
 const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {6,  9,  5,
-                                                                 12, 10, 0};
+                                                                    12, 10, 0};
+
+const std::array<int, 6> kPoleLightIndexes = {7, 8, 4, 13, 11, 1};
 
 TeensyLightController::TeensyLightController() {
   for (int i = 0; i < kTotalLeds; i++) {
     leds[i] = CHSV(0, 0, 0);
   }
-  
+
   FastLED.addLeds<kNumLedOutputs, WS2812, /* first pin */ 1, BGR>(
       leds, kLedsPerOutput);
-  FastLED.setBrightness(32);
+  // FastLED.setBrightness(32);
 
   for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
     poles.push_back(new Pole());

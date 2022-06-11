@@ -7,7 +7,7 @@ static const uint32_t kSerialBaud = 115200;
 
 struct ControlsIn {
   uint16_t button_mask;
-  static const uint8_t kAnalogInputSize = 8;
+  static const uint8_t kAnalogInputSize = 6;
   uint8_t analog_inputs[kAnalogInputSize];
 };
 

@@ -16,13 +16,12 @@ SpiParamController* param_controller;
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial);
 
   Serial.println("Brain initializing...");
   param_controller = new SpiParamController();
   light_controller = new TeensyLightController();
-  effect = new InterfaceController(light_controller->get_poles(),
-                                   param_controller);
+  effect =
+      new InterfaceController(light_controller->get_poles(), param_controller);
 
   // See
   // https://forum.pjrc.com/threads/61974-Teensy4-x-Entropy-library-documentation
@@ -42,7 +41,17 @@ void loop() {
   }
   param_controller->Run();
 
-  effect->Run();
-  // light_controller->WriteOutLights();
+  // effect->Run();
+  for (Pole* pole : light_controller->get_poles()) {
+    for (int i = 0; i < 4; i++) {
+      pole->ClearGridLights();
+      for (int j = 0; j < 4; j++) {
+        pole->get_grid_lights()[i][j] = CHSV(0, 0, 128);
+      }
+      light_controller->WriteOutLights();
+      delay(200);
+    }
+    pole->ClearGridLights();
+  }
   // Serial.println(param_controller->controls_in.button_mask);
 }

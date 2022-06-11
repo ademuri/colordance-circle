@@ -113,10 +113,17 @@ CRGB* getStrip(CRGB* const bank, const int index) {
   return &bank[index * kMaxLedsPerStrip];
 }
 
+uint8_t effect_last_pressed = 0;
+
 // LED strips matching the order of the buttons, then the analog inputs, based
 // on their positions on the PCB.
 // clang-format off
 std::vector<CRGB*> strips = {
+    // getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
+    // getStrip(bank1,  1), getStrip(bank1, 10), getStrip(bank1,  9), getStrip(bank1,  2),
+    // getStrip(bank2,  0), getStrip(bank1,  4), getStrip(bank1,  7), getStrip(bank1,  3),
+    // getStrip(bank2,  3), getStrip(bank1,  5), getStrip(bank1,  6), getStrip(bank2,  2),
+
     getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
     getStrip(bank1,  1), getStrip(bank1, 10), getStrip(bank1,  9), getStrip(bank1,  2),
     getStrip(bank2,  0), getStrip(bank1,  4), getStrip(bank1,  7), getStrip(bank1,  3),
@@ -164,7 +171,7 @@ void setup() {
   FastLED.showColor(CRGB::Black);
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 1000);
 
   Serial.println("FastLED initialized");
   delay(100);
@@ -190,15 +197,44 @@ void setup() {
 
 void readControls() {
   brain_out_data.button_mask = 0;
+  bool effect_pressed = false;
+
   for (uint8_t button_index = 0; button_index < BUTTON_PINS.size();
        button_index++) {
-    brain_out_data.button_mask |= !digitalRead(BUTTON_PINS[button_index]) << button_index;
+    uint8_t val = !digitalRead(BUTTON_PINS[button_index]) << button_index;
+    if (val && !effect_pressed) {
+      effect_last_pressed = button_index;
+      effect_pressed = true;
+    }
+    brain_out_data.button_mask |= val;
+    
+    for (uint8_t i = 0; i < kMaxLedsPerStrip; i++) {
+      if (button_index >= 3 && button_index <= 6) {
+        // Effect buttons
+        if (i < 6) {
+          strips[button_index][i] = CHSV((button_index - 3) * 256 / 4, 255, 255);
+        } else {
+          if (effect_last_pressed == button_index) {
+            strips[button_index][i] = CHSV(0, 0, 255);
+          } else {
+            strips[button_index][i] = CHSV(0, 0, 0);
+          }
+        }
+      } else if (button_index == 7) {
+        // Heart
+        strips[button_index][i] = CHSV(millis() / 10, val ? 0 : 255, 255);
+      } else {
+        strips[button_index][i] = CHSV(val ? 100 : 0, 0, 128);
+      }
+    }
   }
 
-  for (int i = 0; i < ControlsIn::kAnalogInputSize; i++) {
+  for (uint8_t i = 0; i < ANALOG_INPUT_PINS.size() && i < ControlsIn::kAnalogInputSize; i++) {
     analog_inputs[i].Run();
     brain_out_data.analog_inputs[i] = analog_inputs[i].GetFilteredValue();
   }
+
+  FastLED.show();
 }
 
 void debugControls() {
@@ -250,6 +286,9 @@ void loop() {
 
   brain_out.sendData();
   brain_in.receiveData();
-  // Serial.println(brain_in_data.test);
-  // Serial.println(brain_out_data.button_mask);
+  // for (int i = 0; i < 6; i++) {
+  //   Serial.print(brain_out_data.analog_inputs[i]);
+  //   Serial.print(" ");
+  // }
+  // Serial.println();
 }

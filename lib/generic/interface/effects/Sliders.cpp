@@ -50,9 +50,9 @@ void Sliders::UpdateOption2() {
 /**
  * Sliders move which pole the lights are on
  */
-void Sliders::UpdateSlider1(uint8_t val) { leftIndex = val / 43; }
+void Sliders::UpdateSlider1(uint8_t val) { leftIndex = (255-val) / 43; }
 
-void Sliders::UpdateSlider2(uint8_t val) { rightIndex = val / 43; }
+void Sliders::UpdateSlider2(uint8_t val) { rightIndex = (255-val) / 43; }
 
 void Sliders::DoShift(uint8_t shiftPosition) {
   if (shiftPosition == 0) {

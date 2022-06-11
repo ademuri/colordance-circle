@@ -31,8 +31,7 @@ class TeensyLightController : public LightController {
   // Map from pole number (position in array) to the index for that pole's pole
   // lights in the LED array
   // Pins: 15, 17, 19, 21, 23, 0
-  static constexpr std::array<int, 6> kPoleLightIndexes = {7,  8,  4,
-                                                                  13, 11, 1};
+  static const std::array<int, 6> kPoleLightIndexes;
 
   static constexpr int kPodiumIndex = 3;
   static constexpr int kControlPanelIndex = 2;
