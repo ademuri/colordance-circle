@@ -29,21 +29,6 @@ class EffectsTest : public ::testing::Test {
   InterfaceController* controller;
 };
 
-TEST_F(EffectsTest, stable) {
-  uint32_t time = 0;
-  for (uint8_t effect_index = 0; effect_index < effect_names.size();
-       effect_index++) {
-    std::cout << "Testing effect '" << effect_names[effect_index]
-              << "' for stability...\n";
-    param_controller->SetRawParam(Param::kEffect, effect_index + kEffectOffset);
-    for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
-      controller->Run();
-      time += 10;
-      SetMillis(time);
-    }
-  }
-}
-
 TEST_F(EffectsTest, power_consumption) {
   const uint32_t kStepMs = 10;
   const uint32_t kRunCycles = 2 * 60 * 1000 / kStepMs;
@@ -109,3 +94,76 @@ TEST_F(EffectsTest, power_consumption) {
     }
   }
 }
+
+TEST_F(EffectsTest, InvalidParams) {
+  const uint32_t kStepMs = 10;
+  // 15 seconds should be enough to detect badness
+  const uint32_t kCycles = 15 * 1000 / kStepMs;
+
+  const std::vector<Param> kParams = {
+      Param::kBeat,    Param::kLoopShift, Param::kShift,   Param::kPause,
+      Param::kEffect,  Param::kOption1,   Param::kOption1, Param::kOption2,
+      Param::kSlider1, Param::kSlider2};
+
+  uint32_t time = 0;
+
+  for (Param param : kParams) {
+    std::cout << "Testing param " << static_cast<uint32_t>(param) << "\n";
+    for (uint16_t value = 0; value < 256; value++) {
+      param_controller->SetRawParam(param, value);
+      for (uint32_t cycle = 0; cycle < kCycles; cycle++) {
+        controller->Run();
+        time += kStepMs;
+        SetMillis(time);
+      }
+    }
+  }
+}
+
+TEST_F(EffectsTest, StableForAllEffects) {
+  uint32_t time = 0;
+  for (uint8_t effect_index = 0; effect_index < effect_names.size();
+       effect_index++) {
+    std::cout << "Testing effect '" << effect_names[effect_index]
+              << "' for stability...\n";
+    param_controller->SetRawParam(Param::kEffect, effect_index + kEffectOffset);
+    for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
+      controller->Run();
+      time += 10;
+      SetMillis(time);
+    }
+  }
+}
+
+class ParamTest : public EffectsTest,
+                  public ::testing::WithParamInterface<
+                      std::tuple<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t>> {
+};
+
+const std::vector<uint8_t> kEffects = {3, 4, 5, 6};
+const std::vector<uint8_t> kOptions = {0, 1};
+const std::vector<uint8_t> kSliders = {0, 1, 64, 128, 192, 254, 255};
+
+TEST_P(ParamTest, StableForAllParams) {
+  uint32_t time = 0;
+  for (uint8_t effect_index = 0; effect_index < effect_names.size();
+       effect_index++) {
+    param_controller->SetRawParam(Param::kEffect, std::get<0>(GetParam()));
+    param_controller->SetRawParam(Param::kOption1, std::get<1>(GetParam()));
+    param_controller->SetRawParam(Param::kOption2, std::get<2>(GetParam()));
+    param_controller->SetRawParam(Param::kSlider1, std::get<3>(GetParam()));
+    param_controller->SetRawParam(Param::kSlider2, std::get<4>(GetParam()));
+    for (uint32_t cycle = 0; cycle < 10 * 60 * 100; cycle++) {
+      controller->Run();
+      time += 10;
+      SetMillis(time);
+    }
+  }
+}
+
+INSTANTIATE_TEST_CASE_P(ParamTests, ParamTest,
+                        ::testing::Combine(::testing::ValuesIn(kEffects),
+                                           ::testing::ValuesIn(kOptions),
+                                           ::testing::ValuesIn(kOptions),
+                                           ::testing::ValuesIn(kSliders),
+                                           ::testing::ValuesIn(kSliders)));
