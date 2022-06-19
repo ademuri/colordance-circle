@@ -1,10 +1,12 @@
 #include "TeensyLightController.hpp"
 
 const std::array<int, 6> TeensyLightController::kPoleLightIndexes = {6,  9,  5,
-                                                                    12, 10, 0};
+                                                                     12, 10, 0};
 
-// const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7, 8, 4, 13, 11, 1};
-const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7, 8, 4, 13, 10, 1};
+// const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7, 8, 4,
+// 13, 11, 1};
+const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7,  8,  4,
+                                                                    13, 10, 1};
 
 TeensyLightController::TeensyLightController() {
   for (int i = 0; i < kTotalLeds; i++) {

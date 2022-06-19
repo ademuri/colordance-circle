@@ -14,8 +14,9 @@ void setup() {
   paramController = new SerialParamController();
   light_controller = new FastLedLightController();
 
-  effect =
-      new InterfaceController(light_controller->get_poles(), std::unique_ptr<SerialParamController>(paramController));
+  effect = new InterfaceController(
+      light_controller->get_poles(),
+      std::unique_ptr<SerialParamController>(paramController));
 }
 
 void loop() {

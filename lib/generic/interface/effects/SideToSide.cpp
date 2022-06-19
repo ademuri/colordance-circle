@@ -51,7 +51,7 @@ void SideToSide::SetBackAndForth() {
  * Change the number of poles on.
  */
 void SideToSide::UpdateSlider1(uint8_t val) {
-  uint8_t newNumOfPolesOn = 1 + val / (255/4);
+  uint8_t newNumOfPolesOn = 1 + val / (255 / 4);
   if (newNumOfPolesOn + poleOffset >= Pole::kNumPoles) {
     poleOffset = Pole::kNumPoles - newNumOfPolesOn;
   }

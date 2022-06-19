@@ -1,5 +1,5 @@
-#include <interface/InterfaceController.hpp>
 #include <cstdio>
+#include <interface/InterfaceController.hpp>
 #include <iostream>
 #include <map>
 #include <string>
@@ -24,17 +24,17 @@ struct NamedEffect {
 
 std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
   auto result = std::vector<NamedEffect>();
-  result.push_back({
-    "Interface",
-    std::make_unique<InterfaceController>(std::move(poles), std::make_unique<DummyParamController>())
-  });
+  result.push_back(
+      {"Interface",
+       std::make_unique<InterfaceController>(
+           std::move(poles), std::make_unique<DummyParamController>())});
   return result;
 }
 
 TEST(Effects, stable) {
   auto const effects = CreateEffects(CreatePoles());
 
-  for (auto const & element : effects) {
+  for (auto const& element : effects) {
     std::cout << "Testing effect '" << element.name << "' for stability...\n";
 
     for (uint32_t time = 0; time < 12 * 60 * 60 * 1000; time += 10) {
@@ -56,7 +56,7 @@ TEST(Effects, power_consumption) {
   std::vector<Pole*> poles = CreatePoles();
   auto const effects = CreateEffects(poles);
 
-  for (auto const & element : effects) {
+  for (auto const& element : effects) {
     float max_power = 0;
     float power_sum = 0;
     for (uint32_t time = 0; time < kRunTimeMs; time += kStepMs) {

@@ -116,7 +116,7 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
 
 std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
                                                            uint16_t lastFrame,
-                                                           bool multiply) {                                                                                                                                                                 
+                                                           bool multiply) {
   uint16_t framesPerShift =
       currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
   uint8_t lastShiftIndex = lastFrame / framesPerShift;
@@ -159,14 +159,15 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
 
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;
-  } 
+  }
 
   // else if (speed == Speed::kHalf) {
   //   if (shiftIndex == 0 && lastShiftIndex == shiftsPerLoop - 1) {
   //     didFirstHalf = !didFirstHalf;
   //   }
   //   shiftsPerLoop = shiftsPerLoop/2;
-  //   shiftIndex = shiftIndex/2 + (didFirstHalf ? shiftsPerLoop : 0) * (goBackwards ? -1 : 1);
+  //   shiftIndex = shiftIndex/2 + (didFirstHalf ? shiftsPerLoop : 0) *
+  //   (goBackwards ? -1 : 1);
 
   // } else if (speed == Speed::kDouble) {
   //   shiftsPerLoop *= 2;
@@ -176,7 +177,7 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   //   }
   //   shiftIndex %= shiftsPerLoop;
   // }
-  
+
   if (!multiply) {
     TurnOffAll();
   }

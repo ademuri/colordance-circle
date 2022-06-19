@@ -53,14 +53,14 @@ const int kAnalog7 = 39;
 const int kAnalog8 = 27;
 
 const std::vector<int> ANALOG_INPUT_PINS = {
-    kAnalog1, kAnalog3, kAnalog4,
-    kAnalog5, kAnalog7, kAnalog8,
+    kAnalog1, kAnalog3, kAnalog4, kAnalog5, kAnalog7, kAnalog8,
 };
 
 const std::vector<int> PCB_ORDER_INPUT_PINS = {
-    kButton1,  kButton5, kButton9,  kAnalog1, kButton2,  kButton6,
-    kButton10, /* No analog 2, */ kButton3,  kButton7, kButton11, kAnalog3,
-    kButton4,  kButton8, kButton12, kAnalog4,
+    kButton1, kButton5,  kButton9,  kAnalog1,
+    kButton2, kButton6,  kButton10, /* No analog 2, */ kButton3,
+    kButton7, kButton11, kAnalog3,  kButton4,
+    kButton8, kButton12, kAnalog4,
 };
 
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
@@ -207,12 +207,13 @@ void readControls() {
       effect_pressed = true;
     }
     brain_out_data.button_mask |= val;
-    
+
     for (uint8_t i = 0; i < kMaxLedsPerStrip; i++) {
       if (button_index >= 3 && button_index <= 6) {
         // Effect buttons
         if (i < 6) {
-          strips[button_index][i] = CHSV((button_index - 3) * 256 / 4, 255, 255);
+          strips[button_index][i] =
+              CHSV((button_index - 3) * 256 / 4, 255, 255);
         } else {
           if (effect_last_pressed == button_index) {
             strips[button_index][i] = CHSV(0, 0, 255);
@@ -229,7 +230,8 @@ void readControls() {
     }
   }
 
-  for (uint8_t i = 0; i < ANALOG_INPUT_PINS.size() && i < ControlsIn::kAnalogInputSize; i++) {
+  for (uint8_t i = 0;
+       i < ANALOG_INPUT_PINS.size() && i < ControlsIn::kAnalogInputSize; i++) {
     analog_inputs[i].Run();
     brain_out_data.analog_inputs[i] = analog_inputs[i].GetFilteredValue();
   }

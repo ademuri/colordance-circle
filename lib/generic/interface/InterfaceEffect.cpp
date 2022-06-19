@@ -29,7 +29,6 @@ void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
 void InterfaceEffect::SetGrid(std::vector<Pole*>& poles,
                               uint16_t timeSinceLastBeat,
                               uint16_t millisPerBeat) {
-
   if (lastTimeSinceLastBeat + WAIT_TIME_TO_START_OVER < timeSinceLastBeat) {
     Reset();
   }

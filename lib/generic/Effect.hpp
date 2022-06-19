@@ -8,8 +8,7 @@
 
 class Effect {
  public:
-  Effect(std::vector<Pole*> poles,
-         ParamController* paramController);
+  Effect(std::vector<Pole*> poles, ParamController* paramController);
 
   /* Runs this effect. */
   void Run();

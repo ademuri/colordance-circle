@@ -33,7 +33,7 @@ void BackAndForth::UpdateOption1() {
 }
 
 void BackAndForth::UpdateOption2() {
-  hueStart += 255/4;
+  hueStart += 255 / 4;
   controlPoleLeft.SetHue(hueStart + hueVal);
   controlPoleRight.SetHue(hueStart + 127 - hueVal);
 }
@@ -41,7 +41,7 @@ void BackAndForth::UpdateOption2() {
 /**
  */
 void BackAndForth::UpdateSlider1(uint8_t val) {
-  hueVal = val/4;
+  hueVal = val / 4;
   controlPoleLeft.SetHue(hueStart + hueVal);
   controlPoleRight.SetHue(hueStart + 127 - hueVal);
 }

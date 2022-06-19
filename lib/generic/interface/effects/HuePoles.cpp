@@ -36,7 +36,7 @@ void HuePoles::UpdateOption1() {
 void HuePoles::UpdateOption2() {
   still = !still;
   for (auto& pole : controlPoles) {
-   pole.SetShiftSpeed(still? Speed::kStill : Speed::kDefault);
+    pole.SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
   }
 }
 
@@ -59,18 +59,18 @@ void HuePoles::UpdateSlider2(uint8_t val) {
   // val = val / 64;
   // for (auto& pole : controlPoles) {
   //   switch (val) {
-    //   case 0:
-    //     pole.SetShiftSpeed(Speed::kStill);
-    //     break;
-    //   case 1:
-    //     pole.SetShiftSpeed(Speed::kHalf);
-    //     break;
-    //   case 3:
-    //     pole.SetShiftSpeed(Speed::kDouble);
-    //     break;
-    //   default:
-    //     pole.SetShiftSpeed(Speed::kDefault);
-    // }
+  //   case 0:
+  //     pole.SetShiftSpeed(Speed::kStill);
+  //     break;
+  //   case 1:
+  //     pole.SetShiftSpeed(Speed::kHalf);
+  //     break;
+  //   case 3:
+  //     pole.SetShiftSpeed(Speed::kDouble);
+  //     break;
+  //   default:
+  //     pole.SetShiftSpeed(Speed::kDefault);
+  // }
   //}
 }
 
@@ -88,7 +88,7 @@ void HuePoles::ResetModes() {
     } else {
       controlPoles[i].SetBackAndForth(false);
     }
-    //don't care about reverse
+    // don't care about reverse
     controlPoles[i].SetSmoothColor(true);
     controlPoles[i].SetLightCount(2);
     controlPoles[i].SetHue(43 * i + hueOffset);
