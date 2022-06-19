@@ -7,7 +7,7 @@ class LocalButtonController : public ParamController {
  public:
   LocalButtonController();
 
-  uint8_t GetRawParam(Param param) override{};
+  uint8_t GetRawParam(Param param) override { return 0; };
 
   bool Random();
   bool Next();
