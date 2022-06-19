@@ -9,6 +9,7 @@
 class Effect {
  public:
   Effect(std::vector<Pole*> poles, ParamController* paramController);
+  virtual ~Effect() {}
 
   /* Runs this effect. */
   void Run();
