@@ -16,7 +16,7 @@ void setup() {
 
   effect = new InterfaceController(
       light_controller->get_poles(),
-      std::unique_ptr<SerialParamController>(paramController));
+      paramController);
 }
 
 void loop() {
