@@ -1,5 +1,7 @@
 #pragma once
 
+#define UNUSED(x) (void)(x)
+
 #ifdef ARDUINO
 
 #include <FastLED.h>
@@ -12,8 +14,6 @@
 
 #else
 #include <chrono>
-
-#define UNUSED(x) (void)(x)
 
 // Ignore warnings for FakeFastLED
 #pragma GCC diagnostic push
