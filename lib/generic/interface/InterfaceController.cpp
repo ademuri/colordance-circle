@@ -34,17 +34,11 @@ void InterfaceController::DoRun() {
     case 6:
       currentEffect = std::addressof(sideToSide);
   }
-  //Serial.println(effectNumber);
   currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
   currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
   currentEffect->SetSlider2(paramController->GetRawParam(Param::kSlider2));
 
-  Serial.println("Slider1:");
-  Serial.println(paramController->GetRawParam(Param::kSlider1));
-  Serial.println("Spider2");
-  Serial.println(paramController->GetRawParam(Param::kSlider2));
-  
   uint32_t systemTime = millis();
 
   /*
