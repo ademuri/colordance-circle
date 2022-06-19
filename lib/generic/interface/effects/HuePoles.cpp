@@ -75,6 +75,7 @@ void HuePoles::UpdateSlider2(uint8_t val) {
 }
 
 void HuePoles::DoShift(uint8_t shiftPosition) {
+  UNUSED(shiftPosition);
   smoothColor = !smoothColor;
   for (auto& pole : controlPoles) {
     pole.SetSmoothColor(smoothColor);

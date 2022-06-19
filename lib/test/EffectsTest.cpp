@@ -24,9 +24,8 @@ struct NamedEffect {
 
 std::vector<NamedEffect> CreateEffects(std::vector<Pole*> poles) {
   auto result = std::vector<NamedEffect>();
-  result.push_back(
-      NamedEffect{"Interface",
-       new InterfaceController(poles, new DummyParamController())});
+  result.push_back(NamedEffect{
+      "Interface", new InterfaceController(poles, new DummyParamController())});
   return result;
 }
 

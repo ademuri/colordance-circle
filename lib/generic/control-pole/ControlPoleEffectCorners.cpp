@@ -13,14 +13,17 @@ void ControlPoleEffectCorners::DoSetGrid(
       grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 0)] = CHSV(
           currentHue + GetHueDistance(hueDistance, (shiftIndex + 3) % 4, 4),
           baseSat, baseVal);
+      // fall through
     case (3):
       grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 1)] = CHSV(
           currentHue + GetHueDistance(hueDistance, (shiftIndex + 2) % 4, 4),
           baseSat, baseVal);
+      // fall through
     case (2):
       grid_lights[GetIndex(shiftIndex, 0)][GetIndex(shiftIndex, 1)] = CHSV(
           currentHue + GetHueDistance(hueDistance, (shiftIndex + 1) % 4, 4),
           baseSat, baseVal);
+      // fall through
     case (1):
       grid_lights[GetIndex(shiftIndex, 0)][GetIndex(shiftIndex, 0)] =
           CHSV(currentHue + GetHueDistance(hueDistance, shiftIndex, 4), baseSat,

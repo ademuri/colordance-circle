@@ -21,17 +21,20 @@ void ControlPoleEffectCircle::DoSetGrid(
                  [GetIndex(shiftIndex + 3 * rotationOffset)] = CHSV(
                      currentHue + GetHueDistance(hueDistance, 3, lightCount),
                      baseSat, baseVal);
+      // fall through
     case (3):
       grid_lights[GetIndex(shiftIndex + 2 * rotationOffset + 2 + offsetFix2)]
                  [GetIndex(shiftIndex + 2 * rotationOffset + offsetFix2)] =
                      CHSV(currentHue +
                               GetHueDistance(hueDistance, 2, lightCount),
                           baseSat, baseVal);
+      // fall through
     case (2):
       grid_lights[GetIndex(shiftIndex + rotationOffset + 2 + offsetFix1)]
                  [GetIndex(shiftIndex + rotationOffset + offsetFix1)] = CHSV(
                      currentHue + GetHueDistance(hueDistance, 1, lightCount),
                      baseSat, baseVal);
+      // fall through
     case (1):
       grid_lights[GetIndex(shiftIndex + 2)][GetIndex(shiftIndex)] =
           CHSV(currentHue + GetHueDistance(hueDistance, 0, lightCount), baseSat,

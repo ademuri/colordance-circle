@@ -158,8 +158,8 @@ void InterfaceController::DoRun() {
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   // This frame is a beat and we're looping, or we set a shift right after a
   // beat
-  if (doShiftOnNextBeat && timeSinceLastBeat < millisPerBeat / 4 ||
-      loopShift && lastFrameWasBeat && beatsSinceLastShift >= beatsPerShift) {
+  if ((doShiftOnNextBeat && timeSinceLastBeat < millisPerBeat / 4) ||
+      (loopShift && lastFrameWasBeat && beatsSinceLastShift >= beatsPerShift)) {
     currentEffect->Shift(0);  // Shift needs to be done after updating settings
     beatsSinceLastShift = 0;
     doShiftOnNextBeat = false;

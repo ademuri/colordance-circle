@@ -73,7 +73,7 @@ void SideToSide::UpdateHues() {
 }
 
 /**
- * Chages the hue distance
+ * Changes the hue distance
  */
 void SideToSide::UpdateSlider2(uint8_t val) {
   uint8_t hueDistance = val / 4;
@@ -92,8 +92,8 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   if (numOfPolesOn == Pole::kNumPoles) {
     return;
   }
-  if (goBackwards && poleOffset == 0 ||
-      !goBackwards && poleOffset == Pole::kNumPoles - numOfPolesOn) {
+  if ((goBackwards && poleOffset == 0) ||
+      (!goBackwards && poleOffset == Pole::kNumPoles - numOfPolesOn)) {
     goBackwards = !goBackwards;
   }
   if (smoothPoleShift && numOfPolesOn > 1) {

@@ -36,13 +36,11 @@ void Pole::MultiplyGridLight(uint8_t x, uint8_t y, const CRGB &rgb) {
     red = 255;
   }
   uint16_t green = (uint16_t)rgb.g + grid_lights[y][x].g;
-  uint8_t greenR = 0;
   if (green > 255) {
     remainder += green - 255;
     green = 255;
   }
   uint16_t blue = (uint16_t)rgb.b + grid_lights[y][x].b;
-  uint8_t blueR = 0;
   if (blue > 255) {
     remainder += blue - 255;
     blue = 255;

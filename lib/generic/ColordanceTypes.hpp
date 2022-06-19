@@ -13,6 +13,8 @@
 #else
 #include <chrono>
 
+#define UNUSED(x) (void)(x)
+
 // Ignore warnings for FakeFastLED
 #pragma GCC diagnostic push
 
