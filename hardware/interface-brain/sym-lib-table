@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name "SN74ACT244PWR")(type "Legacy")(uri "/home/adam/hardware/kicad/snapeda/SN74ACT244PWR.lib")(options "")(descr ""))
+  (lib (name "colordance-brain-rescue")(type "Legacy")(uri "/home/adam/hardware/colordance-circle/hardware/colordance-brain/colordance-brain-rescue.lib")(options "")(descr ""))
 )

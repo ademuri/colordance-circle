@@ -441,6 +441,10 @@
     [
       "9538e4ed-27e6-4c37-b989-9859dc0d49e8",
       ""
+    ],
+    [
+      "d842a1be-ffa0-45ce-984e-638142f4a2db",
+      "5v_smps"
     ]
   ],
   "text_variables": {}
