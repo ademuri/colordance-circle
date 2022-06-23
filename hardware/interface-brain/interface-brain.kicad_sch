@@ -1340,7 +1340,6 @@
     )
   )
 
-
   (junction (at 123.19 252.73) (diameter 0) (color 0 0 0 0)
     (uuid 02a831ef-457c-4241-a3c0-864f4dbc9504)
   )
@@ -8037,7 +8036,7 @@
     (property "Datasheet" "~" (id 3) (at 469.9 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "LCSC" "C25808" (id 4) (at 469.9 40.64 0)
+    (property "LCSC" "C22787" (id 4) (at 469.9 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid ce333d54-267e-46ad-9a59-1af5bc2593f1))
@@ -8873,7 +8872,7 @@
       (reference "H4") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
     )
     (path "/d842a1be-ffa0-45ce-984e-638142f4a2db/f575f0cf-b65d-4375-92ee-5a29c03e83d6"
-      (reference "J1") (unit 1) (value "Anderson") (footprint "homebrew:Anderson_1336G1_right_angle_bottom_two")
+      (reference "J1") (unit 1) (value "Anderson") (footprint "Homebrew:Anderson_1336G1_right_angle_bottom_two")
     )
     (path "/e22bb1c2-6aa0-48f7-ad07-4af57f61927c"
       (reference "J2") (unit 1) (value "Conn_01x03") (footprint "Homebrew:MiniPV_69167-X03XXX_1x03_P2.54mm_Polarized_Vertical")

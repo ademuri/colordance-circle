@@ -554,7 +554,6 @@
     )
   )
 
-
   (junction (at 129.54 49.53) (diameter 0) (color 0 0 0 0)
     (uuid 0fb8e660-2801-47c4-b623-ed1a5768e7cd)
   )
@@ -1227,7 +1226,7 @@
     (property "Value" "Anderson" (id 1) (at 34.4932 42.1386 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "homebrew:Anderson_1336G1_right_angle_bottom_two" (id 2) (at 33.02 50.8 0)
+    (property "Footprint" "Homebrew:Anderson_1336G1_right_angle_bottom_two" (id 2) (at 33.02 50.8 0)
       (effects (font (size 1.524 1.524)) hide)
     )
     (property "Datasheet" "" (id 3) (at 33.02 50.8 0)

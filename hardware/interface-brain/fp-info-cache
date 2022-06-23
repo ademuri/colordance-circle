@@ -1,4 +1,4 @@
-20333404939547817
+20387217053068074
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -53487,6 +53487,13 @@ PVA1-OA-H2
 4
 4
 Homebrew
+Potentiometer_Bourns_PTB01X3_Single_Slide
+
+
+0
+5
+4
+Homebrew
 RFM69
 
 
@@ -53612,6 +53619,13 @@ tactile, jlc, button
 0
 4
 2
+Homebrew
+SW_Tactile_SPST_TL6300
+tactile switch SPST E-Switch 12mmx12mm IP67
+tactile SPST IP67
+0
+6
+3
 Homebrew
 TACTILE_SWITCH_SMD_4.6X2.8MM
 MOMENTARY SWITCH (PUSHBUTTON) - SPST - SMD, 4.6 X 2.8MM
@@ -72699,7 +72713,7 @@ VSON-8_3.3x3.3mm_P0.65mm_NexFET
 8-Lead Plastic Dual Flat, No Lead Package (MF) - 3.3x3.3x1 mm Body [VSON] http://www.ti.com/lit/ds/symlink/csd87334q3d.pdf
 VSON 0.65
 0
-12
+13
 5
 Package_SON
 VSON-10-1EP_3x3mm_P0.5mm_EP1.2x2mm
