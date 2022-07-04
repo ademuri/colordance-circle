@@ -8,37 +8,12 @@ uint8_t ControlPoleEffectCircle::GetRotations() { return 4; }
 
 void ControlPoleEffectCircle::DoSetGrid(
     Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
-  uint8_t rotationOffset = rotation + 1;
-  uint8_t offsetFix1 = 0;
-  uint8_t offsetFix2 = 0;
-  if (lightCount > 2 && rotation == 3) {
-    offsetFix1 = lightCount == 4 ? -1 : 0;
-    offsetFix2 = -1;
-  }
-  switch (lightCount) {
-    case (4):
-      grid_lights[GetIndex(shiftIndex + 3 * rotationOffset + 2)]
-                 [GetIndex(shiftIndex + 3 * rotationOffset)] = CHSV(
-                     currentHue + GetHueDistance(hueDistance, 3, lightCount),
-                     baseSat, baseVal);
-      // fall through
-    case (3):
-      grid_lights[GetIndex(shiftIndex + 2 * rotationOffset + 2 + offsetFix2)]
-                 [GetIndex(shiftIndex + 2 * rotationOffset + offsetFix2)] =
-                     CHSV(currentHue +
-                              GetHueDistance(hueDistance, 2, lightCount),
-                          baseSat, baseVal);
-      // fall through
-    case (2):
-      grid_lights[GetIndex(shiftIndex + rotationOffset + 2 + offsetFix1)]
-                 [GetIndex(shiftIndex + rotationOffset + offsetFix1)] = CHSV(
-                     currentHue + GetHueDistance(hueDistance, 1, lightCount),
-                     baseSat, baseVal);
-      // fall through
-    case (1):
-      grid_lights[GetIndex(shiftIndex + 2)][GetIndex(shiftIndex)] =
-          CHSV(currentHue + GetHueDistance(hueDistance, 0, lightCount), baseSat,
-               baseVal);
+  uint8_t const rotationOffset = rotation + 1;
+  for (std::uint8_t n = 0; n != lightCount; ++n) {
+    auto const useOffsetFix = rotation == 3 and (n == 2 or (n == 1 and lightCount == 4));
+    auto const baseIndex = shiftIndex + n * rotationOffset + (useOffsetFix ? -1 : 0);
+    auto & grid_light = grid_lights[GetIndex(baseIndex + 2)][GetIndex(baseIndex)];
+    grid_light = CHSV(currentHue + GetHueDistance(hueDistance, n, lightCount), baseSat, baseVal);
   }
 }
 

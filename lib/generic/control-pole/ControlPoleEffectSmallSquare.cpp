@@ -9,26 +9,9 @@ uint8_t ControlPoleEffectSmallSquare::GetRotations() { return 1; }
 
 void ControlPoleEffectSmallSquare::DoSetGrid(
     Grid<CHSV> &grid_lights, uint8_t shiftIndex) {
-  switch (lightCount) {
-    case (4):
-      grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 0)] = CHSV(
-          currentHue + GetHueDistance(hueDistance, (shiftIndex + 3) % 4, 4),
-          baseSat, baseVal);
-      // fall through
-    case (3):
-      grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 1)] = CHSV(
-          currentHue + GetHueDistance(hueDistance, (shiftIndex + 2) % 4, 4),
-          baseSat, baseVal);
-      // fall through
-    case (2):
-      grid_lights[GetIndex(shiftIndex, 0)][GetIndex(shiftIndex, 1)] = CHSV(
-          currentHue + GetHueDistance(hueDistance, (shiftIndex + 1) % 4, 4),
-          baseSat, baseVal);
-      // fall through
-    case (1):
-      grid_lights[GetIndex(shiftIndex, 0)][GetIndex(shiftIndex, 0)] =
-          CHSV(currentHue + GetHueDistance(hueDistance, shiftIndex, 4), baseSat,
-               baseVal);
+  for (std::uint8_t n = 0; n != lightCount; ++n) {
+    auto & grid_light = grid_lights[GetIndex(shiftIndex, n >= 2)][GetIndex(shiftIndex, n == 1 or n == 2)];
+    grid_light = CHSV(currentHue + GetHueDistance(hueDistance, (shiftIndex + n) % 4, 4), baseSat, baseVal);
   }
 }
 
