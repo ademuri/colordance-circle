@@ -1,24 +1,23 @@
 #include <array>
 #include <cstdio>
+#include <interface/InterfaceController.hpp>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-
-#include <interface/InterfaceController.hpp>
 
 #include "DummyParamController.hpp"
 #include "Effect.hpp"
 #include "Pole.hpp"
 #include "gtest/gtest.h"
 
-constexpr auto effect_names = std::array{"HuePoles", "BackAndForth",
-                                               "Sliders", "SideToSide"};
+constexpr auto effect_names =
+    std::array{"HuePoles", "BackAndForth", "Sliders", "SideToSide"};
 // Effect index starts at this value.
 constexpr uint8_t kEffectOffset = 3;
 
 class EffectsTest : public ::testing::Test {
-  protected:
+ protected:
   Poles poles{};
   DummyParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
@@ -44,13 +43,13 @@ TEST_F(EffectsTest, power_consumption) {
       time += kStepMs;
       SetMillis(time);
       param_controller.SetRawParam(Param::kEffect,
-                                    effect_index + kEffectOffset);
+                                   effect_index + kEffectOffset);
       controller.Run();
 
       float instantaneous_power = 0;
-      for (Pole & pole : poles) {
+      for (Pole& pole : poles) {
         float instantaneous_pole_power = 0;
-        auto & grid_lights = pole.get_grid_lights();
+        auto& grid_lights = pole.get_grid_lights();
         for (uint row = 0; row < grid_lights.size(); row++) {
           for (uint col = 0; col < grid_lights[row].size(); col++) {
             CRGB rgb = grid_lights[row][col];
@@ -81,7 +80,7 @@ TEST_F(EffectsTest, power_consumption) {
     EXPECT_LT(max_pole_power, 36.0) << effect_name;
 
     // Clear all lights
-    for (Pole & pole : poles) {
+    for (Pole& pole : poles) {
       pole.ClearGridLights();
     }
   }

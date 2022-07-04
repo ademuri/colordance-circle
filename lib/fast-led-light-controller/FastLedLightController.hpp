@@ -9,9 +9,7 @@ class FastLedLightController {
 
   void WriteOutLights();
 
-  Poles & get_poles() {
-    return poles;
-  }
+  Poles& get_poles() { return poles; }
 
  private:
   static const uint16_t kGridSize = 16;

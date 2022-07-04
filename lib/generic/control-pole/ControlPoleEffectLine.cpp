@@ -16,8 +16,8 @@ uint8_t ControlPoleEffectLine::GetShiftsPerLoop() {
 
 uint8_t ControlPoleEffectLine::GetRotations() { return 4; }
 
-void ControlPoleEffectLine::DoSetGrid(
-    Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
+void ControlPoleEffectLine::DoSetGrid(Grid<CHSV>& grid_lights,
+                                      uint8_t shiftIndex) {
   // bool isStill = GetMillisPerShift() == 0;
   bool isStill = false;
   // For still animation, make diagonal in the middle

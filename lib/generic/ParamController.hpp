@@ -19,7 +19,7 @@ enum class Param {
 class ParamController {
  public:
   ParamController();
-  virtual ~ParamController() {};
+  virtual ~ParamController(){};
 
   virtual uint8_t GetRawParam(Param param) = 0;
 

@@ -26,8 +26,7 @@ void InterfaceEffect::SetSlider2(uint8_t val) { UpdateSlider2(val); }
 
 void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
 
-void InterfaceEffect::SetGrid(Poles & poles,
-                              uint16_t timeSinceLastBeat,
+void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
                               uint16_t millisPerBeat) {
   if (lastTimeSinceLastBeat + WAIT_TIME_TO_START_OVER < timeSinceLastBeat) {
     Reset();

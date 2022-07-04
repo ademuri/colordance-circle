@@ -13,8 +13,7 @@
 
 class InterfaceController : public Effect {
  public:
-  InterfaceController(Poles & poles,
-                      ParamController* paramController);
+  InterfaceController(Poles& poles, ParamController* paramController);
 
  protected:
   void DoRun() override;

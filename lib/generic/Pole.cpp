@@ -2,9 +2,7 @@
 
 #include <cstdio>
 
-Pole::Pole() {
-  ClearGridLights();
-}
+Pole::Pole() { ClearGridLights(); }
 
 void Pole::SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb) {
   grid_lights[y][x] = rgb;

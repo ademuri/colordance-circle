@@ -14,7 +14,7 @@ BackAndForth::BackAndForth()
 
 bool BackAndForth::ContinuousShift() { return true; }
 
-void BackAndForth::DoSetGrid(Poles & poles, uint16_t frame) {
+void BackAndForth::DoSetGrid(Poles& poles, uint16_t frame) {
   controlPoleLeft.TurnOffAll();
   controlPoleRight.TurnOffAll();
   poles[leftIndex % 6].SetGridLights(

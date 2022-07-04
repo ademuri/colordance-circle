@@ -3,7 +3,7 @@
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
 
-InterfaceController::InterfaceController(Poles & poles,
+InterfaceController::InterfaceController(Poles& poles,
                                          ParamController* paramController)
     : Effect(poles, paramController),
       currentEffect(std::addressof(backAndForth)) {
@@ -166,7 +166,7 @@ void InterfaceController::DoRun() {
     // lastShiftTime = lastBeatTime;
   }
 
-  for (auto & pole : poles) {
+  for (auto& pole : poles) {
     pole.ClearGridLights();
   }
   // Good

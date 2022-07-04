@@ -2,7 +2,6 @@
 
 #include <ColordanceTypes.hpp>
 #include <Pole.hpp>
-
 #include <array>
 
 class TeensyLightController {
@@ -11,9 +10,7 @@ class TeensyLightController {
 
   void WriteOutLights();
 
-  Poles & get_poles() {
-    return poles;
-  }
+  Poles& get_poles() { return poles; }
 
  private:
   // The number of LED output pins

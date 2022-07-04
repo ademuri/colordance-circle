@@ -17,9 +17,7 @@ class Pole {
   void MultiplyGridLights(Grid<CHSV> const &grid_lights);
   void ClearGridLights();
 
-  Grid<CRGB> const &get_grid_lights() const {
-    return grid_lights;
-  }
+  Grid<CRGB> const &get_grid_lights() const { return grid_lights; }
 
   static const uint8_t kNumPoles = 6;
 

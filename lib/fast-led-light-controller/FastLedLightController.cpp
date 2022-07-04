@@ -9,7 +9,7 @@ FastLedLightController::FastLedLightController() {
 
 void FastLedLightController::WriteOutLights() {
   for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
-    auto const & grid_lights = poles[pole_index].get_grid_lights();
+    auto const& grid_lights = poles[pole_index].get_grid_lights();
     leds[kLedOffset + pole_index * kGridSize + 0] = grid_lights[0][0];
     leds[kLedOffset + pole_index * kGridSize + 1] = grid_lights[0][1];
     leds[kLedOffset + pole_index * kGridSize + 2] = grid_lights[0][2];

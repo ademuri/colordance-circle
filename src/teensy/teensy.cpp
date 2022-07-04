@@ -16,7 +16,7 @@ auto light_controller = TeensyLightController();
 Effect* effect;
 SpiParamController* param_controller;
 
-} // namespace
+}  // namespace
 
 void setup() {
   Serial.begin(115200);
@@ -38,7 +38,7 @@ namespace {
 
 uint32_t print_at = 0;
 
-} // namespace
+}  // namespace
 
 void loop() {
   if (millis() > print_at) {

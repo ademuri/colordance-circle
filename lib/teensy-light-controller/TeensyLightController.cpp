@@ -20,7 +20,7 @@ TeensyLightController::TeensyLightController() {
 
 void TeensyLightController::WriteOutLights() {
   for (uint8_t pole_number = 0; pole_number < Pole::kNumPoles; pole_number++) {
-    auto & grid_lights = poles[pole_number].get_grid_lights();
+    auto& grid_lights = poles[pole_number].get_grid_lights();
     int pole_index = kPoleGridIndexes[pole_number];
 
     leds[pole_index * kLedsPerOutput + 6] = grid_lights[0][0];

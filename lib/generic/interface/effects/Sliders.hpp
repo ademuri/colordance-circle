@@ -25,8 +25,7 @@ class Sliders : public InterfaceEffect {
   void ResetEffect() override;
 
  private:
-  void UpdateGrid(Grid<CHSV> &pole, uint8_t position,
-                  uint8_t hue, uint8_t sat);
+  void UpdateGrid(Grid<CHSV> &pole, uint8_t position, uint8_t hue, uint8_t sat);
 
   void ResetModes();
 

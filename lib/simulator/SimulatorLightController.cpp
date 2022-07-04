@@ -43,7 +43,7 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
 
 void SimulatorLightController::WriteOutLights() {
   for (int pole_index = 0; pole_index < 6; pole_index++) {
-    auto & grid_lights = poles[pole_index].get_grid_lights();
+    auto &grid_lights = poles[pole_index].get_grid_lights();
     const uint8_t grid_num_rows = grid_lights.size();
     const uint8_t grid_num_cols = grid_lights.front().size();
 

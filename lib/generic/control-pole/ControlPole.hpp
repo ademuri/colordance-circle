@@ -48,9 +48,7 @@ class ControlPole {
   void FadeOut(uint16_t fadeFrames);
   void TurnOffAll();
   uint32_t GetTimerShiftOffset();
-  Grid<CHSV> const& GetGrid(uint16_t frame,
-                                                uint16_t lastFrame,
-                                                bool multiply);
+  Grid<CHSV> const& GetGrid(uint16_t frame, uint16_t lastFrame, bool multiply);
 
  private:
   uint8_t GetUpdatedHueShift(uint16_t framesSinceLast);

@@ -6,8 +6,8 @@ uint8_t ControlPoleEffectCross::GetShiftsPerLoop() { return 4; }
 
 uint8_t ControlPoleEffectCross::GetRotations() { return 1; }
 
-void ControlPoleEffectCross::DoSetGrid(
-    Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
+void ControlPoleEffectCross::DoSetGrid(Grid<CHSV>& grid_lights,
+                                       uint8_t shiftIndex) {
   grid_lights[shiftIndex % 4][shiftIndex % 4] =
       CHSV(currentHue + GetHueDistance(hueDistance, 0, 2), baseSat, baseVal);
   grid_lights[(3 - shiftIndex) % 4][shiftIndex % 4] =

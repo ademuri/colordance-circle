@@ -13,7 +13,7 @@ class SideToSide : public InterfaceEffect {
 
  protected:
   bool ContinuousShift();
-  void DoSetGrid(Poles & poles, uint16_t frame) override;
+  void DoSetGrid(Poles& poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;

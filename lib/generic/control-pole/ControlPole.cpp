@@ -7,11 +7,10 @@
 #include "ControlPoleEffectPinwheel.hpp"
 #include "Pole.hpp"
 
-ControlPole::ControlPole(uint16_t framesPerLoop):
-  framesPerLoop(framesPerLoop)
-{
-  for (auto & row : grid_lights) {
-    for (auto & value : row) {
+ControlPole::ControlPole(uint16_t framesPerLoop)
+    : framesPerLoop(framesPerLoop) {
+  for (auto& row : grid_lights) {
+    for (auto& value : row) {
       value = CHSV{0, 0, 0};
     }
   }
@@ -106,16 +105,14 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
   fadeOutFramesLeft = fadeOutFrames;
 }
 
-Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame,
-                                                           uint16_t lastFrame,
-                                                           bool multiply) {
+Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame, uint16_t lastFrame,
+                                       bool multiply) {
   uint16_t const framesPerShift =
       currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
   uint8_t const lastShiftIndex = lastFrame / framesPerShift;
   uint8_t shiftIndex = frame / framesPerShift;
-  uint16_t const framesSinceLast = frame > lastFrame
-                                 ? frame - lastFrame
-                                 : frame + framesPerLoop - lastFrame;
+  uint16_t const framesSinceLast =
+      frame > lastFrame ? frame - lastFrame : frame + framesPerLoop - lastFrame;
 
   uint8_t const hue = baseHue + GetUpdatedHueShift(framesSinceLast);
   if (smoothColor || lastShiftIndex != shiftIndex) {
@@ -139,11 +136,12 @@ Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame,
 
   // TODO: What is the intent of these casts? They currently do nothing
   currentEffect->SetBaseVal(
-    fadeInFramesLeft != 0 ? (uint16_t)255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames :
-    fadeOutFramesLeft != 0 ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames :
-    fadeOutFrames != 0 ? 0 :
-    baseVal
-  );
+      fadeInFramesLeft != 0
+          ? (uint16_t)255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames
+      : fadeOutFramesLeft != 0
+          ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames
+      : fadeOutFrames != 0 ? 0
+                           : baseVal);
 
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;
@@ -189,8 +187,8 @@ uint8_t ControlPole::GetUpdatedHueShift(uint16_t framesSinceLast) {
 }
 
 void ControlPole::TurnOffAll() {
-  for (auto & row : grid_lights) {
-    for (auto & element : row) {
+  for (auto& row : grid_lights) {
+    for (auto& element : row) {
       element.val = 0;
     }
   }
