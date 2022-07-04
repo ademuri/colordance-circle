@@ -140,17 +140,13 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   fadeOutFramesLeft -=
       framesSinceLast < fadeOutFramesLeft ? framesSinceLast : fadeOutFramesLeft;
 
-  if (fadeInFramesLeft != 0) {
-    currentEffect->SetBaseVal((uint16_t)255 *
-                              (fadeInFrames - fadeInFramesLeft) / fadeInFrames);
-  } else if (fadeOutFramesLeft != 0) {
-    currentEffect->SetBaseVal((uint16_t)255 * fadeOutFramesLeft /
-                              fadeOutFrames);
-  } else if (fadeOutFrames != 0) {
-    currentEffect->SetBaseVal(0);
-  } else {
-    currentEffect->SetBaseVal(baseVal);
-  }
+  // TODO: What is the intent of these casts? They currently do nothing
+  currentEffect->SetBaseVal(
+    fadeInFramesLeft != 0 ? (uint16_t)255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames :
+    fadeOutFramesLeft != 0 ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames :
+    fadeOutFrames != 0 ? 0 :
+    baseVal
+  );
 
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;
