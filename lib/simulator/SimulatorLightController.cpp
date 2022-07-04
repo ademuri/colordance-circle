@@ -1,7 +1,5 @@
 #include "SimulatorLightController.hpp"
 
-#include <OgreLight.h>
-#include <OgreSceneNode.h>
 #include <math.h>
 
 #include <chrono>
@@ -10,92 +8,51 @@
 #include <utility>
 #include <vector>
 
-SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
-    : scnMgr(scnMgr) {
-  for (int pole_index = 0; pole_index < 6; pole_index++) {
-    auto pole = Pole();
-    const unsigned long grid_num_rows = pole.get_grid_lights().size();
-    const unsigned long grid_num_cols = pole.get_grid_lights().front().size();
+SimulatorLightController::SimulatorLightController() { Init(); }
 
-    std::vector<std::vector<Ogre::Light *>> light_pole;
-    for (unsigned long row = 0; row < grid_num_rows; row++) {
-      std::vector<Ogre::Light *> light_row;
-      for (unsigned long col = 0; col < grid_num_cols; col++) {
-        Ogre::Vector3 unscaled = Ogre::Vector3(
-            kCircleRadiusInches * cos(M_PI / 3.0 * pole_index) +
-                col * kPixelPitchInches * sin(M_PI / 3.0 * pole_index),
-            kPoleHeightInches - row * kPixelPitchInches,
-            kCircleRadiusInches * sin(M_PI / 3.0 * pole_index) +
-                col * kPixelPitchInches * cos(M_PI / 3.0 * pole_index));
-
-        Ogre::Vector3 scaled =
-            Ogre::Vector3(SimulatorLightController::inchesToCoords(unscaled.x),
-                          SimulatorLightController::inchesToCoords(unscaled.y),
-                          SimulatorLightController::inchesToCoords(unscaled.z));
-        light_row.push_back(createLight(scaled));
-      }
-      light_pole.push_back(std::move(light_row));
-    }
-    poles.push_back(std::move(pole));
-    lights.push_back(std::move(light_pole));
-  }
-}
+SimulatorLightController::~SimulatorLightController() { Close(); }
 
 void SimulatorLightController::WriteOutLights() {
-  for (int pole_index = 0; pole_index < 6; pole_index++) {
-    auto &grid_lights = poles[pole_index].get_grid_lights();
-    const uint8_t grid_num_rows = grid_lights.size();
-    const uint8_t grid_num_cols = grid_lights.front().size();
+  for (uint8_t pole_number = 0; pole_number < Pole::kNumPoles; pole_number++) {
+    auto& grid_lights = poles[pole_number].get_grid_lights();
 
-    for (unsigned long x = 0; x < grid_num_rows; x++) {
-      for (unsigned long y = 0; y < grid_num_cols; y++) {
-        lights[pole_index][x][y]->setSpecularColour(
-            grid_lights[x][y].r / 255.0 * kLightScale,
-            grid_lights[x][y].g / 255.0 * kLightScale,
-            grid_lights[x][y].b / 255.0 * kLightScale);
-        lights[pole_index][x][y]->setDiffuseColour(
-            grid_lights[x][y].r / 255.0 * kLightScale,
-            grid_lights[x][y].g / 255.0 * kLightScale,
-            grid_lights[x][y].b / 255.0 * kLightScale);
+    for (std::size_t n = 0; n < gridWidth * gridHeight; n++) {
+      leds[pole_number * kLedsPerOutput + n] =
+          grid_lights[n / gridHeight][n % gridWidth];
+    }
+  }
+}
+
+void SimulatorLightController::SetLedPositions() {
+  const LedSize led_size = GetLedSize();
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    for (int y = 0; y < gridHeight; y++) {
+      for (int x = 0; x < gridWidth; x++) {
+        const uint16_t index =
+            pole * gridWidth * gridHeight + y * gridHeight + x;
+        leds[index] = CRGB(0, 0, 0);
+        const int x_position =
+            kLedSpacing +
+            pole * ((led_size.frame_size + kLedSpacing) * gridWidth +
+                    kPoleSpacing) +
+            x * (led_size.frame_size + kLedSpacing);
+        const int y_position =
+            kLedSpacing + y * (led_size.frame_size + kLedSpacing);
+        led_locations_[index] = {x_position, y_position};
       }
     }
   }
 }
 
-Ogre::Light *SimulatorLightController::createLight(
-    Ogre::Vector3 const position) {
-  Ogre::Light *spotLight = scnMgr->createLight();
-  spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-  spotLight->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z);
-  // Default lights to off
-  spotLight->setDiffuseColour(0, 0, 0);
-  spotLight->setSpecularColour(0, 0, 0);
-
-  Ogre::SceneNode *spotLightNode =
-      scnMgr->getRootSceneNode()->createChildSceneNode();
-  spotLightNode->attachObject(spotLight);
-  spotLightNode->setDirection(0, 0, -1);
-  spotLightNode->setPosition(position);
-  spotLightNode->lookAt(Ogre::Vector3(0, inchesToCoords(30), 0),
-                        Ogre::Node::TransformSpace::TS_WORLD);
-
-  spotLight->setSpotlightRange(Ogre::Degree(60), Ogre::Degree(75));
-
-  // Not actually measured, just a wild guess
-  spotLight->setSpotlightFalloff(0.5);
-
-  // Make light get less bright farther away from the light sources.
-  spotLight->setAttenuation(2000, /* constant */ 1.0, /* linear */ 0.0007,
-                            /* quadratic */ 0.0);
-
-  return spotLight;
+SDL_Point SimulatorLightController::GetInitialSize() {
+  const LedSize led_size = GetLedSize();
+  return {Pole::kNumPoles *
+              (gridWidth * (led_size.frame_size + kLedSpacing) + kPoleSpacing),
+          gridHeight * (led_size.frame_size + kLedSpacing) + kLedSpacing};
 }
 
-float SimulatorLightController::inchesToCoords(float inches) {
-  // 64" == 5'4". Model is 192 units tall.
-  return inches * 192.0 / 64.0;
-}
+SDL_Point SimulatorLightController::GetInitialPosition() { return {0, 0}; }
 
-float SimulatorLightController::feetToCoords(float feet) {
-  return inchesToCoords(12.0 * feet);
+LedSize SimulatorLightController::GetLedSize() {
+  return {kLedPixels, kLedFramePixels};
 }
