@@ -10,7 +10,6 @@ class FastLedLightController : public LightController {
   void WriteOutLights() override;
 
  private:
-  static const uint16_t kLedPin = WS2812_PIN;
   static const uint16_t kGridSize = 16;
   static const uint16_t kLedOffset = 1;
   static const uint16_t kNumLeds = 6 * kGridSize + kLedOffset;

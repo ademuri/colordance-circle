@@ -1,7 +1,8 @@
 #include "FastLedLightController.hpp"
 
 FastLedLightController::FastLedLightController() {
-  FastLED.addLeds<NEOPIXEL, kLedPin>(leds, kNumLeds);
+  constexpr uint16_t ledPin = WS2812_PIN;
+  FastLED.addLeds<NEOPIXEL, ledPin>(leds, kNumLeds);
   FastLED.setDither(0);
   FastLED.showColor(CRGB(0, 0, 0));
 
