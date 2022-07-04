@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <map>
 #include <utility>
+#include <vector>
 
 SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
     : scnMgr(scnMgr) {

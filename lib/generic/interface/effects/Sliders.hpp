@@ -1,9 +1,9 @@
 #pragma once
 
 #include <array>
-#include <vector>
 
 #include "ColordanceTypes.hpp"
+#include "Grid.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
 #include "interface/InterfaceEffect.hpp"

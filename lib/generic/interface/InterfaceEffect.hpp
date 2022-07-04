@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"

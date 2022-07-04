@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 
 #include "ParamController.hpp"
 #include "Pole.hpp"

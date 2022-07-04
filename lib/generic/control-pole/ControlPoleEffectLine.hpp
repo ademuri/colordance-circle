@@ -1,9 +1,8 @@
 #pragma once
 
-#include <vector>
-
 #include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
+#include "Grid.hpp"
 
 class ControlPoleEffectLine : public ControlPoleEffect {
  public:

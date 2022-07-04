@@ -9,7 +9,6 @@
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 
 #include "Effect.hpp"
 #include "SimulatorLightController.hpp"

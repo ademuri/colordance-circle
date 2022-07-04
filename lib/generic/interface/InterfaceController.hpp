@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <queue>
-#include <vector>
 
 #include "Effect.hpp"
 #include "Pole.hpp"

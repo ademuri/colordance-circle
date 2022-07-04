@@ -1,10 +1,9 @@
 #ifndef CONTROL_POLE_EFFECT_CORNERS_HPP_
 #define CONTROL_POLE_EFFECT_CORNERS_HPP_
 
-#include <vector>
-
 #include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
+#include "Grid.hpp"
 
 class ControlPoleEffectCorners : public ControlPoleEffect {
  public:

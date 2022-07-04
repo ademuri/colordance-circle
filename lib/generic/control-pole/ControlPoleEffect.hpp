@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "ColordanceTypes.hpp"
 #include "Grid.hpp"
 

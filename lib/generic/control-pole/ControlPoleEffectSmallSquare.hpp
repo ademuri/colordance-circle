@@ -1,10 +1,9 @@
 #ifndef CONTROL_POLE_EFFECT_SMALL_SQUARE_HPP_
 #define CONTROL_POLE_EFFECT_SMALL_SQUARE_HPP_
 
-#include <vector>
-
 #include "ColordanceTypes.hpp"
 #include "ControlPoleEffect.hpp"
+#include "Grid.hpp"
 
 class ControlPoleEffectSmallSquare : public ControlPoleEffect {
  public:

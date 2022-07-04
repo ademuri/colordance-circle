@@ -1,9 +1,11 @@
+#include <array>
 #include <cstdio>
-#include <interface/InterfaceController.hpp>
 #include <iostream>
 #include <map>
 #include <string>
-#include <array>
+#include <vector>
+
+#include <interface/InterfaceController.hpp>
 
 #include "DummyParamController.hpp"
 #include "Effect.hpp"
