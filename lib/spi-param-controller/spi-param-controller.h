@@ -24,7 +24,7 @@ class SpiParamController : public ParamController {
 
   uint8_t effect = 0;
   std::vector<uint8_t> params =
-      std::vector<uint8_t>(static_cast<uint8_t>(Param::kLastParam), 0);
+      std::vector<uint8_t>(static_cast<std::size_t>(Param::kLastParam));
 };
 
 #endif  // SPI_PARAM_CONTROLLER_H_

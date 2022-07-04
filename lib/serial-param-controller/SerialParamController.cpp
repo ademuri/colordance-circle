@@ -1,11 +1,5 @@
 #include "SerialParamController.hpp"
 
-SerialParamController::SerialParamController() {
-  for (uint8_t i = 0; i < static_cast<uint8_t>(Param::kLastParam); i++) {
-    params.push_back(0);
-  }
-}
-
 void SerialParamController::Tick() {
   if (Serial.available() > 0) {
     String in = Serial.readStringUntil('\n');

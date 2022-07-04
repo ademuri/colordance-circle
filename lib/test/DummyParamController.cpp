@@ -1,7 +1,5 @@
 #include "DummyParamController.hpp"
 
-DummyParamController::DummyParamController() : ParamController() {}
-
 uint8_t DummyParamController::GetRawParam(Param param) {
   return params[static_cast<uint8_t>(param)];
 }
