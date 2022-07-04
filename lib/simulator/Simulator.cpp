@@ -1,158 +1,29 @@
 #define SIMULATOR
 
-#include "Simulator.hpp"
-
-#include <OgreAxisAlignedBox.h>
-#include <OgreBitesConfigDialog.h>
-#include <OgreCamera.h>
-#include <OgreEntity.h>
-#include <OgreMeshManager.h>
-#include <OgrePlane.h>
-#include <OgreRenderWindow.h>
-#include <OgreSceneNode.h>
-#include <OgreViewport.h>
-
 #include <cmath>
+#include <interface/InterfaceController.hpp>
 #include <iostream>
 
-#include "BrightDarkEffect.hpp"
-#include "ColorCycleEffect.hpp"
-#include "ColordanceTypes.hpp"
-#include "MiniCircleEffect.hpp"
-#include "RotateThreeEffect.hpp"
+#include "DummyParamController.hpp"
 #include "SimulatorLightController.hpp"
 
-Simulator::Simulator()
-    : OgreBites::ApplicationContext("ColorDance Circle Simulator") {}
+int main() {
+  SimulatorLightController light_controller;
 
-void Simulator::setup() {
-  UseRealMillis();
+  auto param_controller = DummyParamController();
+  auto effect = InterfaceController(light_controller.poles, &param_controller);
 
-  // Note: use this line if you need to change the rendering config
-  // OgreBites::getNativeConfigDialog()->display();
-  OgreBites::ApplicationContext::setup();
+  const std::chrono::steady_clock::time_point start_time =
+      std::chrono::steady_clock::now();
 
-  // register for input events
-  addInputListener(this);
-
-  // get a pointer to the already created root
-  Ogre::Root *root = getRoot();
-  Ogre::SceneManager *scnMgr = root->createSceneManager();
-  // register our scene with the RTSS
-  Ogre::RTShader::ShaderGenerator *shadergen =
-      Ogre::RTShader::ShaderGenerator::getSingletonPtr();
-  shadergen->addSceneManager(scnMgr);
-
-  Ogre::SceneNode *camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-  camNode->setPosition(0, SimulatorLightController::inchesToCoords(69),
-                       SimulatorLightController::feetToCoords(15));
-  camNode->lookAt(
-      Ogre::Vector3(0, SimulatorLightController::feetToCoords(0), 0),
-      Ogre::Node::TransformSpace::TS_WORLD);
-
-  Ogre::Camera *cam = scnMgr->createCamera("cam1");
-  cam->setNearClipDistance(5);
-  camNode->attachObject(cam);
-
-  Ogre::Viewport *vp = getRenderWindow()->addViewport(cam);
-  vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
-  cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) /
-                      Ogre::Real(vp->getActualHeight()));
-
-  Ogre::Plane wall(Ogre::Vector3::UNIT_Y, 0);
-  Ogre::MeshManager::getSingleton().createPlane(
-      "wall", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, wall,
-      /* width */ SimulatorLightController::feetToCoords(30),
-      /* height */ SimulatorLightController::feetToCoords(30), 20, 20, true, 1,
-      5, 5, Ogre::Vector3::UNIT_Z);
-  Ogre::Entity *wallEntity = scnMgr->createEntity("wall");
-  wallEntity->setCastShadows(false);
-  wallEntity->setMaterialName("Template/White");
-  Ogre::SceneNode *wallNode =
-      scnMgr->getRootSceneNode()->createChildSceneNode();
-  wallNode->setPosition(0, 0, 0);
-  wallNode->attachObject(wallEntity);
-
-  for (int i = 0; i < 6; i++) {
-    Ogre::Entity *pole_entity = scnMgr->createEntity("column.mesh");
-    // With very many lights, turning on shadows for the poles makes this too
-    // slow.
-    pole_entity->setCastShadows(true);
-    pole_entity->setMaterialName("Template/White");
-    Ogre::AxisAlignedBox bounding_box = pole_entity->getBoundingBox();
-    Ogre::Vector3 size = bounding_box.getSize();
-
-    Ogre::SceneNode *pole_node =
-        scnMgr->getRootSceneNode()->createChildSceneNode();
-    pole_node->setPosition(
-        SimulatorLightController::feetToCoords(7.5) * cos(3.14 / 3.0 * i), 0,
-        SimulatorLightController::feetToCoords(7.5) * sin(3.14 / 3.0 * i));
-    pole_node->attachObject(pole_entity);
-    pole_node->setScale(
-        Ogre::Vector3(SimulatorLightController::inchesToCoords(2) / size.x,
-                      SimulatorLightController::feetToCoords(10) / size.y,
-                      SimulatorLightController::inchesToCoords(2) / size.z));
+  while (light_controller.Run()) {
+    effect.Run();
+    light_controller.WriteOutLights();
+    std::chrono::steady_clock::time_point end_time =
+        std::chrono::steady_clock::now();
+    SetMillis(std::chrono::duration_cast<std::chrono::milliseconds>(end_time -
+                                                                    start_time)
+                  .count());
   }
-
-  Ogre::Entity *ninja_entity = scnMgr->createEntity("ninja.mesh");
-  ninja_entity->setCastShadows(true);
-  ninja_entity->setMaterialName("Template/OffBlack");
-  ninja_node = scnMgr->getRootSceneNode()->createChildSceneNode();
-  ninja_node->setPosition(SimulatorLightController::feetToCoords(2), 0,
-                          SimulatorLightController::feetToCoords(5));
-  ninja_node->attachObject(ninja_entity);
-
-  scnMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));
-  scnMgr->setShadowTechnique(
-      Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
-
-  lightController = new SimulatorLightController(scnMgr);
-  // TODO: pass in a real param controller
-  effect = new BrightDarkEffect(lightController->get_poles(), nullptr);
-  // effect = new ColorCycleEffect(lightController->get_poles());
-  // effect = new MiniCircleEffect(lightController->get_poles());
-  // effect = new RotateThreeEffect(lightController->get_poles());
-}
-
-bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
-  if (!ninja_follow_mouse) {
-    ninja_node->setPosition(
-        SimulatorLightController::feetToCoords(2) * sin(ninja_clock / 20.0), 0,
-        SimulatorLightController::feetToCoords(2) * cos(ninja_clock / 20.0));
-    ninja_clock++;
-  }
-
-  effect->Run();
-  lightController->WriteOutLights();
-
-  return true;
-}
-
-bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
-  if (evt.keysym.sym == SDLK_ESCAPE) {
-    getRoot()->queueEndRendering();
-  } else if (evt.keysym.sym == SDLK_SPACE) {
-    ninja_follow_mouse = !ninja_follow_mouse;
-  }
-
-  return true;
-}
-
-bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
-  return true;
-}
-
-bool Simulator::mouseMoved(const OgreBites::MouseMotionEvent &evt) {
-  ninja_follow_mouse = true;
-  ninja_pos.x += evt.xrel;
-  ninja_pos.z += evt.yrel;
-  ninja_node->setPosition(ninja_pos);
-}
-
-int main(int argc, char **argv) {
-  Simulator app;
-  app.initApp();
-  app.getRoot()->startRendering();
-  app.closeApp();
   return 0;
 }
