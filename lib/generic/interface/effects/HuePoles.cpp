@@ -12,7 +12,7 @@ HuePoles::HuePoles() : InterfaceEffect() {
 
 bool HuePoles::ContinuousShift() { return true; }
 
-void HuePoles::DoSetGrid(std::vector<Pole>& poles, uint16_t frame) {
+void HuePoles::DoSetGrid(Poles & poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
     poles[pole].SetGridLights(

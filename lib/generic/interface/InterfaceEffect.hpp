@@ -18,14 +18,14 @@ class InterfaceEffect {
   void SetSlider2(uint8_t val);
 
   void Shift(uint8_t shiftPosition);
-  void SetGrid(std::vector<Pole> &poles, uint16_t timeSinceLastBeat,
+  void SetGrid(Poles &poles, uint16_t timeSinceLastBeat,
                uint16_t millisPerBeat);
 
   void Reset();
 
  protected:
   virtual bool ContinuousShift() = 0;
-  virtual void DoSetGrid(std::vector<Pole> &poles, uint16_t frame) = 0;
+  virtual void DoSetGrid(Poles &poles, uint16_t frame) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;

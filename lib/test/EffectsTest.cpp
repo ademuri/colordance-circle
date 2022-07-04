@@ -17,7 +17,7 @@ constexpr uint8_t kEffectOffset = 3;
 
 class EffectsTest : public ::testing::Test {
   protected:
-  std::vector<Pole> poles = std::vector<Pole>(Pole::kNumPoles);
+  Poles poles{};
   DummyParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
 };

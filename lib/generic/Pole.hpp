@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "ColordanceTypes.hpp"
@@ -27,3 +28,5 @@ class Pole {
  private:
   std::vector<std::vector<CRGB>> grid_lights;
 };
+
+using Poles = std::array<Pole, Pole::kNumPoles>;

@@ -15,7 +15,7 @@ Sliders::Sliders()
 
 bool Sliders::ContinuousShift() { return true; }
 
-void Sliders::DoSetGrid(std::vector<Pole> &poles, uint16_t frame) {
+void Sliders::DoSetGrid(Poles &poles, uint16_t frame) {
   for (auto &pole : this->poles) {
     pole.TurnOffAll();
   }

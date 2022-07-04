@@ -8,7 +8,7 @@
 
 class Effect {
  public:
-  Effect(std::vector<Pole> & poles, ParamController* paramController);
+  Effect(Poles & poles, ParamController* paramController);
   virtual ~Effect() {}
 
   /* Runs this effect. */
@@ -28,7 +28,7 @@ class Effect {
    */
   void SleepMs(uint32_t ms_to_sleep);
 
-  std::vector<Pole> & poles;
+  Poles & poles;
   ParamController* paramController;
 
  private:

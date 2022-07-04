@@ -27,7 +27,7 @@ class SimulatorLightController {
   static float feetToCoords(float inches);
 
  private:
-  std::vector<Pole> poles;
+  Poles poles;
 
   Ogre::Light *createLight(Ogre::Vector3 const position);
 

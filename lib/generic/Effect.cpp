@@ -2,7 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-Effect::Effect(std::vector<Pole> & poles, ParamController* paramController)
+Effect::Effect(Poles & poles, ParamController* paramController)
     : poles(poles), paramController(paramController) {}
 
 void Effect::Run() {

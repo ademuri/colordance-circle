@@ -3,7 +3,7 @@
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
 
-InterfaceController::InterfaceController(std::vector<Pole> & poles,
+InterfaceController::InterfaceController(Poles & poles,
                                          ParamController* paramController)
     : Effect(poles, paramController),
       currentEffect(std::addressof(backAndForth)) {
