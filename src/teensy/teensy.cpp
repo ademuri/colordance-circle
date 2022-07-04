@@ -10,9 +10,13 @@
 #include "interface/InterfaceController.hpp"
 #include "spi-param-controller.h"
 
+namespace {
+
 auto light_controller = TeensyLightController();
 Effect* effect;
 SpiParamController* param_controller;
+
+} // namespace
 
 void setup() {
   Serial.begin(115200);
@@ -30,7 +34,11 @@ void setup() {
   Serial.println("Brain initialization complete");
 }
 
+namespace {
+
 uint32_t print_at = 0;
+
+} // namespace
 
 void loop() {
   if (millis() > print_at) {

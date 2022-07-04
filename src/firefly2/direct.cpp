@@ -4,9 +4,13 @@
 #include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"
 
+namespace {
+
 auto light_controller = FastLedLightController();
 Effect* effect;
 SerialParamController* paramController;
+
+} // namespace
 
 void setup() {
   Serial.begin(115200);
