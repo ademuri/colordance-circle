@@ -4,7 +4,7 @@
 #include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"
 
-LightController* light_controller;
+FastLedLightController* light_controller;
 Effect* effect;
 SerialParamController* paramController;
 

@@ -10,7 +10,7 @@
 #include <utility>
 
 SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
-    : LightController(), scnMgr(scnMgr) {
+    : scnMgr(scnMgr) {
   for (int pole_index = 0; pole_index < 6; pole_index++) {
     Pole *pole = new Pole();
     const unsigned long grid_num_rows = pole->get_grid_lights().size();

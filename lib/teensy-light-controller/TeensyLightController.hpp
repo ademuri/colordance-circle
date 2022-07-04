@@ -1,14 +1,19 @@
 #pragma once
 
 #include <ColordanceTypes.hpp>
-#include <LightController.hpp>
+#include <Pole.hpp>
+
 #include <array>
 
-class TeensyLightController : public LightController {
+class TeensyLightController {
  public:
   TeensyLightController();
 
-  void WriteOutLights() override;
+  void WriteOutLights();
+
+  std::vector<Pole *> const & get_poles() const {
+    return poles;
+  }
 
  private:
   // The number of LED output pins
@@ -17,6 +22,8 @@ class TeensyLightController : public LightController {
   static constexpr int kLedsPerOutput = 16;
 
   static constexpr int kTotalLeds = kNumLedOutputs * kLedsPerOutput;
+
+  std::vector<Pole*> poles;
 
   CRGB leds[kTotalLeds];
 

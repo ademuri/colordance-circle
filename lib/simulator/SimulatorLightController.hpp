@@ -7,17 +7,16 @@
 #include <map>
 #include <vector>
 
-#include "LightController.hpp"
 #include "Pole.hpp"
 
 /*
  * Interface class for controlling the output lights.
  */
-class SimulatorLightController : public LightController {
+class SimulatorLightController {
  public:
   SimulatorLightController(Ogre::SceneManager *scnMgr);
 
-  void WriteOutLights() override;
+  void WriteOutLights();
 
   /*
    * Converts inches to the x-y-z coordinates used by Ogre. This is all
@@ -28,6 +27,8 @@ class SimulatorLightController : public LightController {
   static float feetToCoords(float inches);
 
  private:
+  std::vector<Pole*> poles;
+
   Ogre::Light *createLight(Ogre::Vector3 const position);
 
   Ogre::SceneManager *const scnMgr;

@@ -10,7 +10,7 @@
 #include "interface/InterfaceController.hpp"
 #include "spi-param-controller.h"
 
-LightController* light_controller;
+TeensyLightController* light_controller;
 Effect* effect;
 SpiParamController* param_controller;
 
