@@ -3,8 +3,6 @@
 #include <ColordanceTypes.hpp>
 #include <Pole.hpp>
 
-#include <vector>
-
 class FastLedLightController {
  public:
   FastLedLightController();
