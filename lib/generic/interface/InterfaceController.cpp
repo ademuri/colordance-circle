@@ -3,7 +3,7 @@
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
 
-InterfaceController::InterfaceController(std::vector<Pole*> poles,
+InterfaceController::InterfaceController(std::vector<Pole> & poles,
                                          ParamController* paramController)
     : Effect(poles, paramController),
       currentEffect(std::addressof(backAndForth)) {
@@ -166,8 +166,8 @@ void InterfaceController::DoRun() {
     // lastShiftTime = lastBeatTime;
   }
 
-  for (int i = 0; i < Pole::kNumPoles; i++) {
-    poles[i]->ClearGridLights();
+  for (auto & pole : poles) {
+    pole.ClearGridLights();
   }
   // Good
   uint16_t interval = nextBeatTime - lastBeatTime;

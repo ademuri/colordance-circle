@@ -11,7 +11,7 @@ class FastLedLightController {
 
   void WriteOutLights();
 
-  std::vector<Pole *> const & get_poles() const {
+  std::vector<Pole> & get_poles() {
     return poles;
   }
 
@@ -19,6 +19,6 @@ class FastLedLightController {
   static const uint16_t kGridSize = 16;
   static const uint16_t kLedOffset = 1;
   static const uint16_t kNumLeds = 6 * kGridSize + kLedOffset;
-  std::vector<Pole*> poles;
+  std::vector<Pole> poles = std::vector<Pole>(Pole::kNumPoles);
   CRGB leds[kNumLeds];
 };

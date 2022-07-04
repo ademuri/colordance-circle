@@ -11,7 +11,7 @@ class TeensyLightController {
 
   void WriteOutLights();
 
-  std::vector<Pole *> const & get_poles() const {
+  std::vector<Pole> & get_poles() {
     return poles;
   }
 
@@ -23,7 +23,7 @@ class TeensyLightController {
 
   static constexpr int kTotalLeds = kNumLedOutputs * kLedsPerOutput;
 
-  std::vector<Pole*> poles;
+  std::vector<Pole> poles = std::vector<Pole>(Pole::kNumPoles);
 
   CRGB leds[kTotalLeds];
 

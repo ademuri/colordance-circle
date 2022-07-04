@@ -14,7 +14,7 @@
 
 class InterfaceController : public Effect {
  public:
-  InterfaceController(std::vector<Pole*> poles,
+  InterfaceController(std::vector<Pole> & poles,
                       ParamController* paramController);
 
  protected:

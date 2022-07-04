@@ -12,9 +12,9 @@
 SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
     : scnMgr(scnMgr) {
   for (int pole_index = 0; pole_index < 6; pole_index++) {
-    Pole *pole = new Pole();
-    const unsigned long grid_num_rows = pole->get_grid_lights().size();
-    const unsigned long grid_num_cols = pole->get_grid_lights().front().size();
+    auto pole = Pole();
+    const unsigned long grid_num_rows = pole.get_grid_lights().size();
+    const unsigned long grid_num_cols = pole.get_grid_lights().front().size();
 
     std::vector<std::vector<Ogre::Light *>> light_pole;
     for (unsigned long row = 0; row < grid_num_rows; row++) {
@@ -35,14 +35,14 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
       }
       light_pole.push_back(std::move(light_row));
     }
-    poles.push_back(pole);
+    poles.push_back(std::move(pole));
     lights.push_back(std::move(light_pole));
   }
 }
 
 void SimulatorLightController::WriteOutLights() {
   for (int pole_index = 0; pole_index < 6; pole_index++) {
-    auto & grid_lights = poles[pole_index]->get_grid_lights();
+    auto & grid_lights = poles[pole_index].get_grid_lights();
     const uint8_t grid_num_rows = grid_lights.size();
     const uint8_t grid_num_cols = grid_lights.front().size();
 

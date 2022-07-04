@@ -14,12 +14,12 @@ BackAndForth::BackAndForth()
 
 bool BackAndForth::ContinuousShift() { return true; }
 
-void BackAndForth::DoSetGrid(std::vector<Pole*>& poles, uint16_t frame) {
+void BackAndForth::DoSetGrid(std::vector<Pole>& poles, uint16_t frame) {
   controlPoleLeft.TurnOffAll();
   controlPoleRight.TurnOffAll();
-  poles[leftIndex % 6]->SetGridLights(
+  poles[leftIndex % 6].SetGridLights(
       controlPoleLeft.GetGrid(frame, lastFrame, false));
-  poles[rightIndex % 6]->SetGridLights(
+  poles[rightIndex % 6].SetGridLights(
       controlPoleRight.GetGrid(frame, lastFrame, false));
   lastFrame = frame;
 }

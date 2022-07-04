@@ -15,14 +15,14 @@ Sliders::Sliders()
 
 bool Sliders::ContinuousShift() { return true; }
 
-void Sliders::DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) {
+void Sliders::DoSetGrid(std::vector<Pole> &poles, uint16_t frame) {
   for (auto &pole : this->poles) {
     pole.TurnOffAll();
   }
   bool multiply = leftIndex == rightIndex ? true : false;
-  poles[leftIndex]->MultiplyGridLights(
+  poles[leftIndex].MultiplyGridLights(
       pole_left->GetGrid(frame, lastFrame, false));
-  poles[rightIndex]->MultiplyGridLights(
+  poles[rightIndex].MultiplyGridLights(
       pole_right->GetGrid(frame, lastFrame, multiply));
 
   lastFrame = frame;

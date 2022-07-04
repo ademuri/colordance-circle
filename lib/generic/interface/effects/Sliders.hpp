@@ -16,7 +16,7 @@ class Sliders : public InterfaceEffect {
 
  protected:
   bool ContinuousShift() override;
-  void DoSetGrid(std::vector<Pole *> &poles, uint16_t frame) override;
+  void DoSetGrid(std::vector<Pole> &poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
@@ -25,8 +25,6 @@ class Sliders : public InterfaceEffect {
   void ResetEffect() override;
 
  private:
-  void SetMode0(std::vector<Pole *> poles, uint8_t position);
-  void SetMode1(std::vector<Pole *> poles);
   void UpdateGrid(std::vector<std::vector<CHSV>> &pole, uint8_t position,
                   uint8_t hue, uint8_t sat);
 

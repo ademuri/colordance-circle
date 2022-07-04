@@ -5,15 +5,11 @@ FastLedLightController::FastLedLightController() {
   FastLED.addLeds<NEOPIXEL, ledPin>(leds, kNumLeds);
   FastLED.setDither(0);
   FastLED.showColor(CRGB(0, 0, 0));
-
-  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
-    poles.push_back(new Pole());
-  }
 }
 
 void FastLedLightController::WriteOutLights() {
   for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
-    auto const & grid_lights = poles[pole_index]->get_grid_lights();
+    auto const & grid_lights = poles[pole_index].get_grid_lights();
     leds[kLedOffset + pole_index * kGridSize + 0] = grid_lights[0][0];
     leds[kLedOffset + pole_index * kGridSize + 1] = grid_lights[0][1];
     leds[kLedOffset + pole_index * kGridSize + 2] = grid_lights[0][2];
@@ -36,7 +32,7 @@ void FastLedLightController::WriteOutLights() {
   }
 
   //  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
-  //   auto const & grid_lights = poles[pole_index]->get_grid_lights();
+  //   auto const & grid_lights = poles[pole_index].get_grid_lights();
   //   leds[kLedOffset + pole_index * kGridSize + 6] = grid_lights[0][0];
   //   leds[kLedOffset + pole_index * kGridSize + 7] = grid_lights[0][1];
   //   leds[kLedOffset + pole_index * kGridSize + 9] = grid_lights[0][2];

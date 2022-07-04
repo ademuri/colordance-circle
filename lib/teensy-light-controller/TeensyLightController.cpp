@@ -16,15 +16,11 @@ TeensyLightController::TeensyLightController() {
   FastLED.addLeds<kNumLedOutputs, WS2812, /* first pin */ 1, BGR>(
       leds, kLedsPerOutput);
   // FastLED.setBrightness(32);
-
-  for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
-    poles.push_back(new Pole());
-  }
 }
 
 void TeensyLightController::WriteOutLights() {
   for (uint8_t pole_number = 0; pole_number < Pole::kNumPoles; pole_number++) {
-    auto & grid_lights = poles[pole_number]->get_grid_lights();
+    auto & grid_lights = poles[pole_number].get_grid_lights();
     int pole_index = kPoleGridIndexes[pole_number];
 
     leds[pole_index * kLedsPerOutput + 6] = grid_lights[0][0];

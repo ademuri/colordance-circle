@@ -44,7 +44,7 @@ void loop() {
   effect->Run();
   light_controller->WriteOutLights();
 
-  // for (Pole* pole : light_controller->get_poles()) {
+  // for (auto & pole : light_controller->get_poles()) {
   //   for (int i = 0; i < 4; i++) {
   //     pole->ClearGridLights();
   //     for (int j = 0; j < 4; j++) {

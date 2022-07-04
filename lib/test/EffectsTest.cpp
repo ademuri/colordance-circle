@@ -16,26 +16,10 @@ constexpr auto effect_names = std::array{"HuePoles", "BackAndForth",
 constexpr uint8_t kEffectOffset = 3;
 
 class EffectsTest : public ::testing::Test {
-  public:
-  ~EffectsTest() {
-    for (auto pole : poles) {
-      delete pole;
-    }
-  }
-
   protected:
-  std::vector<Pole*> poles = make_poles();
+  std::vector<Pole> poles = std::vector<Pole>(Pole::kNumPoles);
   DummyParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
-
-private:
-  static std::vector<Pole*> make_poles() {
-    std::vector<Pole*> result;
-    for (int i = 0; i < Pole::kNumPoles; ++i) {
-      result.push_back(new Pole());
-    }
-    return result;
-  }
 };
 
 TEST_F(EffectsTest, power_consumption) {
@@ -62,11 +46,12 @@ TEST_F(EffectsTest, power_consumption) {
       controller.Run();
 
       float instantaneous_power = 0;
-      for (Pole* pole : poles) {
+      for (Pole & pole : poles) {
         float instantaneous_pole_power = 0;
-        for (uint row = 0; row < pole->get_grid_lights().size(); row++) {
-          for (uint col = 0; col < pole->get_grid_lights()[row].size(); col++) {
-            CRGB rgb = pole->get_grid_lights()[row][col];
+        auto & grid_lights = pole.get_grid_lights();
+        for (uint row = 0; row < grid_lights.size(); row++) {
+          for (uint col = 0; col < grid_lights[row].size(); col++) {
+            CRGB rgb = grid_lights[row][col];
             float light_power =
                 (rgb.r * kRedPower + rgb.g * kGreenPower + rgb.b * kBluePower) /
                 255;
@@ -94,8 +79,8 @@ TEST_F(EffectsTest, power_consumption) {
     EXPECT_LT(max_pole_power, 36.0) << effect_name;
 
     // Clear all lights
-    for (Pole* pole : poles) {
-      pole->ClearGridLights();
+    for (Pole & pole : poles) {
+      pole.ClearGridLights();
     }
   }
 }
