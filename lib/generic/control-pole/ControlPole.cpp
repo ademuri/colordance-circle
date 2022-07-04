@@ -10,7 +10,7 @@
 #include "Pole.hpp"
 
 ControlPole::ControlPole(uint16_t framesPerLoop):
-      FRAMES_PER_LOOP(framesPerLoop) {
+      framesPerLoop(framesPerLoop) {
   for (int x = 0; x < Pole::kGridWidth; x++) {
     std::vector<CHSV> row;
     for (int y = 0; y < Pole::kGridHeight; y++) {
@@ -113,12 +113,12 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
                                                            uint16_t lastFrame,
                                                            bool multiply) {
   uint16_t framesPerShift =
-      currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
+      currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
   uint8_t lastShiftIndex = lastFrame / framesPerShift;
   uint8_t shiftIndex = frame / framesPerShift;
   uint16_t framesSinceLast = frame > lastFrame
                                  ? frame - lastFrame
-                                 : frame + FRAMES_PER_LOOP - lastFrame;
+                                 : frame + framesPerLoop - lastFrame;
 
   uint8_t hue = baseHue + GetUpdatedHueShift(framesSinceLast);
   if (smoothColor || lastShiftIndex != shiftIndex) {
@@ -185,7 +185,7 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
 
 uint8_t ControlPole::GetUpdatedHueShift(uint16_t framesSinceLast) {
   uint16_t framesPerShift =
-      currentEffect->GetFramesPerShift(FRAMES_PER_LOOP, backAndForth);
+      currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
   currentHueShift += hueShift * framesSinceLast / framesPerShift;
   hueShiftRemainder += (hueShift * framesSinceLast) % framesPerShift;
 

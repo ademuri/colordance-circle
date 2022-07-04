@@ -93,5 +93,5 @@ class ControlPole {
   bool backAndForth = false;
   bool reverse = false;
 
-  const uint16_t FRAMES_PER_LOOP;
+  uint16_t framesPerLoop;
 };
