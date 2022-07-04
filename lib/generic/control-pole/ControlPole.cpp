@@ -112,15 +112,15 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
 std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
                                                            uint16_t lastFrame,
                                                            bool multiply) {
-  uint16_t framesPerShift =
+  uint16_t const framesPerShift =
       currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
-  uint8_t lastShiftIndex = lastFrame / framesPerShift;
+  uint8_t const lastShiftIndex = lastFrame / framesPerShift;
   uint8_t shiftIndex = frame / framesPerShift;
-  uint16_t framesSinceLast = frame > lastFrame
+  uint16_t const framesSinceLast = frame > lastFrame
                                  ? frame - lastFrame
                                  : frame + framesPerLoop - lastFrame;
 
-  uint8_t hue = baseHue + GetUpdatedHueShift(framesSinceLast);
+  uint8_t const hue = baseHue + GetUpdatedHueShift(framesSinceLast);
   if (smoothColor || lastShiftIndex != shiftIndex) {
     currentEffect->SetHue(hue);
   }
@@ -128,7 +128,7 @@ std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
   if (backAndForth && shiftIndex == 0 && lastShiftIndex != 0) {
     goBackwards = !goBackwards;
   }
-  uint16_t shiftsPerLoop =
+  uint16_t const shiftsPerLoop =
       currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
 
   if (goBackwards) {
