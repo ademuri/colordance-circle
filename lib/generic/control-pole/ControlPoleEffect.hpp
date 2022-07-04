@@ -27,9 +27,6 @@ class ControlPoleEffect {
   uint16_t GetFramesPerShift(uint16_t framesPerLoop, bool backAndForth);
   uint8_t GetAdjustedShiftsPerLoop(bool backAndForth);
 
-  static const uint8_t kGridWidth = 4;
-  static const uint8_t kGridHeight = 4;
-
  protected:
   virtual void DoSetGrid(std::vector<std::vector<CHSV>>& grid_lights,
                          uint8_t shiftIndex) = 0;
