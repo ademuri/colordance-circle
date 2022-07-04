@@ -4,7 +4,7 @@
 #include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"
 
-FastLedLightController* light_controller;
+auto light_controller = FastLedLightController();
 Effect* effect;
 SerialParamController* paramController;
 
@@ -12,15 +12,14 @@ void setup() {
   Serial.begin(115200);
 
   paramController = new SerialParamController();
-  light_controller = new FastLedLightController();
 
   effect = new InterfaceController(
-      light_controller->get_poles(),
+      light_controller.get_poles(),
       paramController);
 }
 
 void loop() {
   effect->Run();
-  light_controller->WriteOutLights();
+  light_controller.WriteOutLights();
   paramController->Tick();
 }
