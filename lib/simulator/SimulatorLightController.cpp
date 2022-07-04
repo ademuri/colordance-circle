@@ -42,20 +42,20 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
 
 void SimulatorLightController::WriteOutLights() {
   for (int pole_index = 0; pole_index < 6; pole_index++) {
-    Pole *pole = poles[pole_index];
-    const uint8_t grid_num_rows = pole->get_grid_lights().size();
-    const uint8_t grid_num_cols = pole->get_grid_lights().front().size();
+    auto & grid_lights = poles[pole_index]->get_grid_lights();
+    const uint8_t grid_num_rows = grid_lights.size();
+    const uint8_t grid_num_cols = grid_lights.front().size();
 
     for (unsigned long x = 0; x < grid_num_rows; x++) {
       for (unsigned long y = 0; y < grid_num_cols; y++) {
         lights[pole_index][x][y]->setSpecularColour(
-            pole->get_grid_lights()[x][y].r / 255.0 * kLightScale,
-            pole->get_grid_lights()[x][y].g / 255.0 * kLightScale,
-            pole->get_grid_lights()[x][y].b / 255.0 * kLightScale);
+            grid_lights[x][y].r / 255.0 * kLightScale,
+            grid_lights[x][y].g / 255.0 * kLightScale,
+            grid_lights[x][y].b / 255.0 * kLightScale);
         lights[pole_index][x][y]->setDiffuseColour(
-            pole->get_grid_lights()[x][y].r / 255.0 * kLightScale,
-            pole->get_grid_lights()[x][y].g / 255.0 * kLightScale,
-            pole->get_grid_lights()[x][y].b / 255.0 * kLightScale);
+            grid_lights[x][y].r / 255.0 * kLightScale,
+            grid_lights[x][y].g / 255.0 * kLightScale,
+            grid_lights[x][y].b / 255.0 * kLightScale);
       }
     }
   }
