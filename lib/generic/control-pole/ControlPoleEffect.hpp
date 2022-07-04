@@ -3,12 +3,13 @@
 #include <vector>
 
 #include "ColordanceTypes.hpp"
+#include "Grid.hpp"
 
 class ControlPoleEffect {
  public:
   ControlPoleEffect();
 
-  void SetGrid(std::vector<std::vector<CHSV>>& grid_lights, uint8_t shiftIndex);
+  void SetGrid(Grid<CHSV>& grid_lights, uint8_t shiftIndex);
 
   void SetHue(uint8_t hue);
   void SetBaseSat(uint8_t sat);
@@ -28,8 +29,7 @@ class ControlPoleEffect {
   uint8_t GetAdjustedShiftsPerLoop(bool backAndForth);
 
  protected:
-  virtual void DoSetGrid(std::vector<std::vector<CHSV>>& grid_lights,
-                         uint8_t shiftIndex) = 0;
+  virtual void DoSetGrid(Grid<CHSV>& grid_lights, uint8_t shiftIndex) = 0;
   virtual uint8_t GetShiftsPerLoop() = 0;
 
   uint8_t AdjustedBrightness(uint8_t baseVal, uint8_t lightsOn,

@@ -7,7 +7,7 @@ uint8_t ControlPoleEffectPinwheel::GetShiftsPerLoop() { return 12; }
 uint8_t ControlPoleEffectPinwheel::GetRotations() { return 1; }
 
 void ControlPoleEffectPinwheel::DoSetGrid(
-    std::vector<std::vector<CHSV>>& grid_lights, uint8_t shiftIndex) {
+    Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
   grid_lights[GetBigSquare(shiftIndex)][GetBigSquare(12 - shiftIndex)] =
       CHSV(currentHue + GetHueDistance(hueDistance, 0, 4), baseSat, baseVal);
   grid_lights[GetLittleSquare(shiftIndex)][GetLittleSquare(12 - shiftIndex)] =

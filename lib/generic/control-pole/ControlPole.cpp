@@ -1,7 +1,5 @@
 #include "ControlPole.hpp"
 
-#include <stdexcept>
-
 #include "ControlPoleEffectCircle.hpp"
 #include "ControlPoleEffectCross.hpp"
 #include "ControlPoleEffectDiverge.hpp"
@@ -10,13 +8,12 @@
 #include "Pole.hpp"
 
 ControlPole::ControlPole(uint16_t framesPerLoop):
-      framesPerLoop(framesPerLoop) {
-  for (int x = 0; x < Pole::kGridWidth; x++) {
-    std::vector<CHSV> row;
-    for (int y = 0; y < Pole::kGridHeight; y++) {
-      row.push_back({0, 0, 0});
+  framesPerLoop(framesPerLoop)
+{
+  for (auto & row : grid_lights) {
+    for (auto & value : row) {
+      value = CHSV{0, 0, 0};
     }
-    grid_lights.push_back(row);
   }
 }
 
@@ -109,7 +106,7 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
   fadeOutFramesLeft = fadeOutFrames;
 }
 
-std::vector<std::vector<CHSV>> const& ControlPole::GetGrid(uint16_t frame,
+Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame,
                                                            uint16_t lastFrame,
                                                            bool multiply) {
   uint16_t const framesPerShift =
@@ -192,9 +189,9 @@ uint8_t ControlPole::GetUpdatedHueShift(uint16_t framesSinceLast) {
 }
 
 void ControlPole::TurnOffAll() {
-  for (int x = 0; x < Pole::kGridWidth; x++) {
-    for (int y = 0; y < Pole::kGridHeight; y++) {
-      grid_lights[x][y].val = 0;
+  for (auto & row : grid_lights) {
+    for (auto & element : row) {
+      element.val = 0;
     }
   }
 }

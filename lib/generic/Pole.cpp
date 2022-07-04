@@ -3,13 +3,7 @@
 #include <cstdio>
 
 Pole::Pole() {
-  for (int x = 0; x < kGridWidth; x++) {
-    std::vector<CRGB> row;
-    for (int y = 0; y < kGridHeight; y++) {
-      row.push_back({0, 0, 0});
-    }
-    grid_lights.push_back(row);
-  }
+  ClearGridLights();
 }
 
 void Pole::SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb) {
@@ -20,9 +14,9 @@ void Pole::SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv) {
   SetGridLight(x, y, CRGB(hsv));
 }
 
-void Pole::SetGridLights(std::vector<std::vector<CHSV>> const &grid_lights) {
-  for (int x = 0; x < kGridWidth; x++) {
-    for (int y = 0; y < kGridHeight; y++) {
+void Pole::SetGridLights(Grid<CHSV> const &grid_lights) {
+  for (int x = 0; x < gridWidth; x++) {
+    for (int y = 0; y < gridHeight; y++) {
       SetGridLight(x, y, grid_lights[x][y]);
     }
   }
@@ -68,18 +62,17 @@ void Pole::MultiplyGridLight(uint8_t x, uint8_t y, const CHSV &hsv) {
   MultiplyGridLight(x, y, CRGB(hsv));
 }
 
-void Pole::MultiplyGridLights(
-    std::vector<std::vector<CHSV>> const &grid_lights) {
-  for (int x = 0; x < kGridWidth; x++) {
-    for (int y = 0; y < kGridHeight; y++) {
+void Pole::MultiplyGridLights(Grid<CHSV> const &grid_lights) {
+  for (int x = 0; x < gridWidth; x++) {
+    for (int y = 0; y < gridHeight; y++) {
       MultiplyGridLight(x, y, grid_lights[x][y]);
     }
   }
 }
 
 void Pole::ClearGridLights() {
-  for (int x = 0; x < kGridWidth; x++) {
-    for (int y = 0; y < kGridHeight; y++) {
+  for (int y = 0; y < gridHeight; y++) {
+    for (int x = 0; x < gridWidth; x++) {
       SetGridLight(x, y, CRGB(0, 0, 0));
     }
   }

@@ -11,6 +11,7 @@
 #include "ControlPoleEffectLine.hpp"
 #include "ControlPoleEffectPinwheel.hpp"
 #include "ControlPoleEffectSmallSquare.hpp"
+#include "Grid.hpp"
 
 enum class Mode {
   kCircle,
@@ -49,7 +50,7 @@ class ControlPole {
   void FadeOut(uint16_t fadeFrames);
   void TurnOffAll();
   uint32_t GetTimerShiftOffset();
-  std::vector<std::vector<CHSV>> const& GetGrid(uint16_t frame,
+  Grid<CHSV> const& GetGrid(uint16_t frame,
                                                 uint16_t lastFrame,
                                                 bool multiply);
 
@@ -65,7 +66,7 @@ class ControlPole {
   ControlPoleEffectSmallSquare effectSmallSquare;
   ControlPoleEffect* currentEffect = std::addressof(effectLine);
 
-  std::vector<std::vector<CHSV>> grid_lights;
+  Grid<CHSV> grid_lights;
 
   uint16_t fadeInFrames = 0;
   uint16_t fadeOutFrames = 0;

@@ -7,7 +7,7 @@ uint8_t ControlPoleEffectCircle::GetShiftsPerLoop() { return 8; }
 uint8_t ControlPoleEffectCircle::GetRotations() { return 4; }
 
 void ControlPoleEffectCircle::DoSetGrid(
-    std::vector<std::vector<CHSV>>& grid_lights, uint8_t shiftIndex) {
+    Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
   uint8_t rotationOffset = rotation + 1;
   uint8_t offsetFix1 = 0;
   uint8_t offsetFix2 = 0;

@@ -2,7 +2,7 @@
 
 ControlPoleEffect::ControlPoleEffect() {}
 
-void ControlPoleEffect::SetGrid(std::vector<std::vector<CHSV>>& grid_lights,
+void ControlPoleEffect::SetGrid(Grid<CHSV>& grid_lights,
                                 uint8_t shiftIndex) {
   DoSetGrid(grid_lights, shiftIndex);
 }

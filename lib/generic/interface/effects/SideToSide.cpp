@@ -15,7 +15,7 @@ bool SideToSide::ContinuousShift() { return true; }
 void SideToSide::DoSetGrid(Poles & poles, uint16_t frame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    std::vector<std::vector<CHSV>> const& grid = controlPoles[pole].GetGrid(
+    Grid<CHSV> const& grid = controlPoles[pole].GetGrid(
         frame, lastFrame, false);  // Update all grids
     if (pole < numOfPolesOn) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;

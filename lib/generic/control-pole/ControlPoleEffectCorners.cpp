@@ -7,7 +7,7 @@ uint8_t ControlPoleEffectCorners::GetShiftsPerLoop() { return 4; }
 uint8_t ControlPoleEffectCorners::GetRotations() { return 1; }
 
 void ControlPoleEffectCorners::DoSetGrid(
-    std::vector<std::vector<CHSV>> &grid_lights, uint8_t shiftIndex) {
+    Grid<CHSV> &grid_lights, uint8_t shiftIndex) {
   switch (lightCount) {
     case (4):
       grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 0)] = CHSV(

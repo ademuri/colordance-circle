@@ -8,7 +8,7 @@ uint8_t ControlPoleEffectSmallSquare::GetShiftsPerLoop() { return 4; }
 uint8_t ControlPoleEffectSmallSquare::GetRotations() { return 1; }
 
 void ControlPoleEffectSmallSquare::DoSetGrid(
-    std::vector<std::vector<CHSV>> &grid_lights, uint8_t shiftIndex) {
+    Grid<CHSV> &grid_lights, uint8_t shiftIndex) {
   switch (lightCount) {
     case (4):
       grid_lights[GetIndex(shiftIndex, 1)][GetIndex(shiftIndex, 0)] = CHSV(

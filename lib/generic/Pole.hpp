@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ColordanceTypes.hpp"
+#include "Grid.hpp"
 
 class Pole {
  public:
@@ -11,22 +12,20 @@ class Pole {
 
   void SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb);
   void SetGridLight(uint8_t x, uint8_t y, const CHSV &hsv);
-  void SetGridLights(std::vector<std::vector<CHSV>> const &grid_lights);
+  void SetGridLights(Grid<CHSV> const &grid_lights);
   void MultiplyGridLight(uint8_t x, uint8_t y, const CRGB &rgb);
   void MultiplyGridLight(uint8_t x, uint8_t y, const CHSV &hsv);
-  void MultiplyGridLights(std::vector<std::vector<CHSV>> const &grid_lights);
+  void MultiplyGridLights(Grid<CHSV> const &grid_lights);
   void ClearGridLights();
 
-  std::vector<std::vector<CRGB>> const &get_grid_lights() const {
+  Grid<CRGB> const &get_grid_lights() const {
     return grid_lights;
   }
 
-  static const uint8_t kGridWidth = 4;
-  static const uint8_t kGridHeight = 4;
   static const uint8_t kNumPoles = 6;
 
  private:
-  std::vector<std::vector<CRGB>> grid_lights;
+  Grid<CRGB> grid_lights;
 };
 
 using Poles = std::array<Pole, Pole::kNumPoles>;
