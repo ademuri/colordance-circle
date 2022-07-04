@@ -63,7 +63,7 @@ class ControlPole {
   ControlPoleEffectLine effectLine;
   ControlPoleEffectPinwheel effectPinwheel;
   ControlPoleEffectSmallSquare effectSmallSquare;
-  ControlPoleEffect* currentEffect;
+  ControlPoleEffect* currentEffect = std::addressof(effectLine);
 
   std::vector<std::vector<CHSV>> grid_lights;
 
@@ -72,8 +72,8 @@ class ControlPole {
   uint16_t fadeOutFramesLeft = 0;
   uint16_t fadeInFramesLeft = 0;
 
-  Mode mode;
-  Mode lastMode;
+  Mode mode = Mode::kLine;
+  Mode lastMode = Mode::kLine;
 
   uint8_t baseHue = 0;
   uint8_t hueShift = 5;
@@ -83,7 +83,7 @@ class ControlPole {
 
   uint8_t baseVal = 255;
 
-  Speed speed;
+  Speed speed = Speed::kDefault;
   bool didFirstHalf = false;
 
   uint8_t lastShiftIndex = 0;

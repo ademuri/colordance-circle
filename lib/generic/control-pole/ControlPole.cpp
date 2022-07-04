@@ -9,13 +9,8 @@
 #include "ControlPoleEffectPinwheel.hpp"
 #include "Pole.hpp"
 
-ControlPole::ControlPole(uint16_t framesPerLoop)
-    : currentEffect(std::addressof(effectLine)),
+ControlPole::ControlPole(uint16_t framesPerLoop):
       FRAMES_PER_LOOP(framesPerLoop) {
-  mode = Mode::kLine;
-  lastMode = Mode::kLine;
-  speed = Speed::kDefault;
-
   for (int x = 0; x < Pole::kGridWidth; x++) {
     std::vector<CHSV> row;
     for (int y = 0; y < Pole::kGridHeight; y++) {
