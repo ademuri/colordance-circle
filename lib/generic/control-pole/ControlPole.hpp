@@ -12,11 +12,12 @@
 #include "Grid.hpp"
 
 enum class Mode {
+  // Line is first to make testing easier
+  kLine,
   kCircle,
   kCorners,
   kCross,
   kDiverge,
-  kLine,
   kPinwheel,
   kSmallSquare,
 };

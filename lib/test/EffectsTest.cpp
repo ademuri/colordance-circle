@@ -16,11 +16,39 @@ constexpr auto effect_names =
 // Effect index starts at this value.
 constexpr uint8_t kEffectOffset = 3;
 
+uint16_t Brightness(const CRGB& rgb) { return rgb.r + rgb.g + rgb.b; }
+
 class EffectsTest : public ::testing::Test {
  protected:
   Poles poles{};
   DummyParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
+
+  static uint8_t GetLightCount(const Pole& pole) {
+    uint8_t light_count = 0;
+    for (auto column : pole.get_grid_lights()) {
+      for (CRGB rgb : column) {
+        if (Brightness(rgb) > 0) {
+          light_count++;
+        }
+      }
+    }
+    return light_count;
+  }
+
+  uint16_t GetTotalLightCount() const {
+    uint16_t light_count = 0;
+    for (Pole const& pole : poles) {
+      light_count += GetLightCount(pole);
+    }
+    return light_count;
+  }
+
+  uint8_t GetPolesOn() const {
+    return std::count_if(poles.begin(), poles.end(), [](Pole const& pole) {
+      return GetLightCount(pole) > 0;
+    });
+  }
 };
 
 TEST_F(EffectsTest, power_consumption) {
@@ -126,12 +154,110 @@ TEST_F(EffectsTest, StableForAllEffects) {
   }
 }
 
+TEST_F(EffectsTest, HuePolesTest) {
+  uint32_t time = 0;
+  SetMillis(time);
+  param_controller.SetRawParam(Param::kEffect,
+                               InterfaceController::kHuePolesIndex);
+  controller.Run();
+
+  // Behavior for HuePoles is that 2 lights are on on each pole
+  for (int i = 0; i < 60 * 100; i++) {
+    time += 10;
+    SetMillis(time);
+    controller.Run();
+    ASSERT_EQ(GetTotalLightCount(), 12) << "time " << time;
+    for (uint8_t pole = 0; pole < Pole::kNumPoles; ++pole) {
+      EXPECT_EQ(GetLightCount(poles[pole]), 2)
+          << "time " << time << ", pole " << pole;
+    }
+  }
+}
+
+TEST_F(EffectsTest, BackAndForthTest) {
+  uint32_t time = 0;
+  SetMillis(time);
+  param_controller.SetRawParam(Param::kEffect,
+                               InterfaceController::kBackAndForthIndex);
+  controller.Run();
+
+  for (uint32_t i = 0; i < 60 * 100; i++) {
+    time += 10;
+    SetMillis(time);
+    controller.Run();
+    ASSERT_EQ(GetTotalLightCount(), 8) << "time " << time;
+    EXPECT_EQ(GetPolesOn(), 2) << "time " << time;
+  }
+}
+
+TEST_F(EffectsTest, SlidersTest) {
+  uint32_t time = 0;
+  SetMillis(time);
+  param_controller.SetRawParam(Param::kEffect,
+                               InterfaceController::kSlidersIndex);
+  controller.Run();
+
+  // Each slider controls the pole position of 4 lights - the default is that
+  // both lights are on the same pole
+  for (uint8_t pole1 = 0; pole1 < Pole::kNumPoles; ++pole1) {
+    param_controller.SetRawParam(
+        Param::kSlider1, (uint16_t)(pole1 + 1) * 255 / Pole::kNumPoles - 2);
+    for (uint8_t pole2 = 0; pole2 < Pole::kNumPoles; ++pole2) {
+      param_controller.SetRawParam(
+          Param::kSlider2, (uint16_t)(pole2 + 1) * 255 / Pole::kNumPoles - 2);
+      for (uint32_t i = 0; i < 10 * 100; i++) {
+        std::stringstream trace;
+        trace << "pole1: " << std::to_string(pole1)
+              << ", pole2: " << std::to_string(pole2)
+              << ", time: " << std::to_string(time);
+        SCOPED_TRACE(trace.str());
+        time += 100;
+        SetMillis(time);
+        controller.Run();
+        ASSERT_EQ(GetTotalLightCount(), 8);
+        EXPECT_EQ(GetPolesOn(), pole1 == pole2 ? 1 : 2);
+      }
+    }
+  }
+}
+
+TEST_F(EffectsTest, SideToSideTest) {
+  uint32_t time = 0;
+  SetMillis(time);
+  param_controller.SetRawParam(Param::kEffect,
+                               InterfaceController::kSideToSideIndex);
+  controller.Run();
+
+  // Only 1 pole on by default
+  for (uint8_t poles_on = 1; poles_on <= 5; ++poles_on) {
+    uint8_t slider1 = std::min(((uint16_t)(poles_on - 1) * 255) / 4 + 8, 255);
+    param_controller.SetRawParam(Param::kSlider1, slider1);
+    uint16_t max_lights_on = 0;
+    uint8_t max_poles_on = 0;
+    for (uint32_t i = 0; i < 60 * 100; i++) {
+      time += 10;
+      SetMillis(time);
+      controller.Run();
+      // Note: the lights fade in and out
+      ASSERT_GE(GetTotalLightCount(), 0) << "time " << time;
+      ASSERT_GE(GetPolesOn(), poles_on - 1) << "time " << time;
+      max_lights_on = std::max(max_lights_on, GetTotalLightCount());
+      max_poles_on = std::max(max_poles_on, GetPolesOn());
+    }
+    EXPECT_GE(max_lights_on, (poles_on - 1) * 4);
+    EXPECT_EQ(max_poles_on, poles_on);
+  }
+}
+
 class ParamTest : public EffectsTest,
                   public ::testing::WithParamInterface<
                       std::tuple<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t>> {
 };
 
-const std::vector<uint8_t> kEffects = {3, 4, 5, 6};
+const std::vector<uint8_t> kEffects = {InterfaceController::kHuePolesIndex,
+                                       InterfaceController::kBackAndForthIndex,
+                                       InterfaceController::kSlidersIndex,
+                                       InterfaceController::kSideToSideIndex};
 const std::vector<uint8_t> kOptions = {0, 1};
 const std::vector<uint8_t> kSliders = {0, 1, 64, 128, 192, 254, 255};
 

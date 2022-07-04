@@ -15,6 +15,12 @@ class InterfaceController : public Effect {
  public:
   InterfaceController(Poles& poles, ParamController* paramController);
 
+  // Effect indices
+  static constexpr uint8_t kHuePolesIndex = 3;
+  static constexpr uint8_t kBackAndForthIndex = 4;
+  static constexpr uint8_t kSlidersIndex = 5;
+  static constexpr uint8_t kSideToSideIndex = 6;
+
  protected:
   void DoRun() override;
 
