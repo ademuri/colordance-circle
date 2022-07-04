@@ -5,24 +5,20 @@ kaleidoscopic colored shadows.
 
 "This is not an officially supported Google product"
 
-## Arduino
+## Building
 
-To build or upload for Arduino, you'll need the Fully Qualified Board Name
-(FQBN) of the board you're building for. You can find this using the
-`arduino-cli` tool. When the board is plugged in, run:
+This project uses two build systems, PlatformIO and CMake. PIO is for code which
+runs on embedded devices - these run the actual hardware. CMake is for running
+tests on standard PCs.
 
-``` arduino-cli board list ```
+To build with PlatformIO, run `pio run -e <env>`, where `<env>` is one defined
+in [platformio.ini](platformio.ini) (e.g. `teensy`).
 
-This will print the list of possible boards - grab the FQBN for the board
-you're using and set it as an environment variable:
+To run the tests:
 
-``` export FQBN="..." ```
-
-To compile for Arduino, go into the `arduino` directory and run `make`. To
-upload, run `make upload`. By default, it will use the port `/dev/ttyACM0`,
-which should work for Ubuntu. You can set the `PORT` environment variable from
-the output of the arduino-cli command as above if needed.
-
-On Mac, if you're using Homebrew, you'll need to use `gmake` instead of `make`,
-since the `make` version is very old and doesn't support the multi-line bash
-function used in the `Makefile`.
+```
+mkdir -p build
+cd build
+cmake .. -DBUILD_SIMULATOR=false
+make && ./generictest
+```
