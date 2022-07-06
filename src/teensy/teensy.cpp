@@ -7,6 +7,7 @@
 #include "Effect.hpp"
 #include "LocalButtonController.hpp"
 #include "Runner.hpp"
+#include "TeensyEnvironmentController.hpp"
 #include "TeensyLightController.hpp"
 #include "interface/InterfaceController.hpp"
 #include "spi-param-controller.h"
@@ -14,8 +15,10 @@
 namespace {
 
 auto light_controller = TeensyLightController();
+TeensyEnvironmentController environment_controller;
 SpiParamController param_controller;
-Runner runner(light_controller.get_poles(), param_controller);
+Runner runner(light_controller.get_poles(), param_controller,
+              environment_controller);
 
 uint32_t print_at = 0;
 
