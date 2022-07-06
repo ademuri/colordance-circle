@@ -10,8 +10,8 @@ class Effect {
   Effect(Poles& poles, ParamController* paramController);
   virtual ~Effect() {}
 
-  /* Runs this effect. */
-  void Run();
+  /* Runs one iteration of this effect. Non-blocking. */
+  void Step();
 
  protected:
   /*
@@ -19,7 +19,7 @@ class Effect {
    * can call SleepMs to delay execution of the effect (without blocking the
    * main loop).
    */
-  virtual void DoRun() = 0;
+  virtual void DoStep() = 0;
 
   /*
    * Delays execution of this effect for the specified milliseconds, or 0 to

@@ -6,7 +6,7 @@
 
 class SerialParamController : public ParamController {
  public:
-  void Run() override;
+  void Step() override;
 
   uint8_t GetRawParam(Param param) override;
 

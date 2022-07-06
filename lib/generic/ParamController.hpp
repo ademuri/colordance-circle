@@ -26,5 +26,5 @@ class ParamController {
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
 
   // Perform periodic work
-  virtual void Run(){};
+  virtual void Step(){};
 };

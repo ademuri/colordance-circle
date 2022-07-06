@@ -3,10 +3,10 @@
 #include <ColordanceTypes.hpp>
 #include <memory>
 
-#include "Runner.hpp"
 #include "Controls.hpp"
 #include "Effect.hpp"
 #include "LocalButtonController.hpp"
+#include "Runner.hpp"
 #include "TeensyLightController.hpp"
 #include "interface/InterfaceController.hpp"
 #include "spi-param-controller.h"
@@ -15,7 +15,7 @@ namespace {
 
 auto light_controller = TeensyLightController();
 SpiParamController param_controller;
-Runner runner(light_controller.get_poles(), &param_controller);
+Runner runner(light_controller.get_poles(), param_controller);
 
 uint32_t print_at = 0;
 
@@ -40,7 +40,7 @@ void loop() {
     Serial.println(millis());
     print_at = millis() + 5000;
   }
-  runner.Run();
+  runner.Step();
   light_controller.WriteOutLights();
 
   // for (auto & pole : light_controller.get_poles()) {

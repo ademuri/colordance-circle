@@ -5,11 +5,12 @@
 
 class Runner {
  public:
-  Runner(Poles poles, ParamController* param_controller);
+  Runner(Poles poles, ParamController& param_controller);
 
-  void Run();
+  // Runs one iteration. Non-blocking.
+  void Step();
 
  private:
-  ParamController* const param_controller_;
+  ParamController& param_controller_;
   InterfaceController interface_controller_;
 };

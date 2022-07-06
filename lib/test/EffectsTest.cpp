@@ -72,7 +72,7 @@ TEST_F(EffectsTest, power_consumption) {
       SetMillis(time);
       param_controller.SetRawParam(Param::kEffect,
                                    effect_index + kEffectOffset);
-      controller.Run();
+      controller.Step();
 
       float instantaneous_power = 0;
       for (Pole& pole : poles) {
@@ -131,7 +131,7 @@ TEST_F(EffectsTest, InvalidParams) {
     for (uint16_t value = 0; value < 256; value++) {
       param_controller.SetRawParam(param, value);
       for (uint32_t cycle = 0; cycle < kCycles; cycle++) {
-        controller.Run();
+        controller.Step();
         time += kStepMs;
         SetMillis(time);
       }
@@ -147,7 +147,7 @@ TEST_F(EffectsTest, StableForAllEffects) {
               << "' for stability...\n";
     param_controller.SetRawParam(Param::kEffect, effect_index + kEffectOffset);
     for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
-      controller.Run();
+      controller.Step();
       time += 10;
       SetMillis(time);
     }
@@ -159,13 +159,13 @@ TEST_F(EffectsTest, HuePolesTest) {
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
                                InterfaceController::kHuePolesIndex);
-  controller.Run();
+  controller.Step();
 
   // Behavior for HuePoles is that 2 lights are on on each pole
   for (int i = 0; i < 60 * 100; i++) {
     time += 10;
     SetMillis(time);
-    controller.Run();
+    controller.Step();
     ASSERT_EQ(GetTotalLightCount(), 12) << "time " << time;
     for (uint8_t pole = 0; pole < Pole::kNumPoles; ++pole) {
       EXPECT_EQ(GetLightCount(poles[pole]), 2)
@@ -179,12 +179,12 @@ TEST_F(EffectsTest, BackAndForthTest) {
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
                                InterfaceController::kBackAndForthIndex);
-  controller.Run();
+  controller.Step();
 
   for (uint32_t i = 0; i < 60 * 100; i++) {
     time += 10;
     SetMillis(time);
-    controller.Run();
+    controller.Step();
     ASSERT_EQ(GetTotalLightCount(), 8) << "time " << time;
     EXPECT_EQ(GetPolesOn(), 2) << "time " << time;
   }
@@ -195,7 +195,7 @@ TEST_F(EffectsTest, SlidersTest) {
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
                                InterfaceController::kSlidersIndex);
-  controller.Run();
+  controller.Step();
 
   // Each slider controls the pole position of 4 lights - the default is that
   // both lights are on the same pole
@@ -213,7 +213,7 @@ TEST_F(EffectsTest, SlidersTest) {
         SCOPED_TRACE(trace.str());
         time += 100;
         SetMillis(time);
-        controller.Run();
+        controller.Step();
         ASSERT_EQ(GetTotalLightCount(), 8);
         EXPECT_EQ(GetPolesOn(), pole1 == pole2 ? 1 : 2);
       }
@@ -226,7 +226,7 @@ TEST_F(EffectsTest, SideToSideTest) {
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
                                InterfaceController::kSideToSideIndex);
-  controller.Run();
+  controller.Step();
 
   // Only 1 pole on by default
   for (uint8_t poles_on = 1; poles_on <= 5; ++poles_on) {
@@ -237,7 +237,7 @@ TEST_F(EffectsTest, SideToSideTest) {
     for (uint32_t i = 0; i < 60 * 100; i++) {
       time += 10;
       SetMillis(time);
-      controller.Run();
+      controller.Step();
       // Note: the lights fade in and out
       ASSERT_GE(GetTotalLightCount(), 0) << "time " << time;
       ASSERT_GE(GetPolesOn(), poles_on - 1) << "time " << time;
@@ -271,7 +271,7 @@ TEST_P(ParamTest, StableForAllParams) {
     param_controller.SetRawParam(Param::kSlider1, std::get<3>(GetParam()));
     param_controller.SetRawParam(Param::kSlider2, std::get<4>(GetParam()));
     for (uint32_t cycle = 0; cycle < 10 * 60 * 100; cycle++) {
-      controller.Run();
+      controller.Step();
       time += 10;
       SetMillis(time);
     }

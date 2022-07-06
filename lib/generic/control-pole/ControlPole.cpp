@@ -138,10 +138,9 @@ Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame, uint16_t lastFrame,
   currentEffect->SetBaseVal(
       fadeInFramesLeft != 0
           ? (uint16_t)255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames
-      : fadeOutFramesLeft != 0
-          ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames
-      : fadeOutFrames != 0 ? 0
-                           : baseVal);
+          : fadeOutFramesLeft != 0
+                ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames
+                : fadeOutFrames != 0 ? 0 : baseVal);
 
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;

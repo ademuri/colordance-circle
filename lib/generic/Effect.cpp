@@ -5,9 +5,9 @@
 Effect::Effect(Poles& poles, ParamController* paramController)
     : poles(poles), paramController(paramController) {}
 
-void Effect::Run() {
+void Effect::Step() {
   if (millis() > sleep_until_ms) {
-    DoRun();
+    DoStep();
   }
 }
 
