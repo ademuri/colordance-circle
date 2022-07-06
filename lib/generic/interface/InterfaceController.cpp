@@ -16,7 +16,7 @@ InterfaceController::InterfaceController(Poles& poles,
 /**
  * Sets the effect parameters from the interface, and handles timing.
  */
-void InterfaceController::DoRun() {
+void InterfaceController::DoStep() {
   /*
    * Sets the effect
    */

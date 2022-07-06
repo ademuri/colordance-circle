@@ -9,7 +9,7 @@ SpiParamController::SpiParamController() {
   transfer_out_.begin(details(controls_out), &Serial2);
 }
 
-void SpiParamController::Run() {
+void SpiParamController::Step() {
   transfer_in_.receiveData();
   transfer_out_.sendData();
 

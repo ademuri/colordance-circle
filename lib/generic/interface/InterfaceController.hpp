@@ -22,7 +22,7 @@ class InterfaceController : public Effect {
   static constexpr uint8_t kSideToSideIndex = 6;
 
  protected:
-  void DoRun() override;
+  void DoStep() override;
 
  private:
   uint32_t GetUpdatedBeat(uint16_t timeSinceLastBeat);
