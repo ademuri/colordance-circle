@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-mkdir -p generic/build
-pushd generic/build
+mkdir -p build
+pushd build
 cmake .. -DBUILD_SIMULATOR=false
 make
 ./generictest
