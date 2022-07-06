@@ -3,6 +3,7 @@
 #include <ColordanceTypes.hpp>
 #include <memory>
 
+#include "Runner.hpp"
 #include "Controls.hpp"
 #include "Effect.hpp"
 #include "LocalButtonController.hpp"
@@ -13,8 +14,10 @@
 namespace {
 
 auto light_controller = TeensyLightController();
-Effect* effect;
-SpiParamController* param_controller;
+SpiParamController param_controller;
+Runner runner(light_controller.get_poles(), &param_controller);
+
+uint32_t print_at = 0;
 
 }  // namespace
 
@@ -22,9 +25,6 @@ void setup() {
   Serial.begin(115200);
 
   Serial.println("Brain initializing...");
-  param_controller = new SpiParamController();
-  effect =
-      new InterfaceController(light_controller.get_poles(), param_controller);
 
   // See
   // https://forum.pjrc.com/threads/61974-Teensy4-x-Entropy-library-documentation
@@ -34,21 +34,13 @@ void setup() {
   Serial.println("Brain initialization complete");
 }
 
-namespace {
-
-uint32_t print_at = 0;
-
-}  // namespace
-
 void loop() {
   if (millis() > print_at) {
     Serial.print("Alive: ");
     Serial.println(millis());
     print_at = millis() + 5000;
   }
-  param_controller->Run();
-
-  effect->Run();
+  runner.Run();
   light_controller.WriteOutLights();
 
   // for (auto & pole : light_controller.get_poles()) {

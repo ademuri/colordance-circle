@@ -11,7 +11,7 @@ class SpiParamController : public ParamController {
  public:
   SpiParamController();
 
-  void Run();
+  void Run() override;
 
   uint8_t GetRawParam(Param param) override;
 
