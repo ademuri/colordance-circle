@@ -24,4 +24,7 @@ class ParamController {
   virtual uint8_t GetRawParam(Param param) = 0;
 
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
+
+  // Perform periodic work
+  virtual void Run(){};
 };

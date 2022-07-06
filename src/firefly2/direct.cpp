@@ -3,26 +3,21 @@
 
 #include "FastLedLightController.hpp"
 #include "SerialParamController.hpp"
+#include "Runner.hpp"
 
 namespace {
 
 auto light_controller = FastLedLightController();
-Effect* effect;
-SerialParamController* paramController;
+SerialParamController param_controller;
+Runner runner(light_controller.get_poles(), &param_controller);
 
 }  // namespace
 
 void setup() {
   Serial.begin(115200);
-
-  paramController = new SerialParamController();
-
-  effect =
-      new InterfaceController(light_controller.get_poles(), paramController);
 }
 
 void loop() {
-  effect->Run();
+  runner.Run();
   light_controller.WriteOutLights();
-  paramController->Tick();
 }

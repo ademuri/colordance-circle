@@ -1,6 +1,6 @@
 #include "SerialParamController.hpp"
 
-void SerialParamController::Tick() {
+void SerialParamController::Run() {
   if (Serial.available() > 0) {
     String in = Serial.readStringUntil('\n');
     switch (in.charAt(0)) {

@@ -6,7 +6,7 @@
 
 class SerialParamController : public ParamController {
  public:
-  void Tick();
+  void Run() override;
 
   uint8_t GetRawParam(Param param) override;
 
