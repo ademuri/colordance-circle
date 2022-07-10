@@ -23,6 +23,7 @@ void InterfaceController::DoStep() {
   uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
   switch (effectNumber) {
     case kHuePolesIndex:
+    default:
       currentEffect = std::addressof(huePoles);
       break;
     case kBackAndForthIndex:

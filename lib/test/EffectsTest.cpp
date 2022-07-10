@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+
 #include <array>
 #include <cstdio>
 #include <interface/InterfaceController.hpp>
@@ -9,46 +11,17 @@
 #include "DummyParamController.hpp"
 #include "Effect.hpp"
 #include "Pole.hpp"
-#include "gtest/gtest.h"
+#include "PolesTest.hpp"
 
 constexpr auto effect_names =
     std::array{"HuePoles", "BackAndForth", "Sliders", "SideToSide"};
 // Effect index starts at this value.
 constexpr uint8_t kEffectOffset = 3;
 
-uint16_t Brightness(const CRGB& rgb) { return rgb.r + rgb.g + rgb.b; }
-
-class EffectsTest : public ::testing::Test {
+class EffectsTest : public PolesTest {
  protected:
-  Poles poles{};
   DummyParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
-
-  static uint8_t GetLightCount(const Pole& pole) {
-    uint8_t light_count = 0;
-    for (auto column : pole.get_grid_lights()) {
-      for (CRGB rgb : column) {
-        if (Brightness(rgb) > 0) {
-          light_count++;
-        }
-      }
-    }
-    return light_count;
-  }
-
-  uint16_t GetTotalLightCount() const {
-    uint16_t light_count = 0;
-    for (Pole const& pole : poles) {
-      light_count += GetLightCount(pole);
-    }
-    return light_count;
-  }
-
-  uint8_t GetPolesOn() const {
-    return std::count_if(poles.begin(), poles.end(), [](Pole const& pole) {
-      return GetLightCount(pole) > 0;
-    });
-  }
 };
 
 TEST_F(EffectsTest, power_consumption) {

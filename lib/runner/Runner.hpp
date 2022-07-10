@@ -7,7 +7,7 @@
 
 class Runner {
  public:
-  Runner(Poles poles, ParamController& param_controller,
+  Runner(Poles& poles, ParamController& param_controller,
          EnvironmentController& environment_controller);
 
   // Runs one iteration. Non-blocking.
