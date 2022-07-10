@@ -9,7 +9,7 @@ class TeensyEnvironmentController : public EnvironmentController {
  public:
   TeensyEnvironmentController();
 
-  void Run() override;
+  void Step() override;
   uint16_t GetBatteryMillivolts() override;
   bool TestLightsPressed() override;
 
