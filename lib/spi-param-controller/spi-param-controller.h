@@ -22,8 +22,8 @@ class SpiParamController : public ParamController {
   EasyTransfer transfer_in_;
   EasyTransfer transfer_out_;
 
-  uint8_t effect = 0;
-  std::vector<uint8_t> params =
+  uint8_t effect_ = 0;
+  std::vector<uint8_t> params_ =
       std::vector<uint8_t>(static_cast<std::size_t>(Param::kLastParam));
 };
 
