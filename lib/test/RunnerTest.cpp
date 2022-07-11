@@ -15,9 +15,11 @@ class RunnerTest : public PolesTest {
 };
 
 TEST_F(RunnerTest, ChecksBatteryVoltage) {
+  SetMillis(0);
   environment_controller.SetBatteryMillivolts(1200);
   runner.Step();
-  SetMillis(100);
+
+  AdvanceMillis(100);
   runner.Step();
   EXPECT_LE(4, GetPolesOn());
 
@@ -33,9 +35,11 @@ TEST_F(RunnerTest, ChecksBatteryVoltage) {
 }
 
 TEST_F(RunnerTest, BatteryVoltageCheckHasHysteresis) {
+  SetMillis(0);
   environment_controller.SetBatteryMillivolts(1180);
   runner.Step();
-  SetMillis(100);
+
+  AdvanceMillis(100);
   runner.Step();
   EXPECT_LE(4, GetPolesOn());
 
