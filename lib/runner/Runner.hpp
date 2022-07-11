@@ -19,5 +19,9 @@ class Runner {
   InterfaceController interface_controller_;
   LowPowerEffect low_power_effect_;
 
+  bool battery_low_ = false;
   static constexpr uint16_t kBatteryLowThresholdMillivolts = 1170;
+  // Once the battery drops below the threshold, it must exceed the threshold by
+  // this amount before we consider the battery OK.
+  static constexpr uint16_t kBatteryDeadBandMillivolts = 30;
 };

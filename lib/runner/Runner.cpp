@@ -9,8 +9,16 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
 
 void Runner::Step() {
   environment_controller_.Step();
-  if (environment_controller_.GetBatteryMillivolts() <
-      kBatteryLowThresholdMillivolts) {
+  if (battery_low_) {
+    battery_low_ =
+        environment_controller_.GetBatteryMillivolts() <
+        (kBatteryLowThresholdMillivolts + kBatteryDeadBandMillivolts);
+  } else {
+    battery_low_ = environment_controller_.GetBatteryMillivolts() <
+                   kBatteryLowThresholdMillivolts;
+  }
+
+  if (battery_low_) {
     low_power_effect_.Step();
   } else {
     // Battery voltage OK
