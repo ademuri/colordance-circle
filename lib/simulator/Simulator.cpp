@@ -10,7 +10,7 @@
 int main() {
   SimulatorLightController light_controller;
 
-  auto param_controller = DummyParamController();
+  auto param_controller = FakeParamController();
   auto effect = InterfaceController(light_controller.poles, &param_controller);
 
   const std::chrono::steady_clock::time_point start_time =

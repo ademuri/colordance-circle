@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "DummyParamController.hpp"
 #include "Effect.hpp"
+#include "FakeParamController.hpp"
 #include "Pole.hpp"
 #include "PolesTest.hpp"
 
@@ -20,7 +20,7 @@ constexpr uint8_t kEffectOffset = 3;
 
 class EffectsTest : public PolesTest {
  protected:
-  DummyParamController param_controller;
+  FakeParamController param_controller;
   InterfaceController controller{poles, std::addressof(param_controller)};
 };
 

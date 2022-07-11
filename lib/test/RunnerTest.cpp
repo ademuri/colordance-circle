@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 
-#include "DummyParamController.hpp"
 #include "Effect.hpp"
 #include "FakeEnvironmentController.hpp"
+#include "FakeParamController.hpp"
 #include "Pole.hpp"
 #include "PolesTest.hpp"
 #include "Runner.hpp"
 
 class RunnerTest : public PolesTest {
  protected:
-  DummyParamController param_controller{};
+  FakeParamController param_controller{};
   FakeEnvironmentController environment_controller{};
   Runner runner{poles, param_controller, environment_controller};
 };

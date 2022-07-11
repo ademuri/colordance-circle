@@ -5,7 +5,7 @@
 #include "ColordanceTypes.hpp"
 #include "ParamController.hpp"
 
-class DummyParamController : public ParamController {
+class FakeParamController : public ParamController {
  public:
   uint8_t GetRawParam(Param param) override;
 
