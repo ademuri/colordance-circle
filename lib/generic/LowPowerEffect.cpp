@@ -1,6 +1,6 @@
 #include "LowPowerEffect.hpp"
 
-LowPowerEffect::LowPowerEffect(Poles& poles, ParamController* paramController)
+LowPowerEffect::LowPowerEffect(Poles& poles, ParamController& paramController)
     : Effect(poles, paramController) {}
 
 void LowPowerEffect::DoStep() {

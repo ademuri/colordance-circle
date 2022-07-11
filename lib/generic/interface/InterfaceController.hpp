@@ -13,7 +13,7 @@
 
 class InterfaceController : public Effect {
  public:
-  InterfaceController(Poles& poles, ParamController* paramController);
+  InterfaceController(Poles& poles, ParamController& paramController);
 
   // Effect indices
   static constexpr uint8_t kHuePolesIndex = 3;

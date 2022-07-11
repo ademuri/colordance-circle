@@ -21,7 +21,7 @@ constexpr uint8_t kEffectOffset = 3;
 class EffectsTest : public PolesTest {
  protected:
   FakeParamController param_controller;
-  InterfaceController controller{poles, std::addressof(param_controller)};
+  InterfaceController controller{poles, param_controller};
 };
 
 TEST_F(EffectsTest, power_consumption) {

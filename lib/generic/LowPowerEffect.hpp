@@ -6,7 +6,7 @@
 // piece visible.
 class LowPowerEffect : public Effect {
  public:
-  LowPowerEffect(Poles& poles, ParamController* paramController);
+  LowPowerEffect(Poles& poles, ParamController& paramController);
 
   void DoStep() override;
 };

@@ -4,7 +4,7 @@
 #include "InterfaceEffect.hpp"
 
 InterfaceController::InterfaceController(Poles& poles,
-                                         ParamController* paramController)
+                                         ParamController& paramController)
     : Effect(poles, paramController),
       currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {
@@ -20,7 +20,7 @@ void InterfaceController::DoStep() {
   /*
    * Sets the effect
    */
-  uint8_t effectNumber = paramController->GetRawParam(Param::kEffect);
+  uint8_t effectNumber = paramController.GetRawParam(Param::kEffect);
   switch (effectNumber) {
     case kHuePolesIndex:
     default:
@@ -35,17 +35,17 @@ void InterfaceController::DoStep() {
     case kSideToSideIndex:
       currentEffect = std::addressof(sideToSide);
   }
-  currentEffect->SetOption1(paramController->GetRawParam(Param::kOption1) == 1);
-  currentEffect->SetOption2(paramController->GetRawParam(Param::kOption2) == 1);
-  currentEffect->SetSlider1(paramController->GetRawParam(Param::kSlider1));
-  currentEffect->SetSlider2(paramController->GetRawParam(Param::kSlider2));
+  currentEffect->SetOption1(paramController.GetRawParam(Param::kOption1) == 1);
+  currentEffect->SetOption2(paramController.GetRawParam(Param::kOption2) == 1);
+  currentEffect->SetSlider1(paramController.GetRawParam(Param::kSlider1));
+  currentEffect->SetSlider2(paramController.GetRawParam(Param::kSlider2));
 
   uint32_t systemTime = millis();
 
   /*
    * Pause
    */
-  bool pause = paramController->GetRawParam(Param::kPause) == 1;
+  bool pause = paramController.GetRawParam(Param::kPause) == 1;
   if (pause) {
     if (!lastLoopWasPaused) {
       pauseStart = systemTime;
@@ -64,7 +64,7 @@ void InterfaceController::DoStep() {
   /*
    * Updates beat timing.
    */
-  uint8_t setBeat = paramController->GetRawParam(Param::kBeat);
+  uint8_t setBeat = paramController.GetRawParam(Param::kBeat);
   bool lastFrameWasBeat = false;  // includes this frame if it lands on the beat
 
   if (effectTime >= nextBeatTime) {
@@ -118,7 +118,7 @@ void InterfaceController::DoStep() {
   /*
    * Handles the shift and updates the beatsPerShift
    */
-  uint8_t setShift = paramController->GetRawParam(Param::kShift);
+  uint8_t setShift = paramController.GetRawParam(Param::kShift);
   bool loopShift = true;
 
   if (lastFrameWasBeat) {
