@@ -1,6 +1,6 @@
-#include "SerialParamController.hpp"
+#include "DesktopSerialParamController.hpp"
 
-void SerialParamController::Step() {
+void DesktopSerialParamController::Step() {
   if (Serial.available() > 0) {
     String in = Serial.readStringUntil('\n');
     switch (in.charAt(0)) {
@@ -35,6 +35,6 @@ void SerialParamController::Step() {
   }
 }
 
-uint8_t SerialParamController::GetRawParam(Param param) {
+uint8_t DesktopSerialParamController::GetRawParam(Param param) {
   return params[static_cast<uint8_t>(param)];
 }

@@ -4,7 +4,9 @@
 
 #include "ParamController.hpp"
 
-class SerialParamController : public ParamController {
+// Reads params over `Serial` (typically USB serial). Works with the Processing
+// interface.
+class DesktopSerialParamController : public ParamController {
  public:
   void Step() override;
 

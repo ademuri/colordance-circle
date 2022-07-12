@@ -1,15 +1,17 @@
 #ifndef SPI_PARAM_CONTROLLER_H_
 #define SPI_PARAM_CONTROLLER_H_
 
-#include <vector>
 #include <EasyTransfer.h>
+
+#include <vector>
 
 #include "Controls.hpp"
 #include "ParamController.hpp"
 
-class SpiParamController : public ParamController {
+// Reads from the physical (real) interface over a serial (UART) port.
+class SerialParamController : public ParamController {
  public:
-  SpiParamController();
+  SerialParamController();
 
   void Step() override;
 

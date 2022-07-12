@@ -10,13 +10,13 @@
 #include "TeensyEnvironmentController.hpp"
 #include "TeensyLightController.hpp"
 #include "interface/InterfaceController.hpp"
-#include "spi-param-controller.h"
+#include "serial-param-controller.h"
 
 namespace {
 
 auto light_controller = TeensyLightController();
 TeensyEnvironmentController environment_controller;
-SpiParamController param_controller;
+SerialParamController param_controller;
 Runner runner(light_controller.get_poles(), param_controller,
               environment_controller);
 

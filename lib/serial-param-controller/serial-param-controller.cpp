@@ -1,15 +1,15 @@
-#include "spi-param-controller.h"
+#include "serial-param-controller.h"
 
 #include <EasyTransfer.h>
 #include <SPI.h>
 
-SpiParamController::SpiParamController() {
+SerialParamController::SerialParamController() {
   Serial2.begin(kSerialBaud);
   transfer_in_.begin(details(controls_in), &Serial2);
   transfer_out_.begin(details(controls_out), &Serial2);
 }
 
-void SpiParamController::Step() {
+void SerialParamController::Step() {
   transfer_in_.receiveData();
   transfer_out_.sendData();
 
@@ -63,6 +63,6 @@ void SpiParamController::Step() {
   params_[static_cast<uint8_t>(Param::kLoopShift)] = 1;
 }
 
-uint8_t SpiParamController::GetRawParam(Param param) {
+uint8_t SerialParamController::GetRawParam(Param param) {
   return params_[static_cast<uint8_t>(param)];
 }
