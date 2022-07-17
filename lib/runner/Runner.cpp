@@ -5,7 +5,8 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
     : param_controller_(param_controller),
       environment_controller_(environment_controller),
       interface_controller_(poles, param_controller),
-      low_power_effect_(poles, param_controller) {}
+      low_power_effect_(poles, param_controller),
+      idle_effect_(poles, param_controller) {}
 
 void Runner::Step() {
   environment_controller_.Step();
@@ -28,17 +29,17 @@ void Runner::Step() {
     }
   }
 
+  param_controller_.Step();
   switch (state_) {
     case RunnerState::LOW_POWER:
       low_power_effect_.Step();
       break;
 
     case RunnerState::IDLE:
-      // TODO
+      idle_effect_.Step();
       break;
 
     case RunnerState::NORMAL:
-      param_controller_.Step();
       interface_controller_.Step();
       break;
   }
@@ -47,3 +48,5 @@ void Runner::Step() {
     idle_timer_.Reset();
   }
 }
+
+RunnerState Runner::State() { return state_; }
