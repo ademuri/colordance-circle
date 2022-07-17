@@ -1,8 +1,15 @@
 #include "Pole.hpp"
 
+#ifndef ARDUINO
+#include <assert.h>
+#endif
+
 #include <cstdio>
 
-Pole::Pole() { ClearGridLights(); }
+Pole::Pole() {
+  ClearGridLights();
+  ClearPoleLights();
+}
 
 void Pole::SetGridLight(uint8_t x, uint8_t y, const CRGB &rgb) {
   grid_lights[y][x] = rgb;
@@ -73,5 +80,18 @@ void Pole::ClearGridLights() {
     for (int x = 0; x < gridWidth; x++) {
       SetGridLight(x, y, CRGB(0, 0, 0));
     }
+  }
+}
+
+void Pole::SetPoleLight(uint8_t n, const CRGB &rgb) {
+#ifndef ARDUINO
+  assert(n < kLightsPerPole);
+#endif
+  pole_lights[n] = rgb;
+}
+
+void Pole::ClearPoleLights() {
+  for (auto &light : pole_lights) {
+    light = CRGB(0, 0, 0);
   }
 }

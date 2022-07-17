@@ -1,11 +1,11 @@
 #define SIMULATOR
 
 #include <cmath>
-#include <interface/InterfaceController.hpp>
 #include <iostream>
 
 #include "FakeParamController.hpp"
 #include "SimulatorLightController.hpp"
+#include "interface/InterfaceController.hpp"
 
 int main() {
   SimulatorLightController light_controller;

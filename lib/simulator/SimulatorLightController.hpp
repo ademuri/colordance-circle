@@ -8,15 +8,19 @@
 
 #include "Pole.hpp"
 
+static constexpr size_t kGridLights = Pole::kNumPoles * gridWidth * gridHeight;
+static constexpr size_t kPoleLights = Pole::kNumPoles * kLightsPerPole;
+static constexpr size_t kTotalLights = kGridLights + kPoleLights;
+
 /*
  * Interface class for controlling the output lights.
  */
-class SimulatorLightController : private FastLEDSimulator<96> {
+class SimulatorLightController : private FastLEDSimulator<kTotalLights> {
  public:
   SimulatorLightController();
   ~SimulatorLightController();
 
-  using FastLEDSimulator<96>::Run;
+  using FastLEDSimulator<kTotalLights>::Run;
 
   void WriteOutLights();
 
