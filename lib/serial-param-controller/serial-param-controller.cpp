@@ -61,6 +61,8 @@ void SerialParamController::Step() {
   params_[static_cast<uint8_t>(Param::kSlider2)] = controls_in.analog_inputs[1];
 
   params_[static_cast<uint8_t>(Param::kLoopShift)] = 1;
+
+  ParamController::Step();
 }
 
 uint8_t SerialParamController::GetRawParam(Param param) {

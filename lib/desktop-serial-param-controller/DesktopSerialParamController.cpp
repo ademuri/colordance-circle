@@ -37,6 +37,8 @@ void DesktopSerialParamController::Step() {
         break;
     }
   }
+
+  ParamController::Step();
 }
 
 uint8_t DesktopSerialParamController::GetRawParam(Param param) {

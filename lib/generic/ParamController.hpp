@@ -30,9 +30,18 @@ class ParamController {
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
 
   // Perform periodic work
-  virtual void Step(){};
+  virtual void Step();
+
+  // Whether a param has changed. Calls to Step may set this to true. Calls to
+  // this method will reset this to false.
+  bool ParamChanged();
 
  protected:
   Params params_ =
+      std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>();
+  bool param_changed_ = false;
+
+ private:
+  Params prev_params_ =
       std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>();
 };
