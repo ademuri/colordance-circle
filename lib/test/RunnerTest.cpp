@@ -112,7 +112,7 @@ TEST_F(RunnerTest, GoesToIdleMode) {
     SetMillis(millis);
     runner.Step();
     ASSERT_EQ(runner.State(), RunnerState::IDLE) << "millis: " << millis;
-    ASSERT_EQ(GetTotalLightCount(), 4) << "millis: " << millis;
+    ASSERT_LE(GetTotalLightCount(), 3) << "millis: " << millis;
   }
 
   param_controller.SetRawParam(Param::kSlider1, 1);
@@ -133,7 +133,7 @@ TEST_F(RunnerTest, LowBatteryTakesPreferenceOverIdleMode) {
   }
 
   ASSERT_EQ(runner.State(), RunnerState::IDLE);
-  ASSERT_EQ(GetTotalLightCount(), 4);
+  ASSERT_LE(GetTotalLightCount(), 3);
 
   environment_controller.SetBatteryMillivolts(1160);
   runner.Step();
