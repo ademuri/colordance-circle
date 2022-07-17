@@ -196,3 +196,28 @@ TEST_F(RunnerTest, TestLightsButton) {
   ASSERT_EQ(GetTotalLightCount(), 4);
   ASSERT_EQ(GetPolesOn(), 1);
 }
+
+TEST_F(RunnerTest, DetectsMotion) {
+  param_controller.SetRawParam(Param::kSlider1, 1);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+
+  AdvanceMillis(Runner::kIdleTimeout + 100);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::IDLE);
+
+  AdvanceMillis(100);
+  environment_controller.SetMotionDetected(true);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+
+  environment_controller.SetMotionDetected(false);
+  AdvanceMillis(Runner::kIdleTimeout - 100);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+
+  environment_controller.SetMotionDetected(true);
+  AdvanceMillis(2000);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+}

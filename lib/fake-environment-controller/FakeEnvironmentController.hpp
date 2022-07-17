@@ -16,7 +16,13 @@ class FakeEnvironmentController : public EnvironmentController {
   bool TestLightsPressed() override { return test_lights_; }
   void SetTestLights(bool test_lights) { test_lights_ = test_lights; }
 
+  bool MotionDetected() override { return motion_detected_; }
+  void SetMotionDetected(bool motion_detected) {
+    motion_detected_ = motion_detected;
+  }
+
  private:
   uint16_t battery_millivolts_ = 0;
   bool test_lights_ = false;
+  bool motion_detected_ = false;
 };

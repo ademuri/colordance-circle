@@ -8,13 +8,25 @@ TeensyEnvironmentController::TeensyEnvironmentController()
           [this]() { return battery_median_filter_.GetFilteredValue(); },
           kBatteryFilterAlpha) {
   pinMode(kBatteryPin, INPUT);
+  battery_median_filter_.SetMinRunInterval(10);
+  battery_average_filter_.SetMinRunInterval(10);
   test_lights_input_.SetMinRunInterval(10);
+
+  for (const int& pin : kMotionSensorPins) {
+    pinMode(pin, INPUT_PULLDOWN);
+    motion_sensor_filters_.push_back(MedianFilter<uint8_t, uint8_t, 5>(
+        filter_functions::ForDigitalReadDynamic(pin)));
+  }
 }
 
 void TeensyEnvironmentController::Step() {
   test_lights_input_.Run();
   battery_median_filter_.Run();
   battery_average_filter_.Run();
+
+  for (auto& filter : motion_sensor_filters_) {
+    filter.Run();
+  }
 }
 
 uint16_t TeensyEnvironmentController::GetBatteryMillivolts() {
@@ -27,4 +39,14 @@ uint16_t TeensyEnvironmentController::GetBatteryMillivolts() {
 
 bool TeensyEnvironmentController::TestLightsPressed() {
   return test_lights_input_.GetFilteredValue();
+}
+
+bool TeensyEnvironmentController::MotionDetected() {
+  for (const auto& filter : motion_sensor_filters_) {
+    if (filter.GetFilteredValue()) {
+      return true;
+    }
+  }
+
+  return false;
 }

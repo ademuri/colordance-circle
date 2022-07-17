@@ -3,7 +3,11 @@
 #include <exponential-moving-average-filter.h>
 #include <median-filter.h>
 
+#include <vector>
+
 #include "EnvironmentController.hpp"
+
+constexpr std::array<int, 2> kMotionSensorPins = {2, 3};
 
 class TeensyEnvironmentController : public EnvironmentController {
  public:
@@ -12,6 +16,7 @@ class TeensyEnvironmentController : public EnvironmentController {
   void Step() override;
   uint16_t GetBatteryMillivolts() override;
   bool TestLightsPressed() override;
+  bool MotionDetected() override;
 
  private:
   static constexpr int kBatteryPin = 41;
@@ -22,4 +27,6 @@ class TeensyEnvironmentController : public EnvironmentController {
   ExponentialMovingAverageFilter<uint16_t> battery_average_filter_;
   // val = (previous * 3 + current) / 4
   static constexpr uint8_t kBatteryFilterAlpha = 96;
+
+  std::vector<MedianFilter<uint8_t, uint8_t, 5>> motion_sensor_filters_;
 };

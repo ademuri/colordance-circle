@@ -14,4 +14,7 @@ class EnvironmentController {
 
   // Returns true when the onboard "test lights" button is pressed.
   virtual bool TestLightsPressed() = 0;
+
+  // Returns true if any motion sensors have detected motion.
+  virtual bool MotionDetected() = 0;
 };

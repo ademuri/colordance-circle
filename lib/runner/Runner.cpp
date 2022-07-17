@@ -27,7 +27,8 @@ void Runner::Step() {
   }
 
   param_controller_.Step();
-  if (param_controller_.ParamChanged()) {
+  if (param_controller_.ParamChanged() ||
+      environment_controller_.MotionDetected()) {
     idle_timer_.Reset();
   }
 
