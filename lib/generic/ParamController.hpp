@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <array>
 
 #include "ColordanceTypes.hpp"
 
@@ -18,6 +18,8 @@ enum class Param {
   kLastParam,
 };
 
+using Params = std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>;
+
 class ParamController {
  public:
   ParamController();
@@ -31,6 +33,6 @@ class ParamController {
   virtual void Step(){};
 
  protected:
-  std::vector<uint8_t> params_ =
-      std::vector<uint8_t>(static_cast<std::size_t>(Param::kLastParam));
+  Params params_ =
+      std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>();
 };
