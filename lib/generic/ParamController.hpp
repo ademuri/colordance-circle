@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "ColordanceTypes.hpp"
 
 enum class Param {
@@ -27,4 +29,8 @@ class ParamController {
 
   // Perform periodic work
   virtual void Step(){};
+
+ protected:
+  std::vector<uint8_t> params_ =
+      std::vector<uint8_t>(static_cast<std::size_t>(Param::kLastParam));
 };
