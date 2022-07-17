@@ -10,6 +10,8 @@
 
 #include "Effect.hpp"
 #include "FakeParamController.hpp"
+#include "IdleEffect.hpp"
+#include "LowPowerEffect.hpp"
 #include "Pole.hpp"
 #include "PolesTest.hpp"
 
@@ -22,30 +24,22 @@ class EffectsTest : public PolesTest {
  protected:
   FakeParamController param_controller;
   InterfaceController controller{poles, param_controller};
-};
 
-TEST_F(EffectsTest, power_consumption) {
-  constexpr uint32_t kStepMs = 10;
-  constexpr uint32_t kRunCycles = 2 * 60 * 1000 / kStepMs;
+  void RunPowerTest(Effect& effect, std::string_view effect_name) {
+    constexpr uint32_t kStepMs = 10;
+    constexpr uint32_t kRunCycles = 2 * 60 * 1000 / kStepMs;
 
-  // Approximate power consumption, in watts (not yet verified with hardware)
-  constexpr float kRedPower = 2.0;
-  constexpr float kGreenPower = 2.7;
-  constexpr float kBluePower = 2.7;
+    // Approximate power consumption, in watts (not yet verified with hardware)
+    constexpr float kRedPower = 2.0;
+    constexpr float kGreenPower = 2.7;
+    constexpr float kBluePower = 2.7;
 
-  uint32_t time = 0;
-  for (uint8_t effect_index = 0; effect_index < effect_names.size();
-       effect_index++) {
-    const std::string_view effect_name = effect_names[effect_index];
     float max_power = 0;
     float max_pole_power = 0;
     float power_sum = 0;
     for (uint32_t cycle = 0; cycle < kRunCycles; cycle++) {
-      time += kStepMs;
-      SetMillis(time);
-      param_controller.SetRawParam(Param::kEffect,
-                                   effect_index + kEffectOffset);
-      controller.Step();
+      AdvanceMillis(kStepMs);
+      effect.Step();
 
       float instantaneous_power = 0;
       for (Pole& pole : poles) {
@@ -85,6 +79,21 @@ TEST_F(EffectsTest, power_consumption) {
       pole.ClearGridLights();
     }
   }
+};
+
+TEST_F(EffectsTest, power_consumption) {
+  for (uint8_t effect_index = 0; effect_index < effect_names.size();
+       effect_index++) {
+    const std::string_view effect_name = effect_names[effect_index];
+    param_controller.SetRawParam(Param::kEffect, effect_index + kEffectOffset);
+    RunPowerTest(controller, effect_name);
+  }
+
+  IdleEffect idle_effect{poles, param_controller};
+  RunPowerTest(idle_effect, "Idle");
+
+  LowPowerEffect low_power_effect{poles, param_controller};
+  RunPowerTest(low_power_effect, "Low Power");
 }
 
 TEST_F(EffectsTest, InvalidParams) {
