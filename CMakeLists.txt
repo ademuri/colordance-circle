@@ -31,7 +31,7 @@ set( SANITIZER_FLAGS "-fsanitize=address -fsanitize=undefined")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g ${SANITIZER_FLAGS}")
 set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} ${SANITIZER_FLAGS}")
 
-file(GLOB LIBRARY_SOURCES "lib/generic/*.cpp" "lib/generic/interface/*.cpp" "lib/generic/interface/effects/*.cpp" "lib/generic/control-pole/*.cpp" "lib/generic/helper-pole/*.cpp" "lib/fake-param-controller/*.cpp" "lib/fake-environment-controller/*.cpp" "lib/runner/*.cpp")
+file(GLOB LIBRARY_SOURCES "lib/generic/*.cpp" "lib/generic/interface/*.cpp" "lib/generic/interface/effects/*.cpp" "lib/generic/control-pole/*.cpp" "lib/generic/helper-pole/*.cpp" "lib/fake-param-controller/*.cpp" "lib/fake-environment-controller/*.cpp" "lib/runner/*.cpp" "lib/timer/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
 target_link_libraries(generic fake-fast-led)
 
@@ -41,6 +41,7 @@ target_include_directories(generic PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/environment-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-environment-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/runner>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/timer>
     $<INSTALL_INTERFACE:lib/generic>)
 
 set(BUILD_SIMULATOR true CACHE BOOL "Whether to build the simulator")

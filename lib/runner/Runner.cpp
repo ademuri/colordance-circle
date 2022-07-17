@@ -9,20 +9,41 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
 
 void Runner::Step() {
   environment_controller_.Step();
-  if (battery_low_) {
-    battery_low_ =
-        environment_controller_.GetBatteryMillivolts() <
-        (kBatteryLowThresholdMillivolts + kBatteryDeadBandMillivolts);
+  bool battery_low = false;
+  if (state_ == RunnerState::LOW_POWER) {
+    battery_low = environment_controller_.GetBatteryMillivolts() <
+                  (kBatteryLowThresholdMillivolts + kBatteryDeadBandMillivolts);
   } else {
-    battery_low_ = environment_controller_.GetBatteryMillivolts() <
-                   kBatteryLowThresholdMillivolts;
+    battery_low = environment_controller_.GetBatteryMillivolts() <
+                  kBatteryLowThresholdMillivolts;
   }
 
-  if (battery_low_) {
-    low_power_effect_.Step();
+  if (battery_low) {
+    state_ = RunnerState::LOW_POWER;
   } else {
-    // Battery voltage OK
-    param_controller_.Step();
-    interface_controller_.Step();
+    if (idle_timer_.Expired()) {
+      state_ = RunnerState::IDLE;
+    } else {
+      state_ = RunnerState::NORMAL;
+    }
+  }
+
+  switch (state_) {
+    case RunnerState::LOW_POWER:
+      low_power_effect_.Step();
+      break;
+
+    case RunnerState::IDLE:
+      // TODO
+      break;
+
+    case RunnerState::NORMAL:
+      param_controller_.Step();
+      interface_controller_.Step();
+      break;
+  }
+
+  if (param_controller_.ParamChanged()) {
+    idle_timer_.Reset();
   }
 }
