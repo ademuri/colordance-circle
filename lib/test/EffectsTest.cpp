@@ -14,6 +14,7 @@
 #include "LowPowerEffect.hpp"
 #include "Pole.hpp"
 #include "PolesTest.hpp"
+#include "TestLightsEffect.hpp"
 
 constexpr auto effect_names =
     std::array{"HuePoles", "BackAndForth", "Sliders", "SideToSide"};
@@ -24,6 +25,8 @@ class EffectsTest : public PolesTest {
  protected:
   FakeParamController param_controller;
   InterfaceController controller{poles, param_controller};
+
+  void SetUp() override { SetMillis(0); }
 
   void RunPowerTest(Effect& effect, std::string_view effect_name) {
     constexpr uint32_t kStepMs = 10;
@@ -94,6 +97,9 @@ TEST_F(EffectsTest, power_consumption) {
 
   LowPowerEffect low_power_effect{poles, param_controller};
   RunPowerTest(low_power_effect, "Low Power");
+
+  TestLightsEffect test_lights_effect{poles, param_controller};
+  RunPowerTest(test_lights_effect, "Test Lights");
 }
 
 TEST_F(EffectsTest, InvalidParams) {
@@ -228,6 +234,17 @@ TEST_F(EffectsTest, SideToSideTest) {
     }
     EXPECT_GE(max_lights_on, (poles_on - 1) * 4);
     EXPECT_EQ(max_poles_on, poles_on);
+  }
+}
+
+TEST_F(EffectsTest, TestLightsEffect) {
+  TestLightsEffect effect{poles, param_controller};
+
+  for (uint32_t n = 0; n < 1000; n++) {
+    AdvanceMillis(100);
+    effect.Step();
+    ASSERT_EQ(GetTotalLightCount(), 4) << "millis " << millis();
+    ASSERT_EQ(GetPolesOn(), 1) << "millis " << millis();
   }
 }
 

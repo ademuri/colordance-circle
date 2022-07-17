@@ -8,6 +8,7 @@ class Timer {
 
   void Reset() { expires_ = millis() + duration_; }
   bool Expired() { return expires_ > 0 && millis() > expires_; }
+  bool Active() { return expires_ > 0 && millis() <= expires_; }
 
  protected:
   uint32_t duration_;

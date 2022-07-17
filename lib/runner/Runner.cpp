@@ -6,7 +6,10 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
       environment_controller_(environment_controller),
       interface_controller_(poles, param_controller),
       low_power_effect_(poles, param_controller),
-      idle_effect_(poles, param_controller) {}
+      idle_effect_(poles, param_controller),
+      test_lights_effect_(poles, param_controller) {
+  idle_timer_.Reset();
+}
 
 void Runner::Step() {
   environment_controller_.Step();
@@ -22,7 +25,9 @@ void Runner::Step() {
   if (battery_low) {
     state_ = RunnerState::LOW_POWER;
   } else {
-    if (idle_timer_.Expired()) {
+    if (test_lights_timer_.Active()) {
+      state_ = RunnerState::TEST_LIGHTS;
+    } else if (idle_timer_.Expired()) {
       state_ = RunnerState::IDLE;
     } else {
       state_ = RunnerState::NORMAL;
@@ -42,10 +47,18 @@ void Runner::Step() {
     case RunnerState::NORMAL:
       interface_controller_.Step();
       break;
+
+    case RunnerState::TEST_LIGHTS:
+      test_lights_effect_.Step();
+      break;
   }
 
   if (param_controller_.ParamChanged()) {
     idle_timer_.Reset();
+  }
+
+  if (environment_controller_.TestLightsPressed()) {
+    test_lights_timer_.Reset();
   }
 }
 

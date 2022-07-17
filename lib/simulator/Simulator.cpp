@@ -5,13 +5,16 @@
 
 #include "FakeParamController.hpp"
 #include "SimulatorLightController.hpp"
+#include "TestLightsEffect.hpp"
 #include "interface/InterfaceController.hpp"
 
 int main() {
   SimulatorLightController light_controller;
 
   auto param_controller = FakeParamController();
-  auto effect = InterfaceController(light_controller.poles, param_controller);
+  // auto effect = InterfaceController(light_controller.poles,
+  // param_controller);
+  auto effect = TestLightsEffect(light_controller.poles, param_controller);
 
   const std::chrono::steady_clock::time_point start_time =
       std::chrono::steady_clock::now();

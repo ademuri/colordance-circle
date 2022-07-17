@@ -20,6 +20,10 @@ std::ostream &operator<<(std::ostream &out, RunnerState state) {
     case RunnerState::NORMAL:
       out << "NORMAL";
       break;
+
+    case RunnerState::TEST_LIGHTS:
+      out << "TEST_LIGHTS";
+      break;
   }
   return out;
 }
@@ -149,4 +153,46 @@ TEST_F(RunnerTest, LowBatteryTakesPreferenceOverIdleMode) {
   environment_controller.SetBatteryMillivolts(1230);
   runner.Step();
   EXPECT_EQ(runner.State(), RunnerState::NORMAL);
+}
+
+TEST_F(RunnerTest, TestLightsButton) {
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+
+  AdvanceMillis(1000);
+  environment_controller.SetTestLights(true);
+  runner.Step();
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::TEST_LIGHTS);
+  ASSERT_EQ(GetTotalLightCount(), 4);
+  ASSERT_EQ(GetPolesOn(), 1);
+
+  environment_controller.SetTestLights(false);
+  for (uint32_t n = 0; n < Runner::kTestLightsDuration; n += 100) {
+    AdvanceMillis(100);
+    runner.Step();
+    ASSERT_EQ(runner.State(), RunnerState::TEST_LIGHTS);
+    ASSERT_EQ(GetTotalLightCount(), 4);
+    ASSERT_EQ(GetPolesOn(), 1);
+  }
+
+  AdvanceMillis(100);
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::NORMAL);
+  EXPECT_GE(GetPolesOn(), 2);
+
+  AdvanceMillis(Runner::kIdleTimeout * 2);
+  runner.Step();
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::IDLE);
+  ASSERT_EQ(GetTotalLightCount(), 2);
+  ASSERT_EQ(GetPolesOn(), 2);
+
+  AdvanceMillis(1000);
+  environment_controller.SetTestLights(true);
+  runner.Step();
+  runner.Step();
+  ASSERT_EQ(runner.State(), RunnerState::TEST_LIGHTS);
+  ASSERT_EQ(GetTotalLightCount(), 4);
+  ASSERT_EQ(GetPolesOn(), 1);
 }
