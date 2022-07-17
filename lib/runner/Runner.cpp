@@ -13,6 +13,10 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
 
 void Runner::Step() {
   environment_controller_.Step();
+  if (environment_controller_.TestLightsPressed()) {
+    test_lights_timer_.Reset();
+  }
+
   bool battery_low = false;
   if (state_ == RunnerState::LOW_POWER) {
     battery_low = environment_controller_.GetBatteryMillivolts() <
@@ -20,6 +24,11 @@ void Runner::Step() {
   } else {
     battery_low = environment_controller_.GetBatteryMillivolts() <
                   kBatteryLowThresholdMillivolts;
+  }
+
+  param_controller_.Step();
+  if (param_controller_.ParamChanged()) {
+    idle_timer_.Reset();
   }
 
   if (battery_low) {
@@ -34,7 +43,6 @@ void Runner::Step() {
     }
   }
 
-  param_controller_.Step();
   switch (state_) {
     case RunnerState::LOW_POWER:
       low_power_effect_.Step();
@@ -51,14 +59,6 @@ void Runner::Step() {
     case RunnerState::TEST_LIGHTS:
       test_lights_effect_.Step();
       break;
-  }
-
-  if (param_controller_.ParamChanged()) {
-    idle_timer_.Reset();
-  }
-
-  if (environment_controller_.TestLightsPressed()) {
-    test_lights_timer_.Reset();
   }
 }
 
