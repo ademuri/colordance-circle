@@ -28,13 +28,17 @@ class SimulatorLightController : private FastLEDSimulator<kTotalLights> {
 
   SDL_Point GetInitialSize() override;
   SDL_Point GetInitialPosition() override;
-  LedSize GetLedSize() override;
   Poles poles;
 
  private:
-  static constexpr int kLedPixels = 20;
-  static constexpr int kLedFramePixels = 24;
-  static constexpr int kLedSpacing = 8;
+  static constexpr int kGridLedPixels = 20;
+  static constexpr int kGridLedFramePixels = 24;
+  static constexpr int kGridLedSpacing = 8;
+
+  static constexpr int kPoleLedPixels = 4;
+  static constexpr int kPoleLedFramePixels = 6;
+  static constexpr int kPoleLedSpacing = 2;
+
   static constexpr int kPoleSpacing = 40;
   static constexpr int kLedsPerOutput = 16;
 };

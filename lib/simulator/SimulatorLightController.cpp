@@ -29,8 +29,6 @@ void SimulatorLightController::WriteOutLights() {
 }
 
 void SimulatorLightController::SetLedPositions() {
-  const LedSize led_size = GetLedSize();
-
   // Grid lights
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     for (int y = 0; y < gridHeight; y++) {
@@ -39,45 +37,49 @@ void SimulatorLightController::SetLedPositions() {
             pole * gridWidth * gridHeight + y * gridHeight + x;
         leds[index] = CRGB(0, 0, 0);
         const int x_position =
-            kLedSpacing +
-            pole * ((led_size.frame_size + kLedSpacing) * gridWidth +
+            kGridLedSpacing +
+            pole * ((kGridLedFramePixels + kGridLedSpacing) * gridWidth +
                     kPoleSpacing) +
-            x * (led_size.frame_size + kLedSpacing);
+            x * (kGridLedFramePixels + kGridLedSpacing);
         const int y_position =
-            kLedSpacing + y * (led_size.frame_size + kLedSpacing);
-        led_locations_[index] = {x_position, y_position};
+            kGridLedSpacing + y * (kGridLedFramePixels + kGridLedSpacing);
+        led_layout_[index].location = {x_position, y_position};
+        led_layout_[index].frame_size = kGridLedFramePixels;
+        led_layout_[index].led_size = kGridLedPixels;
       }
     }
   }
 
   // Pole lights
   const int y_offset =
-      kLedSpacing + gridHeight * (led_size.frame_size + kLedSpacing);
+      kGridLedSpacing + gridHeight * (kGridLedFramePixels + kGridLedSpacing);
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    const int x_pole_center = kGridLedFramePixels * 2 + kGridLedSpacing * 1.5 -
+                              kPoleLedFramePixels / 2;
     const int x_position =
-        kLedSpacing +
-        pole * ((led_size.frame_size + kLedSpacing) * gridWidth + kPoleSpacing);
+        kGridLedSpacing +
+        pole * ((kGridLedFramePixels + kGridLedSpacing) * gridWidth +
+                kPoleSpacing) +
+        x_pole_center;
     for (int n = 0; n < kLightsPerPole; n++) {
       const int index = kGridLights + pole * kLightsPerPole + n;
-      const int y_position = y_offset + n * (led_size.frame_size + kLedSpacing);
-      led_locations_[index] = {x_position, y_position};
+      const int y_position =
+          y_offset + n * (kPoleLedFramePixels + kPoleLedSpacing);
+      led_layout_[index].location = {x_position, y_position};
+      led_layout_[index].frame_size = kPoleLedFramePixels;
+      led_layout_[index].led_size = kPoleLedPixels;
     }
   }
 }
 
 SDL_Point SimulatorLightController::GetInitialSize() {
-  const LedSize led_size = GetLedSize();
   const int x_size =
       Pole::kNumPoles *
-      (gridWidth * (led_size.frame_size + kLedSpacing) + kPoleSpacing);
-  const int y_size = gridHeight * (led_size.frame_size + kLedSpacing) +
-                     kLedSpacing +
-                     kLightsPerPole * (led_size.frame_size + kLedSpacing);
+      (gridWidth * (kGridLedFramePixels + kGridLedSpacing) + kPoleSpacing);
+  const int y_size =
+      gridHeight * (kGridLedFramePixels + kGridLedSpacing) + kGridLedSpacing +
+      (kLightsPerPole + 1) * (kPoleLedFramePixels + kPoleLedSpacing);
   return {x_size, y_size};
 }
 
 SDL_Point SimulatorLightController::GetInitialPosition() { return {0, 0}; }
-
-LedSize SimulatorLightController::GetLedSize() {
-  return {kLedPixels, kLedFramePixels};
-}
