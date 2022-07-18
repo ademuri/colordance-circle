@@ -3,6 +3,7 @@
 
 #include "DesktopSerialParamController.hpp"
 #include "FakeEnvironmentController.hpp"
+#include "FakeLogger.hpp"
 #include "FastLedLightController.hpp"
 #include "Runner.hpp"
 
@@ -11,8 +12,9 @@ namespace {
 auto light_controller = FastLedLightController();
 DesktopSerialParamController param_controller;
 FakeEnvironmentController environment_controller;
+FakeLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), param_controller,
-              environment_controller);
+              environment_controller, logger);
 
 }  // namespace
 
