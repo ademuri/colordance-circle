@@ -10,5 +10,5 @@ class DesktopSerialParamController : public ParamController {
  public:
   void Step() override;
 
-  uint8_t GetRawParam(Param param) override;
+  uint8_t GetRawParam(Param param) const override;
 };

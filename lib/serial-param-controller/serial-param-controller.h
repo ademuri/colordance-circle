@@ -15,7 +15,7 @@ class SerialParamController : public ParamController {
 
   void Step() override;
 
-  uint8_t GetRawParam(Param param) override;
+  uint8_t GetRawParam(Param param) const override;
 
   ControlsIn controls_in = {};
   ControlsOut controls_out = {};

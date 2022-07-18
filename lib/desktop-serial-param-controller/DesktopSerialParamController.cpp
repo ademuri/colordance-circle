@@ -41,6 +41,6 @@ void DesktopSerialParamController::Step() {
   ParamController::Step();
 }
 
-uint8_t DesktopSerialParamController::GetRawParam(Param param) {
+uint8_t DesktopSerialParamController::GetRawParam(Param param) const {
   return params_[static_cast<uint8_t>(param)];
 }

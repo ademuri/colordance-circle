@@ -65,6 +65,6 @@ void SerialParamController::Step() {
   ParamController::Step();
 }
 
-uint8_t SerialParamController::GetRawParam(Param param) {
+uint8_t SerialParamController::GetRawParam(Param param) const {
   return params_[static_cast<uint8_t>(param)];
 }

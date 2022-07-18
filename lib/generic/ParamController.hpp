@@ -25,9 +25,9 @@ class ParamController {
   ParamController();
   virtual ~ParamController(){};
 
-  virtual uint8_t GetRawParam(Param param) = 0;
+  virtual uint8_t GetRawParam(Param param) const = 0;
 
-  virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max);
+  virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max) const;
 
   // Perform periodic work
   virtual void Step();

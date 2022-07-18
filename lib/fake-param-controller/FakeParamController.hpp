@@ -7,7 +7,7 @@
 
 class FakeParamController : public ParamController {
  public:
-  uint8_t GetRawParam(Param param) override;
+  uint8_t GetRawParam(Param param) const override;
 
   void SetRawParam(Param param, uint8_t value);
 };
