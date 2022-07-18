@@ -15,7 +15,7 @@ TeensySdLogger::TeensySdLogger(
   const size_t name_size = 100;
   char name[name_size] = "";
   int n = -1;
-  for (n = 0; n < 1000; n++) {
+  for (n = 0; n < 10000; n++) {
     int ret = snprintf(name, name_size, "colordance_log_%d.csv", n);
     if (ret < 0 || ret >= (int)name_size) {
       Serial.printf("Error formatting log file name: %d\n", ret);
