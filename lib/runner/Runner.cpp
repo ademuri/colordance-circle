@@ -1,10 +1,10 @@
 #include "Runner.hpp"
 
 Runner::Runner(Poles& poles, ParamController& param_controller,
-               EnvironmentController& environment_controller)
+               EnvironmentController& environment_controller, Logger& logger)
     : param_controller_(param_controller),
       environment_controller_(environment_controller),
-      logger_(param_controller, environment_controller),
+      logger_(logger),
       interface_controller_(poles, param_controller),
       low_power_effect_(poles, param_controller),
       idle_effect_(poles, param_controller),

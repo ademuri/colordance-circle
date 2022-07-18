@@ -18,18 +18,18 @@ void Logger::Step() {
     return;
   }
   static char line[kLogLineBytes];
-  size_t ret = snprintf(line, kLogLineBytes, "%d\n",
-                        param_controller_.GetRawParam(Param::kEffect));
+  int ret = snprintf(line, kLogLineBytes, "%d\n",
+                     param_controller_.GetRawParam(Param::kEffect));
 
 #ifndef ARDUINO
   if (ret <= 0) {
     std::cout << "Logger: call to snprintf failed: " << ret << "\n";
   }
   assert(ret > 0);
-  if (ret >= kLogLineBytes) {
+  if (ret >= (int)kLogLineBytes) {
     std::cout << "Logger: buffer size was too small: " << ret << "\n";
   }
-  assert(ret < kLogLineBytes);
+  assert(ret < (int)kLogLineBytes);
 #endif
 
   if (ret > 0) {

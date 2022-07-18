@@ -19,7 +19,7 @@ enum class RunnerState {
 class Runner {
  public:
   Runner(Poles& poles, ParamController& param_controller,
-         EnvironmentController& environment_controller);
+         EnvironmentController& environment_controller, Logger& logger);
 
   // Runs one iteration. Non-blocking.
   void Step();

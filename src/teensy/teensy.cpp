@@ -9,6 +9,7 @@
 #include "Runner.hpp"
 #include "TeensyEnvironmentController.hpp"
 #include "TeensyLightController.hpp"
+#include "TeensySdLogger.hpp"
 #include "interface/InterfaceController.hpp"
 #include "serial-param-controller.h"
 
@@ -17,8 +18,9 @@ namespace {
 auto light_controller = TeensyLightController();
 TeensyEnvironmentController environment_controller;
 SerialParamController param_controller;
+TeensySdLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), param_controller,
-              environment_controller);
+              environment_controller, logger);
 
 uint32_t print_at = 0;
 
