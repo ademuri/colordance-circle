@@ -35,7 +35,7 @@ class Runner {
  private:
   ParamController& param_controller_;
   EnvironmentController& environment_controller_;
-  Logger logger_;
+  Logger& logger_;
 
   // Effects
   InterfaceController interface_controller_;

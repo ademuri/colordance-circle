@@ -28,4 +28,7 @@ class Logger {
   const EnvironmentController& environment_controller_;
 
   Timer log_timer_{kLogIntervalMillis};
+
+  bool motion_detected_ = false;
+  bool param_changed_ = false;
 };

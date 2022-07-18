@@ -14,12 +14,23 @@ Logger::Logger(const ParamController& param_controller,
 }
 
 void Logger::Step() {
+  if (environment_controller_.MotionDetected()) {
+    motion_detected_ = true;
+  }
+  if (param_controller_.ParamChanged()) {
+    param_changed_ = true;
+  }
+
   if (!log_timer_.Expired()) {
     return;
   }
   static char line[kLogLineBytes];
-  int ret = snprintf(line, kLogLineBytes, "%d\n",
-                     param_controller_.GetRawParam(Param::kEffect));
+  int ret = snprintf(
+      line, kLogLineBytes, "%d, %d, %d, %d, %04d, %d\n",
+      param_controller_.GetRawParam(Param::kEffect),
+      param_controller_.GetRawParam(Param::kSlider1),
+      param_controller_.GetRawParam(Param::kSlider2), param_changed_,
+      environment_controller_.GetBatteryMillivolts(), motion_detected_);
 
 #ifndef ARDUINO
   if (ret <= 0) {
@@ -37,4 +48,6 @@ void Logger::Step() {
   }
 
   log_timer_.Reset();
+  motion_detected_ = false;
+  param_changed_ = false;
 }

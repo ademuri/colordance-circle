@@ -49,6 +49,7 @@ target_link_libraries(generic fake-fast-led)
 target_include_directories(generic PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/environment-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-environment-controller>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-logger>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-param-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/generic>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/logger>

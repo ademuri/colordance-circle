@@ -2,8 +2,8 @@
 
 #include "Effect.hpp"
 #include "FakeEnvironmentController.hpp"
+#include "FakeLogger.hpp"
 #include "FakeParamController.hpp"
-#include "Logger.hpp"
 #include "Pole.hpp"
 #include "PolesTest.hpp"
 #include "Runner.hpp"
@@ -33,7 +33,7 @@ class RunnerTest : public PolesTest {
  protected:
   FakeParamController param_controller{};
   FakeEnvironmentController environment_controller{};
-  Logger logger{param_controller, environment_controller};
+  FakeLogger logger{param_controller, environment_controller};
   Runner runner{poles, param_controller, environment_controller, logger};
 
   void SetUp() override {

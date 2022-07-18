@@ -14,7 +14,7 @@ class Timer {
   bool Active() { return started_ && millis() <= expires_; }
 
  protected:
-  uint32_t duration_;
+  const uint32_t duration_;
   uint32_t expires_ = 0;
   bool started_ = false;
 };
