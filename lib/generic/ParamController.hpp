@@ -29,12 +29,11 @@ class ParamController {
 
   virtual int16_t GetScaledParam(Param param, int16_t min, int16_t max) const;
 
+  // Whether a param changed in the most recent call to Step.
+  bool ParamChanged() const;
+
   // Perform periodic work
   virtual void Step();
-
-  // Whether a param has changed. Calls to Step may set this to true. Calls to
-  // this method will reset this to false.
-  bool ParamChanged();
 
  protected:
   Params params_ =
