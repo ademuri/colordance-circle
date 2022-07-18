@@ -2,6 +2,7 @@
 
 #include "EnvironmentController.hpp"
 #include "IdleEffect.hpp"
+#include "Logger.hpp"
 #include "LowPowerEffect.hpp"
 #include "ParamController.hpp"
 #include "TestLightsEffect.hpp"
@@ -34,6 +35,7 @@ class Runner {
  private:
   ParamController& param_controller_;
   EnvironmentController& environment_controller_;
+  Logger logger_;
 
   // Effects
   InterfaceController interface_controller_;

@@ -4,6 +4,7 @@ Runner::Runner(Poles& poles, ParamController& param_controller,
                EnvironmentController& environment_controller)
     : param_controller_(param_controller),
       environment_controller_(environment_controller),
+      logger_(param_controller, environment_controller),
       interface_controller_(poles, param_controller),
       low_power_effect_(poles, param_controller),
       idle_effect_(poles, param_controller),
@@ -61,6 +62,8 @@ void Runner::Step() {
       test_lights_effect_.Step();
       break;
   }
+
+  logger_.Step();
 }
 
 RunnerState Runner::State() { return state_; }
