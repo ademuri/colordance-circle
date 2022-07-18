@@ -29,7 +29,7 @@ void TeensyEnvironmentController::Step() {
   }
 }
 
-uint16_t TeensyEnvironmentController::GetBatteryMillivolts() {
+uint16_t TeensyEnvironmentController::GetBatteryMillivolts() const {
   // Use 32 bits to avoid clipping during calculation
   uint32_t battery_raw = battery_average_filter_.GetFilteredValue();
   // Voltage divider is 1200k and 330k resistor, reference voltage is 3.3v, DAC
@@ -37,11 +37,11 @@ uint16_t TeensyEnvironmentController::GetBatteryMillivolts() {
   return (uint16_t)(battery_raw * (1200 + 330) * 3.3 * 1000 / 330 / 1024);
 }
 
-bool TeensyEnvironmentController::TestLightsPressed() {
+bool TeensyEnvironmentController::TestLightsPressed() const {
   return test_lights_input_.GetFilteredValue();
 }
 
-bool TeensyEnvironmentController::MotionDetected() {
+bool TeensyEnvironmentController::MotionDetected() const {
   for (const auto& filter : motion_sensor_filters_) {
     if (filter.GetFilteredValue()) {
       return true;

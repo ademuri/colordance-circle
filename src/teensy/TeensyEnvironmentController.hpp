@@ -14,9 +14,9 @@ class TeensyEnvironmentController : public EnvironmentController {
   TeensyEnvironmentController();
 
   void Step() override;
-  uint16_t GetBatteryMillivolts() override;
-  bool TestLightsPressed() override;
-  bool MotionDetected() override;
+  uint16_t GetBatteryMillivolts() const override;
+  bool TestLightsPressed() const override;
+  bool MotionDetected() const override;
 
  private:
   static constexpr int kBatteryPin = 41;
