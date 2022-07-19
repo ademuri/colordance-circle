@@ -15,10 +15,7 @@ class LoggerTest : public ::testing::Test {
   FakeLogger logger{param_controller, environment_controller};
   Runner runner{poles, param_controller, environment_controller, logger};
 
-  void SetUp() override {
-    SetMillis(0);
-    environment_controller.SetBatteryMillivolts(1200);
-  }
+  void SetUp() override { environment_controller.SetBatteryMillivolts(1200); }
 };
 
 TEST_F(LoggerTest, Logs) {
