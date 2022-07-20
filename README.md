@@ -26,3 +26,9 @@ make && ./generictest
 ### Simulator
 
 The simulator uses SDL2 to render the LEDs. To build it, first install the SDL2 development library (e.g. `sudo apt install libsdl2-dev`), then configure CMake to build it with `cmake .. -DBUILD_SIMULATOR=true`. Then, from the build dir, run it with `./lib/simulator/Simulator`.
+
+To run the simulator with the Processing controller, from the build directory run:
+
+```bash
+${PROCESSING_HOME?}/processing-java --sketch=../controller/processing_controller --run | ./lib/simulator/Simulator
+```

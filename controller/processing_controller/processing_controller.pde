@@ -62,4 +62,5 @@ void setup() {
 
 void draw() {
   background(128);
+  print("\n");
 }

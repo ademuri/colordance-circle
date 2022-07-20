@@ -41,6 +41,7 @@ file(GLOB LIBRARY_SOURCES
     "lib/generic/interface/effects/*.cpp"
     "lib/logger/*.cpp"
     "lib/runner/*.cpp"
+    "lib/stdin-param-controller/*.cpp"
     "lib/timer/*.cpp"
 )
 add_library(generic ${LIBRARY_SOURCES})
@@ -51,6 +52,7 @@ target_include_directories(generic PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-environment-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-logger>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-param-controller>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/stdin-param-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/generic>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/logger>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/runner>
