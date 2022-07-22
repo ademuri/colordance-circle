@@ -15,6 +15,7 @@ public abstract class MagicControl<T extends Controller> implements CallbackList
   }
 
   void controlEvent(CallbackEvent theEvent) {
+    SerialPortHandler.controlsModified = true;
     String output = String.format("%s: %d\n", paramIdentifier, getValue()); 
     if (SerialPortHandler.getPort() == null) {
       print(output);

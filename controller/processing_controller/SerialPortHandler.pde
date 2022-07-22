@@ -1,4 +1,6 @@
 public static class SerialPortHandler implements CallbackListener {
+  public static boolean controlsModified = false;
+
   private final PApplet papplet;
   private static Serial port = null;
 

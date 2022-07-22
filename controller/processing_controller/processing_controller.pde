@@ -60,7 +60,18 @@ void setup() {
   
 }
 
+// When using the simulator, if we output lines too quickly, the simulator will
+// become increasingly behind. This is used to rate-limit.
+int outputAt = 0;
+final int OUTPUT_EVERY = 50;
+
 void draw() {
   background(128);
-  print("\n");
+  if (SerialPortHandler.controlsModified) {
+    outputAt = millis() + OUTPUT_EVERY;
+    SerialPortHandler.controlsModified = false;
+  } else if (millis() > outputAt) {
+    print("\n");
+    outputAt = millis() + OUTPUT_EVERY;
+  }
 }
