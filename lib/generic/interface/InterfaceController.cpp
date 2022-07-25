@@ -2,6 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
+#include "PoleEffect.hpp"
 
 InterfaceController::InterfaceController(Poles& poles,
                                          ParamController& paramController)
@@ -174,6 +175,8 @@ void InterfaceController::DoStep() {
   uint16_t interval = nextBeatTime - lastBeatTime;
 
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
+
+  PoleEffect::SetPoleEffect(poles, millis());
 
   SleepMs(MILLIS_PER_RUN_LOOP);
 }

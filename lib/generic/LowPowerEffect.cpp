@@ -1,4 +1,5 @@
 #include "LowPowerEffect.hpp"
+#include "PoleEffect.hpp"
 
 LowPowerEffect::LowPowerEffect(Poles& poles, ParamController& paramController)
     : Effect(poles, paramController) {}
@@ -17,4 +18,6 @@ void LowPowerEffect::DoStep() {
   const CRGB rgb = CRGB(96, 0, 0);
   pole1.SetGridLight(0, 0, rgb);
   pole2.SetGridLight(0, 0, rgb);
+
+  PoleEffect::SetPoleLowerEffect(poles, millis());
 }
