@@ -4,9 +4,9 @@
 #include <SPI.h>
 
 SerialParamController::SerialParamController() {
-  Serial2.begin(kSerialBaud);
-  transfer_in_.begin(details(controls_in), &Serial2);
-  transfer_out_.begin(details(controls_out), &Serial2);
+  Serial6.begin(kSerialBaud);
+  transfer_in_.begin(details(controls_in), &Serial6);
+  transfer_out_.begin(details(controls_out), &Serial6);
 }
 
 void SerialParamController::Step() {
