@@ -47,17 +47,4 @@ void loop() {
   }
   runner.Step();
   light_controller.WriteOutLights();
-
-  // for (auto & pole : light_controller.get_poles()) {
-  //   for (int i = 0; i < 4; i++) {
-  //     pole->ClearGridLights();
-  //     for (int j = 0; j < 4; j++) {
-  //       pole->SetGridLight(i, j, CHSV(0, 0, 128));
-  //     }
-  //     light_controller.WriteOutLights();
-  //     delay(200);
-  //   }
-  //   pole->ClearGridLights();
-  // }
-  // Serial.println(param_controller->controls_in.button_mask);
 }
