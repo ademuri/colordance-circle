@@ -5,6 +5,7 @@ FastLedLightController::FastLedLightController() {
   FastLED.addLeds<NEOPIXEL, ledPin>(leds, kNumLeds);
   FastLED.setDither(0);
   FastLED.showColor(CRGB(0, 0, 0));
+  FastLED.setMaxRefreshRate(200);
 }
 
 void FastLedLightController::WriteOutLights() {

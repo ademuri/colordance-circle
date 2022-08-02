@@ -287,8 +287,11 @@ void loop() {
       break;
   }
 
-  brain_out.sendData();
-  brain_in.receiveData();
+  // Wait to receive data before sending, so that we don't interrupt the brain
+  // while its writing out LEDs.
+  if (brain_in.receiveData()) {
+    brain_out.sendData();
+  }
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i]);
   //   Serial.print(" ");

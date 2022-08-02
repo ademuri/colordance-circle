@@ -12,8 +12,13 @@ SerialParamController::SerialParamController() {
 
 void SerialParamController::Step() {
   static uint32_t print_at = 0;
-  transfer_in_.receiveData();
   transfer_out_.sendData();
+  // Briefly wait, to make sure that the interface has sent data before we call
+  // `receiveData`
+  delay(3);
+  if (!transfer_in_.receiveData()) {
+    return;
+  }
 
   // Blink the onboard LED to show that communication is working
   digitalWrite(kLedPin, controls_in.alive);

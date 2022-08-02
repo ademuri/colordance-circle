@@ -41,11 +41,11 @@ void setup() {
 }
 
 void loop() {
-  if (millis() > print_at) {
-    Serial.print("Alive: ");
-    Serial.println(millis());
-    print_at = millis() + 5000;
-  }
+  // if (millis() > print_at) {
+  //   Serial.print("Alive: ");
+  //   Serial.println(millis());
+  //   print_at = millis() + 5000;
+  // }
   runner.Step();
   light_controller.WriteOutLights();
 }

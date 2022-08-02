@@ -15,6 +15,8 @@ TeensyLightController::TeensyLightController() {
 
   FastLED.addLeds<kNumLedOutputs, WS2812, /* first pin */ 1, BGR>(
       leds, kLedsPerOutput);
+  // TODO: tune this value
+  FastLED.setMaxRefreshRate(200);
   // FastLED.setBrightness(32);
 }
 

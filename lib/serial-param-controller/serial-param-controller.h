@@ -17,8 +17,8 @@ class SerialParamController : public ParamController {
 
   uint8_t GetRawParam(Param param) const override;
 
-  ControlsIn controls_in = {};
-  ControlsOut controls_out = {};
+  ControlsIn controls_in;
+  ControlsOut controls_out;
 
  private:
   // Prints the param values to the serial console.

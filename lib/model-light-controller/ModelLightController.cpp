@@ -5,6 +5,7 @@ ModelLightController::ModelLightController() {
   FastLED.addLeds<1, WS2812, /*first pin*/ ledPin, GRB>(leds, kNumLeds);
   FastLED.setDither(0);
   FastLED.showColor(CRGB(0, 0, 0));
+  FastLED.setMaxRefreshRate(200);
 }
 
 void ModelLightController::WriteOutLights() {
