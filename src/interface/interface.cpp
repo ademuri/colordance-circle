@@ -21,8 +21,8 @@ const constexpr RunType run_mode = RunType::NORMAL;
 // Buttons
 const int kButton1 = 2;
 const int kButton2 = 3;
-const int kButton3 = 28;
-const int kButton4 = 29;
+const int kButton3 = 10;
+const int kButton4 = 11;
 const int kButton5 = 5;
 const int kButton6 = 4;
 const int kButton7 = 30;
@@ -190,12 +190,13 @@ void setup() {
 
   Serial.println("Local assets initialized. Beginning serial communication...");
 
-  Serial5.begin(kSerialBaud);
-  brain_out.begin(details(brain_out_data), &Serial5);
-  brain_in.begin(details(brain_in_data), &Serial5);
+  Serial7.begin(kSerialBaud);
+  brain_out.begin(details(brain_out_data), &Serial7);
+  brain_in.begin(details(brain_in_data), &Serial7);
 }
 
 void readControls() {
+  brain_out_data.alive = (millis() / 500) % 2;
   brain_out_data.button_mask = 0;
   bool effect_pressed = false;
 
