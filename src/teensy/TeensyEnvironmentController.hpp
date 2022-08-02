@@ -22,7 +22,7 @@ class TeensyEnvironmentController : public EnvironmentController {
   static constexpr int kBatteryPin = 41;
   static constexpr int kTestLightsPin = 9;
 
-  MedianFilter<uint8_t, uint8_t, 201> test_lights_input_;
+  MedianFilter<uint16_t, uint16_t, 201> test_lights_input_;
   MedianFilter<uint16_t, uint16_t, 5> battery_median_filter_;
   ExponentialMovingAverageFilter<uint16_t> battery_average_filter_;
   // val = (previous * 3 + current) / 4

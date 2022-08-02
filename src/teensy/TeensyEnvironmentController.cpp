@@ -7,6 +7,7 @@ TeensyEnvironmentController::TeensyEnvironmentController()
       battery_average_filter_(
           [this]() { return battery_median_filter_.GetFilteredValue(); },
           kBatteryFilterAlpha) {
+  pinMode(kTestLightsPin, INPUT_PULLUP);
   pinMode(kBatteryPin, INPUT);
   battery_median_filter_.SetMinRunInterval(10);
   battery_average_filter_.SetMinRunInterval(10);
