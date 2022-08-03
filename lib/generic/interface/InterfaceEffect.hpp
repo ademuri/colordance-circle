@@ -15,6 +15,9 @@ class InterfaceEffect {
   void SetSlider1(uint8_t val);
   void SetSlider2(uint8_t val);
 
+  void SetBeatsPerShift(uint8_t beats);
+  void SetBeatsSinceLastShift(uint8_t beats);
+
   void Shift(uint8_t shiftPosition);
   void SetGrid(Poles &poles, uint16_t timeSinceLastBeat,
                uint16_t millisPerBeat);
@@ -23,7 +26,7 @@ class InterfaceEffect {
 
  protected:
   virtual bool ContinuousShift() = 0;
-  virtual void DoSetGrid(Poles &poles, uint16_t frame) = 0;
+  virtual void DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;
@@ -35,10 +38,13 @@ class InterfaceEffect {
 
   bool option1WasPressed = false;
   bool option2WasPressed = false;
-  uint8_t slider1 = 0;
-  uint8_t slider2 = 0;
+
+  uint8_t beatsPerShift = 0;
+  uint8_t beatsSinceLastShift = 0;
 
   uint32_t lastTimeSinceLastBeat = 0;
+
+  uint16_t lastFrame = 0;
 
  private:
   const uint16_t WAIT_TIME_TO_START_OVER = 8000;  // time effect was off

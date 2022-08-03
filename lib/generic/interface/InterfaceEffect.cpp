@@ -24,6 +24,12 @@ void InterfaceEffect::SetSlider1(uint8_t val) { UpdateSlider1(val); }
 
 void InterfaceEffect::SetSlider2(uint8_t val) { UpdateSlider2(val); }
 
+void InterfaceEffect::SetBeatsPerShift(uint8_t beats) { beatsPerShift = beats; }
+
+void InterfaceEffect::SetBeatsSinceLastShift(uint8_t beats) {
+  beatsSinceLastShift = beats;
+}
+
 void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
 
 void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
@@ -32,8 +38,11 @@ void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
     Reset();
   }
 
-  DoSetGrid(poles, FRAMES_PER_LOOP * timeSinceLastBeat / millisPerBeat);
+  uint16_t frame = FRAMES_PER_LOOP * timeSinceLastBeat / millisPerBeat;
 
+  DoSetGrid(poles, frame, lastFrame);
+
+  lastFrame = frame;
   lastTimeSinceLastBeat = timeSinceLastBeat;
 }
 

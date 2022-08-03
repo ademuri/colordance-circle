@@ -1,13 +1,15 @@
 #pragma once
 
+#include <vector>
+
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
 #include "interface/InterfaceEffect.hpp"
 
-class BackAndForth : public InterfaceEffect {
+class Sticky : public InterfaceEffect {
  public:
-  BackAndForth();
+  Sticky();
 
  protected:
   bool ContinuousShift();
@@ -21,25 +23,23 @@ class BackAndForth : public InterfaceEffect {
 
  private:
   void UpdateHues();
-  void SetBackAndForth();
   void ResetModes();
 
-  ControlPole controlPoleLeft;
-  ControlPole controlPoleRight;
+  std::vector<ControlPole> controlPoles;
+  ControlPole moving_pole;
 
-  uint8_t leftIndex = 2;
-  uint8_t rightIndex = 3;
+  uint8_t poleOffset = 0;
+  bool goBackwards = false;
 
-  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
-  uint8_t modeIndex = 0;
   const uint8_t kNumModes = 3;
+  Mode modes[3] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel};
+  uint8_t modeIndex = 0;
 
-  bool goIn = true;
-  bool leftReverse = true;
-  bool rightReverse = false;
-  uint8_t hueDistance = 127;
-  uint8_t hueStart = 0;
-  uint8_t hueVal = 0;
+  bool still = false;
 
+  uint8_t hueDistance = 42;
+
+  uint8_t numOfPolesOn = 6;
+  bool backAndForth = true;
   bool smoothPoleShift = true;
 };

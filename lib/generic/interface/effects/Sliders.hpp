@@ -16,7 +16,7 @@ class Sliders : public InterfaceEffect {
 
  protected:
   bool ContinuousShift() override;
-  void DoSetGrid(Poles &poles, uint16_t frame) override;
+  void DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
@@ -32,8 +32,6 @@ class Sliders : public InterfaceEffect {
   std::array<ControlPole, 2> poles;
   ControlPole *pole_left;
   ControlPole *pole_right;
-
-  uint32_t lastFrame = 0;
 
   uint8_t count = 0;
 

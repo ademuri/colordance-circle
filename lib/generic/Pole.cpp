@@ -4,8 +4,6 @@
 #include <assert.h>
 #endif
 
-#include <cstdio>
-
 Pole::Pole() {
   ClearGridLights();
   ClearPoleLights();

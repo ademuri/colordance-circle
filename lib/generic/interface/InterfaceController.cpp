@@ -34,6 +34,12 @@ void InterfaceController::DoStep() {
       break;
     case kSideToSideIndex:
       currentEffect = std::addressof(sideToSide);
+      break;
+    case kSplitIndex:
+      currentEffect = std::addressof(split);
+      break;
+    case kStickyIndex:
+      currentEffect = std::addressof(sticky);
   }
   currentEffect->SetOption1(paramController.GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController.GetRawParam(Param::kOption2) == 1);
@@ -125,10 +131,8 @@ void InterfaceController::DoStep() {
     beatsSinceLastShift++;
   }
 
-  // Good?
-
   // The shift button was pressed
-  if (setShift == 0 && lastSetShift != 0) {
+  if (setShift != lastSetShift) {
     // The shift will occur on the next beat, or this loop if we just missed it
     uint16_t timeSinceLastShiftSet = effectTime - lastSetShiftTime;
     uint8_t beatsSinceLastShiftSet = timeSinceLastShiftSet / millisPerBeat;
@@ -151,10 +155,12 @@ void InterfaceController::DoStep() {
   }
   lastSetShift = setShift;  // Track button state
 
-  if (beatsSinceLastShift == beatsPerShift / 2 && lastFrameWasBeat) {
+  currentEffect->SetBeatsPerShift(beatsPerShift);
+
+  if (loopShift && beatsSinceLastShift >= beatsPerShift / 2 &&
+      lastFrameWasBeat) {
     currentEffect->Shift(2);
   }
-  // Good
 
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   // This frame is a beat and we're looping, or we set a shift right after a
@@ -167,10 +173,12 @@ void InterfaceController::DoStep() {
     // lastShiftTime = lastBeatTime;
   }
 
+  currentEffect->SetBeatsSinceLastShift(beatsSinceLastShift);
+
   for (auto& pole : poles) {
     pole.ClearGridLights();
   }
-  // Good
+
   uint16_t interval = nextBeatTime - lastBeatTime;
 
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);

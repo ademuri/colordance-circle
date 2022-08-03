@@ -13,9 +13,6 @@ class ControlPoleEffectSmallSquare : public ControlPoleEffect {
  protected:
   void DoSetGrid(Grid<CHSV> &grid_lights, uint8_t shiftIndex) override;
   uint8_t GetShiftsPerLoop() override;
-
- private:
-  uint8_t GetIndex(uint8_t shiftIndex, uint8_t offset);
 };
 
 #endif

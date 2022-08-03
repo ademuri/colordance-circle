@@ -12,7 +12,7 @@ SideToSide::SideToSide() : InterfaceEffect() {
 
 bool SideToSide::ContinuousShift() { return true; }
 
-void SideToSide::DoSetGrid(Poles& poles, uint16_t frame) {
+void SideToSide::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
     Grid<CHSV> const& grid = controlPoles[pole].GetGrid(
@@ -22,7 +22,6 @@ void SideToSide::DoSetGrid(Poles& poles, uint16_t frame) {
       poles[effectivePole].SetGridLights(grid);
     }
   }
-  lastFrame = frame;
 }
 
 /**

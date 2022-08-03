@@ -38,12 +38,14 @@ class ControlPole {
   void SetMode(Mode mode);
   void SetRotation(uint8_t rotation);
   void SetShiftSpeed(Speed speed);
+  void SetShiftOffset(uint8_t offset);
   void SetLightCount(uint8_t lightCount);
   void SetHueShift(uint8_t hueShift);
   void SetHueDistance(uint8_t hueDistance);
   void SetBackAndForth(bool backAndForth);
   void SetSmoothColor(bool smoothColor);
   void SetReverse(bool reverse);
+  void SetGridFade(uint8_t fadeFrames);
   void ResetFade();
   void FadeIn(uint16_t fadeFrames);
   void FadeOut(uint16_t fadeFrames);
@@ -65,6 +67,8 @@ class ControlPole {
 
   Grid<CHSV> grid_lights;
 
+  uint8_t gridFadeFrames = 0;
+
   uint16_t fadeInFrames = 0;
   uint16_t fadeOutFrames = 0;
   uint16_t fadeOutFramesLeft = 0;
@@ -84,6 +88,7 @@ class ControlPole {
   Speed speed = Speed::kDefault;
   bool didFirstHalf = false;
 
+  uint8_t shiftOffset = 0;
   uint8_t lastShiftIndex = 0;
   uint8_t lastEffectiveShiftIndex = 0;
 

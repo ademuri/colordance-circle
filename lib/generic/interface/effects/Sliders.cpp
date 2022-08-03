@@ -15,7 +15,7 @@ Sliders::Sliders()
 
 bool Sliders::ContinuousShift() { return true; }
 
-void Sliders::DoSetGrid(Poles &poles, uint16_t frame) {
+void Sliders::DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) {
   for (auto &pole : this->poles) {
     pole.TurnOffAll();
   }
@@ -24,8 +24,6 @@ void Sliders::DoSetGrid(Poles &poles, uint16_t frame) {
       pole_left->GetGrid(frame, lastFrame, false));
   poles[rightIndex].MultiplyGridLights(
       pole_right->GetGrid(frame, lastFrame, multiply));
-
-  lastFrame = frame;
 }
 
 void Sliders::UpdateOption1() {

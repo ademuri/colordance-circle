@@ -1,13 +1,15 @@
 #pragma once
 
+#include <vector>
+
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
 #include "interface/InterfaceEffect.hpp"
 
-class BackAndForth : public InterfaceEffect {
+class Split : public InterfaceEffect {
  public:
-  BackAndForth();
+  Split();
 
  protected:
   bool ContinuousShift();
@@ -20,26 +22,24 @@ class BackAndForth : public InterfaceEffect {
   void ResetEffect() override;
 
  private:
-  void UpdateHues();
+  void SetHues(uint8_t sat);
   void SetBackAndForth();
   void ResetModes();
 
-  ControlPole controlPoleLeft;
-  ControlPole controlPoleRight;
+  std::vector<ControlPole> controlPoles;
 
-  uint8_t leftIndex = 2;
-  uint8_t rightIndex = 3;
+  bool startOffset = 0;
+  uint8_t loopFrame = 0;
+  uint8_t baseHue = 0;
+  uint8_t maxSat = 127;
 
-  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
+  bool goBackwards = false;
+
+  uint8_t poleOffset = 0;
+
+  Mode modes[2] = {Mode::kCircle, Mode::kSmallSquare};
   uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 3;
-
-  bool goIn = true;
-  bool leftReverse = true;
-  bool rightReverse = false;
-  uint8_t hueDistance = 127;
-  uint8_t hueStart = 0;
-  uint8_t hueVal = 0;
-
+  const uint8_t kNumModes = 2;
+  bool backAndForth = true;
   bool smoothPoleShift = true;
 };

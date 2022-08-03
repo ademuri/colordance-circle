@@ -63,6 +63,8 @@ void ControlPole::SetRotation(uint8_t rotation) {
 
 void ControlPole::SetShiftSpeed(Speed speed) { this->speed = speed; }
 
+void ControlPole::SetShiftOffset(uint8_t offset) { shiftOffset = offset; }
+
 void ControlPole::SetLightCount(uint8_t count) {
   currentEffect->SetLightCount(count);
 }
@@ -86,6 +88,10 @@ void ControlPole::SetReverse(bool reverse) {
     goBackwards = !goBackwards;
   }
   this->reverse = reverse;
+}
+
+void ControlPole::SetGridFade(uint8_t fadeFrames) {
+  gridFadeFrames = fadeFrames;
 }
 
 void ControlPole::ResetFade() {
@@ -129,30 +135,16 @@ Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame, uint16_t lastFrame,
     shiftIndex = shiftsPerLoop - shiftIndex - (backAndForth ? 0 : 1);
   }
 
-  fadeInFramesLeft -=
-      framesSinceLast < fadeInFramesLeft ? framesSinceLast : fadeInFramesLeft;
-  fadeOutFramesLeft -=
-      framesSinceLast < fadeOutFramesLeft ? framesSinceLast : fadeOutFramesLeft;
-
-  // TODO: What is the intent of these casts? They currently do nothing
-  currentEffect->SetBaseVal(
-      fadeInFramesLeft != 0
-          ? (uint16_t)255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames
-          : fadeOutFramesLeft != 0
-                ? (uint16_t)255 * fadeOutFramesLeft / fadeOutFrames
-                : fadeOutFrames != 0 ? 0 : baseVal);
-
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;
   }
-
-  // else if (speed == Speed::kHalf) {
-  //   if (shiftIndex == 0 && lastShiftIndex == shiftsPerLoop - 1) {
+  // else if (speed == Speed::kHalf && shiftsPerLoop % 2 == 0) {
+  //   if (shiftIndex == 0 && lastShiftIndex != 0) {
   //     didFirstHalf = !didFirstHalf;
   //   }
-  //   shiftsPerLoop = shiftsPerLoop/2;
-  //   shiftIndex = shiftIndex/2 + (didFirstHalf ? shiftsPerLoop : 0) *
-  //   (goBackwards ? -1 : 1);
+  //   shiftIndex = shiftIndex/2 + (didFirstHalf ? shiftsPerLoop/2 : 0);
+  //   if (goBackwards) {}
+  // }
 
   // } else if (speed == Speed::kDouble) {
   //   shiftsPerLoop *= 2;
@@ -169,7 +161,30 @@ Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame, uint16_t lastFrame,
 
   lastEffectiveShiftIndex = shiftIndex;
 
+  shiftIndex = (shiftIndex + shiftOffset) % shiftsPerLoop;
+
+  fadeInFramesLeft -=
+      framesSinceLast < fadeInFramesLeft ? framesSinceLast : fadeInFramesLeft;
+  fadeOutFramesLeft -=
+      framesSinceLast < fadeOutFramesLeft ? framesSinceLast : fadeOutFramesLeft;
+  uint8_t val = fadeInFramesLeft != 0
+                    ? 255 * (fadeInFrames - fadeInFramesLeft) / fadeInFrames
+                : fadeOutFramesLeft != 0
+                    ? 255 * fadeOutFramesLeft / fadeOutFrames
+                : fadeOutFrames != 0 ? 0
+                                     : baseVal;
+  currentEffect->SetBaseVal(val);
+
+  uint16_t framesSinceLastShift = frame % framesPerShift;
+  if (framesSinceLastShift < gridFadeFrames) {
+    currentEffect->SetBaseVal(val -
+                              val * framesSinceLastShift / gridFadeFrames);
+    currentEffect->SetGrid(grid_lights,
+                           (shiftsPerLoop - 1 + shiftIndex) % shiftsPerLoop);
+    currentEffect->SetBaseVal(val * framesSinceLastShift / gridFadeFrames);
+  }
   currentEffect->SetGrid(grid_lights, shiftIndex);
+
   return grid_lights;
 }
 

@@ -2,8 +2,6 @@
 
 #include <assert.h>
 
-#include <cstdio>
-
 #ifdef ARDUINO
 // TODO: this is not needed when using certain libraries
 // namespace std {

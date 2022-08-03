@@ -10,12 +10,16 @@
 #include "interface/effects/HuePoles.hpp"
 #include "interface/effects/SideToSide.hpp"
 #include "interface/effects/Sliders.hpp"
+#include "interface/effects/Split.hpp"
+#include "interface/effects/Sticky.hpp"
 
 class InterfaceController : public Effect {
  public:
   InterfaceController(Poles& poles, ParamController& paramController);
 
   // Effect indices
+  static constexpr uint8_t kSplitIndex = 1;
+  static constexpr uint8_t kStickyIndex = 2;
   static constexpr uint8_t kHuePolesIndex = 3;
   static constexpr uint8_t kBackAndForthIndex = 4;
   static constexpr uint8_t kSlidersIndex = 5;
@@ -30,9 +34,11 @@ class InterfaceController : public Effect {
   void ResetBeatQueue();
 
   BackAndForth backAndForth;
-  Sliders sliders;
-  SideToSide sideToSide;
   HuePoles huePoles;
+  SideToSide sideToSide;
+  Sliders sliders;
+  Split split;
+  Sticky sticky;
   InterfaceEffect* currentEffect;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;

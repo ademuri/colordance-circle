@@ -35,8 +35,6 @@ class ControlPoleEffect {
   uint8_t GetHueDistance(uint8_t hueDistance, uint8_t lightIndex,
                          uint8_t minLights);
 
-  uint32_t timerShiftOffset = 0;
-
   uint8_t lastShiftIndex = 0;
   uint16_t lastMillisPerShift = 0;
   uint8_t lastShiftsPerLoop = 0;
