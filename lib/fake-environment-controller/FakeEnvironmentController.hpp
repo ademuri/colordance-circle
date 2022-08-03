@@ -22,7 +22,7 @@ class FakeEnvironmentController : public EnvironmentController {
   }
 
  private:
-  uint16_t battery_millivolts_ = 0;
+  uint16_t battery_millivolts_ = 1300;
   bool test_lights_ = false;
   bool motion_detected_ = false;
 };
