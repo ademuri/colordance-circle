@@ -18,7 +18,8 @@ TeensySdLogger::TeensySdLogger(
   for (n = 0; n < 10000; n++) {
     int ret = snprintf(name, name_size, "colordance_log_%d.csv", n);
     if (ret < 0 || ret >= (int)name_size) {
-      Serial.printf("Error formatting log file name: %d\n", ret);
+      Serial.print("Error formatting log file name: ");
+      Serial.println(ret);
       sd_init_ = false;
       return;
     }
@@ -32,11 +33,13 @@ TeensySdLogger::TeensySdLogger(
     return;
   }
 
-  Serial.printf("Logging to '%s'\n", name);
+  Serial.print("Logging to: ");
+  Serial.println(name);
   log_file_ = SD.open(name, FILE_WRITE);
   if (!log_file_) {
     Serial.println("Error opening log file");
   }
+  sd_flush_timer_.Reset();
 }
 
 void TeensySdLogger::Log(const char* message) {
@@ -44,4 +47,12 @@ void TeensySdLogger::Log(const char* message) {
     return;
   }
   log_file_.println(message);
+
+  // Flush the cache periodically. According to the documentation, the SD
+  // library has a 512-byte buffer, and should flush once that's full, but
+  // experimentally, without this, nothing is ever written to the file.
+  if (sd_flush_timer_.Expired()) {
+    log_file_.flush();
+    sd_flush_timer_.Reset();
+  }
 }

@@ -19,9 +19,8 @@ namespace {
 auto light_controller = ModelLightController();
 TeensyEnvironmentController environment_controller;
 SerialParamController param_controller;
-TeensySdLogger logger{param_controller, environment_controller};
-Runner runner(light_controller.get_poles(), param_controller,
-              environment_controller, logger);
+TeensySdLogger* logger;
+Runner* runner;
 
 uint32_t print_at = 0;
 
@@ -31,6 +30,10 @@ void setup() {
   Serial.begin(115200);
 
   Serial.println("Brain initializing...");
+
+  logger = new TeensySdLogger(param_controller, environment_controller);
+  runner = new Runner(light_controller.get_poles(), param_controller,
+                      environment_controller, *logger);
 
   // See
   // https://forum.pjrc.com/threads/61974-Teensy4-x-Entropy-library-documentation
@@ -46,6 +49,6 @@ void loop() {
   //   Serial.println(millis());
   //   print_at = millis() + 5000;
   // }
-  runner.Step();
+  runner->Step();
   light_controller.WriteOutLights();
 }
