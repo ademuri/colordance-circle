@@ -19,5 +19,5 @@ void TestLightsEffect::DoStep() {
                       CRGB(255, 255, 255));
   }
 
-  PoleEffect::SetPoleEffect(poles, millis());
+  SetPoleEffect(poles, millis());
 }

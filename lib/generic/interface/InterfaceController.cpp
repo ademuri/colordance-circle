@@ -176,7 +176,7 @@ void InterfaceController::DoStep() {
 
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
 
-  PoleEffect::SetPoleEffect(poles, millis());
+  SetPoleEffect(poles, millis());
 
   SleepMs(MILLIS_PER_RUN_LOOP);
 }

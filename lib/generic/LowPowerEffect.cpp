@@ -19,5 +19,5 @@ void LowPowerEffect::DoStep() {
   pole1.SetGridLight(0, 0, rgb);
   pole2.SetGridLight(0, 0, rgb);
 
-  PoleEffect::SetPoleLowerEffect(poles, millis());
+  SetPoleLowerEffect(poles, millis());
 }

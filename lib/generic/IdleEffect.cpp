@@ -18,7 +18,7 @@ void IdleEffect::DoStep() {
   poles[Pole::kNumPoles - 2].SetGridLight(
       3, 0, CHSV(hue + 192, 255, Brightness(angle + 192)));
 
-  PoleEffect::SetPoleEffect(poles, millis());
+  SetPoleEffect(poles, millis());
 }
 
 // static
