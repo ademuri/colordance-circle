@@ -5,7 +5,7 @@
 #include "ColordanceTypes.hpp"
 #include "Grid.hpp"
 
-inline constexpr uint8_t kLightsPerPole = 45;
+constexpr uint8_t kLightsPerPole = 45;
 
 using PoleLights = std::array<CRGB, kLightsPerPole>;
 
