@@ -19,11 +19,13 @@ class LoggerTest : public ::testing::Test {
 };
 
 TEST_F(LoggerTest, Logs) {
+  SetMillis(0);
+  logger.ResetTimerForTest();
   ASSERT_STREQ(logger.PreviousMessage(), "");
   runner.Step();
   AdvanceMillis(kLogIntervalMillis + 100);
   runner.Step();
-  ASSERT_STREQ(logger.PreviousMessage(), "0, 0, 0, 0, 1200, 0\n");
+  EXPECT_STREQ(logger.PreviousMessage(), "        10, 0, 0, 0, 0, 1200, 0");
 
   AdvanceMillis(kLogIntervalMillis + 100);
   param_controller.SetRawParam(Param::kEffect, 2);
@@ -31,10 +33,10 @@ TEST_F(LoggerTest, Logs) {
   param_controller.SetRawParam(Param::kSlider2, 4);
   environment_controller.SetBatteryMillivolts(1210);
   runner.Step();
-  ASSERT_STREQ(logger.PreviousMessage(), "2, 3, 4, 1, 1210, 0\n");
+  EXPECT_STREQ(logger.PreviousMessage(), "        20, 2, 3, 4, 1, 1210, 0");
 
   AdvanceMillis(kLogIntervalMillis + 100);
   environment_controller.SetMotionDetected(true);
   runner.Step();
-  ASSERT_STREQ(logger.PreviousMessage(), "2, 3, 4, 0, 1210, 1\n");
+  EXPECT_STREQ(logger.PreviousMessage(), "        30, 2, 3, 4, 0, 1210, 1");
 }

@@ -23,11 +23,11 @@ class Logger {
   // Writes out the log message.
   virtual void Log(const char* message) { UNUSED(message); }
 
+  Timer log_timer_{kLogIntervalMillis};
+
  private:
   const ParamController& param_controller_;
   const EnvironmentController& environment_controller_;
-
-  Timer log_timer_{kLogIntervalMillis};
 
   bool motion_detected_ = false;
   bool param_changed_ = false;

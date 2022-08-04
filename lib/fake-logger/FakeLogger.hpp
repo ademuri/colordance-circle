@@ -10,6 +10,8 @@ class FakeLogger : public Logger {
 
   const char* PreviousMessage() const { return prev_message_; }
 
+  void ResetTimerForTest() { log_timer_.Reset(); }
+
  protected:
   void Log(const char* message) override {
     strncpy(prev_message_, message, kLogLineBytes);
