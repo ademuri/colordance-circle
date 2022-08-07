@@ -29,8 +29,6 @@ class EffectsTest : public PolesTest {
   void SetUp() override { SetMillis(0); }
 
   void RunPowerTest(Effect& effect, std::string_view effect_name);
-
-  void RunTogglingOption1();
 };
 
 void EffectsTest::RunPowerTest(Effect& effect, std::string_view effect_name) {
@@ -85,17 +83,6 @@ void EffectsTest::RunPowerTest(Effect& effect, std::string_view effect_name) {
   // Clear all lights
   for (Pole& pole : poles) {
     pole.ClearGridLights();
-  }
-}
-
-void EffectsTest::RunTogglingOption1() {
-  for (int i = 0; i < 10; i++) {
-    AdvanceMillis(10);
-    param_controller.SetRawParam(Param::kOption1, 1);
-    controller.Step();
-    AdvanceMillis(10);
-    param_controller.SetRawParam(Param::kOption1, 0);
-    controller.Step();
   }
 }
 
@@ -282,7 +269,92 @@ TEST_F(EffectsTest, StableWhenTogglingOption1) {
     SCOPED_TRACE(message.str());
 
     param_controller.SetRawParam(Param::kEffect, effect_index);
-    RunTogglingOption1();
+    for (int i = 0; i < 10; i++) {
+      AdvanceMillis(10);
+      param_controller.SetRawParam(Param::kOption1, 1);
+      controller.Step();
+      AdvanceMillis(10);
+      param_controller.SetRawParam(Param::kOption1, 0);
+      controller.Step();
+    }
+  }
+}
+
+TEST_F(EffectsTest, EffectsPause) {
+  for (uint8_t effect_index : kEffects) {
+    std::ostringstream message;
+    message << "effect: " << effect_index;
+    SCOPED_TRACE(message.str());
+
+    param_controller.SetRawParam(Param::kEffect, effect_index);
+    controller.Step();
+    AdvanceMillis(10);
+    controller.Step();
+
+    Poles old_poles = poles;
+    param_controller.SetRawParam(Param::kPause, 1);
+    AdvanceMillis(10);
+    controller.Step();
+
+    for (uint32_t n = 0; n < 10 * 100; n++) {
+      for (uint8_t pole_index = 0; pole_index < Pole::kNumPoles; pole_index++) {
+        for (uint8_t y = 0; y < gridHeight; y++) {
+          for (uint8_t x = 0; x < gridWidth; x++) {
+            EXPECT_EQ(poles[pole_index].get_grid_lights()[y][x],
+                      old_poles[pole_index].get_grid_lights()[y][x]
+
+                      )
+                << "pole: " << std::to_string(pole_index) << ", light: ("
+                << std::to_string(x) << ", " << std::to_string(y)
+                << "), millis: " << millis();
+          }
+        }
+      }
+      AdvanceMillis(10);
+      controller.Step();
+    }
+  }
+}
+
+TEST_F(EffectsTest, BeatButton) {
+  for (uint8_t effect_index : kEffects) {
+    std::ostringstream message;
+    message << "effect: " << effect_index;
+    SCOPED_TRACE(message.str());
+
+    param_controller.SetRawParam(Param::kEffect, effect_index);
+    controller.Step();
+    AdvanceMillis(10);
+    controller.Step();
+
+    uint32_t beat_counter = 0;
+    for (uint32_t n = 0; n < 30 * 100; n++) {
+      param_controller.SetRawParam(Param::kBeat, beat_counter == 0);
+      beat_counter = (beat_counter + 1) % 10;
+      AdvanceMillis(10);
+      controller.Step();
+    }
+  }
+}
+
+TEST_F(EffectsTest, ShiftButton) {
+  for (uint8_t effect_index : kEffects) {
+    std::ostringstream message;
+    message << "effect: " << effect_index;
+    SCOPED_TRACE(message.str());
+
+    param_controller.SetRawParam(Param::kEffect, effect_index);
+    controller.Step();
+    AdvanceMillis(10);
+    controller.Step();
+
+    uint32_t beat_counter = 0;
+    for (uint32_t n = 0; n < 30 * 100; n++) {
+      param_controller.SetRawParam(Param::kShift, beat_counter == 0);
+      beat_counter = (beat_counter + 1) % 10;
+      AdvanceMillis(10);
+      controller.Step();
+    }
   }
 }
 
