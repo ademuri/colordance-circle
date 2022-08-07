@@ -25,8 +25,7 @@ void BackAndForth::DoSetGrid(Poles& poles, uint16_t frame) {
 }
 
 void BackAndForth::UpdateOption1() {
-  modeIndex++;
-  modeIndex %= sizeof(modes);
+  modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
   controlPoleLeft.SetMode(modes[modeIndex]);
   controlPoleRight.SetMode(modes[modeIndex]);
   ResetModes();

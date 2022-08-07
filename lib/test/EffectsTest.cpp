@@ -28,61 +28,76 @@ class EffectsTest : public PolesTest {
 
   void SetUp() override { SetMillis(0); }
 
-  void RunPowerTest(Effect& effect, std::string_view effect_name) {
-    constexpr uint32_t kStepMs = 10;
-    constexpr uint32_t kRunCycles = 2 * 60 * 1000 / kStepMs;
+  void RunPowerTest(Effect& effect, std::string_view effect_name);
 
-    // Approximate power consumption, in watts (not yet verified with hardware)
-    constexpr float kRedPower = 2.0;
-    constexpr float kGreenPower = 2.7;
-    constexpr float kBluePower = 2.7;
-
-    float max_power = 0;
-    float max_pole_power = 0;
-    float power_sum = 0;
-    for (uint32_t cycle = 0; cycle < kRunCycles; cycle++) {
-      AdvanceMillis(kStepMs);
-      effect.Step();
-
-      float instantaneous_power = 0;
-      for (Pole& pole : poles) {
-        float instantaneous_pole_power = 0;
-        auto& grid_lights = pole.get_grid_lights();
-        for (uint row = 0; row < grid_lights.size(); row++) {
-          for (uint col = 0; col < grid_lights[row].size(); col++) {
-            CRGB rgb = grid_lights[row][col];
-            float light_power =
-                (rgb.r * kRedPower + rgb.g * kGreenPower + rgb.b * kBluePower) /
-                255;
-            power_sum += light_power;
-            instantaneous_power += light_power;
-            instantaneous_pole_power += light_power;
-          }
-        }
-        max_pole_power = std::max(max_pole_power, instantaneous_pole_power);
-      }
-      max_power = std::max(instantaneous_power, max_power);
-    }
-
-    float average_power = power_sum / kRunCycles;
-    std::cout << "Power report for " << effect_name << ":\n";
-    printf("  Average power:    %5.1f W\n", average_power);
-    printf("  Peak power:       %5.1f W\n", max_power);
-    printf("  Peak pole power:  %5.1f W\n\n", max_pole_power);
-
-    // 4A average power limit
-    EXPECT_LT(average_power, 48.0) << effect_name;
-    // 6A max peak power
-    EXPECT_LT(max_power, 72.0) << effect_name;
-    // 3A max per pole
-    EXPECT_LT(max_pole_power, 36.0) << effect_name;
-
-    // Clear all lights
-    for (Pole& pole : poles) {
-      pole.ClearGridLights();
-    }
-  }
+  void RunTogglingOption1();
 };
+
+void EffectsTest::RunPowerTest(Effect& effect, std::string_view effect_name) {
+  constexpr uint32_t kStepMs = 10;
+  constexpr uint32_t kRunCycles = 2 * 60 * 1000 / kStepMs;
+
+  // Approximate power consumption, in watts (not yet verified with hardware)
+  constexpr float kRedPower = 2.0;
+  constexpr float kGreenPower = 2.7;
+  constexpr float kBluePower = 2.7;
+
+  float max_power = 0;
+  float max_pole_power = 0;
+  float power_sum = 0;
+  for (uint32_t cycle = 0; cycle < kRunCycles; cycle++) {
+    AdvanceMillis(kStepMs);
+    effect.Step();
+
+    float instantaneous_power = 0;
+    for (Pole& pole : poles) {
+      float instantaneous_pole_power = 0;
+      auto& grid_lights = pole.get_grid_lights();
+      for (uint row = 0; row < grid_lights.size(); row++) {
+        for (uint col = 0; col < grid_lights[row].size(); col++) {
+          CRGB rgb = grid_lights[row][col];
+          float light_power =
+              (rgb.r * kRedPower + rgb.g * kGreenPower + rgb.b * kBluePower) /
+              255;
+          power_sum += light_power;
+          instantaneous_power += light_power;
+          instantaneous_pole_power += light_power;
+        }
+      }
+      max_pole_power = std::max(max_pole_power, instantaneous_pole_power);
+    }
+    max_power = std::max(instantaneous_power, max_power);
+  }
+
+  float average_power = power_sum / kRunCycles;
+  std::cout << "Power report for " << effect_name << ":\n";
+  printf("  Average power:    %5.1f W\n", average_power);
+  printf("  Peak power:       %5.1f W\n", max_power);
+  printf("  Peak pole power:  %5.1f W\n\n", max_pole_power);
+
+  // 4A average power limit
+  EXPECT_LT(average_power, 48.0) << effect_name;
+  // 6A max peak power
+  EXPECT_LT(max_power, 72.0) << effect_name;
+  // 3A max per pole
+  EXPECT_LT(max_pole_power, 36.0) << effect_name;
+
+  // Clear all lights
+  for (Pole& pole : poles) {
+    pole.ClearGridLights();
+  }
+}
+
+void EffectsTest::RunTogglingOption1() {
+  for (int i = 0; i < 10; i++) {
+    AdvanceMillis(10);
+    param_controller.SetRawParam(Param::kOption1, 1);
+    controller.Step();
+    AdvanceMillis(10);
+    param_controller.SetRawParam(Param::kOption1, 0);
+    controller.Step();
+  }
+}
 
 TEST_F(EffectsTest, power_consumption) {
   for (uint8_t effect_index = 0; effect_index < effect_names.size();
@@ -259,6 +274,17 @@ const std::vector<uint8_t> kEffects = {InterfaceController::kHuePolesIndex,
                                        InterfaceController::kSideToSideIndex};
 const std::vector<uint8_t> kOptions = {0, 1};
 const std::vector<uint8_t> kSliders = {0, 1, 64, 128, 192, 254, 255};
+
+TEST_F(EffectsTest, StableWhenTogglingOption1) {
+  for (uint8_t effect_index : kEffects) {
+    std::ostringstream message;
+    message << "effect: " << effect_index;
+    SCOPED_TRACE(message.str());
+
+    param_controller.SetRawParam(Param::kEffect, effect_index);
+    RunTogglingOption1();
+  }
+}
 
 TEST_P(ParamTest, StableForAllParams) {
   uint32_t time = 0;

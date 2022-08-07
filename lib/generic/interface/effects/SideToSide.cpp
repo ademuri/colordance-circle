@@ -29,8 +29,7 @@ void SideToSide::DoSetGrid(Poles& poles, uint16_t frame) {
  * Change the mode (grid animation).
  */
 void SideToSide::UpdateOption1() {
-  modeIndex++;
-  modeIndex %= sizeof(modes);
+  modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i].SetMode(modes[modeIndex]);
   }
