@@ -10,7 +10,7 @@ class BackAndForth : public InterfaceEffect {
   BackAndForth();
 
  protected:
-  bool ContinuousShift();
+  bool ContinuousShift() override;
   void DoSetGrid(Poles& poles, uint16_t frame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
