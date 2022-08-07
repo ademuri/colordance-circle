@@ -5,7 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS Off)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-fetch-content)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake-fetch-content)
+
+include(CodeCoverage)
 
 # Generate the file needed for YCM integration
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
@@ -30,6 +33,7 @@ set( SANITIZER_FLAGS "-fsanitize=address -fsanitize=undefined")
 # Set appropriate warning levels and include debug symbols.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g ${SANITIZER_FLAGS}")
 set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} ${SANITIZER_FLAGS}")
+append_coverage_compiler_flags()
 
 file(GLOB LIBRARY_SOURCES
     "lib/fake-environment-controller/*.cpp"
@@ -77,3 +81,9 @@ target_link_libraries(generictest
   gtest)
 
 add_test(generictest generictest)
+
+setup_target_for_coverage_gcovr_html(
+          NAME coverage
+          EXECUTABLE generictest -j ${PROCESSOR_COUNT}
+          BASE_DIRECTORY "${PROJECT_SOURCE_DIR}"
+          EXCLUDE "build/*" "lib/test/*" "lib/fake-environment-controller/*" "lib/fake-logger/*" "lib/fake-param-controller/*" "lib/stdin-param-controller/*")
