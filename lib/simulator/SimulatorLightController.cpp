@@ -18,7 +18,7 @@ void SimulatorLightController::WriteOutLights() {
 
     for (std::size_t n = 0; n < gridWidth * gridHeight; n++) {
       leds[pole_number * kLedsPerOutput + n] =
-          grid_lights[n / gridHeight][n % gridWidth];
+          Pole::ClampCRGBForDisplay(grid_lights[n / gridHeight][n % gridWidth]);
     }
 
     auto& pole_lights = poles[pole_number].get_pole_lights();

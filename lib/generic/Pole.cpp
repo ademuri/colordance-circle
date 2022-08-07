@@ -95,3 +95,12 @@ void Pole::ClearPoleLights() {
     light = CRGB(0, 0, 0);
   }
 }
+
+// static
+CRGB Pole::ClampCRGBForDisplay(CRGB value) {
+  CRGB ret;
+  ret.r = value.r < kMinBrightness ? 0 : value.r;
+  ret.g = value.g < kMinBrightness ? 0 : value.g;
+  ret.b = value.b < kMinBrightness ? 0 : value.b;
+  return ret;
+}

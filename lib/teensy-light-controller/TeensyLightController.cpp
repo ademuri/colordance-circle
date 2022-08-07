@@ -25,25 +25,41 @@ void TeensyLightController::WriteOutLights() {
     auto& grid_lights = poles[pole_number].get_grid_lights();
     int pole_index = kPoleGridIndexes[pole_number];
 
-    leds[pole_index * kLedsPerOutput + 6] = grid_lights[0][0];
-    leds[pole_index * kLedsPerOutput + 7] = grid_lights[0][1];
-    leds[pole_index * kLedsPerOutput + 9] = grid_lights[0][2];
-    leds[pole_index * kLedsPerOutput + 10] = grid_lights[0][3];
+    leds[pole_index * kLedsPerOutput + 6] =
+        Pole::ClampCRGBForDisplay(grid_lights[0][0]);
+    leds[pole_index * kLedsPerOutput + 7] =
+        Pole::ClampCRGBForDisplay(grid_lights[0][1]);
+    leds[pole_index * kLedsPerOutput + 9] =
+        Pole::ClampCRGBForDisplay(grid_lights[0][2]);
+    leds[pole_index * kLedsPerOutput + 10] =
+        Pole::ClampCRGBForDisplay(grid_lights[0][3]);
 
-    leds[pole_index * kLedsPerOutput + 5] = grid_lights[1][0];
-    leds[pole_index * kLedsPerOutput + 4] = grid_lights[1][1];
-    leds[pole_index * kLedsPerOutput + 8] = grid_lights[1][2];
-    leds[pole_index * kLedsPerOutput + 11] = grid_lights[1][3];
+    leds[pole_index * kLedsPerOutput + 5] =
+        Pole::ClampCRGBForDisplay(grid_lights[1][0]);
+    leds[pole_index * kLedsPerOutput + 4] =
+        Pole::ClampCRGBForDisplay(grid_lights[1][1]);
+    leds[pole_index * kLedsPerOutput + 8] =
+        Pole::ClampCRGBForDisplay(grid_lights[1][2]);
+    leds[pole_index * kLedsPerOutput + 11] =
+        Pole::ClampCRGBForDisplay(grid_lights[1][3]);
 
-    leds[pole_index * kLedsPerOutput + 3] = grid_lights[2][0];
-    leds[pole_index * kLedsPerOutput + 0] = grid_lights[2][1];
-    leds[pole_index * kLedsPerOutput + 12] = grid_lights[2][2];
-    leds[pole_index * kLedsPerOutput + 13] = grid_lights[2][3];
+    leds[pole_index * kLedsPerOutput + 3] =
+        Pole::ClampCRGBForDisplay(grid_lights[2][0]);
+    leds[pole_index * kLedsPerOutput + 0] =
+        Pole::ClampCRGBForDisplay(grid_lights[2][1]);
+    leds[pole_index * kLedsPerOutput + 12] =
+        Pole::ClampCRGBForDisplay(grid_lights[2][2]);
+    leds[pole_index * kLedsPerOutput + 13] =
+        Pole::ClampCRGBForDisplay(grid_lights[2][3]);
 
-    leds[pole_index * kLedsPerOutput + 2] = grid_lights[3][0];
-    leds[pole_index * kLedsPerOutput + 1] = grid_lights[3][1];
-    leds[pole_index * kLedsPerOutput + 15] = grid_lights[3][2];
-    leds[pole_index * kLedsPerOutput + 14] = grid_lights[3][3];
+    leds[pole_index * kLedsPerOutput + 2] =
+        Pole::ClampCRGBForDisplay(grid_lights[3][0]);
+    leds[pole_index * kLedsPerOutput + 1] =
+        Pole::ClampCRGBForDisplay(grid_lights[3][1]);
+    leds[pole_index * kLedsPerOutput + 15] =
+        Pole::ClampCRGBForDisplay(grid_lights[3][2]);
+    leds[pole_index * kLedsPerOutput + 14] =
+        Pole::ClampCRGBForDisplay(grid_lights[3][3]);
   }
   FastLED.show();
 }
