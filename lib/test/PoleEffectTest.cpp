@@ -60,11 +60,16 @@ TEST_F(PoleEffectTest, LowerEffectIsLowerPower) {
 
   CRGB regular_first(regular_poles[0].get_pole_lights()[0]);
   CRGB low_power_first(low_power_poles[0].get_pole_lights()[0]);
+  CRGB low_power_lower(
+      low_power_poles[0].get_pole_lights()[kLightsPerPole * 0.25]);
 
   EXPECT_EQ(regular_first.r, 255);
-  EXPECT_EQ(low_power_first.r, 65);
+  EXPECT_EQ(low_power_first.r, 0);
+  EXPECT_EQ(low_power_lower.r, 5);
   EXPECT_EQ(regular_first.g, 143);
-  EXPECT_EQ(low_power_first.g, 37);
+  EXPECT_EQ(low_power_first.g, 0);
+  EXPECT_EQ(low_power_lower.g, 4);
   EXPECT_EQ(regular_first.b, 143);
-  EXPECT_EQ(low_power_first.b, 37);
+  EXPECT_EQ(low_power_first.b, 0);
+  EXPECT_EQ(low_power_lower.b, 6);
 }

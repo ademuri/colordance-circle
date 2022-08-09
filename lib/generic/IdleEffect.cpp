@@ -1,4 +1,5 @@
 #include "IdleEffect.hpp"
+
 #include "PoleEffect.hpp"
 
 IdleEffect::IdleEffect(Poles& poles, ParamController& paramController)

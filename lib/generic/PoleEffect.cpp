@@ -2,9 +2,7 @@
 
 #include <FastLED.h>
 
-namespace {
-
-CHSV GetColor(uint8_t n, long timeMs) {
+static CHSV GetColor(uint8_t n, long timeMs) {
   // How slowly each wave should propagate across the pole. The units are
   // somewhat arbitrary so these may be considered magic numbers.
   uint16_t hue_speed = -300;
@@ -43,16 +41,11 @@ void SetPoleLowerEffect(Poles& poles, long timeMs) {
 
     for (uint8_t i = 0; i < kLightsPerPole; ++i) {
       CHSV color = GetColor(i, timeMs);
-      // Linear falloff as we approach the bottom of the pole.
+      // Linear falloff as we approach the top of the pole.
       uint16_t light_pos = ((uint16_t)i * 255) / kLightsPerPole;
       color.v = (color.v * light_pos) / 255;
 
-      // Map from [0, 256) to [0, 128) to make things a little darker.
-      color.v /= 2;
-      
       pole.SetPoleLight(i, color);
     }
   }
 }
-
-} // namespace

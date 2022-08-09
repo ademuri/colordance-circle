@@ -1,4 +1,5 @@
 #include "LowPowerEffect.hpp"
+
 #include "PoleEffect.hpp"
 
 LowPowerEffect::LowPowerEffect(Poles& poles, ParamController& paramController)
