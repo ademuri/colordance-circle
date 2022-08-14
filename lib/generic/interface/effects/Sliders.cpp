@@ -13,8 +13,6 @@ Sliders::Sliders()
   ResetModes();
 }
 
-bool Sliders::ContinuousShift() { return true; }
-
 void Sliders::DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) {
   for (auto &pole : this->poles) {
     pole.TurnOffAll();
@@ -52,19 +50,21 @@ void Sliders::UpdateSlider1(uint8_t val) { leftIndex = (255 - val) / 43; }
 
 void Sliders::UpdateSlider2(uint8_t val) { rightIndex = (255 - val) / 43; }
 
-void Sliders::DoShift(uint8_t shiftPosition) {
-  if (shiftPosition == 0) {
-    if (leftIndex == rightIndex) {
-      uint8_t hueLeftOld = hueLeft;
-      hueLeft = hueRight;
-      hueRight = hueLeftOld;
-      pole_left->SetHue(hueLeft);
-      pole_right->SetHue(hueRight);
-    } else {
-      std::swap(pole_left, pole_right);
-    }
+void Sliders::DoManualShift(bool didManual) {
+  if (leftIndex == rightIndex) {
+    uint8_t hueLeftOld = hueLeft;
+    hueLeft = hueRight;
+    hueRight = hueLeftOld;
+    pole_left->SetHue(hueLeft);
+    pole_right->SetHue(hueRight);
+  } else {
+    std::swap(pole_left, pole_right);
   }
 }
+
+void Sliders::DoAutomaticShift(bool didManual) { return; }
+
+void Sliders::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
 
 void Sliders::ResetModes() {
   pole_left->SetHue(hueLeft);
@@ -81,4 +81,4 @@ void Sliders::ResetModes() {
   }
 }
 
-void Sliders::ResetEffect() { ResetModes(); }
+void Sliders::InitializeEffect() { ResetModes(); }

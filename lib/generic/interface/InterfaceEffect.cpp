@@ -4,8 +4,6 @@
 
 InterfaceEffect::InterfaceEffect() {}
 
-bool InterfaceEffect::GetContinuousShift() { return ContinuousShift(); }
-
 void InterfaceEffect::SetOption1(bool pressed) {
   if (option1WasPressed && !pressed) {
     UpdateOption1();
@@ -26,11 +24,21 @@ void InterfaceEffect::SetSlider2(uint8_t val) { UpdateSlider2(val); }
 
 void InterfaceEffect::SetBeatsPerShift(uint8_t beats) { beatsPerShift = beats; }
 
-void InterfaceEffect::SetBeatsSinceLastShift(uint8_t beats) {
-  beatsSinceLastShift = beats;
+void InterfaceEffect::SetBeatsSinceAutoShift(uint8_t beats) {
+  beatsSinceAutoShift = beats;
 }
 
-void InterfaceEffect::Shift(uint8_t shiftPosition) { DoShift(shiftPosition); }
+void InterfaceEffect::AutomaticShift(bool didManual) {
+  DoAutomaticShift(didManual);
+}
+
+void InterfaceEffect::AutomaticPartialShift(uint8_t shiftFraction) {
+  DoAutomaticPartialShift(shiftFraction);
+}
+
+void InterfaceEffect::ManualShift(bool didAutomatic) {
+  DoManualShift(didAutomatic);
+}
 
 void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
                               uint16_t millisPerBeat) {
@@ -46,4 +54,4 @@ void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
   lastTimeSinceLastBeat = timeSinceLastBeat;
 }
 
-void InterfaceEffect::Reset() { ResetEffect(); }
+void InterfaceEffect::Reset() { InitializeEffect(); }

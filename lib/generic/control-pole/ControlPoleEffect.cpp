@@ -22,8 +22,6 @@ void ControlPoleEffect::SetBaseVal(uint8_t val) { baseVal = val; }
 
 void ControlPoleEffect::SetLightCount(uint8_t count) { lightCount = count; }
 
-void ControlPoleEffect::SetSpeed(uint8_t speed) { this->speed = speed; }
-
 void ControlPoleEffect::SetHueDistance(uint8_t distance) {
   hueDistance = distance;
 }

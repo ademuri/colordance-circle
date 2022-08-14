@@ -8,31 +8,32 @@ class InterfaceEffect {
  public:
   InterfaceEffect();
 
-  bool GetContinuousShift();
-
   void SetOption1(bool pressed);
   void SetOption2(bool pressed);
   void SetSlider1(uint8_t val);
   void SetSlider2(uint8_t val);
 
   void SetBeatsPerShift(uint8_t beats);
-  void SetBeatsSinceLastShift(uint8_t beats);
+  void SetBeatsSinceAutoShift(uint8_t beats);
 
-  void Shift(uint8_t shiftPosition);
+  void AutomaticShift(bool didManual);
+  void AutomaticPartialShift(uint8_t shiftFraction);
+  void ManualShift(bool didAutomatic);
   void SetGrid(Poles &poles, uint16_t timeSinceLastBeat,
                uint16_t millisPerBeat);
 
   void Reset();
 
  protected:
-  virtual bool ContinuousShift() = 0;
   virtual void DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;
   virtual void UpdateSlider2(uint8_t val) = 0;
-  virtual void DoShift(uint8_t shiftPosition) = 0;
-  virtual void ResetEffect(){};
+  virtual void DoAutomaticShift(bool didManual) = 0;
+  virtual void DoAutomaticPartialShift(uint8_t shiftFraction) = 0;
+  virtual void DoManualShift(bool didAutomatic) = 0;
+  virtual void InitializeEffect(){};
 
   const uint16_t FRAMES_PER_LOOP = 840;
 
@@ -40,7 +41,7 @@ class InterfaceEffect {
   bool option2WasPressed = false;
 
   uint8_t beatsPerShift = 0;
-  uint8_t beatsSinceLastShift = 0;
+  uint8_t beatsSinceAutoShift = 0;
 
   uint32_t lastTimeSinceLastBeat = 0;
 

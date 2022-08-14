@@ -29,8 +29,9 @@ class InterfaceController : public Effect {
   void DoStep() override;
 
  private:
-  uint32_t GetUpdatedBeat(uint16_t timeSinceLastBeat);
+  uint16_t GetUpdatedBeat(uint16_t timeSinceLastBeat);
   uint16_t GetBeatsOverTime(uint32_t elapsedTime, uint16_t interval);
+  bool HandleShiftButton(uint8_t beatsSinceLastSet);
   void ResetBeatQueue();
 
   BackAndForth backAndForth;
@@ -43,6 +44,8 @@ class InterfaceController : public Effect {
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;
   const uint16_t FRAMES_PER_LOOP = 840;
+
+  uint32_t lastEffectTime = 0;
 
   // Used to track button presses
   uint8_t lastSetBeat = 0;
@@ -67,9 +70,10 @@ class InterfaceController : public Effect {
 
   // Shift
   const uint8_t DEFAULT_BEATS_PER_SHIFT = 4;
-  const uint8_t MAX_BEATS_PER_SHIFT = 16;
+  const uint8_t MAX_BEATS_PER_SHIFT = 8;
   bool doShiftOnNextBeat = false;
-  uint8_t beatsSinceLastShift = 0;
+  uint8_t beatsSinceAutoShift = 0;
+  uint8_t beatsSinceManualShift = 0;
   uint16_t beatsPerShift = 4;
   uint32_t lastSetShiftTime = 0;
   uint32_t lastShiftTime = 0;

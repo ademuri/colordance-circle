@@ -14,7 +14,6 @@ class ControlPoleEffect {
   void SetBaseVal(uint8_t val);
 
   void SetLightCount(uint8_t lightCount);
-  void SetSpeed(uint8_t speed);
   void SetHueDistance(uint8_t hueDistance);
 
   virtual uint8_t GetRotations() = 0;
@@ -35,10 +34,6 @@ class ControlPoleEffect {
   uint8_t GetHueDistance(uint8_t hueDistance, uint8_t lightIndex,
                          uint8_t minLights);
 
-  uint8_t lastShiftIndex = 0;
-  uint16_t lastMillisPerShift = 0;
-  uint8_t lastShiftsPerLoop = 0;
-
   uint8_t baseSat = 255;
   uint8_t baseVal = 255;
 
@@ -46,7 +41,6 @@ class ControlPoleEffect {
 
   uint8_t lightCount = 4;
 
-  uint8_t speed = 4;
   uint8_t hueDistance = 10;
   bool backAndForth = false;
   bool smoothColor = true;

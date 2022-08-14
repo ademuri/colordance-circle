@@ -18,7 +18,12 @@ ControlPole::ControlPole(uint16_t framesPerLoop)
 
 void ControlPole::SetHue(uint8_t hue) { baseHue = hue; }
 
-void ControlPole::SetSat(uint8_t sat) { currentEffect->SetBaseSat(sat); }
+void ControlPole::IncrementHue(uint8_t hue) { baseHue += hue; }
+
+void ControlPole::SetSat(uint8_t sat) {
+  currentEffect->SetBaseSat(sat);
+  baseSat = sat;
+}
 
 void ControlPole::SetVal(uint8_t val) {
   currentEffect->SetBaseVal(val);
@@ -54,6 +59,10 @@ void ControlPole::SetMode(Mode mode) {
     default:
       currentEffect = std::addressof(effectLine);
   }
+  currentEffect->SetLightCount(lightCount);
+  currentEffect->SetHueDistance(hueDistance);
+  currentEffect->SetBaseSat(baseSat);
+  currentEffect->SetBaseVal(baseVal);
   lastMode = mode;
 }
 
@@ -67,12 +76,14 @@ void ControlPole::SetShiftOffset(uint8_t offset) { shiftOffset = offset; }
 
 void ControlPole::SetLightCount(uint8_t count) {
   currentEffect->SetLightCount(count);
+  lightCount = count;
 }
 
 void ControlPole::SetHueShift(uint8_t shift) { hueShift = shift; }
 
 void ControlPole::SetHueDistance(uint8_t distance) {
   currentEffect->SetHueDistance(distance);
+  hueDistance = distance;
 }
 
 void ControlPole::SetBackAndForth(bool backAndForth) {
@@ -175,14 +186,14 @@ Grid<CHSV> const& ControlPole::GetGrid(uint16_t frame, uint16_t lastFrame,
                                      : baseVal;
   currentEffect->SetBaseVal(val);
 
-  uint16_t framesSinceLastShift = frame % framesPerShift;
-  if (framesSinceLastShift < gridFadeFrames) {
-    currentEffect->SetBaseVal(val -
-                              val * framesSinceLastShift / gridFadeFrames);
-    currentEffect->SetGrid(grid_lights,
-                           (shiftsPerLoop - 1 + shiftIndex) % shiftsPerLoop);
-    currentEffect->SetBaseVal(val * framesSinceLastShift / gridFadeFrames);
-  }
+  // uint16_t framesSinceLastShift = frame % framesPerShift;
+  // if (framesSinceLastShift < gridFadeFrames) {
+  //   currentEffect->SetBaseVal(val -
+  //                             val * framesSinceLastShift / gridFadeFrames);
+  //   currentEffect->SetGrid(grid_lights,
+  //                          (shiftsPerLoop - 1 + shiftIndex) % shiftsPerLoop);
+  //   currentEffect->SetBaseVal(val * framesSinceLastShift / gridFadeFrames);
+  // }
   currentEffect->SetGrid(grid_lights, shiftIndex);
 
   return grid_lights;

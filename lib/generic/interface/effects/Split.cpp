@@ -1,117 +1,112 @@
 #include "Split.hpp"
 
-#include <iostream>
-
 #include "ColordanceTypes.hpp"
 
 Split::Split() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 2; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
   }
-  ResetEffect();
+  InitializeEffect();
 }
 
-bool Split::ContinuousShift() { return true; }
-
-/**
- * 0: 0 1 2 3 -> 2
- * 1: 0 1 -> 1 : 2 3 -> 4
- * 2: 0 -> 0 : 1 -> 2 : 2 -> 3 : 3 -> 5
- */
 void Split::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
-  /* 0: 0 -> 127, 1: 127 -> 256, 2: 256 -> 127, 3: 127 -> 0 */
-  uint8_t sat = 127 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
-                127 * beatsSinceLastShift / beatsPerShift;
-  if (loopFrame > 1) {
-    sat = 127 - sat;
-  }
-  if (loopFrame == 1 || loopFrame == 2) {
-    sat += 128;
-  }
-  SetHues(sat);
-
   for (ControlPole& pole : controlPoles) {
     pole.TurnOffAll();
   }
 
-  for (int controlPole = 0; controlPole < 4; controlPole++) {
-    Grid<CHSV> const& grid = controlPoles[controlPole].GetGrid(
-        frame, lastFrame, true);  // Update all grids
-    uint8_t pole = 2 + startOffset;
-    if (loopFrame == 1 || loopFrame == 3) {
-      pole = controlPole < 2 ? 1 : 4;
-    } else if (loopFrame == 2) {
-      pole = controlPole == 0 ? 0 : controlPole == 3 ? 5 : controlPole + 1;
+  bool flipHue = false;
+  if (lastFrame > frame) {
+    increaseSat = !increaseSat;
+    if (increaseSat) {
+      flipHue = true;
     }
-    poles[pole].MultiplyGridLights(grid);
+  }
+
+  if (white) {
+    UpdateWhite(frame, flipHue);
+  } else {
+    UpdateColor(frame);
+  }
+
+  poles[leftPole].SetGridLights(
+      controlPoles[0].GetGrid(frame, lastFrame, true));
+  poles[5 - leftPole].SetGridLights(
+      controlPoles[1].GetGrid(frame, lastFrame, true));
+}
+
+void Split::UpdateWhite(uint16_t frame, bool flipHue) {
+  uint8_t sat = 255 * frame / FRAMES_PER_LOOP;
+  if (!increaseSat) {
+    sat = 255 - sat;
+  }
+  uint8_t val = (sat * (255 - kValAtSat0) / 255) + kValAtSat0;
+  for (ControlPole& pole : controlPoles) {
+    if (flipHue) {
+      pole.IncrementHue(127);
+    }
+    pole.SetHueDistance(0);
+    pole.SetSat(sat);
+    pole.SetVal(val);
+  }
+}
+
+void Split::UpdateColor(uint16_t frame) {
+  uint8_t hueDistance = (255 * frame / FRAMES_PER_LOOP) / 4;
+  if (increaseSat) {
+    hueDistance = 255 / 4 - hueDistance;
+  }
+  for (ControlPole& pole : controlPoles) {
+    pole.SetHueDistance(hueDistance);
+    pole.SetSat(255);
+    pole.SetVal(255);
   }
 }
 
 /**
  * Change the mode (grid animation).
  */
-void Split::UpdateOption1() {
-  modeIndex++;
-  modeIndex %= kNumModes;
-  for (ControlPole& pole : controlPoles) {
-    pole.SetMode(modes[modeIndex]);
-  }
-  ResetModes();
-}
+void Split::UpdateOption1() { white = !white; }
 
 void Split::UpdateOption2() {}
 
 /**
  * Change the Hue
  */
-void Split::UpdateSlider1(uint8_t val) { baseHue = val; }
+void Split::UpdateSlider1(uint8_t val) {}
 
-void Split::SetHues(uint8_t sat) {
-  uint8_t distance = sat / 8;
-  controlPoles[0].SetHue(baseHue - distance * 2);
-  controlPoles[1].SetHue(baseHue - distance);
-  controlPoles[2].SetHue(baseHue + distance);
-  controlPoles[3].SetHue(baseHue + distance * 2);
-}
+void Split::SetHues(uint8_t sat) {}
 
 /**
  * Changes the hue shift
  */
 void Split::UpdateSlider2(uint8_t val) {}
 
-void Split::DoShift(uint8_t shiftPosition) {
-  if (shiftPosition != 0) {
-    return;
-  }
-  loopFrame++;
-  loopFrame %= 4;
-  if (loopFrame == 0) {
-    startOffset = !startOffset;
-  }
+void Split::DoAutomaticShift(bool didManual) {
+  // leftPole++;
 }
 
+void Split::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+
+void Split::DoManualShift(bool didAutomatic) {}
+
 void Split::ResetModes() {
-  for (int i = 0; i < 4; i++) {
-    ControlPole& pole = controlPoles[i];
-    pole.SetShiftSpeed(Speed::kDefault);
-    if (modes[modeIndex] == Mode::kSmallSquare) {
-      pole.SetShiftSpeed(Speed::kStill);
-    }
+  for (ControlPole& pole : controlPoles) {
+    pole.SetShiftSpeed(Speed::kStill);
     pole.ResetFade();
-    pole.SetShiftOffset(i);
-    pole.SetLightCount(1);
+    pole.SetLightCount(4);
     pole.SetBackAndForth(false);
     pole.SetSmoothColor(true);
     pole.SetReverse(false);
     pole.SetRotation(0);
-    pole.SetHueShift(0);
+    pole.SetHueShift(16);
     pole.SetGridFade(0);
   }
+  controlPoles[0].SetHue(baseHue);
+  controlPoles[1].SetHue(baseHue + 127);
 }
 
-void Split::ResetEffect() {
-  poleOffset = 0;
+void Split::InitializeEffect() {
   for (ControlPole& pole : controlPoles) {
     pole.SetMode(modes[modeIndex]);
     pole.ResetFade();

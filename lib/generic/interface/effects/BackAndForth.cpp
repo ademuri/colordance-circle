@@ -2,101 +2,152 @@
 
 #include "ColordanceTypes.hpp":
 
+/**
+ * @brief Effect with 2 opposing poles on.
+ */
 BackAndForth::BackAndForth()
     : InterfaceEffect(),
-      controlPoleLeft(FRAMES_PER_LOOP),
-      controlPoleRight(FRAMES_PER_LOOP) {
-  controlPoleLeft.SetHue(0);
-  controlPoleRight.SetHue(127);
-  controlPoleLeft.SetReverse(true);
-  ResetEffect();
+      controlPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
+      controlPoleLeft(controlPoles.data() + 0),
+      controlPoleRight(controlPoles.data() + 1) {
+  InitializeEffect();
 }
-
-bool BackAndForth::ContinuousShift() { return true; }
 
 void BackAndForth::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
-  controlPoleLeft.TurnOffAll();
-  controlPoleRight.TurnOffAll();
+  if (oscillateSat) {
+    UpdateColor(frame);
+  }
+
+  controlPoleLeft->TurnOffAll();
+  controlPoleRight->TurnOffAll();
   poles[leftIndex % 6].SetGridLights(
-      controlPoleLeft.GetGrid(frame, lastFrame, false));
+      controlPoleLeft->GetGrid(frame, lastFrame, false));
   poles[rightIndex % 6].SetGridLights(
-      controlPoleRight.GetGrid(frame, lastFrame, false));
+      controlPoleRight->GetGrid(frame, lastFrame, false));
 }
 
-void BackAndForth::UpdateOption1() {
-  modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
-  controlPoleLeft.SetMode(modes[modeIndex]);
-  controlPoleRight.SetMode(modes[modeIndex]);
-  ResetModes();
-}
+void BackAndForth::UpdateColor(uint16_t frame) {
+  uint16_t effectiveBeatsPerShift = beatsPerShift != 0 ? beatsPerShift : 4;
+  uint16_t shiftFrame = beatsSinceAutoShift * FRAMES_PER_LOOP + frame;
+  uint16_t framesPerHalfShift = effectiveBeatsPerShift * FRAMES_PER_LOOP / 2;
 
-void BackAndForth::UpdateOption2() {
-  // hueStart += 255 / 4;
-  // controlPoleLeft.SetHue(hueStart + hueVal);
-  // controlPoleRight.SetHue(hueStart + 127 - hueVal);
-  // controlPoleLeft.SetShiftSpeed(Speed::kHalf);
-  // controlPoleRight.SetShiftSpeed(Speed::kHalf);
+  uint8_t hueDistance = 0;
+  if (shiftFrame < framesPerHalfShift) {
+    hueDistance = 255 * shiftFrame / framesPerHalfShift;
+  } else {
+    hueDistance =
+        255 * (2 * framesPerHalfShift - shiftFrame) / framesPerHalfShift;
+  }
+
+  for (ControlPole& pole : controlPoles) {
+    pole.SetHueDistance(hueDistance / 4);  // divide but light count
+    pole.SetSat(255);
+    pole.SetVal(255);
+  }
 }
 
 /**
+ * @brief Changes the grid effect.
+ */
+void BackAndForth::UpdateOption1() {
+  still = !still;
+  if (still) {
+    controlPoleLeft->SetShiftSpeed(Speed::kStill);
+    controlPoleRight->SetShiftSpeed(Speed::kStill);
+  } else {
+    modeIndex++;
+    modeIndex %= kNumModes;
+    controlPoleLeft->SetMode(modes[modeIndex]);
+    controlPoleRight->SetMode(modes[modeIndex]);
+    controlPoleLeft->SetShiftSpeed(Speed::kDefault);
+    controlPoleRight->SetShiftSpeed(Speed::kDefault);
+  }
+}
+
+/**
+ * @brief Fades the overall saturation in and out thoughout the shift.
+ */
+void BackAndForth::UpdateOption2() {
+  oscillateSat = !oscillateSat;
+  if (oscillateSat) {
+    // Disable Slider2
+  }
+}
+
+/**
+ * @brief Changes the hue distance between the poles.
+ * Goes from the same hue to opposing hues.
  */
 void BackAndForth::UpdateSlider1(uint8_t val) {
   hueVal = val / 4;
-  controlPoleLeft.SetHue(hueStart + hueVal);
-  controlPoleRight.SetHue(hueStart + 127 - hueVal);
+  controlPoleLeft->SetHue(0 - hueVal);
+  controlPoleRight->SetHue(hueVal);
 }
 
 /**
- * Chages the hue distance
+ * @brief Chages the hue distance of the grids.
  */
 void BackAndForth::UpdateSlider2(uint8_t val) {
+  if (oscillateSat) {
+    return;
+  }
   uint8_t hueDistance = val / 4;
-  controlPoleLeft.SetHueDistance(hueDistance);
-  controlPoleRight.SetHueDistance(hueDistance);
+  controlPoleLeft->SetHueDistance(hueDistance);
+  controlPoleRight->SetHueDistance(hueDistance);
 }
 
-void BackAndForth::DoShift(uint8_t shiftPosition) {
-  if (shiftPosition == 2) {
-    if (leftIndex == 0) {
-      goIn = true;
-    } else if (leftIndex == 2) {
-      goIn = false;
-    }
-  }
-  controlPoleLeft.SetReverse(!goIn);
-  controlPoleRight.SetReverse(goIn);
-  if (shiftPosition == 0) {
-    if (goIn) {
-      leftIndex++;
-      rightIndex--;
-    } else {
-      leftIndex--;
-      rightIndex++;
-    }
+void BackAndForth::DoAutomaticShift(bool didManual) {
+  if (!didManual) {
+    UpdateIndex();
   }
 }
 
-void BackAndForth::ResetModes() {
-  controlPoleLeft.SetShiftSpeed(Speed::kDefault);
-  controlPoleRight.SetShiftSpeed(Speed::kDefault);
-  controlPoleLeft.SetLightCount(4);
-  controlPoleRight.SetLightCount(4);
-  controlPoleLeft.SetSmoothColor(false);
-  controlPoleRight.SetSmoothColor(false);
-  controlPoleLeft.SetBackAndForth(false);
-  controlPoleRight.SetBackAndForth(false);
-  controlPoleLeft.SetHue(0);
-  controlPoleRight.SetHue(127);
-  controlPoleLeft.ResetFade();
-  controlPoleRight.ResetFade();
-  controlPoleLeft.SetRotation(0);
-  controlPoleRight.SetRotation(0);
-  controlPoleLeft.SetReverse(!goIn);
-  controlPoleRight.SetReverse(goIn);
+void BackAndForth::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  if (shiftFraction != 2) {
+    return;
+  }
+  if (leftIndex == 0) {
+    goIn = true;
+  } else if (leftIndex == 2) {
+    goIn = false;
+  }
+  controlPoleLeft->SetReverse(!goIn);
+  controlPoleRight->SetReverse(goIn);
 }
 
-void BackAndForth::ResetEffect() {
-  controlPoleLeft.SetMode(modes[modeIndex]);
-  controlPoleRight.SetMode(modes[modeIndex]);
-  ResetModes();
+void BackAndForth::DoManualShift(bool didAutomatic) {
+  if (!didAutomatic) {
+    UpdateIndex();
+  }
+}
+
+void BackAndForth::UpdateIndex() {
+  if (goIn && rightIndex == 0 || !goIn && leftIndex == 0) {
+    goIn = !goIn;
+  }
+  if (goIn) {
+    leftIndex++;
+    rightIndex--;
+  } else {
+    leftIndex--;
+    rightIndex++;
+  }
+  controlPoleLeft->SetReverse(!goIn);
+  controlPoleRight->SetReverse(goIn);
+}
+
+void BackAndForth::InitializeEffect() {
+  controlPoleLeft->SetHue(0);
+  controlPoleRight->SetHue(127);
+  controlPoleLeft->SetReverse(!goIn);
+  controlPoleRight->SetReverse(goIn);
+  for (ControlPole& pole : controlPoles) {
+    pole.SetShiftSpeed(Speed::kDefault);
+    pole.SetLightCount(4);
+    pole.SetSmoothColor(false);
+    pole.SetBackAndForth(false);
+    pole.ResetFade();
+    pole.SetRotation(0);
+    pole.SetMode(modes[modeIndex]);
+  }
 }

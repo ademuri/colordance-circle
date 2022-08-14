@@ -7,10 +7,8 @@ SideToSide::SideToSide() : InterfaceEffect() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
   }
-  ResetEffect();
+  InitializeEffect();
 }
-
-bool SideToSide::ContinuousShift() { return true; }
 
 void SideToSide::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
@@ -80,10 +78,7 @@ void SideToSide::UpdateSlider2(uint8_t val) {
   }
 }
 
-void SideToSide::DoShift(uint8_t shiftPosition) {
-  if (shiftPosition != 0) {
-    return;
-  }
+void SideToSide::DoAutomaticShift(bool didManual) {
   for (ControlPole& pole : controlPoles) {
     pole.ResetFade();
   }
@@ -106,6 +101,10 @@ void SideToSide::DoShift(uint8_t shiftPosition) {
   poleOffset += goBackwards ? -1 : 1;
 }
 
+void SideToSide::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+
+void SideToSide::DoManualShift(bool didAutomatic) { return; }
+
 void SideToSide::ResetModes() {
   for (ControlPole& pole : controlPoles) {
     pole.ResetFade();
@@ -119,7 +118,7 @@ void SideToSide::ResetModes() {
   UpdateHues();
 }
 
-void SideToSide::ResetEffect() {
+void SideToSide::InitializeEffect() {
   poleOffset = 0;
   for (ControlPole& pole : controlPoles) {
     pole.ResetFade();

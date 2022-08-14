@@ -12,14 +12,15 @@ class HuePoles : public InterfaceEffect {
   HuePoles();
 
  protected:
-  bool ContinuousShift();
   void DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
   void UpdateSlider2(uint8_t val) override;
-  void DoShift(uint8_t shiftPosition) override;
-  void ResetEffect() override;
+  void DoAutomaticShift(bool didManual) override;
+  void DoAutomaticPartialShift(uint8_t shiftFraction) override;
+  void DoManualShift(bool didAutomatic) override;
+  void InitializeEffect() override;
 
  private:
   void UpdateHues();

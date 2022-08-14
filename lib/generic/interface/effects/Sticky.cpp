@@ -2,15 +2,17 @@
 
 #include "ColordanceTypes.hpp"
 
-Sticky::Sticky() : InterfaceEffect(), moving_pole(FRAMES_PER_LOOP) {
+Sticky::Sticky()
+    : InterfaceEffect(),
+      movingPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
+      autoMovingPole(controlPoles.data() + 0),
+      movingPole(controlPoles.data() + 1) {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
   }
-  ResetEffect();
+  InitializeEffect();
 }
-
-bool Sticky::ContinuousShift() { return false; }
 
 void Sticky::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
@@ -19,25 +21,30 @@ void Sticky::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
         frame, lastFrame, false);  // Update all grids
     poles[pole].SetGridLights(grid);
   }
-  uint8_t moving_pole_index = 24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
-                              24 * beatsSinceLastShift / beatsPerShift;
-  moving_pole.SetShiftOffset(moving_pole_index % 4);
-  Grid<CHSV> const& grid =
-      moving_pole.GetGrid(frame, lastFrame, false);  // Update all grids
-  poles[moving_pole_index / 4].MultiplyGridLights(grid);
+
+  if (beatsPerShift > 0) {
+    uint8_t autoMovingPoleIndex =
+        24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
+        24 * beatsSinceAutoShift / beatsPerShift;
+    autoMovingPole->SetShiftOffset(autoMovingPoleIndex % 4);
+    Grid<CHSV> const& grid = autoMovingPole->GetGrid(frame, lastFrame, false);
+    poles[autoMovingPoleIndex / 4].MultiplyGridLights(grid);
+  }
+
+  if (frame < lastFrame && movingPoleIndex <= 6) {
+    movingPoleIndex++;
+  }
+  if (movingPoleIndex < 6) {
+    Grid<CHSV> const& grid = movingPole->GetGrid(frame, lastFrame, false);
+    poles[movingPoleIndex].MultiplyGridLights(grid);
+  }
+  baseHue += 5;
 }
 
 /**
  * Change the mode (grid animation).
  */
-void Sticky::UpdateOption1() {
-  modeIndex++;
-  modeIndex %= kNumModes;
-  for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i].SetMode(modes[modeIndex]);
-  }
-  ResetModes();
-}
+void Sticky::UpdateOption1() {}
 
 void Sticky::UpdateOption2() {
   still = !still;
@@ -55,7 +62,7 @@ void Sticky::UpdateSlider1(uint8_t val) {
 }
 
 void Sticky::UpdateHues() {
-  uint8_t hue = 0;
+  uint8_t hue = baseHue;
   for (ControlPole& pole : controlPoles) {
     pole.SetHue(hue);
     hue += hueDistance;
@@ -66,33 +73,36 @@ void Sticky::UpdateHues() {
  */
 void Sticky::UpdateSlider2(uint8_t val) {}
 
-void Sticky::DoShift(uint8_t shiftPosition) {
-  if (shiftPosition != 0) {
-    return;
+void Sticky::DoAutomaticShift(bool didManual) {
+  autoMovingPole->SetHue(baseHue + 127);
+}
+
+void Sticky::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+
+void Sticky::DoManualShift(bool didAutomatic) {
+  if (!didAutomatic && movingPoleIndex == 6) {
+    movingPoleIndex = 0;
+    movingPole->SetHue(baseHue + 127);
   }
 }
 
-void Sticky::ResetModes() {
-  for (ControlPole& pole : controlPoles) {
-    pole.ResetFade();
-    pole.SetShiftOffset(0);
-    pole.SetShiftSpeed(Speed::kDefault);
-    pole.SetLightCount(1);
-    pole.SetBackAndForth(true);
-    pole.SetSmoothColor(true);
-    pole.SetReverse(false);
-    pole.SetRotation(0);
-  }
-}
-
-void Sticky::ResetEffect() {
+void Sticky::InitializeEffect() {
   poleOffset = 0;
   for (ControlPole& pole : controlPoles) {
+    pole.SetMode(Mode::kLine);
+    pole.SetShiftSpeed(Speed::kStill);
+    pole.SetShiftOffset(3);
     pole.ResetFade();
+    pole.SetLightCount(1);
+    pole.SetBackAndForth(false);
+    pole.SetReverse(false);
+    pole.SetSmoothColor(true);
   }
-  moving_pole.SetMode(Mode::kLine);
-  moving_pole.SetLightCount(4);
-  moving_pole.SetBackAndForth(false);
-  moving_pole.SetShiftSpeed(Speed::kStill);
-  ResetModes();
+  for (ControlPole& pole : movingPoles) {
+    pole.SetMode(Mode::kLine);
+    pole.SetLightCount(3);
+    pole.SetBackAndForth(false);
+    pole.SetHueShift(0);
+    pole.SetHueDistance(0);
+  }
 }

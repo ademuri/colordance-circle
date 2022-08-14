@@ -33,6 +33,7 @@ class ControlPole {
  public:
   ControlPole(uint16_t framesPerLoop);
   void SetHue(uint8_t hue);
+  void IncrementHue(uint8_t hue);
   void SetSat(uint8_t sat);
   void SetVal(uint8_t val);
   void SetMode(Mode mode);
@@ -78,12 +79,16 @@ class ControlPole {
   Mode lastMode = Mode::kLine;
 
   uint8_t baseHue = 0;
+  uint8_t hueDistance = 0;
   uint8_t hueShift = 5;
   uint8_t currentHueShift = 0;
   uint16_t hueShiftRemainder = 0;
   bool smoothColor = true;
 
   uint8_t baseVal = 255;
+  uint8_t baseSat = 255;
+
+  uint8_t lightCount = 4;
 
   Speed speed = Speed::kDefault;
   bool didFirstHalf = false;

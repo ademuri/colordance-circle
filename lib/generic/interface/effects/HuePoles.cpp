@@ -7,10 +7,8 @@ HuePoles::HuePoles() : InterfaceEffect() {
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
   }
-  ResetEffect();
+  InitializeEffect();
 }
-
-bool HuePoles::ContinuousShift() { return true; }
 
 void HuePoles::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
@@ -72,8 +70,11 @@ void HuePoles::UpdateSlider2(uint8_t val) {
   //}
 }
 
-void HuePoles::DoShift(uint8_t shiftPosition) {
-  UNUSED(shiftPosition);
+void HuePoles::DoAutomaticShift(bool didManual) { return; }
+
+void HuePoles::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+
+void HuePoles::DoManualShift(bool didAutomatic) {
   smoothColor = !smoothColor;
   for (auto& pole : controlPoles) {
     pole.SetSmoothColor(smoothColor);
@@ -98,7 +99,7 @@ void HuePoles::ResetModes() {
   }
 }
 
-void HuePoles::ResetEffect() {
+void HuePoles::InitializeEffect() {
   still = true;
   ResetModes();
 }
