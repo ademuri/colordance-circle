@@ -12,6 +12,7 @@ SerialParamController::SerialParamController() {
 
 void SerialParamController::Step() {
   static uint32_t print_at = 0;
+  controls_out.alive = (millis() / 500) % 2;
   transfer_out_.sendData();
   // Briefly wait, to make sure that the interface has sent data before we call
   // `receiveData`

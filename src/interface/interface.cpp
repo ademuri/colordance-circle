@@ -57,10 +57,9 @@ const std::vector<int> ANALOG_INPUT_PINS = {
 };
 
 const std::vector<int> PCB_ORDER_INPUT_PINS = {
-    kButton1, kButton5,  kButton9,  kAnalog1,
-    kButton2, kButton6,  kButton10, /* No analog 2, */ kButton3,
-    kButton7, kButton11, kAnalog3,  kButton4,
-    kButton8, kButton12, kAnalog4,
+    kButton1,  kButton5, kButton9,  kAnalog1, kButton2,  kButton6,
+    kButton10, kAnalog2, kButton3,  kButton7, kButton11, kAnalog3,
+    kButton4,  kButton8, kButton12, kAnalog4,
 };
 
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;

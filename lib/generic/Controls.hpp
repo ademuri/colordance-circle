@@ -13,7 +13,7 @@ struct ControlsIn {
 };
 
 struct ControlsOut {
-  uint8_t test;
+  bool alive = false;
   // TODO
 };
 
