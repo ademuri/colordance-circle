@@ -6,9 +6,12 @@
 #include <vector>
 
 #include "Controls.hpp"
+#include "InterfaceParamController.hpp"
+#include "Pole.hpp"
+#include "interface/InterfaceController.hpp"
 
 // Behavior flags
-const constexpr bool kDebugFlashAtBoot = true;
+constexpr bool kDebugFlashAtBoot = true;
 
 enum class RunType {
   NORMAL,
@@ -39,7 +42,6 @@ const std::vector<int> BUTTON_PINS = {
     kButton8, kButton9, kButton10, kButton11, kButton12, kButton13, kButton14,
 };
 
-std::vector<DebounceFilter> buttons;
 std::vector<bool> button_rose;
 
 // Analog inputs
@@ -106,40 +108,14 @@ const int kStripsPerBank2 = 4;
 const int kBank1FirstPin = 1;
 const int kBank2FirstPin = 6;
 
-CRGB bank1[kMaxLedsPerStrip * kStripsPerBank1];
-CRGB bank2[kMaxLedsPerStrip * kStripsPerBank2];
-
-CRGB* getStrip(CRGB* const bank, const int index) {
-  return &bank[index * kMaxLedsPerStrip];
-}
+Buttons::Bank1 bank1;
+Buttons::Bank2 bank2;
+Poles poles;
+Buttons buttons(bank1, bank2);
+InterfaceParamController param_controller{brain_out_data};
+InterfaceController interface_controller{poles, buttons, param_controller};
 
 uint8_t effect_last_pressed = 0;
-
-// LED strips matching the order of the buttons, then the analog inputs, based
-// on their positions on the PCB.
-// clang-format off
-std::vector<CRGB*> strips = {
-    // getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
-    // getStrip(bank1,  1), getStrip(bank1, 10), getStrip(bank1,  9), getStrip(bank1,  2),
-    // getStrip(bank2,  0), getStrip(bank1,  4), getStrip(bank1,  7), getStrip(bank1,  3),
-    // getStrip(bank2,  3), getStrip(bank1,  5), getStrip(bank1,  6), getStrip(bank2,  2),
-
-    getStrip(bank1,  0), getStrip(bank1, 11), getStrip(bank1,  8), getStrip(bank2,  1),
-    getStrip(bank1,  1), getStrip(bank1, 10), getStrip(bank1,  9), getStrip(bank1,  2),
-    getStrip(bank2,  0), getStrip(bank1,  4), getStrip(bank1,  7), getStrip(bank1,  3),
-    getStrip(bank2,  3), getStrip(bank1,  5), getStrip(bank1,  6), getStrip(bank2,  2),
-
-    // Original, in LED_1, LED_2, etc. order
-    /*
-    getStrip(bank1, 0), getStrip(bank1, 1),  getStrip(bank2, 0),
-    getStrip(bank2, 3), getStrip(bank1, 11), getStrip(bank1, 10),
-    getStrip(bank1, 4), getStrip(bank1, 5),  getStrip(bank1, 8),
-    getStrip(bank1, 9), getStrip(bank1, 7),  getStrip(bank1, 6),
-    getStrip(bank2, 1), getStrip(bank1, 2),  getStrip(bank1, 3),
-    getStrip(bank2, 2),
-    */
-};
-// clang-format on
 
 void setup() {
   Serial.begin(115200);
@@ -147,9 +123,6 @@ void setup() {
 
   for (auto button_pin : BUTTON_PINS) {
     pinMode(button_pin, INPUT_PULLUP);
-    // buttons.push_back(DebounceFilter(
-    //     filter_functions::ForInvertedDigitalReadDynamic(button_pin)));
-    // button_rose.push_back(false);
   }
 
   for (auto analog_pin : ANALOG_INPUT_PINS) {
@@ -165,9 +138,9 @@ void setup() {
   Serial.println("Pins initialized");
 
   FastLED.addLeds<kStripsPerBank1, WS2812, kBank1FirstPin, GRB>(
-      bank1, kMaxLedsPerStrip);
+      bank1.begin(), kMaxLedsPerStrip);
   FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, GRB>(
-      bank2, kMaxLedsPerStrip);
+      bank2.begin(), kMaxLedsPerStrip);
   FastLED.showColor(CRGB::Black);
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
@@ -208,27 +181,6 @@ void readControls() {
       effect_pressed = true;
     }
     brain_out_data.button_mask |= val;
-
-    for (uint8_t i = 0; i < kMaxLedsPerStrip; i++) {
-      if (button_index >= 3 && button_index <= 6) {
-        // Effect buttons
-        if (i < 6) {
-          strips[button_index][i] =
-              CHSV((button_index - 3) * 256 / 4, 255, 255);
-        } else {
-          if (effect_last_pressed == button_index) {
-            strips[button_index][i] = CHSV(0, 0, 255);
-          } else {
-            strips[button_index][i] = CHSV(0, 0, 0);
-          }
-        }
-      } else if (button_index == 7) {
-        // Heart
-        strips[button_index][i] = CHSV(millis() / 10, val ? 0 : 255, 255);
-      } else {
-        strips[button_index][i] = CHSV(val ? 100 : 0, 0, 128);
-      }
-    }
   }
 
   for (uint8_t i = 0;
@@ -236,8 +188,6 @@ void readControls() {
     analog_inputs[i].Run();
     brain_out_data.analog_inputs[i] = analog_inputs[i].GetFilteredValue();
   }
-
-  FastLED.show();
 }
 
 void debugControls() {
@@ -252,7 +202,7 @@ void debugControls() {
     }
     for (uint8_t light_index = 0; light_index < kMaxLedsPerStrip;
          light_index++) {
-      strips[input_index][light_index] = color;
+      // TODO: write to the buttons
     }
   }
   FastLED.show();
@@ -275,7 +225,6 @@ void loop() {
   switch (run_mode) {
     case RunType::NORMAL:
       readControls();
-      // TODO: output LEDs
       break;
 
     case RunType::DEBUG_CONTROLS:
@@ -291,6 +240,13 @@ void loop() {
   // while its writing out LEDs.
   if (brain_in.receiveData()) {
     brain_out.sendData();
+
+    // Run the main effect here on the interface - we keep this in sync with the
+    // one on the brain, so that this one can output to the buttons.
+    if (brain_in_data.runner_state == RunnerState::NORMAL) {
+      interface_controller.Step();
+      FastLED.show();
+    }
   }
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i]);

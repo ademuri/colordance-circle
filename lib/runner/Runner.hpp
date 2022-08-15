@@ -10,13 +10,6 @@
 #include "Timer.hpp"
 #include "interface/InterfaceController.hpp"
 
-enum class RunnerState {
-  LOW_POWER,
-  IDLE,
-  TEST_LIGHTS,
-  NORMAL,
-};
-
 class Runner {
  public:
   Runner(Poles& poles, Buttons& buttons, ParamController& param_controller,
