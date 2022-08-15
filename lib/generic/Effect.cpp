@@ -2,8 +2,8 @@
 
 #include "ColordanceTypes.hpp"
 
-Effect::Effect(Poles& poles, ParamController& paramController)
-    : poles(poles), paramController(paramController) {}
+Effect::Effect(Poles& poles, Buttons& buttons, ParamController& paramController)
+    : poles_(poles), buttons_(buttons), paramController_(paramController) {}
 
 void Effect::Step() {
   if (millis() > sleep_until_ms) {

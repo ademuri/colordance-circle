@@ -5,6 +5,7 @@
 #include "Logger.hpp"
 #include "LowPowerEffect.hpp"
 #include "ParamController.hpp"
+#include "Buttons.hpp"
 #include "TestLightsEffect.hpp"
 #include "Timer.hpp"
 #include "interface/InterfaceController.hpp"
@@ -18,7 +19,7 @@ enum class RunnerState {
 
 class Runner {
  public:
-  Runner(Poles& poles, ParamController& param_controller,
+  Runner(Poles& poles, Buttons& buttons, ParamController& param_controller,
          EnvironmentController& environment_controller, Logger& logger);
 
   // Runs one iteration. Non-blocking.

@@ -5,6 +5,7 @@
 
 #include "Effect.hpp"
 #include "Pole.hpp"
+#include "Buttons.hpp"
 #include "interface/InterfaceEffect.hpp"
 #include "interface/effects/BackAndForth.hpp"
 #include "interface/effects/HuePoles.hpp"
@@ -13,7 +14,7 @@
 
 class InterfaceController : public Effect {
  public:
-  InterfaceController(Poles& poles, ParamController& paramController);
+  InterfaceController(Poles& poles, Buttons& buttons, ParamController& paramController);
 
   // Effect indices
   static constexpr uint8_t kHuePolesIndex = 3;
