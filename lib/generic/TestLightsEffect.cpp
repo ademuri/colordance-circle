@@ -1,5 +1,7 @@
 #include "TestLightsEffect.hpp"
 
+#include "PoleEffect.hpp"
+
 TestLightsEffect::TestLightsEffect(Poles& poles,
                                    ParamController& param_controller)
     : Effect(poles, param_controller) {}
@@ -16,4 +18,6 @@ void TestLightsEffect::DoStep() {
     pole.SetGridLight((millis() / kTimeStep) % gridWidth, y,
                       CRGB(255, 255, 255));
   }
+
+  SetPoleEffect(poles, millis());
 }

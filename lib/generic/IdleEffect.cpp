@@ -1,5 +1,7 @@
 #include "IdleEffect.hpp"
 
+#include "PoleEffect.hpp"
+
 IdleEffect::IdleEffect(Poles& poles, ParamController& paramController)
     : Effect(poles, paramController) {}
 
@@ -16,6 +18,8 @@ void IdleEffect::DoStep() {
       3, 0, CHSV(hue + 128, 255, Brightness(angle + 128)));
   poles[Pole::kNumPoles - 2].SetGridLight(
       3, 0, CHSV(hue + 192, 255, Brightness(angle + 192)));
+
+  SetPoleEffect(poles, millis());
 }
 
 // static
