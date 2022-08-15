@@ -41,6 +41,7 @@ void Buttons::SetEffectButton(uint8_t button_index, const CRGB& rgb) {
 #ifdef ARDUINO
       button = getStripBank1(0);
 #endif
+    break;
   }
 
   button[button_index] = rgb;
