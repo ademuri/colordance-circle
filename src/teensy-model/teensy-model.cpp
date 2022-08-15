@@ -54,5 +54,6 @@ void loop() {
   //   print_at = millis() + 5000;
   // }
   runner->Step();
+  param_controller.SetRunnerState(runner.State());
   light_controller.WriteOutLights();
 }

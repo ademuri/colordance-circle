@@ -14,6 +14,7 @@ class SerialParamController : public ParamController {
   SerialParamController();
 
   void Step() override;
+  void SetRunnerState(RunnerState state);
 
   uint8_t GetRawParam(Param param) const override;
 
@@ -29,7 +30,6 @@ class SerialParamController : public ParamController {
   EasyTransfer transfer_in_;
   EasyTransfer transfer_out_;
 
-  uint8_t effect_ = 0;
   static constexpr int kLedPin = 13;
 };
 
