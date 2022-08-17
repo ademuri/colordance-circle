@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "Buttons.hpp"
 #include "Effect.hpp"
 #include "FakeParamController.hpp"
 #include "IdleEffect.hpp"
@@ -23,8 +24,11 @@ constexpr uint8_t kEffectOffset = 3;
 
 class EffectsTest : public PolesTest {
  protected:
+  Buttons::Bank1 bank1;
+  Buttons::Bank2 bank2;
+  Buttons buttons{bank1, bank2};
   FakeParamController param_controller;
-  InterfaceController controller{poles, param_controller};
+  InterfaceController controller{poles, buttons, param_controller};
 
   void SetUp() override { SetMillis(0); }
 
@@ -94,13 +98,13 @@ TEST_F(EffectsTest, power_consumption) {
     RunPowerTest(controller, effect_name);
   }
 
-  IdleEffect idle_effect{poles, param_controller};
+  IdleEffect idle_effect{poles, buttons, param_controller};
   RunPowerTest(idle_effect, "Idle");
 
-  LowPowerEffect low_power_effect{poles, param_controller};
+  LowPowerEffect low_power_effect{poles, buttons, param_controller};
   RunPowerTest(low_power_effect, "Low Power");
 
-  TestLightsEffect test_lights_effect{poles, param_controller};
+  TestLightsEffect test_lights_effect{poles, buttons, param_controller};
   RunPowerTest(test_lights_effect, "Test Lights");
 }
 
@@ -240,7 +244,7 @@ TEST_F(EffectsTest, SideToSideTest) {
 }
 
 TEST_F(EffectsTest, TestLightsEffect) {
-  TestLightsEffect effect{poles, param_controller};
+  TestLightsEffect effect{poles, buttons, param_controller};
 
   for (uint32_t n = 0; n < 1000; n++) {
     AdvanceMillis(100);

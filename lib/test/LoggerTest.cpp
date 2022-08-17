@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "Buttons.hpp"
 #include "Effect.hpp"
 #include "FakeEnvironmentController.hpp"
 #include "FakeLogger.hpp"
@@ -10,10 +11,14 @@
 class LoggerTest : public ::testing::Test {
  protected:
   Poles poles{};
+  Buttons::Bank1 bank1;
+  Buttons::Bank2 bank2;
+  Buttons buttons{bank1, bank2};
   FakeParamController param_controller{};
   FakeEnvironmentController environment_controller{};
   FakeLogger logger{param_controller, environment_controller};
-  Runner runner{poles, param_controller, environment_controller, logger};
+  Runner runner{poles, buttons, param_controller, environment_controller,
+                logger};
 
   void SetUp() override { environment_controller.SetBatteryMillivolts(1200); }
 };
