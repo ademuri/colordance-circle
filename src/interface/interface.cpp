@@ -143,6 +143,7 @@ std::vector<CRGB*> strips = {
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting...");
+  pinMode(13, OUTPUT);
 
   for (auto button_pin : BUTTON_PINS) {
     pinMode(button_pin, INPUT_PULLUP);
@@ -291,6 +292,7 @@ void loop() {
   if (brain_in.receiveData()) {
     brain_out.sendData();
   }
+  digitalWrite(13, brain_in_data.alive);
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i]);
   //   Serial.print(" ");
