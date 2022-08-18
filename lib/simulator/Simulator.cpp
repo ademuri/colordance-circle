@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "Buttons.hpp"
 #include "FakeParamController.hpp"
 #include "SimulatorLightController.hpp"
 #include "StdinParamController.hpp"
@@ -12,8 +13,12 @@
 int main() {
   SimulatorLightController light_controller;
 
+  Buttons::Bank1 bank1;
+  Buttons::Bank2 bank2;
+  Buttons buttons{bank1, bank2};
   auto param_controller = StdinParamController();
-  auto effect = InterfaceController(light_controller.poles, param_controller);
+  auto effect =
+      InterfaceController(light_controller.poles, buttons, param_controller);
 
   const std::chrono::steady_clock::time_point start_time =
       std::chrono::steady_clock::now();

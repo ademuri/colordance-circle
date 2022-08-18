@@ -3,6 +3,7 @@
 #include <ColordanceTypes.hpp>
 #include <memory>
 
+#include "Buttons.hpp"
 #include "Controls.hpp"
 #include "Effect.hpp"
 #include "FakeParamController.hpp"
@@ -16,7 +17,10 @@
 
 namespace {
 
+Buttons::Bank1 bank1;
+Buttons::Bank2 bank2;
 auto light_controller = ModelLightController();
+Buttons buttons(bank1, bank2);
 TeensyEnvironmentController environment_controller;
 SerialParamController param_controller;
 TeensySdLogger* logger;
@@ -32,7 +36,7 @@ void setup() {
   Serial.println("Brain initializing...");
 
   logger = new TeensySdLogger(param_controller, environment_controller);
-  runner = new Runner(light_controller.get_poles(), param_controller,
+  runner = new Runner(light_controller.get_poles(), buttons, param_controller,
                       environment_controller, *logger);
 
   // See
@@ -50,5 +54,6 @@ void loop() {
   //   print_at = millis() + 5000;
   // }
   runner->Step();
+  param_controller.SetRunnerState(runner->State());
   light_controller.WriteOutLights();
 }

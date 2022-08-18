@@ -3,6 +3,7 @@
 #include <memory>
 #include <queue>
 
+#include "Buttons.hpp"
 #include "Effect.hpp"
 #include "Pole.hpp"
 #include "interface/InterfaceEffect.hpp"
@@ -15,7 +16,8 @@
 
 class InterfaceController : public Effect {
  public:
-  InterfaceController(Poles& poles, ParamController& paramController);
+  InterfaceController(Poles& poles, Buttons& buttons,
+                      ParamController& paramController);
 
   // Effect indices
   static constexpr uint8_t kSplitIndex = 1;

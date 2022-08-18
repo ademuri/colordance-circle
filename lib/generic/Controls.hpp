@@ -1,9 +1,16 @@
 #ifndef CONTROLS_H_
 #define CONTROLS_H_
 
-#include <ColordanceTypes.hpp>
+#include "ColordanceTypes.hpp"
 
 static const uint32_t kSerialBaud = 115200;
+
+enum class RunnerState {
+  LOW_POWER,
+  IDLE,
+  TEST_LIGHTS,
+  NORMAL,
+};
 
 struct ControlsIn {
   uint16_t button_mask = 0;
@@ -15,6 +22,7 @@ struct ControlsIn {
 struct ControlsOut {
   bool alive = false;
   // TODO
+  RunnerState runner_state = RunnerState::NORMAL;
 };
 
 #endif  // CONTROLS_H_

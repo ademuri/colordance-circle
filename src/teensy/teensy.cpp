@@ -3,6 +3,7 @@
 #include <ColordanceTypes.hpp>
 #include <memory>
 
+#include "Buttons.hpp"
 #include "Controls.hpp"
 #include "Effect.hpp"
 #include "LocalButtonController.hpp"
@@ -15,11 +16,14 @@
 
 namespace {
 
+Buttons::Bank1 bank1;
+Buttons::Bank2 bank2;
 auto light_controller = TeensyLightController();
+Buttons buttons(bank1, bank2);
 TeensyEnvironmentController environment_controller;
 SerialParamController param_controller;
 TeensySdLogger logger{param_controller, environment_controller};
-Runner runner(light_controller.get_poles(), param_controller,
+Runner runner(light_controller.get_poles(), buttons, param_controller,
               environment_controller, logger);
 
 uint32_t print_at = 0;
@@ -46,5 +50,6 @@ void loop() {
   //   print_at = millis() + 5000;
   // }
   runner.Step();
+  param_controller.SetRunnerState(runner.State());
   light_controller.WriteOutLights();
 }

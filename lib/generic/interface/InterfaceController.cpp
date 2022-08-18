@@ -4,10 +4,11 @@
 
 #include "ColordanceTypes.hpp"
 #include "InterfaceEffect.hpp"
+#include "PoleEffect.hpp"
 
-InterfaceController::InterfaceController(Poles& poles,
+InterfaceController::InterfaceController(Poles& poles, Buttons& buttons,
                                          ParamController& paramController)
-    : Effect(poles, paramController),
+    : Effect(poles, buttons, paramController),
       currentEffect(std::addressof(backAndForth)) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
@@ -22,7 +23,7 @@ void InterfaceController::DoStep() {
   /*
    * Sets the effect
    */
-  uint8_t effectNumber = paramController.GetRawParam(Param::kEffect);
+  uint8_t effectNumber = paramController_.GetRawParam(Param::kEffect);
   switch (effectNumber) {
     case kHuePolesIndex:
     default:
@@ -43,17 +44,17 @@ void InterfaceController::DoStep() {
     case kStickyIndex:
       currentEffect = std::addressof(sticky);
   }
-  currentEffect->SetOption1(paramController.GetRawParam(Param::kOption1) == 1);
-  currentEffect->SetOption2(paramController.GetRawParam(Param::kOption2) == 1);
-  currentEffect->SetSlider1(paramController.GetRawParam(Param::kSlider1));
-  currentEffect->SetSlider2(paramController.GetRawParam(Param::kSlider2));
+  currentEffect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
+  currentEffect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
+  currentEffect->SetSlider1(paramController_.GetRawParam(Param::kSlider1));
+  currentEffect->SetSlider2(paramController_.GetRawParam(Param::kSlider2));
 
   uint32_t systemTime = millis();
 
   /*
    * Pause
    */
-  bool pause = paramController.GetRawParam(Param::kPause) == 1;
+  bool pause = paramController_.GetRawParam(Param::kPause) == 1;
   if (pause) {
     if (!lastLoopWasPaused) {
       pauseStart = systemTime;
@@ -72,7 +73,7 @@ void InterfaceController::DoStep() {
   /*
    * Updates beat timing.
    */
-  uint8_t setBeat = paramController.GetRawParam(Param::kBeat);
+  uint8_t setBeat = paramController_.GetRawParam(Param::kBeat);
   bool lastFrameWasBeat = false;  // includes this frame if it lands on the beat
   bool lastFrameWasHalfBeat = false;  // Used for PartialAutomaticShift
 
@@ -131,7 +132,12 @@ void InterfaceController::DoStep() {
   /*
    * Handles the shift and updates the beatsPerShift
    */
+<<<<<<< HEAD
   uint8_t setShift = paramController.GetRawParam(Param::kShift);
+=======
+  uint8_t setShift = paramController_.GetRawParam(Param::kShift);
+  bool loopShift = true;
+>>>>>>> ffa0cd87b05ae7a81fcac0fbd81a8e8af19544f8
 
   if (lastFrameWasBeat) {
     beatsSinceAutoShift++;
@@ -179,12 +185,19 @@ void InterfaceController::DoStep() {
     beatsSinceManualShift = 0;
   }
 
-  for (auto& pole : poles) {
+  for (auto& pole : poles_) {
     pole.ClearGridLights();
   }
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   uint16_t interval = nextBeatTime - lastBeatTime;
+<<<<<<< HEAD
   currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
+=======
+
+  currentEffect->SetGrid(poles_, timeSinceLastBeat, interval);
+
+  SetPoleLowerEffect(poles_, millis());
+>>>>>>> ffa0cd87b05ae7a81fcac0fbd81a8e8af19544f8
 
   lastEffectTime = effectTime;
 

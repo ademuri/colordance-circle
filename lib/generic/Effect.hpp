@@ -2,12 +2,13 @@
 
 #include <memory>
 
+#include "Buttons.hpp"
 #include "ParamController.hpp"
 #include "Pole.hpp"
 
 class Effect {
  public:
-  Effect(Poles& poles, ParamController& paramController);
+  Effect(Poles& poles, Buttons& buttons, ParamController& paramController);
   virtual ~Effect() {}
 
   /* Runs one iteration of this effect. Non-blocking. */
@@ -27,8 +28,9 @@ class Effect {
    */
   void SleepMs(uint32_t ms_to_sleep);
 
-  Poles& poles;
-  ParamController& paramController;
+  Poles& poles_;
+  Buttons& buttons_;
+  ParamController& paramController_;
 
  private:
   uint32_t sleep_until_ms = 0;

@@ -7,7 +7,7 @@
 // draw, while changing enough to draw people in.
 class IdleEffect : public Effect {
  public:
-  IdleEffect(Poles& poles, ParamController& paramController);
+  IdleEffect(Poles& poles, Buttons& buttons, ParamController& paramController);
 
   void DoStep() override;
 

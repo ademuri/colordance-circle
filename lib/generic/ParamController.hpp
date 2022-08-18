@@ -3,6 +3,7 @@
 #include <array>
 
 #include "ColordanceTypes.hpp"
+#include "Controls.hpp"
 
 enum class Param {
   kBeat,
@@ -36,9 +37,12 @@ class ParamController {
   virtual void Step();
 
  protected:
+  void ParseControlsIn(const ControlsIn& in);
+
   Params params_ =
       std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>();
   bool param_changed_ = false;
+  uint8_t effect_ = 0;
 
  private:
   Params prev_params_ =

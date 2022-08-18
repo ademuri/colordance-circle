@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Buttons.hpp"
 #include "EnvironmentController.hpp"
 #include "IdleEffect.hpp"
 #include "Logger.hpp"
@@ -9,16 +10,9 @@
 #include "Timer.hpp"
 #include "interface/InterfaceController.hpp"
 
-enum class RunnerState {
-  LOW_POWER,
-  IDLE,
-  TEST_LIGHTS,
-  NORMAL,
-};
-
 class Runner {
  public:
-  Runner(Poles& poles, ParamController& param_controller,
+  Runner(Poles& poles, Buttons& buttons, ParamController& param_controller,
          EnvironmentController& environment_controller, Logger& logger);
 
   // Runs one iteration. Non-blocking.
