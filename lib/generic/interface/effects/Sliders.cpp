@@ -13,16 +13,20 @@ Sliders::Sliders()
   ResetModes();
 }
 
-void Sliders::DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) {
+void Sliders::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (auto &pole : this->poles) {
     pole.TurnOffAll();
   }
-  bool multiply = leftIndex == rightIndex ? true : false;
-  poles[leftIndex].MultiplyGridLights(
-      pole_left->GetGrid(frame, lastFrame, false));
-  poles[rightIndex].MultiplyGridLights(
-      pole_right->GetGrid(frame, lastFrame, multiply));
+  pole_left->UpdateGrid(frame, lastFrame, false);
+  pole_right->UpdateGrid(frame, lastFrame, false);
 }
+
+void Sliders::DoSetGrid(Poles &poles) {
+  poles[leftIndex].MultiplyGridLights(pole_left->GetGrid());
+  poles[rightIndex].MultiplyGridLights(pole_right->GetGrid());
+}
+
+void Sliders::DoSetEffectButton(Buttons buttons) {}
 
 void Sliders::UpdateOption1() {
   mode++;

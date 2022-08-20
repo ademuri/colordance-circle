@@ -10,7 +10,7 @@ Split::Split() : InterfaceEffect() {
   InitializeEffect();
 }
 
-void Split::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
+void Split::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (ControlPole& pole : controlPoles) {
     pole.TurnOffAll();
   }
@@ -29,11 +29,16 @@ void Split::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
     UpdateColor(frame);
   }
 
-  poles[leftPole].SetGridLights(
-      controlPoles[0].GetGrid(frame, lastFrame, true));
-  poles[5 - leftPole].SetGridLights(
-      controlPoles[1].GetGrid(frame, lastFrame, true));
+  controlPoles[0].UpdateGrid(frame, lastFrame, true);
+  controlPoles[1].UpdateGrid(frame, lastFrame, true);
 }
+
+void Split::DoSetGrid(Poles& poles) {
+  poles[leftPole].SetGridLights(controlPoles[0].GetGrid());
+  poles[5 - leftPole].SetGridLights(controlPoles[1].GetGrid());
+}
+
+void Split::DoSetEffectButton(Buttons buttons) {}
 
 void Split::UpdateWhite(uint16_t frame, bool flipHue) {
   uint8_t sat = 255 * frame / FRAMES_PER_LOOP;

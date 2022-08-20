@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Buttons.hpp"
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
@@ -19,13 +20,16 @@ class InterfaceEffect {
   void AutomaticShift(bool didManual);
   void AutomaticPartialShift(uint8_t shiftFraction);
   void ManualShift(bool didAutomatic);
-  void SetGrid(Poles &poles, uint16_t timeSinceLastBeat,
-               uint16_t millisPerBeat);
+  void Update(uint16_t timeSinceLastBeat, uint16_t millisPerBeat);
+  void SetGrid(Poles &poles);
+  void SetEffectButton(Buttons buttons);
 
   void Reset();
 
  protected:
-  virtual void DoSetGrid(Poles &poles, uint16_t frame, uint16_t lastFrame) = 0;
+  virtual void DoUpdate(uint16_t frame, uint16_t lastFrame) = 0;
+  virtual void DoSetGrid(Poles &poles) = 0;
+  virtual void DoSetEffectButton(Buttons buttons) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;

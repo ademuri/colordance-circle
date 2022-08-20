@@ -2,7 +2,8 @@
 
 Buttons::Buttons(Bank1& bank1, Bank2& bank2) : bank1_(bank1), bank2_(bank2) {}
 
-void Buttons::SetEffectButton(uint8_t button_index, const CRGB& rgb) {
+void Buttons::SetButton(uint8_t button_index, const CRGB& rgb,
+                        const uint8_t led_index) {
   CRGB* button = nullptr;
   switch (button_index) {
     case 0:
@@ -44,7 +45,7 @@ void Buttons::SetEffectButton(uint8_t button_index, const CRGB& rgb) {
       break;
   }
 
-  button[button_index] = rgb;
+  button[button_index + led_index] = rgb;
 }
 
 CRGB* Buttons::getStripBank1(const int index) {

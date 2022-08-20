@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Buttons.hpp"
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
 #include "control-pole/ControlPole.hpp"
@@ -12,7 +13,9 @@ class SideToSide : public InterfaceEffect {
   SideToSide();
 
  protected:
-  void DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) override;
+  void DoUpdate(uint16_t frame, uint16_t lastFrame) override;
+  void DoSetGrid(Poles &poles) override;
+  void DoSetEffectButton(Buttons buttons) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;

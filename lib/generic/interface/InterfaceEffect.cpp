@@ -40,18 +40,24 @@ void InterfaceEffect::ManualShift(bool didAutomatic) {
   DoManualShift(didAutomatic);
 }
 
-void InterfaceEffect::SetGrid(Poles& poles, uint16_t timeSinceLastBeat,
-                              uint16_t millisPerBeat) {
+void InterfaceEffect::Update(uint16_t timeSinceLastBeat,
+                             uint16_t millisPerBeat) {
   if (lastTimeSinceLastBeat + WAIT_TIME_TO_START_OVER < timeSinceLastBeat) {
     Reset();
   }
 
   uint16_t frame = FRAMES_PER_LOOP * timeSinceLastBeat / millisPerBeat;
 
-  DoSetGrid(poles, frame, lastFrame);
+  DoUpdate(frame, lastFrame);
 
   lastFrame = frame;
   lastTimeSinceLastBeat = timeSinceLastBeat;
+}
+
+void InterfaceEffect::SetGrid(Poles& poles) { DoSetGrid(poles); }
+
+void InterfaceEffect::SetEffectButton(Buttons buttons) {
+  DoSetEffectButton(buttons);
 }
 
 void InterfaceEffect::Reset() { InitializeEffect(); }

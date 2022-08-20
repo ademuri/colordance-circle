@@ -15,7 +15,8 @@ class Buttons {
 
   Buttons(Bank1& bank1, Bank2& bank2);
 
-  void SetEffectButton(uint8_t button_index, const CRGB& rgb);
+  void SetButton(uint8_t button_index, const CRGB& rgb,
+                 const uint8_t led_index);
 
  private:
   CRGB* getStripBank1(const int index);

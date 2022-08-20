@@ -13,17 +13,25 @@ BackAndForth::BackAndForth()
   InitializeEffect();
 }
 
-void BackAndForth::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
+void BackAndForth::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   if (oscillateSat) {
     UpdateColor(frame);
   }
-
   controlPoleLeft->TurnOffAll();
   controlPoleRight->TurnOffAll();
-  poles[leftIndex % 6].SetGridLights(
-      controlPoleLeft->GetGrid(frame, lastFrame, false));
-  poles[rightIndex % 6].SetGridLights(
-      controlPoleRight->GetGrid(frame, lastFrame, false));
+
+  controlPoleLeft->UpdateGrid(frame, lastFrame, false);
+  controlPoleRight->UpdateGrid(frame, lastFrame, false);
+}
+
+void BackAndForth::DoSetGrid(Poles& poles) {
+  poles[leftIndex % 6].SetGridLights(controlPoleLeft->GetGrid());
+  poles[rightIndex % 6].SetGridLights(controlPoleRight->GetGrid());
+}
+
+void BackAndForth::DoSetEffectButton(Buttons buttons) {
+  buttons.SetButton(4, leftIndex % 6, CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(4, rightIndex % 6, CRGB(controlPoleRight->GetHSV()));
 }
 
 void BackAndForth::UpdateColor(uint16_t frame) {

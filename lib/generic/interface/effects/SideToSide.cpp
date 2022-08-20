@@ -10,17 +10,23 @@ SideToSide::SideToSide() : InterfaceEffect() {
   InitializeEffect();
 }
 
-void SideToSide::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
+void SideToSide::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    Grid<CHSV> const& grid = controlPoles[pole].GetGrid(
-        frame, lastFrame, false);  // Update all grids
+    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
+  }
+}
+
+void SideToSide::DoSetGrid(Poles& poles) {
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     if (pole < numOfPolesOn) {
       uint8_t effectivePole = (pole + poleOffset) % Pole::kNumPoles;
-      poles[effectivePole].SetGridLights(grid);
+      poles[effectivePole].SetGridLights(controlPoles[pole].GetGrid());
     }
   }
 }
+
+void SideToSide::DoSetEffectButton(Buttons buttons) {}
 
 /**
  * Change the mode (grid animation).

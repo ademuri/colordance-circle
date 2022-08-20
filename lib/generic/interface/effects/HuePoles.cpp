@@ -10,13 +10,20 @@ HuePoles::HuePoles() : InterfaceEffect() {
   InitializeEffect();
 }
 
-void HuePoles::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
+void HuePoles::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    poles[pole].SetGridLights(
-        controlPoles[pole].GetGrid(frame, lastFrame, false));
+    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
   }
 }
+
+void HuePoles::DoSetGrid(Poles& poles) {
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    poles[pole].SetGridLights(controlPoles[pole].GetGrid());
+  }
+}
+
+void HuePoles::DoSetEffectButton(Buttons buttons) {}
 
 /**
  * Change the mode (grid animation).

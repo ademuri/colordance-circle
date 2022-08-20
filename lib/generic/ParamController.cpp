@@ -67,5 +67,5 @@ void ParamController::ParseControlsIn(const ControlsIn& controls_in) {
   params_[static_cast<uint8_t>(Param::kSlider1)] = controls_in.analog_inputs[0];
   params_[static_cast<uint8_t>(Param::kSlider2)] = controls_in.analog_inputs[1];
 
-  params_[static_cast<uint8_t>(Param::kLoopShift)] = 1;
+  // params_[static_cast<uint8_t>(Param::kLoopShift)] = 1;
 }

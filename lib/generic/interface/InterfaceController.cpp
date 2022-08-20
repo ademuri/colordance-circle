@@ -42,7 +42,7 @@ void InterfaceController::DoStep() {
       currentEffect = std::addressof(split);
       break;
     case kStickyIndex:
-      currentEffect = std::addressof(sticky);
+      currentEffect = std::addressof(backAndForth);
   }
   currentEffect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
@@ -132,12 +132,8 @@ void InterfaceController::DoStep() {
   /*
    * Handles the shift and updates the beatsPerShift
    */
-<<<<<<< HEAD
-  uint8_t setShift = paramController.GetRawParam(Param::kShift);
-=======
   uint8_t setShift = paramController_.GetRawParam(Param::kShift);
-  bool loopShift = true;
->>>>>>> ffa0cd87b05ae7a81fcac0fbd81a8e8af19544f8
+  // bool loopShift = true;
 
   if (lastFrameWasBeat) {
     beatsSinceAutoShift++;
@@ -190,14 +186,12 @@ void InterfaceController::DoStep() {
   }
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   uint16_t interval = nextBeatTime - lastBeatTime;
-<<<<<<< HEAD
-  currentEffect->SetGrid(poles, timeSinceLastBeat, interval);
-=======
 
-  currentEffect->SetGrid(poles_, timeSinceLastBeat, interval);
+  currentEffect->Update(timeSinceLastBeat, interval);
+  currentEffect->SetGrid(poles_);
+  currentEffect->SetEffectButton(buttons_);
 
   SetPoleLowerEffect(poles_, millis());
->>>>>>> ffa0cd87b05ae7a81fcac0fbd81a8e8af19544f8
 
   lastEffectTime = effectTime;
 

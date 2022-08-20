@@ -14,32 +14,38 @@ Sticky::Sticky()
   InitializeEffect();
 }
 
-void Sticky::DoSetGrid(Poles& poles, uint16_t frame, uint16_t lastFrame) {
+void Sticky::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    Grid<CHSV> const& grid = controlPoles[pole].GetGrid(
-        frame, lastFrame, false);  // Update all grids
-    poles[pole].SetGridLights(grid);
+    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
   }
 
   if (beatsPerShift > 0) {
-    uint8_t autoMovingPoleIndex =
-        24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
-        24 * beatsSinceAutoShift / beatsPerShift;
+    autoMovingPoleIndex = 24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
+                          24 * beatsSinceAutoShift / beatsPerShift;
     autoMovingPole->SetShiftOffset(autoMovingPoleIndex % 4);
-    Grid<CHSV> const& grid = autoMovingPole->GetGrid(frame, lastFrame, false);
-    poles[autoMovingPoleIndex / 4].MultiplyGridLights(grid);
+    autoMovingPole->UpdateGrid(frame, lastFrame, false);
+    autoMovingPoleIndex /= 4;
   }
 
   if (frame < lastFrame && movingPoleIndex <= 6) {
     movingPoleIndex++;
   }
   if (movingPoleIndex < 6) {
-    Grid<CHSV> const& grid = movingPole->GetGrid(frame, lastFrame, false);
-    poles[movingPoleIndex].MultiplyGridLights(grid);
+    movingPole->UpdateGrid(frame, lastFrame, false);
   }
   baseHue += 5;
 }
+
+void Sticky::DoSetGrid(Poles& poles) {
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    poles[pole].SetGridLights(controlPoles[pole].GetGrid());
+  }
+  poles[autoMovingPoleIndex].MultiplyGridLights(autoMovingPole->GetGrid());
+  poles[movingPoleIndex].MultiplyGridLights(movingPole->GetGrid());
+}
+
+void Sticky::DoSetEffectButton(Buttons buttons) {}
 
 /**
  * Change the mode (grid animation).
