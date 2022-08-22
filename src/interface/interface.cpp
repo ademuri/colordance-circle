@@ -22,24 +22,24 @@ enum class RunType {
 const constexpr RunType run_mode = RunType::NORMAL;
 
 // Buttons
-const int kButton1 = 2;
-const int kButton2 = 3;
-const int kButton3 = 10;
-const int kButton4 = 11;
-const int kButton5 = 5;
-const int kButton6 = 4;
-const int kButton7 = 30;
-const int kButton8 = 31;
-const int kButton9 = 33;
-const int kButton10 = 7;
-const int kButton11 = 35;
+const int kEffect1 = 2;
+const int kEffect2 = 3;
+const int kEffect3 = 10;
+const int kEffect4 = 11;
+const int kEffect5 = 5;
+const int kEffect6 = 4;
+const int kEffect7 = 30;
+const int kOption1 = 31;
+const int kOption2 = 33;
+const int kShift = 7;
+const int kBeat = 35;
 const int kButton12 = 36;
 const int kButton13 = 37;
 const int kButton14 = 34;
 
 const std::vector<int> BUTTON_PINS = {
-    kButton1, kButton2, kButton3,  kButton4,  kButton5,  kButton6,  kButton7,
-    kButton8, kButton9, kButton10, kButton11, kButton12, kButton13, kButton14,
+    kEffect1, kEffect2, kEffect3, kEffect4, kEffect5,  kEffect6,  kEffect7,
+    kOption1, kOption2, kShift,   kBeat,    kButton12, kButton13, kButton14,
 };
 
 std::vector<bool> button_rose;
@@ -59,9 +59,9 @@ const std::vector<int> ANALOG_INPUT_PINS = {
 };
 
 const std::vector<int> PCB_ORDER_INPUT_PINS = {
-    kButton1,  kButton5, kButton9,  kAnalog1, kButton2,  kButton6,
-    kButton10, kAnalog2, kButton3,  kButton7, kButton11, kAnalog3,
-    kButton4,  kButton8, kButton12, kAnalog4,
+    kEffect1, kEffect5, kOption2,  kAnalog1, kEffect2, kEffect6,
+    kShift,   kAnalog2, kEffect3,  kEffect7, kBeat,    kAnalog3,
+    kEffect4, kOption1, kButton12, kAnalog4,
 };
 
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
@@ -118,6 +118,7 @@ uint8_t effect_last_pressed = 0;
 
 void setup() {
   Serial.begin(115200);
+  // while(!Serial) {}
   Serial.println("Booting...");
   pinMode(13, OUTPUT);
 
@@ -138,9 +139,9 @@ void setup() {
   Serial.println("Pins initialized");
 
   FastLED.addLeds<kStripsPerBank1, WS2812, kBank1FirstPin, GRB>(
-      bank1.begin(), kMaxLedsPerStrip);
+      bank1.data(), kMaxLedsPerStrip);
   FastLED.addLeds<kStripsPerBank2, WS2812, kBank2FirstPin, GRB>(
-      bank2.begin(), kMaxLedsPerStrip);
+      bank2.data(), kMaxLedsPerStrip);
   FastLED.showColor(CRGB::Black);
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
@@ -238,16 +239,17 @@ void loop() {
 
   // Wait to receive data before sending, so that we don't interrupt the brain
   // while its writing out LEDs.
-  if (brain_in.receiveData()) {
-    brain_out.sendData();
+  // if (brain_in.receiveData()) {
+  //   brain_out.sendData();
 
-    // Run the main effect here on the interface - we keep this in sync with the
-    // one on the brain, so that this one can output to the buttons.
-    if (brain_in_data.runner_state == RunnerState::NORMAL) {
-      interface_controller.Step();
-      FastLED.show();
-    }
+  // Run the main effect here on the interface - we keep this in sync with the
+  // one on the brain, so that this one can output to the buttons.
+  if (brain_in_data.runner_state == RunnerState::NORMAL) {
+    interface_controller.Step();
+    param_controller.Step();
+    FastLED.show();
   }
+  // }
   digitalWrite(13, brain_in_data.alive);
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i]);

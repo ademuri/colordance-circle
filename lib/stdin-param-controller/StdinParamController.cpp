@@ -8,7 +8,7 @@ void StdinParamController::Step() {
   // Note: this blocks on user input. But, non-blocking input is not
   // platform-independent. We work around this by making the controller spam
   // newlines. Sorry, mom.
-  // std::getline(std::cin, input);
+  std::getline(std::cin, input);
   if (input.length() >= 4 && input[1] == ':') {
     uint8_t val = std::stoi(&input[2]);
     switch (input[0]) {

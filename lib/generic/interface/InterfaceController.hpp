@@ -36,12 +36,13 @@ class InterfaceController : public Effect {
   bool HandleShiftButton(uint8_t beatsSinceLastSet);
   void ResetBeatQueue();
 
+  // std::array<InterfaceEffect, 5> interfaceEffects;
   BackAndForth backAndForth;
   HuePoles huePoles;
   SideToSide sideToSide;
   Sliders sliders;
   Split split;
-  Sticky sticky;
+  // Sticky sticky;
   InterfaceEffect* currentEffect;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;

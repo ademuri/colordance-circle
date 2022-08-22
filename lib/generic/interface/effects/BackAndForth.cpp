@@ -30,8 +30,8 @@ void BackAndForth::DoSetGrid(Poles& poles) {
 }
 
 void BackAndForth::DoSetEffectButton(Buttons buttons) {
-  buttons.SetButton(4, leftIndex % 6, CRGB(controlPoleLeft->GetHSV()));
-  buttons.SetButton(4, rightIndex % 6, CRGB(controlPoleRight->GetHSV()));
+  buttons.SetButton(0, leftIndex % 6, CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(0, rightIndex % 6, CRGB(controlPoleRight->GetHSV()));
 }
 
 void BackAndForth::UpdateColor(uint16_t frame) {

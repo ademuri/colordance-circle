@@ -15,8 +15,9 @@ class Buttons {
 
   Buttons(Bank1& bank1, Bank2& bank2);
 
-  void SetButton(uint8_t button_index, const CRGB& rgb,
-                 const uint8_t led_index);
+  void SetButton(uint8_t button_index, const uint8_t led_index,
+                 const CRGB& rgb);
+  void TurnOffAll();
 
  private:
   CRGB* getStripBank1(const int index);

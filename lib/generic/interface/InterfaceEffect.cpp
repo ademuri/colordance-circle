@@ -1,5 +1,7 @@
 #include "InterfaceEffect.hpp"
 
+#include <iostream>
+
 #include "ColordanceTypes.hpp"
 
 InterfaceEffect::InterfaceEffect() {}

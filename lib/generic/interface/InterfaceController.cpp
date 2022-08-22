@@ -42,7 +42,7 @@ void InterfaceController::DoStep() {
       currentEffect = std::addressof(split);
       break;
     case kStickyIndex:
-      currentEffect = std::addressof(backAndForth);
+      currentEffect = std::addressof(huePoles);
   }
   currentEffect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
@@ -189,11 +189,14 @@ void InterfaceController::DoStep() {
 
   currentEffect->Update(timeSinceLastBeat, interval);
   currentEffect->SetGrid(poles_);
+  buttons_.TurnOffAll();
   currentEffect->SetEffectButton(buttons_);
 
   SetPoleLowerEffect(poles_, millis());
 
   lastEffectTime = effectTime;
+
+  // buttons_.SetButton(effectNumber, 0, CRGB(255, 0, 255));
 
   SleepMs(MILLIS_PER_RUN_LOOP);
 }

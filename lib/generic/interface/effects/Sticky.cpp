@@ -5,8 +5,8 @@
 Sticky::Sticky()
     : InterfaceEffect(),
       movingPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
-      autoMovingPole(controlPoles.data() + 0),
-      movingPole(controlPoles.data() + 1) {
+      autoMovingPole(movingPoles.data() + 0),
+      movingPole(movingPoles.data() + 1) {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
@@ -15,34 +15,34 @@ Sticky::Sticky()
 }
 
 void Sticky::DoUpdate(uint16_t frame, uint16_t lastFrame) {
-  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-    controlPoles[pole].TurnOffAll();
-    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
-  }
+  // for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+  //   controlPoles[pole].TurnOffAll();
+  //   controlPoles[pole].UpdateGrid(frame, lastFrame, false);
+  // }
 
-  if (beatsPerShift > 0) {
-    autoMovingPoleIndex = 24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
-                          24 * beatsSinceAutoShift / beatsPerShift;
-    autoMovingPole->SetShiftOffset(autoMovingPoleIndex % 4);
-    autoMovingPole->UpdateGrid(frame, lastFrame, false);
-    autoMovingPoleIndex /= 4;
-  }
+  // if (beatsPerShift > 0) {
+  //   autoMovingPoleIndex = 24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
+  //                         24 * beatsSinceAutoShift / beatsPerShift;
+  //   autoMovingPole->SetShiftOffset(autoMovingPoleIndex % 4);
+  //   autoMovingPole->UpdateGrid(frame, lastFrame, false);
+  //   autoMovingPoleIndex /= 4;
+  // }
 
-  if (frame < lastFrame && movingPoleIndex <= 6) {
-    movingPoleIndex++;
-  }
-  if (movingPoleIndex < 6) {
-    movingPole->UpdateGrid(frame, lastFrame, false);
-  }
-  baseHue += 5;
+  // if (frame < lastFrame && movingPoleIndex <= 6) {
+  //   movingPoleIndex++;
+  // }
+  // if (movingPoleIndex < 6) {
+  //   movingPole->UpdateGrid(frame, lastFrame, false);
+  // }
+  // baseHue += 5;
 }
 
 void Sticky::DoSetGrid(Poles& poles) {
-  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-    poles[pole].SetGridLights(controlPoles[pole].GetGrid());
-  }
-  poles[autoMovingPoleIndex].MultiplyGridLights(autoMovingPole->GetGrid());
-  poles[movingPoleIndex].MultiplyGridLights(movingPole->GetGrid());
+  // for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+  //   poles[pole].SetGridLights(controlPoles[pole].GetGrid());
+  // }
+  // poles[autoMovingPoleIndex].MultiplyGridLights(autoMovingPole->GetGrid());
+  // poles[movingPoleIndex].MultiplyGridLights(movingPole->GetGrid());
 }
 
 void Sticky::DoSetEffectButton(Buttons buttons) {}

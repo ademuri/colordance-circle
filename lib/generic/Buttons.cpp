@@ -2,8 +2,8 @@
 
 Buttons::Buttons(Bank1& bank1, Bank2& bank2) : bank1_(bank1), bank2_(bank2) {}
 
-void Buttons::SetButton(uint8_t button_index, const CRGB& rgb,
-                        const uint8_t led_index) {
+void Buttons::SetButton(uint8_t button_index, const uint8_t led_index,
+                        const CRGB& rgb) {
   CRGB* button = nullptr;
   switch (button_index) {
     case 0:
@@ -54,4 +54,16 @@ CRGB* Buttons::getStripBank1(const int index) {
 
 CRGB* Buttons::getStripBank2(const int index) {
   return &bank2_[index * kMaxLedsPerStrip];
+}
+
+void Buttons::TurnOffAll() {
+  for (int i = 0; i < sizeof(bank1_) / sizeof(bank1_[0]); i++) {
+    bank1_[i] = CRGB(0, 0, 0);
+  }
+  for (int i = 0; i < sizeof(bank2_) / sizeof(bank2_[0]); i++) {
+    bank2_[i] = CRGB(0, 0, 0);
+  }
+  // for (int i=0; i<16; i++) {
+  //   bank1_[i] = CRGB(255, 0, 0);
+  // }
 }
