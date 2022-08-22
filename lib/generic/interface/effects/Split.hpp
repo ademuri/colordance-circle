@@ -34,6 +34,8 @@ class Split : public InterfaceEffect {
 
   std::vector<ControlPole> controlPoles;
 
+  uint8_t movingPoleInded = 0;
+
   bool increaseSat = false;
   uint8_t baseHue = 0;
 

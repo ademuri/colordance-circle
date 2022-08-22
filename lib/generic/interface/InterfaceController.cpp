@@ -42,7 +42,7 @@ void InterfaceController::DoStep() {
       currentEffect = std::addressof(split);
       break;
     case kStickyIndex:
-      currentEffect = std::addressof(huePoles);
+      currentEffect = std::addressof(sticky);
   }
   currentEffect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
   currentEffect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
@@ -60,6 +60,7 @@ void InterfaceController::DoStep() {
       pauseStart = systemTime;
     }
     lastLoopWasPaused = true;
+    TurnOnPause();
     return;
   }
   if (lastLoopWasPaused) {
@@ -194,10 +195,13 @@ void InterfaceController::DoStep() {
 
   SetPoleLowerEffect(poles_, millis());
 
-  lastEffectTime = effectTime;
-
   // buttons_.SetButton(effectNumber, 0, CRGB(255, 0, 255));
 
+  for (int i = 1; i <= beatsPerShift && i <= 8; i++) {
+    buttons_.SetButton(9, i, CRGB(200, 200, 200));
+  }
+
+  lastEffectTime = effectTime;
   SleepMs(MILLIS_PER_RUN_LOOP);
 }
 
@@ -240,3 +244,5 @@ void InterfaceController::ResetBeatQueue() {
   }
   beatTrackingTime = 0;
 }
+
+void InterfaceController::TurnOnPause() {}

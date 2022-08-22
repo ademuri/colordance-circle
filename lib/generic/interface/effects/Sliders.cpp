@@ -29,22 +29,18 @@ void Sliders::DoSetGrid(Poles &poles) {
 void Sliders::DoSetEffectButton(Buttons buttons) {}
 
 void Sliders::UpdateOption1() {
-  mode++;
-  mode %= kNumModes;
-  pole_left->SetMode(modesLeft[mode]);
-  pole_right->SetMode(modesLeft[mode]);
-  // Have to do this after setting mode because code is dumb - make code better.
-  ResetModes();
+  modeLeft++;
+  modeLeft %= kNumModes;
+  pole_left->SetMode(modesLeft[modeLeft]);
 }
 
 /**
  * Cycle hues.
  */
 void Sliders::UpdateOption2() {
-  backAndForth = !backAndForth;
-  for (auto &pole : this->poles) {
-    pole.SetBackAndForth(backAndForth);
-  }
+  modeRight++;
+  modeRight %= kNumModes;
+  pole_right->SetMode(modesRight[modeRight]);
 }
 
 /**

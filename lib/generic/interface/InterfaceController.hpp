@@ -35,6 +35,7 @@ class InterfaceController : public Effect {
   uint16_t GetBeatsOverTime(uint32_t elapsedTime, uint16_t interval);
   bool HandleShiftButton(uint8_t beatsSinceLastSet);
   void ResetBeatQueue();
+  void TurnOnPause();
 
   // std::array<InterfaceEffect, 5> interfaceEffects;
   BackAndForth backAndForth;
@@ -42,7 +43,7 @@ class InterfaceController : public Effect {
   SideToSide sideToSide;
   Sliders sliders;
   Split split;
-  // Sticky sticky;
+  Sticky sticky;
   InterfaceEffect* currentEffect;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;

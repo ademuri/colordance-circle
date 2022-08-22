@@ -27,24 +27,26 @@ class Sticky : public InterfaceEffect {
 
  private:
   void UpdateHues();
+  void SetBackAndForth();
 
+  void ResetModes();
   std::vector<ControlPole> controlPoles;
 
-  std::array<ControlPole, 2> movingPoles;
-  ControlPole *autoMovingPole;
-  ControlPole *movingPole;
+  ControlPole movingPole;
+
   uint8_t movingPoleIndex = 0;
-  uint8_t autoMovingPoleIndex = 0;
+  bool changeMovingPole = false;
 
   uint8_t poleOffset = 0;
   bool goBackwards = false;
+  bool smoothColor = true;
+  bool still = true;
+  uint8_t hueOffset = 0;
 
-  bool still = false;
+  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
+  uint8_t modeIndex = 0;
+  const uint8_t kNumModes = 4;
 
-  uint8_t baseHue = 0;
-  uint8_t hueDistance = 42;
-
-  uint8_t numOfPolesOn = 6;
   bool backAndForth = true;
   bool smoothPoleShift = true;
 };

@@ -2,11 +2,7 @@
 
 #include "ColordanceTypes.hpp"
 
-Sticky::Sticky()
-    : InterfaceEffect(),
-      movingPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
-      autoMovingPole(movingPoles.data() + 0),
-      movingPole(movingPoles.data() + 1) {
+Sticky::Sticky() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles.emplace_back(FRAMES_PER_LOOP);
@@ -15,34 +11,23 @@ Sticky::Sticky()
 }
 
 void Sticky::DoUpdate(uint16_t frame, uint16_t lastFrame) {
-  // for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-  //   controlPoles[pole].TurnOffAll();
-  //   controlPoles[pole].UpdateGrid(frame, lastFrame, false);
-  // }
-
-  // if (beatsPerShift > 0) {
-  //   autoMovingPoleIndex = 24 * frame / (FRAMES_PER_LOOP * beatsPerShift) +
-  //                         24 * beatsSinceAutoShift / beatsPerShift;
-  //   autoMovingPole->SetShiftOffset(autoMovingPoleIndex % 4);
-  //   autoMovingPole->UpdateGrid(frame, lastFrame, false);
-  //   autoMovingPoleIndex /= 4;
-  // }
-
-  // if (frame < lastFrame && movingPoleIndex <= 6) {
-  //   movingPoleIndex++;
-  // }
-  // if (movingPoleIndex < 6) {
-  //   movingPole->UpdateGrid(frame, lastFrame, false);
-  // }
-  // baseHue += 5;
+  if (changeMovingPole) {
+    movingPoleIndex = frame % Pole::kNumPoles;
+    changeMovingPole = false;
+  }
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    controlPoles[pole].TurnOffAll();
+    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
+  }
+  movingPole.TurnOffAll();
+  movingPole.UpdateGrid(frame, lastFrame, false);
 }
 
 void Sticky::DoSetGrid(Poles& poles) {
-  // for (int pole = 0; pole < Pole::kNumPoles; pole++) {
-  //   poles[pole].SetGridLights(controlPoles[pole].GetGrid());
-  // }
-  // poles[autoMovingPoleIndex].MultiplyGridLights(autoMovingPole->GetGrid());
-  // poles[movingPoleIndex].MultiplyGridLights(movingPole->GetGrid());
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    poles[pole].SetGridLights(controlPoles[pole].GetGrid());
+  }
+  poles[movingPoleIndex].SetGridLights(movingPole.GetGrid());
 }
 
 void Sticky::DoSetEffectButton(Buttons buttons) {}
@@ -50,65 +35,64 @@ void Sticky::DoSetEffectButton(Buttons buttons) {}
 /**
  * Change the mode (grid animation).
  */
-void Sticky::UpdateOption1() {}
+void Sticky::UpdateOption1() {
+  modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
+  for (int i = 0; i < Pole::kNumPoles; i++) {
+    controlPoles[i].SetMode(modes[modeIndex]);
+  }
+  ResetModes();
+}
 
 void Sticky::UpdateOption2() {
   still = !still;
-  for (ControlPole& pole : controlPoles) {
+  for (auto& pole : controlPoles) {
     pole.SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
   }
 }
 
 /**
- * Change the number of poles on.
+ * Change color shift.
  */
 void Sticky::UpdateSlider1(uint8_t val) {
-  hueDistance = val / 6;
-  UpdateHues();
-}
-
-void Sticky::UpdateHues() {
-  uint8_t hue = baseHue;
-  for (ControlPole& pole : controlPoles) {
-    pole.SetHue(hue);
-    hue += hueDistance;
+  for (auto& pole : controlPoles) {
+    pole.SetHueShift(val < 10 ? 2 : val / 5);
   }
 }
-/**
- * Changes the hue distance
- */
-void Sticky::UpdateSlider2(uint8_t val) {}
 
-void Sticky::DoAutomaticShift(bool didManual) {
-  autoMovingPole->SetHue(baseHue + 127);
+/**
+ * Chages Hue Distance
+ */
+void Sticky::UpdateSlider2(uint8_t val) {
+  for (auto& pole : controlPoles) {
+    pole.SetHueDistance(val / 2);
+  }
 }
+
+void Sticky::DoAutomaticShift(bool didManual) { changeMovingPole = true; }
 
 void Sticky::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
 
-void Sticky::DoManualShift(bool didAutomatic) {
-  if (!didAutomatic && movingPoleIndex == 6) {
-    movingPoleIndex = 0;
-    movingPole->SetHue(baseHue + 127);
+void Sticky::DoManualShift(bool didAutomatic) { changeMovingPole = true; }
+
+void Sticky::ResetModes() {
+  for (int i = 0; i < Pole::kNumPoles; i++) {
+    if (modes[modeIndex] == Mode::kLine || modes[modeIndex] == Mode::kDiverge) {
+      controlPoles[i].SetBackAndForth(true);
+    } else {
+      controlPoles[i].SetBackAndForth(false);
+    }
+    // don't care about reverse
+    controlPoles[i].SetSmoothColor(true);
+    controlPoles[i].SetLightCount(2);
+    controlPoles[i].SetHue(43 * i + hueOffset);
+    controlPoles[i].SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
+    controlPoles[i].ResetFade();
+    controlPoles[i].SetReverse(false);
+    controlPoles[i].SetRotation(0);
   }
 }
 
 void Sticky::InitializeEffect() {
-  poleOffset = 0;
-  for (ControlPole& pole : controlPoles) {
-    pole.SetMode(Mode::kLine);
-    pole.SetShiftSpeed(Speed::kStill);
-    pole.SetShiftOffset(3);
-    pole.ResetFade();
-    pole.SetLightCount(1);
-    pole.SetBackAndForth(false);
-    pole.SetReverse(false);
-    pole.SetSmoothColor(true);
-  }
-  for (ControlPole& pole : movingPoles) {
-    pole.SetMode(Mode::kLine);
-    pole.SetLightCount(3);
-    pole.SetBackAndForth(false);
-    pole.SetHueShift(0);
-    pole.SetHueDistance(0);
-  }
+  still = true;
+  ResetModes();
 }

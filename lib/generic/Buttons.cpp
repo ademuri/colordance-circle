@@ -45,6 +45,10 @@ void Buttons::SetButton(uint8_t button_index, const uint8_t led_index,
       break;
   }
 
+  if (button_index + led_index >= sizeof(button) / sizeof(button[0])) {
+    return;
+  }
+
   button[button_index + led_index] = rgb;
 }
 

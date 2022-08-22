@@ -1,6 +1,6 @@
 #include "BackAndForth.hpp"
 
-#include "ColordanceTypes.hpp":
+#include "ColordanceTypes.hpp"
 
 /**
  * @brief Effect with 2 opposing poles on.
