@@ -33,16 +33,14 @@ const int kOption1 = 31;
 const int kOption2 = 33;
 const int kShift = 7;
 const int kBeat = 35;
-const int kButton12 = 36;
+const int kPause = 36;
 const int kButton13 = 37;
 const int kButton14 = 34;
 
 const std::vector<int> BUTTON_PINS = {
-    kEffect1, kEffect2, kEffect3, kEffect4, kEffect5,  kEffect6,  kEffect7,
-    kOption1, kOption2, kShift,   kBeat,    kButton12, kButton13, kButton14,
+    kEffect1, kEffect2, kEffect3, kEffect4, kEffect5, kEffect6,  kEffect7,
+    kOption1, kOption2, kShift,   kBeat,    kPause,   kButton13, kButton14,
 };
-
-std::vector<bool> button_rose;
 
 // Analog inputs
 const int kAnalog1 = 38;
@@ -55,13 +53,13 @@ const int kAnalog7 = 39;
 const int kAnalog8 = 27;
 
 const std::vector<int> ANALOG_INPUT_PINS = {
-    kAnalog1, kAnalog3, kAnalog4, kAnalog5, kAnalog7, kAnalog8,
+    kAnalog1, kAnalog2, kAnalog3, kAnalog4, kAnalog5, kAnalog7, kAnalog8,
 };
 
 const std::vector<int> PCB_ORDER_INPUT_PINS = {
-    kEffect1, kEffect5, kOption2,  kAnalog1, kEffect2, kEffect6,
-    kShift,   kAnalog2, kEffect3,  kEffect7, kBeat,    kAnalog3,
-    kEffect4, kOption1, kButton12, kAnalog4,
+    kEffect1, kEffect5, kOption2, kAnalog1, kEffect2, kEffect6,
+    kShift,   kAnalog2, kEffect3, kEffect7, kBeat,    kAnalog3,
+    kEffect4, kOption1, kPause,   kAnalog4,
 };
 
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
@@ -79,6 +77,7 @@ ControlsOut brain_in_data;
 
 /*
 Index  LED_number
+The # on the right is the index in PCB_ORDER_INPUT_PINS starting at 1
 Bank 1:
  0  1
  1  2
@@ -164,6 +163,8 @@ void setup() {
 
   Serial.println("Local assets initialized. Beginning serial communication...");
 
+  // Sets speed for serial port and brain communication
+  // decrease this if flaky
   Serial7.begin(kSerialBaud);
   brain_out.begin(details(brain_out_data), &Serial7);
   brain_in.begin(details(brain_in_data), &Serial7);
@@ -176,7 +177,7 @@ void readControls() {
 
   for (uint8_t button_index = 0; button_index < BUTTON_PINS.size();
        button_index++) {
-    uint8_t val = !digitalRead(BUTTON_PINS[button_index]) << button_index;
+    uint16_t val = !digitalRead(BUTTON_PINS[button_index]) << button_index;
     if (val && !effect_pressed) {
       effect_last_pressed = button_index;
       effect_pressed = true;
@@ -239,17 +240,17 @@ void loop() {
 
   // Wait to receive data before sending, so that we don't interrupt the brain
   // while its writing out LEDs.
-  // if (brain_in.receiveData()) {
-  //   brain_out.sendData();
+  if (brain_in.receiveData()) {
+    brain_out.sendData();
 
-  // Run the main effect here on the interface - we keep this in sync with the
-  // one on the brain, so that this one can output to the buttons.
-  if (brain_in_data.runner_state == RunnerState::NORMAL) {
-    interface_controller.Step();
-    param_controller.Step();
-    FastLED.show();
+    // Run the main effect here on the interface - we keep this in sync with the
+    // one on the brain, so that this one can output to the buttons.
+    if (brain_in_data.runner_state == RunnerState::NORMAL) {
+      interface_controller.Step();
+      param_controller.Step();
+      FastLED.show();
+    }
   }
-  // }
   digitalWrite(13, brain_in_data.alive);
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i]);

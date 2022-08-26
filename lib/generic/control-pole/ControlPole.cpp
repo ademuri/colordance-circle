@@ -122,10 +122,14 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
   fadeOutFramesLeft = fadeOutFrames;
 }
 
+uint8_t ControlPole::GetHue() { return hue; }
+
+uint8_t ControlPole::GetHueDistance() { return hueDistance; }
+
 CHSV ControlPole::GetHSV() { return CHSV(hue, baseSat, baseVal); }
 
-Grid<CHSV> const& ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
-                                          bool multiply) {
+uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
+                                bool multiply) {
   uint16_t const framesPerShift =
       currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
   uint8_t const lastShiftIndex = lastFrame / framesPerShift;
@@ -174,7 +178,7 @@ Grid<CHSV> const& ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
 
   lastEffectiveShiftIndex = shiftIndex;
 
-  shiftIndex = (shiftIndex + shiftOffset) % shiftsPerLoop;
+  // shiftIndex = (shiftIndex + shiftOffset) % shiftsPerLoop;
 
   fadeInFramesLeft -=
       framesSinceLast < fadeInFramesLeft ? framesSinceLast : fadeInFramesLeft;
@@ -198,7 +202,7 @@ Grid<CHSV> const& ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
   // }
   currentEffect->SetGrid(grid_lights, shiftIndex);
 
-  return grid_lights;
+  return shiftIndex;
 }
 
 Grid<CHSV> const& ControlPole::GetGrid() { return grid_lights; }

@@ -26,7 +26,16 @@ void Sliders::DoSetGrid(Poles &poles) {
   poles[rightIndex].MultiplyGridLights(pole_right->GetGrid());
 }
 
-void Sliders::DoSetEffectButton(Buttons buttons) {}
+void Sliders::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  if (leftIndex == rightIndex) {
+    buttons.SetButton(buttonIndex, leftIndex, CRGB(200, 200, 200));
+  } else {
+    buttons.SetButton(buttonIndex, leftIndex, CRGB(pole_left->GetHSV()));
+    buttons.SetButton(buttonIndex, rightIndex, CRGB(pole_right->GetHSV()));
+  }
+}
+
+void Sliders::DoSetOptionButtons(Buttons buttons) {}
 
 void Sliders::UpdateOption1() {
   mode++;

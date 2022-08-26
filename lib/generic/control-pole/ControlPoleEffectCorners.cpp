@@ -2,7 +2,7 @@
 
 ControlPoleEffectCorners::ControlPoleEffectCorners() : ControlPoleEffect() {}
 
-uint8_t ControlPoleEffectCorners::GetShiftsPerLoop() { return 4; }
+uint8_t ControlPoleEffectCorners::GetShiftsPerLoop() { return 4 - lightCount; }
 
 uint8_t ControlPoleEffectCorners::GetRotations() { return 1; }
 

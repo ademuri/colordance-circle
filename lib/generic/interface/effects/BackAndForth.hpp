@@ -13,7 +13,8 @@ class BackAndForth : public InterfaceEffect {
  protected:
   void DoUpdate(uint16_t frame, uint16_t lastFrame) override;
   void DoSetGrid(Poles &poles) override;
-  void DoSetEffectButton(Buttons buttons) override;
+  void DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) override;
+  void DoSetOptionButtons(Buttons buttons) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
@@ -36,10 +37,10 @@ class BackAndForth : public InterfaceEffect {
   uint8_t leftIndex = 2;
   uint8_t rightIndex = 3;
 
-  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
+  Mode modes[5] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel,
+                   Mode::kSmallSquare};
   uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 3;
-  bool still = false;
+  const uint8_t kNumModes = 4;
 
   bool oscillateSat = false;
   bool increaseSat = false;
@@ -50,6 +51,8 @@ class BackAndForth : public InterfaceEffect {
   uint8_t hueDistance = 127;
   uint8_t hueStart = 0;
   uint8_t hueVal = 0;
+
+  uint8_t option2Hue = 64;
 
   bool smoothPoleShift = true;
 };

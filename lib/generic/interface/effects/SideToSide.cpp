@@ -26,7 +26,11 @@ void SideToSide::DoSetGrid(Poles& poles) {
   }
 }
 
-void SideToSide::DoSetEffectButton(Buttons buttons) {}
+void SideToSide::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  buttons.SetButton(buttonIndex, buttonIndex, CRGB(255, 255, 255));
+}
+
+void SideToSide::DoSetOptionButtons(Buttons buttons) {}
 
 /**
  * Change the mode (grid animation).

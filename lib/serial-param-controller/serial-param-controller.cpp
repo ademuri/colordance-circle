@@ -4,6 +4,7 @@
 #include <SPI.h>
 
 SerialParamController::SerialParamController() {
+  // Decrease if flakiness
   Serial6.begin(kSerialBaud);
   transfer_in_.begin(details(controls_in), &Serial6);
   transfer_out_.begin(details(controls_out), &Serial6);

@@ -15,7 +15,8 @@ class HuePoles : public InterfaceEffect {
  protected:
   void DoUpdate(uint16_t frame, uint16_t lastFrame) override;
   void DoSetGrid(Poles &poles) override;
-  void DoSetEffectButton(Buttons buttons) override;
+  void DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) override;
+  void DoSetOptionButtons(Buttons buttons) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;
@@ -38,10 +39,13 @@ class HuePoles : public InterfaceEffect {
   bool still = true;
   uint8_t hueOffset = 0;
 
-  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kDiverge};
+  Mode modes[4] = {Mode::kLine, Mode::kCircle, Mode::kDiverge,
+                   Mode::kSmallSquare};
   uint8_t modeIndex = 0;
   const uint8_t kNumModes = 4;
-  uint8_t numOfPolesOn = 1;
   bool backAndForth = true;
   bool smoothPoleShift = true;
+
+  uint8_t shiftIndex = 0;
+  uint8_t hueDistance = 0;
 };

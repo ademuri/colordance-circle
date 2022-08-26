@@ -22,14 +22,16 @@ class InterfaceEffect {
   void ManualShift(bool didAutomatic);
   void Update(uint16_t timeSinceLastBeat, uint16_t millisPerBeat);
   void SetGrid(Poles &poles);
-  void SetEffectButton(Buttons buttons);
+  void SetEffectButton(Buttons buttons, uint8_t buttonIndex);
+  void SetOptionButtons(Buttons buttons);
 
   void Reset();
 
  protected:
   virtual void DoUpdate(uint16_t frame, uint16_t lastFrame) = 0;
   virtual void DoSetGrid(Poles &poles) = 0;
-  virtual void DoSetEffectButton(Buttons buttons) = 0;
+  virtual void DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) = 0;
+  virtual void DoSetOptionButtons(Buttons buttons) = 0;
   virtual void UpdateOption1() = 0;
   virtual void UpdateOption2() = 0;
   virtual void UpdateSlider1(uint8_t val) = 0;

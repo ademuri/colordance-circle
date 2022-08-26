@@ -58,8 +58,12 @@ void InterfaceEffect::Update(uint16_t timeSinceLastBeat,
 
 void InterfaceEffect::SetGrid(Poles& poles) { DoSetGrid(poles); }
 
-void InterfaceEffect::SetEffectButton(Buttons buttons) {
-  DoSetEffectButton(buttons);
+void InterfaceEffect::SetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  DoSetEffectButton(buttons, buttonIndex);
+}
+
+void InterfaceEffect::SetOptionButtons(Buttons buttons) {
+  DoSetOptionButtons(buttons);
 }
 
 void InterfaceEffect::Reset() { InitializeEffect(); }

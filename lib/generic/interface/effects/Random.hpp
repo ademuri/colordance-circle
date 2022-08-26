@@ -8,9 +8,9 @@
 #include "control-pole/ControlPole.hpp"
 #include "interface/InterfaceEffect.hpp"
 
-class SideToSide : public InterfaceEffect {
+class Random : public InterfaceEffect {
  public:
-  SideToSide();
+  Random();
 
  protected:
   void DoUpdate(uint16_t frame, uint16_t lastFrame) override;
@@ -28,18 +28,21 @@ class SideToSide : public InterfaceEffect {
 
  private:
   void UpdateHues();
-  void SetBackAndForth();
-  void ResetModes();
 
   std::vector<ControlPole> controlPoles;
+
+  uint8_t movingPoleIndex = 0;
 
   uint8_t poleOffset = 0;
   bool goBackwards = false;
 
-  Mode modes[3] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel};
-  uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 3;
-  uint8_t numOfPolesOn = 1;
+  bool doMove = true;
+  bool still = false;
+
+  uint8_t baseHue = 0;
+  uint8_t hueDistance = 42;
+
+  uint8_t numOfPolesOn = 6;
   bool backAndForth = true;
   bool smoothPoleShift = true;
 };

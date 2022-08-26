@@ -38,7 +38,9 @@ void Split::DoSetGrid(Poles& poles) {
   poles[5 - leftPole].SetGridLights(controlPoles[1].GetGrid());
 }
 
-void Split::DoSetEffectButton(Buttons buttons) {}
+void Split::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {}
+
+void Split::DoSetOptionButtons(Buttons buttons) {}
 
 void Split::UpdateWhite(uint16_t frame, bool flipHue) {
   uint8_t sat = 255 * frame / FRAMES_PER_LOOP;

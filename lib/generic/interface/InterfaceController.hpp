@@ -19,14 +19,6 @@ class InterfaceController : public Effect {
   InterfaceController(Poles& poles, Buttons& buttons,
                       ParamController& paramController);
 
-  // Effect indices
-  static constexpr uint8_t kSplitIndex = 1;
-  static constexpr uint8_t kStickyIndex = 2;
-  static constexpr uint8_t kHuePolesIndex = 3;
-  static constexpr uint8_t kBackAndForthIndex = 4;
-  static constexpr uint8_t kSlidersIndex = 5;
-  static constexpr uint8_t kSideToSideIndex = 6;
-
  protected:
   void DoStep() override;
 
@@ -35,6 +27,14 @@ class InterfaceController : public Effect {
   uint16_t GetBeatsOverTime(uint32_t elapsedTime, uint16_t interval);
   bool HandleShiftButton(uint8_t beatsSinceLastSet);
   void ResetBeatQueue();
+  void TurnOnPause();
+
+  auto interfaceEffects() {
+    return std::array<InterfaceEffect*, 6>{
+        std::addressof(backAndForth), std::addressof(huePoles),
+        std::addressof(sideToSide),   std::addressof(sliders),
+        std::addressof(sticky),       std::addressof(split)};
+  }
 
   // std::array<InterfaceEffect, 5> interfaceEffects;
   BackAndForth backAndForth;
@@ -42,8 +42,7 @@ class InterfaceController : public Effect {
   SideToSide sideToSide;
   Sliders sliders;
   Split split;
-  // Sticky sticky;
-  InterfaceEffect* currentEffect;
+  Sticky sticky;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;
   const uint16_t FRAMES_PER_LOOP = 840;
@@ -61,7 +60,7 @@ class InterfaceController : public Effect {
 
   // Beat
   const uint32_t BEAT_RESET_WAIT_TIME = 240000;
-  const uint16_t DEFAULT_MILLIS_PER_BEAT = 750;  // 80bpm
+  const uint16_t DEFAULT_MILLIS_PER_BEAT = 1000;  // 80bpm
   const uint16_t MIN_MILLIS_PER_BEAT = 300;
   const uint16_t MAX_MILLIS_PER_BEAT = 1500;
   const uint16_t SET_BEAT_TOLERANCE = 200;
@@ -85,4 +84,6 @@ class InterfaceController : public Effect {
   const uint8_t BEATS_TO_RECORD = 4;
   std::queue<uint16_t> beatQueue;
   uint16_t beatTrackingTime = 0;
+
+  uint8_t beatButtonHue = 0;
 };

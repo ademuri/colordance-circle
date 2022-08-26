@@ -8,8 +8,7 @@
 
 InterfaceController::InterfaceController(Poles& poles, Buttons& buttons,
                                          ParamController& paramController)
-    : Effect(poles, buttons, paramController),
-      currentEffect(std::addressof(backAndForth)) {
+    : Effect(poles, buttons, paramController) {
   for (int i = 0; i < 4; i++) {
     beatQueue.push(750);
   }
@@ -24,30 +23,17 @@ void InterfaceController::DoStep() {
    * Sets the effect
    */
   uint8_t effectNumber = paramController_.GetRawParam(Param::kEffect);
-  switch (effectNumber) {
-    case kHuePolesIndex:
-    default:
-      currentEffect = std::addressof(huePoles);
-      break;
-    case kBackAndForthIndex:
-      currentEffect = std::addressof(backAndForth);
-      break;
-    case kSlidersIndex:
-      currentEffect = std::addressof(sliders);
-      break;
-    case kSideToSideIndex:
-      currentEffect = std::addressof(sideToSide);
-      break;
-    case kSplitIndex:
-      currentEffect = std::addressof(split);
-      break;
-    case kStickyIndex:
-      currentEffect = std::addressof(huePoles);
+  if (effectNumber >=
+      sizeof(interfaceEffects()) / sizeof(interfaceEffects()[0])) {
+    effectNumber = 0;
   }
-  currentEffect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
-  currentEffect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
-  currentEffect->SetSlider1(paramController_.GetRawParam(Param::kSlider1));
-  currentEffect->SetSlider2(paramController_.GetRawParam(Param::kSlider2));
+
+  for (auto effect : interfaceEffects()) {
+    effect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
+    effect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
+    effect->SetSlider1(paramController_.GetRawParam(Param::kSlider1));
+    effect->SetSlider2(paramController_.GetRawParam(Param::kSlider2));
+  }
 
   uint32_t systemTime = millis();
 
@@ -60,6 +46,7 @@ void InterfaceController::DoStep() {
       pauseStart = systemTime;
     }
     lastLoopWasPaused = true;
+    TurnOnPause();
     return;
   }
   if (lastLoopWasPaused) {
@@ -138,6 +125,7 @@ void InterfaceController::DoStep() {
   if (lastFrameWasBeat) {
     beatsSinceAutoShift++;
     beatsSinceManualShift++;
+    beatButtonHue += 57;
   }
 
   bool doManualShift = false;
@@ -160,24 +148,32 @@ void InterfaceController::DoStep() {
     lastSetShift = setShift;  // Track shift button state
   }
 
-  currentEffect->SetBeatsPerShift(beatsPerShift);
-  currentEffect->SetBeatsSinceAutoShift(beatsSinceAutoShift);
+  for (auto effect : interfaceEffects()) {
+    effect->SetBeatsPerShift(beatsPerShift);
+    effect->SetBeatsSinceAutoShift(beatsSinceAutoShift);
+  }
 
   /* Automatic Shifts */
   if (beatsPerShift != 0) {
     if (beatsSinceAutoShift == beatsPerShift / 2 &&
         ((lastFrameWasBeat && beatsPerShift % 2 == 0) ||
          (lastFrameWasHalfBeat && beatsPerShift % 2 == 1))) {
-      currentEffect->AutomaticPartialShift(2);
+      for (auto effect : interfaceEffects()) {
+        effect->AutomaticPartialShift(2);
+      }
     }
     if (lastFrameWasBeat && beatsSinceAutoShift >= beatsPerShift) {
-      currentEffect->AutomaticShift(beatsSinceManualShift < 2);
+      for (auto effect : interfaceEffects()) {
+        effect->AutomaticShift(beatsSinceManualShift < 2);
+      }
       beatsSinceAutoShift = 0;
     }
   }
 
   if (doManualShift) {
-    currentEffect->ManualShift(beatsSinceAutoShift < 2);
+    for (auto effect : interfaceEffects()) {
+      effect->ManualShift(beatsSinceAutoShift < 2);
+    }
     beatsSinceManualShift = 0;
   }
 
@@ -187,17 +183,58 @@ void InterfaceController::DoStep() {
   uint32_t timeSinceLastBeat = effectTime - lastBeatTime;
   uint16_t interval = nextBeatTime - lastBeatTime;
 
-  currentEffect->Update(timeSinceLastBeat, interval);
-  currentEffect->SetGrid(poles_);
+  // Update the grids and set all of the effect buttons
   buttons_.TurnOffAll();
-  currentEffect->SetEffectButton(buttons_);
+  for (uint8_t i = 0;
+       i < sizeof(interfaceEffects()) / sizeof(interfaceEffects()[0]); i++) {
+    auto effect = interfaceEffects()[i];
+    effect->Update(timeSinceLastBeat, interval);
+    effect->SetEffectButton(buttons_, i);
+  }
+
+  // Set the current effect grid/buttons & options
+  interfaceEffects()[effectNumber]->SetGrid(poles_);
+  for (uint8_t i = 6; i < 9; i++) {
+    buttons_.SetButton(effectNumber, i, CRGB(50, 50, 50));
+  }
+  interfaceEffects()[effectNumber]->SetOptionButtons(buttons_);
+
+  uint8_t beatBrightness =
+      140 - 140 * (effectTime - lastBeatTime) / millisPerBeat;
+  for (int i = 0; i < 15; i++) {
+    buttons_.SetButton(10, i,
+                       CRGB(CHSV(beatButtonHue - 30, 255, beatBrightness)));
+  }
+  for (int i = 7; i < 10; i++) {
+    buttons_.SetButton(10, i, CRGB(CHSV(beatButtonHue, 255, 200)));
+  }
+
+  // Set Shift button
+  for (int i = 0; i < beatsPerShift && i < 8; i++) {
+    uint8_t shiftCountBrightness = 100;
+    if (i <= beatsSinceAutoShift) {
+      shiftCountBrightness = 255;
+    }
+    buttons_.SetButton(9, i, CRGB(CHSV(0, 0, shiftCountBrightness)));
+  }
+  uint8_t timeSinceLastShift = effectTime - lastShiftTime;
+  uint8_t shiftBrightness = 50;
+  // if (beatsPerShift > 0) {
+  //   shiftBrightness = 255 * timeSinceLastShift / (beatsPerShift *
+  //   millisPerBeat);
+  // }
+  for (int i = 8; i < 12; i++) {
+    buttons_.SetButton(9, i, CRGB(CHSV(0, 0, shiftBrightness)));
+  }
+
+  // Set Pause button
+  for (uint64_t i = 0; i < 4; i++) {
+    buttons_.SetButton(11, i, CRGB(CHSV(0, 0, 50)));
+  }
 
   SetPoleLowerEffect(poles_, millis());
 
   lastEffectTime = effectTime;
-
-  // buttons_.SetButton(effectNumber, 0, CRGB(255, 0, 255));
-
   SleepMs(MILLIS_PER_RUN_LOOP);
 }
 
@@ -239,4 +276,10 @@ void InterfaceController::ResetBeatQueue() {
     beatQueue.pop();
   }
   beatTrackingTime = 0;
+}
+
+void InterfaceController::TurnOnPause() {
+  for (uint64_t i = 0; i < 4; i++) {
+    buttons_.SetButton(11, i, CRGB(255, 255, 255));
+  }
 }

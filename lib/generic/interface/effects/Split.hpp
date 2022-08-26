@@ -15,7 +15,8 @@ class Split : public InterfaceEffect {
  protected:
   void DoUpdate(uint16_t frame, uint16_t lastFrame) override;
   void DoSetGrid(Poles &poles) override;
-  void DoSetEffectButton(Buttons buttons) override;
+  void DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) override;
+  void DoSetOptionButtons(Buttons buttons) override;
   void UpdateOption1() override;
   void UpdateOption2() override;
   void UpdateSlider1(uint8_t val) override;

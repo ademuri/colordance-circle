@@ -2,40 +2,65 @@
 
 Buttons::Buttons(Bank1& bank1, Bank2& bank2) : bank1_(bank1), bank2_(bank2) {}
 
+// TODO: Change index to enum
 void Buttons::SetButton(uint8_t button_index, const uint8_t led_index,
                         const CRGB& rgb) {
   CRGB* button = nullptr;
   switch (button_index) {
-    case 0:
+    case 0:  // Effect 1
       button = getStripBank1(0);
       break;
 
-    case 1:
+    case 1:  // Effect 2
       button = getStripBank1(11);
       break;
 
-    case 2:
+    case 2:  // Effect 3
       button = getStripBank1(8);
       break;
 
-    case 3:
+    case 3:  // Effect 4
       button = getStripBank2(1);
       break;
 
-    case 4:
+    case 4:  // Effect 5
       button = getStripBank1(1);
       break;
 
-    case 5:
+    case 5:  // Effect 6
       button = getStripBank1(10);
       break;
 
-    case 6:
+    case 6:  // Effect 7
       button = getStripBank1(9);
       break;
 
-    case 7:
+    case 7:  // Option 1
       button = getStripBank1(2);
+      break;
+
+    case 8:  // Option 2
+      button = getStripBank2(0);
+      break;
+
+    case 9:  // Shift
+      button = getStripBank1(4);
+      break;
+
+    case 10:  // Beat
+      button = getStripBank1(7);
+      break;
+
+    case 11:  // Pause
+      button = getStripBank1(3);
+      break;
+
+    case 12:  // Slider 1
+      button = getStripBank2(3);
+      break;
+
+    case 13:  // Slider 2
+      button = getStripBank1(5);
       break;
 
     default:
@@ -45,7 +70,7 @@ void Buttons::SetButton(uint8_t button_index, const uint8_t led_index,
       break;
   }
 
-  button[button_index + led_index] = rgb;
+  button[led_index] = rgb;
 }
 
 CRGB* Buttons::getStripBank1(const int index) {

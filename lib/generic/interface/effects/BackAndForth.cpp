@@ -29,9 +29,40 @@ void BackAndForth::DoSetGrid(Poles& poles) {
   poles[rightIndex % 6].SetGridLights(controlPoleRight->GetGrid());
 }
 
-void BackAndForth::DoSetEffectButton(Buttons buttons) {
-  buttons.SetButton(0, leftIndex % 6, CRGB(controlPoleLeft->GetHSV()));
-  buttons.SetButton(0, rightIndex % 6, CRGB(controlPoleRight->GetHSV()));
+void BackAndForth::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  buttons.SetButton(buttonIndex, leftIndex % 6,
+                    CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(buttonIndex, rightIndex % 6,
+                    CRGB(controlPoleRight->GetHSV()));
+}
+
+void BackAndForth::DoSetOptionButtons(Buttons buttons) {
+  // Option 1
+  uint8_t modeHue = modeIndex * (255 / kNumModes);
+  for (int i = 0; i < 4; i++) {
+    buttons.SetButton(7, i, CRGB(CHSV(modeHue, 255, 200)));
+  }
+
+  uint8_t baseHue = controlPoleLeft->GetHue();
+  // Option 2
+  for (int i = 0; i < 4; i++) {
+    if (oscillateSat) {
+      buttons.SetButton(8, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
+    } else {
+      buttons.SetButton(8, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
+    }
+  }
+
+  // Slider 1
+  buttons.SetButton(12, 0, CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(12, 2, CRGB(controlPoleRight->GetHSV()));
+
+  // Slider 2
+  if (!oscillateSat) {
+    for (int i = 0; i < 3; i++) {
+      buttons.SetButton(13, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 255)));
+    }
+  }
 }
 
 void BackAndForth::UpdateColor(uint16_t frame) {
@@ -39,7 +70,6 @@ void BackAndForth::UpdateColor(uint16_t frame) {
   uint16_t shiftFrame = beatsSinceAutoShift * FRAMES_PER_LOOP + frame;
   uint16_t framesPerHalfShift = effectiveBeatsPerShift * FRAMES_PER_LOOP / 2;
 
-  uint8_t hueDistance = 0;
   if (shiftFrame < framesPerHalfShift) {
     hueDistance = 255 * shiftFrame / framesPerHalfShift;
   } else {
@@ -48,7 +78,7 @@ void BackAndForth::UpdateColor(uint16_t frame) {
   }
 
   for (ControlPole& pole : controlPoles) {
-    pole.SetHueDistance(hueDistance / 4);  // divide but light count
+    pole.SetHueDistance(hueDistance / 4);  // divide by light count
     pole.SetSat(255);
     pole.SetVal(255);
   }
@@ -58,18 +88,12 @@ void BackAndForth::UpdateColor(uint16_t frame) {
  * @brief Changes the grid effect.
  */
 void BackAndForth::UpdateOption1() {
-  still = !still;
-  if (still) {
-    controlPoleLeft->SetShiftSpeed(Speed::kStill);
-    controlPoleRight->SetShiftSpeed(Speed::kStill);
-  } else {
-    modeIndex++;
-    modeIndex %= kNumModes;
-    controlPoleLeft->SetMode(modes[modeIndex]);
-    controlPoleRight->SetMode(modes[modeIndex]);
-    controlPoleLeft->SetShiftSpeed(Speed::kDefault);
-    controlPoleRight->SetShiftSpeed(Speed::kDefault);
-  }
+  modeIndex++;
+  modeIndex %= kNumModes;
+  controlPoleLeft->SetMode(modes[modeIndex]);
+  controlPoleRight->SetMode(modes[modeIndex]);
+  // controlPoleLeft->SetShiftSpeed(Speed::kDefault);
+  // controlPoleRight->SetShiftSpeed(Speed::kDefault);
 }
 
 /**
@@ -99,7 +123,7 @@ void BackAndForth::UpdateSlider2(uint8_t val) {
   if (oscillateSat) {
     return;
   }
-  uint8_t hueDistance = val / 4;
+  hueDistance = val / 4;
   controlPoleLeft->SetHueDistance(hueDistance);
   controlPoleRight->SetHueDistance(hueDistance);
 }
@@ -158,4 +182,5 @@ void BackAndForth::InitializeEffect() {
     pole.SetRotation(0);
     pole.SetMode(modes[modeIndex]);
   }
+  option2Hue = 64;
 }

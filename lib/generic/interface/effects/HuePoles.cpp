@@ -13,7 +13,7 @@ HuePoles::HuePoles() : InterfaceEffect() {
 void HuePoles::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
+    shiftIndex = controlPoles[pole].UpdateGrid(frame, lastFrame, false);
   }
 }
 
@@ -23,7 +23,37 @@ void HuePoles::DoSetGrid(Poles& poles) {
   }
 }
 
-void HuePoles::DoSetEffectButton(Buttons buttons) {}
+void HuePoles::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    buttons.SetButton(buttonIndex, pole, CRGB(controlPoles[pole].GetHSV()));
+  }
+}
+
+void HuePoles::DoSetOptionButtons(Buttons buttons) {
+  // Option 1
+  uint8_t modeHue = modeIndex * (255 / kNumModes);
+  for (int i = 0; i < 4; i++) {
+    buttons.SetButton(7, i, CRGB(CHSV(modeHue, 255, 200)));
+  }
+
+  uint8_t baseHue = controlPoles[0].GetHue();
+  // Option 2
+  if (still) {
+    buttons.SetButton(8, 0, CRGB(CHSV(baseHue, 255, 255)));
+  } else {
+    buttons.SetButton(8, shiftIndex % 4, CRGB(CHSV(baseHue, 255, 200)));
+  }
+
+  // Slider 1
+  // Shows hueshift with hue
+  for (int i = 0; i < 3; i++) {
+    buttons.SetButton(12, i, CRGB(CHSV(baseHue, 255, 200)));
+  }
+
+  // Slider 2
+  buttons.SetButton(13, 0, CRGB(CHSV(baseHue, 255, 255)));
+  buttons.SetButton(13, 2, CRGB(CHSV(baseHue + hueDistance, 255, 255)));
+}
 
 /**
  * Change the mode (grid animation).
@@ -56,8 +86,9 @@ void HuePoles::UpdateSlider1(uint8_t val) {
  * Chages Hue Distance
  */
 void HuePoles::UpdateSlider2(uint8_t val) {
+  hueDistance = val / 2;
   for (auto& pole : controlPoles) {
-    pole.SetHueDistance(val / 2);
+    pole.SetHueDistance(hueDistance);
   }
   // val = val / 64;
   // for (auto& pole : controlPoles) {
@@ -102,7 +133,7 @@ void HuePoles::ResetModes() {
     controlPoles[i].SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
     controlPoles[i].ResetFade();
     controlPoles[i].SetReverse(false);
-    controlPoles[i].SetRotation(0);
+    controlPoles[i].SetRotation(2);
   }
 }
 
