@@ -9,10 +9,11 @@
 #include "interface/InterfaceEffect.hpp"
 #include "interface/effects/BackAndForth.hpp"
 #include "interface/effects/HuePoles.hpp"
+#include "interface/effects/MovingPole.hpp"
+#include "interface/effects/Random.hpp"
 #include "interface/effects/SideToSide.hpp"
 #include "interface/effects/Sliders.hpp"
 #include "interface/effects/Split.hpp"
-#include "interface/effects/Sticky.hpp"
 
 class InterfaceController : public Effect {
  public:
@@ -30,10 +31,11 @@ class InterfaceController : public Effect {
   void TurnOnPause();
 
   auto interfaceEffects() {
-    return std::array<InterfaceEffect*, 6>{
+    return std::array<InterfaceEffect*, 7>{
         std::addressof(backAndForth), std::addressof(huePoles),
         std::addressof(sideToSide),   std::addressof(sliders),
-        std::addressof(sticky),       std::addressof(split)};
+        std::addressof(movingPole),   std::addressof(split),
+        std::addressof(random)};
   }
 
   // std::array<InterfaceEffect, 5> interfaceEffects;
@@ -42,7 +44,8 @@ class InterfaceController : public Effect {
   SideToSide sideToSide;
   Sliders sliders;
   Split split;
-  Sticky sticky;
+  MovingPole movingPole;
+  Random random;
 
   const uint16_t MILLIS_PER_RUN_LOOP = 20;
   const uint16_t FRAMES_PER_LOOP = 840;

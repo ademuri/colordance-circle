@@ -2,6 +2,9 @@
 
 #include "ColordanceTypes.hpp"
 
+/**
+ * @brief Effect with 6 pooes, even hue spread. DE
+ */
 HuePoles::HuePoles() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {
@@ -59,17 +62,19 @@ void HuePoles::DoSetOptionButtons(Buttons buttons) {
  * Change the mode (grid animation).
  */
 void HuePoles::UpdateOption1() {
-  modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
-  for (int i = 0; i < Pole::kNumPoles; i++) {
-    controlPoles[i].SetMode(modes[modeIndex]);
+  modeIndex++;
+  modeIndex %= kNumModes;
+  for (ControlPole& pole : controlPoles) {
+    pole.SetMode(modes[modeIndex]);
+    pole.SetShiftSpeed(speeds[modeIndex]);
+    pole.SetRotation(rotations[modeIndex]);
   }
-  ResetModes();
 }
 
 void HuePoles::UpdateOption2() {
-  still = !still;
-  for (auto& pole : controlPoles) {
-    pole.SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
+  smoothColor = !smoothColor;
+  for (ControlPole& pole : controlPoles) {
+    pole.SetSmoothColor(smoothColor);
   }
 }
 
@@ -86,26 +91,12 @@ void HuePoles::UpdateSlider1(uint8_t val) {
  * Chages Hue Distance
  */
 void HuePoles::UpdateSlider2(uint8_t val) {
-  hueDistance = val / 2;
-  for (auto& pole : controlPoles) {
-    pole.SetHueDistance(hueDistance);
+  uint8_t hDis = val / 6;
+  for (int i = 0; i < 3; i++) {
+    controlPoles[i].SetHue(i * hDis);
+    controlPoles[i + 3].SetHue(127 + i * hDis);
   }
-  // val = val / 64;
-  // for (auto& pole : controlPoles) {
-  //   switch (val) {
-  //   case 0:
-  //     pole.SetShiftSpeed(Speed::kStill);
-  //     break;
-  //   case 1:
-  //     pole.SetShiftSpeed(Speed::kHalf);
-  //     break;
-  //   case 3:
-  //     pole.SetShiftSpeed(Speed::kDouble);
-  //     break;
-  //   default:
-  //     pole.SetShiftSpeed(Speed::kDefault);
-  // }
-  //}
+  hueDistance = 127 - 2 * hDis;  // for button setting
 }
 
 void HuePoles::DoAutomaticShift(bool didManual) { return; }
@@ -126,10 +117,10 @@ void HuePoles::ResetModes() {
     } else {
       controlPoles[i].SetBackAndForth(false);
     }
-    // don't care about reverse
     controlPoles[i].SetSmoothColor(true);
     controlPoles[i].SetLightCount(2);
-    controlPoles[i].SetHue(43 * i + hueOffset);
+    controlPoles[i].SetHue(43 * i);
+    controlPoles[i].SetHueDistance(0);
     controlPoles[i].SetShiftSpeed(still ? Speed::kStill : Speed::kDefault);
     controlPoles[i].ResetFade();
     controlPoles[i].SetReverse(false);

@@ -2,121 +2,143 @@
 
 #include "ColordanceTypes.hpp"
 
-Split::Split() : InterfaceEffect() {
-  controlPoles.reserve(Pole::kNumPoles);
-  for (int i = 0; i < 2; i++) {
-    controlPoles.emplace_back(FRAMES_PER_LOOP);
-  }
+/**
+ * @brief Effect with 2 opposing poles on. DONE
+ */
+Split::Split()
+    : InterfaceEffect(),
+      controlPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP),
+                   ControlPole(FRAMES_PER_LOOP)},
+      controlPoleLeft(controlPoles.data() + 0),
+      controlPoleRight(controlPoles.data() + 1),
+      controlPoleMiddle(controlPoles.data() + 2) {
   InitializeEffect();
 }
 
 void Split::DoUpdate(uint16_t frame, uint16_t lastFrame) {
-  for (ControlPole& pole : controlPoles) {
-    pole.TurnOffAll();
-  }
+  controlPoleLeft->TurnOffAll();
+  controlPoleRight->TurnOffAll();
+  controlPoleMiddle->TurnOffAll();
 
-  bool flipHue = false;
-  if (lastFrame > frame) {
-    increaseSat = !increaseSat;
-    if (increaseSat) {
-      flipHue = true;
-    }
-  }
-
-  if (white) {
-    UpdateWhite(frame, flipHue);
-  } else {
-    UpdateColor(frame);
-  }
-
-  controlPoles[0].UpdateGrid(frame, lastFrame, true);
-  controlPoles[1].UpdateGrid(frame, lastFrame, true);
+  controlPoleLeft->UpdateGrid(frame, lastFrame, false);
+  controlPoleRight->UpdateGrid(frame, lastFrame, false);
+  controlPoleMiddle->UpdateGrid(frame, lastFrame, false);
 }
 
 void Split::DoSetGrid(Poles& poles) {
-  poles[leftPole].SetGridLights(controlPoles[0].GetGrid());
-  poles[5 - leftPole].SetGridLights(controlPoles[1].GetGrid());
+  poles[0].SetGridLights(controlPoleLeft->GetGrid());
+  poles[5].SetGridLights(controlPoleRight->GetGrid());
+  uint8_t effectiveMiddleIndex =
+      middleIndex > 3 ? 7 - middleIndex : middleIndex + 1;
+  poles[effectiveMiddleIndex].SetGridLights(controlPoleMiddle->GetGrid());
 }
 
-void Split::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {}
+void Split::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
+  buttons.SetButton(buttonIndex, 0, CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(buttonIndex, 5, CRGB(controlPoleRight->GetHSV()));
+  uint8_t effectiveMiddleIndex =
+      middleIndex > 3 ? 7 - middleIndex : middleIndex + 1;
+  buttons.SetButton(buttonIndex, effectiveMiddleIndex,
+                    CRGB(controlPoleMiddle->GetHSV()));
+}
 
-void Split::DoSetOptionButtons(Buttons buttons) {}
-
-void Split::UpdateWhite(uint16_t frame, bool flipHue) {
-  uint8_t sat = 255 * frame / FRAMES_PER_LOOP;
-  if (!increaseSat) {
-    sat = 255 - sat;
+void Split::DoSetOptionButtons(Buttons buttons) {
+  // Option 1
+  uint8_t modeHue = modeIndex * (255 / kNumModes);
+  for (int i = 0; i < 4; i++) {
+    buttons.SetButton(7, i, CRGB(CHSV(modeHue, 255, 200)));
   }
-  uint8_t val = (sat * (255 - kValAtSat0) / 255) + kValAtSat0;
-  for (ControlPole& pole : controlPoles) {
-    if (flipHue) {
-      pole.IncrementHue(127);
+
+  uint8_t baseHue = controlPoleLeft->GetHue();
+  // Option 2
+  for (int i = 0; i < 4; i++) {
+    if (oscillateSat) {
+      buttons.SetButton(8, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
+    } else {
+      buttons.SetButton(8, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
     }
-    pole.SetHueDistance(0);
-    pole.SetSat(sat);
-    pole.SetVal(val);
   }
-}
 
-void Split::UpdateColor(uint16_t frame) {
-  uint8_t hueDistance = (255 * frame / FRAMES_PER_LOOP) / 4;
-  if (increaseSat) {
-    hueDistance = 255 / 4 - hueDistance;
-  }
-  for (ControlPole& pole : controlPoles) {
-    pole.SetHueDistance(hueDistance);
-    pole.SetSat(255);
-    pole.SetVal(255);
+  // Slider 1
+  buttons.SetButton(12, 0, CRGB(controlPoleLeft->GetHSV()));
+  buttons.SetButton(12, 2, CRGB(controlPoleRight->GetHSV()));
+
+  // Slider 2
+  if (!oscillateSat) {
+    for (int i = 0; i < 3; i++) {
+      buttons.SetButton(13, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 255)));
+    }
   }
 }
 
 /**
- * Change the mode (grid animation).
+ * @brief Changes the grid effect.
  */
-void Split::UpdateOption1() { white = !white; }
-
-void Split::UpdateOption2() {}
+void Split::UpdateOption1() {
+  modeIndexMiddle++;
+  modeIndexMiddle %= kNumModes;
+  controlPoleMiddle->SetMode(middleModes[modeIndexMiddle]);
+}
 
 /**
- * Change the Hue
+ * @brief
  */
-void Split::UpdateSlider1(uint8_t val) {}
-
-void Split::SetHues(uint8_t sat) {}
+void Split::UpdateOption2() {
+  modeIndex++;
+  modeIndex %= 5;
+  controlPoleLeft->SetMode(modes[modeIndex]);
+  controlPoleLeft->SetShiftSpeed(speeds[modeIndex]);
+  controlPoleLeft->SetRotation(rotations[modeIndex]);
+  controlPoleRight->SetMode(modes[modeIndex]);
+  controlPoleRight->SetShiftSpeed(speeds[modeIndex]);
+  controlPoleRight->SetRotation(rotations[modeIndex]);
+}
 
 /**
- * Changes the hue shift
+ * @brief Changes the hue distance between the poles.
+ * Goes from the same hue to opposing hues.
  */
-void Split::UpdateSlider2(uint8_t val) {}
+void Split::UpdateSlider1(uint8_t val) {
+  controlPoleMiddle->SetHueShift(val / 10);
+}
+
+/**
+ * @brief Chages the hue distance of the grids.
+ */
+void Split::UpdateSlider2(uint8_t val) { controlPoleMiddle->SetHue(val / 6); }
 
 void Split::DoAutomaticShift(bool didManual) {
-  // leftPole++;
+  if (!didManual) {
+    middleIndex++;
+    middleIndex %= 6;
+  }
 }
 
-void Split::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void Split::DoAutomaticPartialShift(uint8_t shiftFraction) {}
 
-void Split::DoManualShift(bool didAutomatic) {}
-
-void Split::ResetModes() {
-  for (ControlPole& pole : controlPoles) {
-    pole.SetShiftSpeed(Speed::kStill);
-    pole.ResetFade();
-    pole.SetLightCount(4);
-    pole.SetBackAndForth(false);
-    pole.SetSmoothColor(true);
-    pole.SetReverse(false);
-    pole.SetRotation(0);
-    pole.SetHueShift(16);
-    pole.SetGridFade(0);
+void Split::DoManualShift(bool didAutomatic) {
+  if (!didAutomatic) {
+    middleIndex++;
+    middleIndex %= 6;
   }
-  controlPoles[0].SetHue(baseHue);
-  controlPoles[1].SetHue(baseHue + 127);
 }
 
 void Split::InitializeEffect() {
   for (ControlPole& pole : controlPoles) {
     pole.SetMode(modes[modeIndex]);
+    pole.SetHue(baseHue);
+    pole.SetShiftSpeed(Speed::kStill);
+    pole.SetLightCount(2);
+    pole.SetSmoothColor(false);
+    pole.SetBackAndForth(false);
     pole.ResetFade();
+    pole.SetRotation(0);
+    pole.SetHueShift(10);
+    controlPoleRight->SetReverse(false);
   }
-  ResetModes();
+  controlPoleMiddle->SetMode(modes[modeIndex]);
+  controlPoleMiddle->SetShiftSpeed(Speed::kDefault);
+  controlPoleMiddle->SetHue(baseHue + 127);
+  controlPoleMiddle->SetLightCount(4);
+  controlPoleMiddle->SetReverse(true);
 }

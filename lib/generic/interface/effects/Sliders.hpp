@@ -47,7 +47,8 @@ class Sliders : public InterfaceEffect {
   uint8_t hueLeft = 0;
   uint8_t hueRight = 127;
 
-  uint8_t mode = 0;
+  uint8_t modeLeft = 0;
+  uint8_t modeRight = 0;
   Mode modesLeft[3] = {Mode::kSmallSquare, Mode::kCircle, Mode::kLine};
   Mode modesRight[3] = {Mode::kCorners, Mode::kCircle, Mode::kLine};
   const uint8_t kNumModes = 3;

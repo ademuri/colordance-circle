@@ -122,32 +122,37 @@ void ControlPole::FadeOut(uint16_t fadeFrames) {
   fadeOutFramesLeft = fadeOutFrames;
 }
 
-uint8_t ControlPole::GetHue() { return hue; }
+uint8_t ControlPole::GetHue() { return actualHue; }
 
 uint8_t ControlPole::GetHueDistance() { return hueDistance; }
 
 CHSV ControlPole::GetHSV() { return CHSV(hue, baseSat, baseVal); }
 
+uint8_t ControlPole::GetShiftsPerLoop() {
+  return currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
+}
+
 uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
                                 bool multiply) {
   uint16_t const framesPerShift =
       currentEffect->GetFramesPerShift(framesPerLoop, backAndForth);
-  uint8_t const lastShiftIndex = lastFrame / framesPerShift;
-  uint8_t shiftIndex = frame / framesPerShift;
   uint16_t const framesSinceLast =
       frame > lastFrame ? frame - lastFrame : frame + framesPerLoop - lastFrame;
 
+  uint16_t const shiftsPerLoop =
+      currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
+  uint8_t const lastShiftIndex = lastFrame / framesPerShift;
+  uint8_t shiftIndex = frame / framesPerShift;
+
   hue = baseHue + GetUpdatedHueShift(framesSinceLast);
-  if (smoothColor || lastShiftIndex != shiftIndex) {
+  if (smoothColor || lastFrame > frame) {
     currentEffect->SetHue(hue);
+    actualHue = hue;
   }
 
   if (backAndForth && shiftIndex == 0 && lastShiftIndex != 0) {
     goBackwards = !goBackwards;
   }
-  uint16_t const shiftsPerLoop =
-      currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
-
   if (goBackwards) {
     shiftIndex = shiftsPerLoop - shiftIndex - (backAndForth ? 0 : 1);
   }
@@ -155,6 +160,7 @@ uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
   if (speed == Speed::kStill) {
     shiftIndex = lastEffectiveShiftIndex;
   }
+
   // else if (speed == Speed::kHalf && shiftsPerLoop % 2 == 0) {
   //   if (shiftIndex == 0 && lastShiftIndex != 0) {
   //     didFirstHalf = !didFirstHalf;
@@ -178,8 +184,6 @@ uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
 
   lastEffectiveShiftIndex = shiftIndex;
 
-  // shiftIndex = (shiftIndex + shiftOffset) % shiftsPerLoop;
-
   fadeInFramesLeft -=
       framesSinceLast < fadeInFramesLeft ? framesSinceLast : fadeInFramesLeft;
   fadeOutFramesLeft -=
@@ -200,6 +204,11 @@ uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
   //                          (shiftsPerLoop - 1 + shiftIndex) % shiftsPerLoop);
   //   currentEffect->SetBaseVal(val * framesSinceLastShift / gridFadeFrames);
   // }
+
+  if (speed == Speed::kOffset) {
+    shiftIndex = shiftOffset % shiftsPerLoop;
+  }
+
   currentEffect->SetGrid(grid_lights, shiftIndex);
 
   return shiftIndex;

@@ -13,7 +13,7 @@ SideToSide::SideToSide() : InterfaceEffect() {
 void SideToSide::DoUpdate(uint16_t frame, uint16_t lastFrame) {
   for (int pole = 0; pole < Pole::kNumPoles; pole++) {
     controlPoles[pole].TurnOffAll();
-    controlPoles[pole].UpdateGrid(frame, lastFrame, false);
+    shiftIndex = controlPoles[pole].UpdateGrid(frame, lastFrame, false);
   }
 }
 
@@ -27,10 +27,33 @@ void SideToSide::DoSetGrid(Poles& poles) {
 }
 
 void SideToSide::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
-  buttons.SetButton(buttonIndex, buttonIndex, CRGB(255, 255, 255));
+  for (int pole = 0; pole < Pole::kNumPoles; pole++) {
+    buttons.SetButton(buttonIndex, pole, CRGB(controlPoles[pole].GetHSV()));
+  }
 }
 
-void SideToSide::DoSetOptionButtons(Buttons buttons) {}
+void SideToSide::DoSetOptionButtons(Buttons buttons) {
+  // Option 1
+  uint8_t modeHue = modeIndex * (255 / kNumModes);
+  for (int i = 0; i < 4; i++) {
+    buttons.SetButton(7, i, CRGB(CHSV(modeHue, 255, 200)));
+  }
+
+  uint8_t baseHue = controlPoles[0].GetHue();
+  // Option 2
+  buttons.SetButton(8, shiftIndex % 4, CRGB(CHSV(baseHue, 255, 200)));
+
+  // Slider 1
+  // Shows hueshift with hue
+  for (int i = 0; i < numOfPolesOn / 2; i++) {
+    buttons.SetButton(12, i, CRGB(CHSV(baseHue, 255, 200)));
+  }
+
+  // Slider 2
+  for (int i = 0; i < 3; i++) {
+    buttons.SetButton(13, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 255)));
+  }
+}
 
 /**
  * Change the mode (grid animation).
@@ -39,6 +62,7 @@ void SideToSide::UpdateOption1() {
   modeIndex = (modeIndex + 1) % (sizeof(modes) / sizeof(Mode));
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i].SetMode(modes[modeIndex]);
+    controlPoles[i].SetRotation(rotations[modeIndex]);
   }
   ResetModes();
 }
@@ -82,7 +106,7 @@ void SideToSide::UpdateHues() {
  * Changes the hue distance
  */
 void SideToSide::UpdateSlider2(uint8_t val) {
-  uint8_t hueDistance = val / 4;
+  hueDistance = val / 4;
   for (int i = 0; i < Pole::kNumPoles; i++) {
     controlPoles[i].SetHueDistance(hueDistance);
   }

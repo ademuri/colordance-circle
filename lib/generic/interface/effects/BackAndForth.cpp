@@ -1,9 +1,9 @@
 #include "BackAndForth.hpp"
 
-#include "ColordanceTypes.hpp":
+#include "ColordanceTypes.hpp"
 
 /**
- * @brief Effect with 2 opposing poles on.
+ * @brief Effect with 2 opposing poles on. DONE
  */
 BackAndForth::BackAndForth()
     : InterfaceEffect(),
@@ -90,21 +90,17 @@ void BackAndForth::UpdateColor(uint16_t frame) {
 void BackAndForth::UpdateOption1() {
   modeIndex++;
   modeIndex %= kNumModes;
-  controlPoleLeft->SetMode(modes[modeIndex]);
-  controlPoleRight->SetMode(modes[modeIndex]);
-  // controlPoleLeft->SetShiftSpeed(Speed::kDefault);
-  // controlPoleRight->SetShiftSpeed(Speed::kDefault);
+  for (ControlPole& pole : controlPoles) {
+    pole.SetMode(modes[modeIndex]);
+    pole.SetShiftSpeed(speeds[modeIndex]);
+    pole.SetRotation(rotations[modeIndex]);
+  }
 }
 
 /**
  * @brief Fades the overall saturation in and out thoughout the shift.
  */
-void BackAndForth::UpdateOption2() {
-  oscillateSat = !oscillateSat;
-  if (oscillateSat) {
-    // Disable Slider2
-  }
-}
+void BackAndForth::UpdateOption2() { oscillateSat = !oscillateSat; }
 
 /**
  * @brief Changes the hue distance between the poles.
@@ -150,6 +146,10 @@ void BackAndForth::DoAutomaticPartialShift(uint8_t shiftFraction) {
 void BackAndForth::DoManualShift(bool didAutomatic) {
   if (!didAutomatic) {
     UpdateIndex();
+  }
+  smoothColor = !smoothColor;
+  for (ControlPole& pole : controlPoles) {
+    pole.SetSmoothColor(smoothColor);
   }
 }
 

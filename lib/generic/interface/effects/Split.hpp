@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "Buttons.hpp"
 #include "ColordanceTypes.hpp"
 #include "Pole.hpp"
@@ -27,25 +25,41 @@ class Split : public InterfaceEffect {
   void InitializeEffect() override;
 
  private:
-  void SetHues(uint8_t sat);
-  void SetBackAndForth();
-  void ResetModes();
-  void UpdateWhite(uint16_t frame, bool flipHue);
+  void UpdateHues();
+  void SetSplit();
   void UpdateColor(uint16_t frame);
+  void UpdateIndex();
 
-  std::vector<ControlPole> controlPoles;
+  std::array<ControlPole, 3> controlPoles;
+  ControlPole *controlPoleLeft;
+  ControlPole *controlPoleRight;
+  ControlPole *controlPoleMiddle;
 
+  uint8_t middleIndex = 0;
+
+  Mode middleModes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel,
+                         Mode::kSmallSquare};
+  Mode modes[5] = {Mode::kLine, Mode::kCircle, Mode::kCircle,
+                   Mode::kSmallSquare, Mode::kSmallSquare};
+  Speed speeds[5] = {Speed::kDefault, Speed::kDefault, Speed::kDefault,
+                     Speed::kDefault, Speed::kStill};
+  uint8_t rotations[5] = {0, 2, 0, 0, 0};
+  uint8_t modeIndex = 0;
+  uint8_t modeIndexMiddle = 0;
+  const uint8_t kNumModes = 4;
+
+  bool oscillateSat = false;
   bool increaseSat = false;
-  uint8_t baseHue = 0;
 
-  const uint8_t kValAtSat0 = 160;
+  bool goIn = true;
+  bool leftReverse = true;
+  bool rightReverse = false;
+  uint8_t hueDistance = 127;
+  uint8_t hueStart = 0;
+  uint8_t hueVal = 0;
 
-  bool white = true;
+  uint8_t option2Hue = 64;
+  u_int8_t baseHue = 0;
 
-  uint8_t leftPole = 0;
-
-  Mode modes[2] = {Mode::kCircle, Mode::kSmallSquare};
-  uint8_t modeIndex = 1;
-  const uint8_t kNumModes = 2;
   bool smoothPoleShift = true;
 };

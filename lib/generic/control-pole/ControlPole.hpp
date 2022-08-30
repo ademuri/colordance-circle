@@ -27,6 +27,7 @@ enum class Speed {
   kHalf,
   kDefault,
   kDouble,
+  kOffset,
 };
 
 class ControlPole {
@@ -55,6 +56,7 @@ class ControlPole {
   uint8_t GetHueDistance();
   CHSV GetHSV();
   uint32_t GetTimerShiftOffset();
+  uint8_t GetShiftsPerLoop();
   uint8_t UpdateGrid(uint16_t frame, uint16_t lastFrame, bool multiply);
   Grid<CHSV> const& GetGrid();
 
@@ -93,6 +95,7 @@ class ControlPole {
   uint8_t baseSat = 255;
 
   uint8_t hue = 0;
+  uint8_t actualHue = 0;
 
   uint8_t lightCount = 4;
 
@@ -108,4 +111,6 @@ class ControlPole {
   bool reverse = false;
 
   uint16_t framesPerLoop;
+
+  bool firstLoop = true;
 };

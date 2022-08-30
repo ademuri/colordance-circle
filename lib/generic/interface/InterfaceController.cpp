@@ -31,8 +31,8 @@ void InterfaceController::DoStep() {
   for (auto effect : interfaceEffects()) {
     effect->SetOption1(paramController_.GetRawParam(Param::kOption1) == 1);
     effect->SetOption2(paramController_.GetRawParam(Param::kOption2) == 1);
-    effect->SetSlider1(paramController_.GetRawParam(Param::kSlider1));
-    effect->SetSlider2(paramController_.GetRawParam(Param::kSlider2));
+    effect->SetSlider1(255 - paramController_.GetRawParam(Param::kSlider1));
+    effect->SetSlider2(255 - paramController_.GetRawParam(Param::kSlider2));
   }
 
   uint32_t systemTime = millis();
@@ -195,7 +195,7 @@ void InterfaceController::DoStep() {
   // Set the current effect grid/buttons & options
   interfaceEffects()[effectNumber]->SetGrid(poles_);
   for (uint8_t i = 6; i < 9; i++) {
-    buttons_.SetButton(effectNumber, i, CRGB(50, 50, 50));
+    buttons_.SetButton(effectNumber, i, CRGB(100, 100, 100));
   }
   interfaceEffects()[effectNumber]->SetOptionButtons(buttons_);
 
