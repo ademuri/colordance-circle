@@ -6,6 +6,8 @@
 #include "Buttons.hpp"
 #include "Controls.hpp"
 #include "Effect.hpp"
+#include "FakeLogger.hpp"
+#include "FakeParamController.hpp"
 #include "LocalButtonController.hpp"
 #include "Runner.hpp"
 #include "TeensyEnvironmentController.hpp"
@@ -21,8 +23,13 @@ Buttons::Bank2 bank2;
 auto light_controller = TeensyLightController();
 Buttons buttons(bank1, bank2);
 TeensyEnvironmentController environment_controller;
-SerialParamController param_controller;
-TeensySdLogger logger{param_controller, environment_controller};
+FakeParamController param_controller;
+// SerialParamController param_controller;
+// TeensySdLogger logger{param_controller, environment_controller};
+// Runner runner(light_controller.get_poles(), buttons, param_controller,
+//               environment_controller, logger);
+// TeensySdLogger logger{param_controller, environment_controller};
+FakeLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), buttons, param_controller,
               environment_controller, logger);
 
@@ -44,12 +51,16 @@ void setup() {
 }
 
 void loop() {
-  // if (millis() > print_at) {
-  //   Serial.print("Alive: ");
-  //   Serial.println(millis());
-  //   print_at = millis() + 5000;
-  // }
-  runner.Step();
-  param_controller.SetRunnerState(runner.State());
+  if (millis() > print_at) {
+    Serial.print("Alive: ");
+    Serial.println(millis());
+    print_at = millis() + 5000;
+  }
+  // runner.Step();
+  // param_controller.SetRunnerState(runner.State());
+  for (uint8_t pole = 0; pole < 6; pole++) {
+    light_controller.get_poles()[pole].SetGridLight(0, 0, CHSV(0, 255, 255));
+  }
   light_controller.WriteOutLights();
+  delay(10);
 }
