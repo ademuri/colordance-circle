@@ -62,6 +62,8 @@ const std::vector<int> PCB_ORDER_INPUT_PINS = {
     kEffect4, kOption1, kPause,   kAnalog4,
 };
 
+constexpr int kLed = 13;
+
 std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
 std::vector<uint16_t> prev_analog_inputs;
 
@@ -116,6 +118,9 @@ InterfaceController interface_controller{poles, buttons, param_controller};
 uint8_t effect_last_pressed = 0;
 
 void setup() {
+  pinMode(kLed, OUTPUT);
+  digitalWrite(kLed, HIGH);
+
   Serial.begin(115200);
   // while(!Serial) {}
   Serial.println("Booting...");
@@ -168,6 +173,8 @@ void setup() {
   Serial7.begin(kSerialBaud);
   brain_out.begin(details(brain_out_data), &Serial7);
   brain_in.begin(details(brain_in_data), &Serial7);
+
+  digitalWrite(kLed, LOW);
 }
 
 void readControls() {
@@ -241,6 +248,7 @@ void loop() {
   // Wait to receive data before sending, so that we don't interrupt the brain
   // while its writing out LEDs.
   if (brain_in.receiveData()) {
+    digitalWrite(kLed, (millis() / 500) % 2);
     brain_out.sendData();
 
     // Run the main effect here on the interface - we keep this in sync with the
