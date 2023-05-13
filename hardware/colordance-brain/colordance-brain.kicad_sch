@@ -1543,7 +1543,6 @@
     )
   )
 
-
   (junction (at 163.83 326.39) (diameter 0) (color 0 0 0 0)
     (uuid 01340725-3d87-4a65-8fa7-c9579572ad18)
   )
@@ -1595,6 +1594,9 @@
   (junction (at 52.07 93.98) (diameter 0) (color 0 0 0 0)
     (uuid 8600941a-4eb3-4650-966a-bc09e7f83830)
   )
+  (junction (at 448.31 35.56) (diameter 0) (color 0 0 0 0)
+    (uuid 86158b36-0dce-4d07-8eec-32eac289edd7)
+  )
   (junction (at 44.45 238.76) (diameter 0) (color 0 0 0 0)
     (uuid 88d83ae6-23bb-4afe-8889-93c8faaa51a0)
   )
@@ -1642,9 +1644,6 @@
   )
   (junction (at 284.48 156.21) (diameter 0) (color 0 0 0 0)
     (uuid e73e9a7e-ed02-4b18-92e1-9438854caf96)
-  )
-  (junction (at 434.34 35.56) (diameter 0) (color 0 0 0 0)
-    (uuid e82e3b22-a81c-43ae-bea5-b799bd4f6ad4)
   )
   (junction (at 137.16 255.27) (diameter 0) (color 0 0 0 0)
     (uuid ee2f5fb7-9e35-4edf-8ec0-8eeac3f85e9c)
@@ -4439,31 +4438,6 @@
     )
   )
 
-  (symbol (lib_id "power:+3V3") (at 434.34 35.56 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 246cbf66-955d-45e6-a0ff-97ca8ad321f1)
-    (property "Reference" "#PWR037" (at 434.34 39.37 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+3V3" (at 434.721 31.1658 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 434.34 35.56 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 434.34 35.56 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid f1315ba5-bce2-4836-b195-e7b08d6a3350))
-    (instances
-      (project "colordance-brain"
-        (path "/67fde712-c227-4662-83fd-8edd7efd58d3"
-          (reference "#PWR037") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "power:GND") (at 469.9 59.69 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 27f50aa3-de76-4f99-b552-3550172d9fe0)
@@ -5287,6 +5261,31 @@
       (project "colordance-brain"
         (path "/67fde712-c227-4662-83fd-8edd7efd58d3"
           (reference "C38") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+5V") (at 448.31 35.56 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid ae0657bd-72ad-411b-8bd4-20eeac1b3c17)
+    (property "Reference" "#PWR037" (at 448.31 39.37 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+5V" (at 448.691 31.1658 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 448.31 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 448.31 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid b7f8ff4a-d306-4681-a9a5-aa7be8568180))
+    (instances
+      (project "colordance-brain"
+        (path "/67fde712-c227-4662-83fd-8edd7efd58d3"
+          (reference "#PWR037") (unit 1)
         )
       )
     )

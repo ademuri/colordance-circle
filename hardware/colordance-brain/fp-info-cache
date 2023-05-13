@@ -1,876 +1,953 @@
-210316762035907
-Homebrew
-1x2-RIGHT_ANGLE-43160-1102
-
-
-0
-6
-3
-Homebrew
-1x6-RIGHT_ANGLE-43160-3106
-
-
-0
-14
-7
-Homebrew
-1x6-VERTICAL-43160-0106
-
-
-0
-14
-7
-Homebrew
-1x9-RIGHT_ANGLE-0534260910
-
-
-0
-9
-9
-Homebrew
-2-PLCC
-
-
-0
-2
-2
-Homebrew
-3_pin_2.54mm_pitch_strain_relief
-
-
-0
-0
-0
-Homebrew
-6-TSOP-MOSFET-SI3424CDV-T1-GE3
-
-
-0
-4
-3
-Homebrew
-12LRS104C
-
-
-0
-4
-4
-Homebrew
-48-6554-10
-2x24 ZIF DIP socket
-zif, 24
-0
-98
-49
-Homebrew
-54-00174
-Female TRRS jack
-TRRS, jack
-0
-5
-4
-Homebrew
-500SSP1S2M6QEA
-SWITCH SLIDE SPDT 5A 120V
-SPDT, switch
-0
-5
-4
-Homebrew
-1008_(2520_METRIC)
-
-
-0
-2
-2
-Homebrew
-1043P_18650_holder
-
-
-0
-5
-2
-Homebrew
-1825161-2_slide_switch
-
-
-0
-5
-5
-Homebrew
-1985218_phoenix_4pos_3.5mm
-
-
-0
-4
-4
-Homebrew
-1985250_phoenix_8pos_3.5mm
-
-
-0
-8
-8
-Homebrew
-A-DF_25_PP
-
-
-0
-27
-27
-Homebrew
-ALLIGATOR_CLIP_SLOT
-
-
-0
-1
-1
-Homebrew
-ANR11R11P2HQE
-MINIATURE ROCKER SWITCH, SPDT RA
-rocker, switch, spdt
-0
-5
-4
-Homebrew
-Amphenol_BarrierStrip_YK321020XX00G_1x02_P7.62
-
-
-0
-2
-2
-Homebrew
-Anderson_1335G1_straight_two
-
-
-0
-2
-2
-Homebrew
-Anderson_1336G1_right_angle_bottom_two
-
-
-0
-2
-2
-Homebrew
-BOURNS_PDB12H_POT
-
-
-0
-5
-3
-Homebrew
-BOURNS_PEC11R_ENCODER
-
-
-0
-5
-4
-Homebrew
-BOURNS_PEC12R-4xxxF-Sxxxx
-Vertical PCB-mount rotary encoder with button
-rotary encoder, encoder
+228713686508145
+Package_TO_SOT_SMD
+ATPAK-2
+ATPAK SMD package, http://www.onsemi.com/pub/Collateral/ENA2192-D.PDF
+ATPAK 
 0
 7
-6
-Homebrew
-BOURNS_SLIDE_POT
-
-
-0
-7
-4
-Homebrew
-BOURNS_SLIDE_POT_45MM
-
-
-0
-7
-4
-Homebrew
-BOURNS_SLIDE_POT_45MM_PRECISEOUTLINE
-
-
-0
-7
-4
-Homebrew
-BUTTON_KS-01Q-01
-https://www.digikey.com/product-detail/en/e-switch/KS-01Q-01/EG4791-ND/2116270
-
-0
-4
-2
-Homebrew
-BatteryHolder_Keystone_2481_4xAAA
-3xAAA cell battery holder, Keystone P/N 2479, http://www.keyelco.com/product-pdf.cfm?p=1041
-AAA battery cell holder
-0
-2
-2
-Homebrew
-BatteryHolder_Keystone_3042_1x24_5mm
-
-
-0
 3
-2
-Homebrew
-CLS0231MP-1_SPEAKER
-PC speaker, 384Hz-20kHz
-
-0
-2
-2
-Homebrew
-CONN_2337019-1
-
-2337019-1 
-0
-3
-3
-Homebrew
-CP_Radial_D6.3mm_P2.50mm_470uF
-CP, Radial series, Radial, pin pitch=2.50mm, , diameter=6.3mm, Electrolytic Capacitor
-CP Radial series Radial pin pitch 2.50mm  diameter 6.3mm Electrolytic Capacitor
-0
-2
-2
-Homebrew
-CTS520
-
-
-0
-2
-2
-Homebrew
-DIALIGHT_515-1069F_LIGHTPIPE_X3
-
-
-0
-0
-0
-Homebrew
-DIODE-DO-214AB
-
-
-0
-2
-2
-Homebrew
-D_SOD-123F
-D_SOD-123F
-D_SOD-123F
-0
-2
-2
-Homebrew
-E22-900M22S
-
-
-0
-22
-22
-Homebrew
-EG2355-ND
-
-
-0
-3
-3
-Homebrew
-FRAMATOME_10118194-0001LF_fixed_bridges
-
-
-0
-13
-11
-Homebrew
-FUSEHOLDER_ATC_Bk-6010
-
-
-0
-4
-2
-Homebrew
-FUSE_3550-2
-
-
-0
-4
-2
-Homebrew
-GF-126-0159_slide_switch_2pos
-
-
-0
-6
-6
-Homebrew
-HOLE_3.26MM_SUPPORTED
-
-
-0
-8
-0
-Homebrew
-HOLE_3.454MM_SUPPORTED
-
-
-0
-8
-0
-Homebrew
-HOLE_4.064MM_SUPPORTED
-
-
-0
-8
-0
-Homebrew
-HOLE_5MM_#8
-
-
-0
-9
-0
-Homebrew
-HOLE_M4
-
-
-0
-0
-0
-Homebrew
-HRO_TYPE-C-31-M-12
-
-
-0
-16
-16
-Homebrew
-JST_Micro_1x02_P1.25mm_Horizontal
-
-
-0
-2
-2
-Homebrew
-JST_ZH_XKB_SMD_1x02_P1.5mm_Horizontal
-
-
-0
-4
-3
-Homebrew
-KEYSTONE_3560_ATC_FUSE
-
-
-0
-2
-2
-Homebrew
-LED_RGB_EPISTAR_6PIN_RGB
-https://www.gme.sk/img/cache/doc/518/177/vykonova-led-getian-gt-p6prgb4303-datasheet-1.pdf
-LED RGB 
-0
-7
-6
-Homebrew
-LED_WS2812-2020
-
-
+Package_TO_SOT_SMD
+Analog_KS-4
+Analog Devices KS-4, http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/sc70ks/ks_4.pdf
+Analog Devices KS-4 (like EIAJ SC-82)
 0
 4
 4
-Homebrew
-LED_XINGLIGHT_WS2812B_PLCC4_5.0x5.0mm_P3.2mm
-https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
-LED RGB NeoPixel
-0
-4
-4
-Homebrew
-LS_A67K-J1K2-1-Z_SIDE-FIRING_LED
-
-
-0
-2
-2
-Homebrew
-L_PROD-Tech_PSPMAA0805
-
-
-0
-2
-2
-Homebrew
-MIC_CMA-4544PF-W
-
-
-0
-2
-2
-Homebrew
-MODULE_LC86LICMD
-
-
-0
-12
-12
-Homebrew
-MOLEX_0731713150
-Female BNC right-angle connector
-bnc
-0
-3
-2
-Homebrew
-MOUNTING_HOLE_160_MIL
-
-
-0
-0
-0
-Homebrew
-MURATA_PKM13EPYH4000-A0
-Murata 4kHz piezo buzzer
-piezo, buzzer
-0
-2
-2
-Homebrew
-MiniPV_69167-X03XXX_1x03_P2.54mm_Polarized_Vertical
-Through hole straight pin header, 1x03, 2.54mm pitch, single row
-Through hole pin header THT 1x03 2.54mm single row
-0
-3
-3
-Homebrew
-MiniPV_69167-X04XXX_1x04_P2.54mm_Polarized_Vertical
-Through hole straight pin header, 1x03, 2.54mm pitch, single row
-Through hole pin header THT 1x03 2.54mm single row
-0
-4
-4
-Homebrew
-MiniPV_69167-X06XXX_1x06_P2.54mm_Polarized_Vertical
-Through hole straight pin header, 1x06, 2.54mm pitch, single row
-Through hole pin header THT 1x06 2.54mm single row
-0
-6
-6
-Homebrew
-MiniPV_76384-X02XX_1x02_P2.54mm_Vertical
-Through hole straight pin header, 1x02, 2.54mm pitch, single row
-Through hole pin header THT 1x02 2.54mm single row
-0
-2
-2
-Homebrew
-MiniPV_78208-X03XXX_1x03_P2.54mm_Polarized_Horizontal
-
-
-0
-3
-3
-Homebrew
-MountingHole_2.7mm_M2.5
-Mounting Hole 2.7mm, M2.5
-mounting hole 2.7mm m2.5
-0
-1
-1
-Homebrew
-MountingHole_2.7mm_M2.5_Pad
-Mounting Hole 2.7mm, M2.5
-mounting hole 2.7mm m2.5
-0
-1
-1
-Homebrew
-NC3FAH
-
-
-0
-5
-3
-Homebrew
-NC3MAH
-Male 3-pin XLR jack
-XLR
-0
-6
-5
-Homebrew
-OS102011MS8QP1
-
-
-0
-6
-6
-Homebrew
-OSHW_LOGO_4mm
-
-
-0
-0
-0
-Homebrew
-Oscillator_SMD_ECS_2520S-4Pin_2.5x2.0mm
-
-
-0
-4
-4
-Homebrew
-PDB12-H4301-103BF
-
-
-0
-5
-4
-Homebrew
-PQFN50P200X200X70-12N
-
-
-0
-12
-12
-Homebrew
-PVA1-OA-H2
-
-
-0
-4
-4
-Homebrew
-Potentiometer_Bourns_PTB01X3_Single_Slide
-
-
-0
-5
-4
-Homebrew
-RFM69
-
-
-0
-16
-16
-Homebrew
-RFM69CW
-
-
-0
-14
-14
-Homebrew
-RFM69CW-minimalpads
-
-
-0
-14
-9
-Homebrew
-R_PHOTO
-
-
-0
-2
-2
-Homebrew
-SK22D15L5
-Side insertion 3A DPDT 50V 11.8mm 14.6mm 50V 7.1mm 3A PCPin 10000 Rectangular columnar -40℃~+85℃ Black Plugin Slide Switches ROHS
-DPDT, switch, slide
-0
-8
-7
-Homebrew
-SK22D15L5_SP
-Side insertion 3A DPDT 50V 11.8mm 14.6mm 50V 7.1mm 3A PCPin 10000 Rectangular columnar -40℃~+85℃ Black Plugin Slide Switches ROHS
-DPDT, switch, slide
-0
-8
-4
-Homebrew
-SLOT_W2mm_H8mm
-
-
-0
-0
-0
-Homebrew
-SOD-123HE
-
-
-0
-2
-2
-Homebrew
-SOD-923
-
-
-0
-2
-2
-Homebrew
-SOIC-8-N
-Module Narrow CMS SOJ 8 pins large
-CMS SOJ
-0
-8
-8
-Homebrew
-SOP-8_3.9x4.9mm_P1.27mm_Thermal
-SOP, 8 Pin (http://www.macronix.com/Lists/Datasheet/Attachments/7534/MX25R3235F,%20Wide%20Range,%2032Mb,%20v1.6.pdf#page=79), generated with kicad-footprint-generator ipc_gullwing_generator.py
-SOP SO
-0
-9
-9
-Homebrew
-SOP127P600X175-9N
-TP4056
-
-0
-9
-9
-Homebrew
-SOT-25
-
-
+Package_TO_SOT_SMD
+Diodes_SOT-553
+Diodes SOT-553, https://www.diodes.com/assets/Package-Files/SOT553.pdf
+SOT-553
 0
 5
 5
-Homebrew
-SP5T_SLB1570
-
-
-0
-7
-6
-Homebrew
-SS-12D03-G5
-SPDT switch, 0.3A, LCSC C698226
-SPDT
-0
-3
-3
-Homebrew
-SS-14D0839-VG_5_PA
-SP4T slide switch
-SP4T, switch, slide
-0
-7
-6
-Homebrew
-STM32G071CBU3
-
-
-0
-49
-49
-Homebrew
-STX-3120-3B
-
-
-0
-6
-4
-Homebrew
-SWITCH_100SP1T2B3M1QEH
-
-
-0
-3
-3
-Homebrew
-SW_2POS_OS102011MS2QN1
-
-
-0
-3
-3
-Homebrew
-SW_CK_TA
-CK Switches Integrated LED Tactile Switch
-tactile, led, button
-0
-6
-6
-Homebrew
-SW_PUSH_6.2H_4.5W
-https://www.omron.com/ecb/products/pdf/en-b3f.pdf
-tact sw push 6mm
-0
-4
-2
-Homebrew
-SW_SLIDE_SPDT_K3-1204D-L
-
-
-0
-3
-3
-Homebrew
-SW_SPDT_SK-12D02-G060
-
-
+Package_TO_SOT_SMD
+HVSOF5
+HVSOF5, http://rohmfs.rohm.com/en/techdata_basic/ic/package/hvsof5_1-e.pdf, http://rohmfs.rohm.com/en/products/databook/datasheet/ic/sensor/hall/bu52001gul-e.pdf
+HVSOF5
 0
 5
-4
-Homebrew
-SW_TACTILE_3mmx3.5mm_TS-1071SA-A4B3-D4
-
-
+5
+Package_TO_SOT_SMD
+HVSOF6
+HVSOF6, http://rohmfs.rohm.com/en/techdata_basic/ic/package/hvsof6_1-e.pdf, http://rohmfs.rohm.com/en/products/databook/datasheet/ic/audio_video/video_amplifier/bh76106hfv-e.pdf
+HVSOF6
 0
-4
-2
-Homebrew
-SW_TACTILE_5.1MM_TS-1187A-C-D-B
-5.1MM tactile switch button, JLCPCB/LCSC
-tactile, jlc, button
-0
-4
-2
-Homebrew
-SW_Tactile_SPST_TL6300
-tactile switch SPST E-Switch 12mmx12mm IP67
-tactile SPST IP67
-0
-6
-3
-Homebrew
-SW_Tactile_TE_1571407-2
-
-
-0
-4
-3
-Homebrew
-SolderWire-12AWG_1x02
-Soldered wire connection, for 2 times 2.5 mm² wires, basic insulation, conductor diameter 2.4mm, outer diameter 3.6mm, size source Multi-Contact FLEXI-E 2.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf), bend radius 3 times outer diameter, generated with kicad-footprint-generator
-connector wire 2.5sqmm
-0
-2
-2
-Homebrew
-TACTILE_SWITCH_SMD_4.6X2.8MM
-MOMENTARY SWITCH (PUSHBUTTON) - SPST - SMD, 4.6 X 2.8MM
-MOMENTARY SWITCH (PUSHBUTTON) - SPST - SMD, 4.6 X 2.8MM
-0
-4
-4
-Homebrew
-TO-92
-<h3>TO-92 3-Pin PTH AMMO package</h3><p><a href="">Datasheet</a></p><p>Specifications:<ul><li>Pin Count: 3</li><li>Dimensions:  3.68 x 4.83 x 4.83 mm</li><li>Pitch: 2.54 mm</li></ul><p>Devices Using:</p><ul><li>DS18B20</li></ul>
-
-0
-3
-3
-Homebrew
-TQFP32-08
-THIN PLASIC QUAD FLAT PACKAGE GRID 0.8 MM
-THIN PLASIC QUAD FLAT PACKAGE GRID 0.8 MM
-0
-32
-32
-Homebrew
-TRANS_CSD17318Q2T
-
-
+7
+7
+Package_TO_SOT_SMD
+Infineon_PG-HDSOP-10-1
+Infineon PG-HDSOP-10-1 (DDPAK), 20.96x6.5x2.3mm, slug up (https://www.infineon.com/cms/en/product/packages/PG-HDSOP/PG-HDSOP-10-1/)
+hdsop 10 ddpak
 0
 10
+10
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-1
+HSOF-8-1 [TOLL] power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-1/)
+mosfet hsof toll
+0
+53
 3
-Homebrew
-Teensy35_36
-
-
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-1_ThermalVias
+HSOF-8-1 [TOLL] power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-1/)
+mosfet hsof toll thermal vias
 0
-62
-62
-Homebrew
-Teensy35_36_simple
-
-
-0
-48
-48
-Homebrew
-Teensy41_stripped
-
-
-0
-50
-50
-Homebrew
-USB_LIPO_CHARGER_TP4056
-
-
-0
-4
+96
 3
-Homebrew
-VISHAY_VEML6040_1.25X2X1
-
-
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-2
+HSOF-8-2 [TOLL] power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-2/)
+mosfet hsof toll
 0
+12
 4
-4
-Homebrew
-WS2812B
-INTELLIGENT CONTROL LED WITH INTEGRATED LIGHT SOURCE
-INTELLIGENT CONTROL LED WITH INTEGRATED LIGHT SOURCE
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-2_ThermalVias
+HSOF-8-2 [TOLL] power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-2/)
+mosfet hsof toll thermal vias
 0
+97
 4
-4
-Homebrew
-Wurth_ScrewTerminal_1x02_P5.00mm_691137710002
-
-
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-2_ThermalVias2
+HSOF-8-2 [TOLL] power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-2/, https://www.infineon.com/dgdl/Infineon-ApplicationNote_600V_CoolMOS_C7_Gold_TOLL-AN-v01_00-EN.pdf?fileId=5546d4625b10283a015b144a1af70df6)
+mosfet hsof toll thermal vias
 0
-2
-2
-Homebrew
-Wurth_ScrewTerminal_1x03_P5.00mm_691137710003
-
-
+159
+4
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-3
+HSOF-8-3 power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-3/)
+mosfet hsof
+0
+25
+4
+Package_TO_SOT_SMD
+Infineon_PG-HSOF-8-3_ThermalVias
+HSOF-8-3 power MOSFET (http://www.infineon.com/cms/en/product/packages/PG-HSOF/PG-HSOF-8-3/)
+mosfet hsof
+0
+64
+4
+Package_TO_SOT_SMD
+Infineon_PG-TO-220-7Lead_TabPin8
+Infineon PG-TO-220-7, Tab as Pin 8, see e.g. https://www.infineon.com/dgdl/Infineon-BTS50055-1TMC-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa9b0007235e9
+Infineon PG-TO-220-7
+0
+12
+8
+Package_TO_SOT_SMD
+Infineon_PG-TSFP-3-1
+Infineon_PG-TSFP-3-1, https://www.infineon.com/dgdl/TSFP-3-1,-2-Package_Overview.pdf?fileId=db3a30431936bc4b0119539929863d46
+TSFP-3
 0
 3
 3
-Homebrew
-XCVR_E22-900T30S
-
-
+Package_TO_SOT_SMD
+LFPAK33
+LFPAK33 SOT-1210 https://assets.nexperia.com/documents/outline-drawing/SOT1210.pdf
+LFPAK33 SOT-1210
+0
+17
+5
+Package_TO_SOT_SMD
+LFPAK56
+LFPAK56 https://assets.nexperia.com/documents/outline-drawing/SOT669.pdf
+LFPAK56 SOT-669 Power-SO8
 0
 18
-18
-Homebrew
-XINGLIGHT-XL-1010RGBC-WS2812B
-
-
+5
+Package_TO_SOT_SMD
+Nexperia_CFP15_SOT-1289
+Nexperia CFP15 (SOT-1289), https://assets.nexperia.com/documents/outline-drawing/SOT1289.pdf
+SOT-1289 CFP15
+0
+8
+3
+Package_TO_SOT_SMD
+OnSemi_ECH8
+On Semiconductor ECH8, https://www.onsemi.com/pub/Collateral/318BF.PDF
+ECH8 SOT28-FL SOT-28-FL
+0
+8
+8
+Package_TO_SOT_SMD
+PQFN_8x8
+Low Profile 8x8mm PQFN, Dual Cool 88, https://www.onsemi.com/pub/Collateral/FDMT80080DC-D.pdf
+pqfn vdfn mosfet
+0
+9
+3
+Package_TO_SOT_SMD
+PowerMacro_M234_NoHole
+TO-50-4 Power Macro Package Style M234
+TO-50-4 Power Macro Package Style M234
 0
 4
 4
-Homebrew
-helical_antenna_915mhz_hole
-
-
+Package_TO_SOT_SMD
+PowerMacro_M234_WithHole
+TO-50-4 Power Macro Package Style M234
+TO-50-4 Power Macro Package Style M234
 0
-1
-1
-Homebrew
-hole-m2.5
-
-
+4
+4
+Package_TO_SOT_SMD
+Rohm_HRP7
+Rohm HRP7 SMD package, http://rohmfs.rohm.com/en/techdata_basic/ic/package/hrp7_1-e.pdf, http://rohmfs.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd621x-e.pdf
+Rohm HRP7 SMD
 0
-1
-1
-Homebrew
-‎EG1206‎_SLIDE_SWITCH
-
-
+69
+7
+Package_TO_SOT_SMD
+SC-59
+SC-59, https://lib.chipdip.ru/images/import_diod/original/SOT-23_SC-59.jpg
+SC-59
+0
+3
+3
+Package_TO_SOT_SMD
+SC-59_Handsoldering
+SC-59, hand-soldering varaint, https://lib.chipdip.ru/images/import_diod/original/SOT-23_SC-59.jpg
+SC-59 hand-soldering
+0
+3
+3
+Package_TO_SOT_SMD
+SC-70-8
+SC70-8
+SC70-8
+0
+8
+8
+Package_TO_SOT_SMD
+SC-70-8_Handsoldering
+SC70-8, Handsoldering
+SC70-8 Handsoldering
+0
+8
+8
+Package_TO_SOT_SMD
+SC-82AA
+SC-82AA
+SC-82AA
+0
+4
+4
+Package_TO_SOT_SMD
+SC-82AA_Handsoldering
+SC-82AA
+SC-82AA
+0
+4
+4
+Package_TO_SOT_SMD
+SC-82AB
+SC-82AB
+SC-82AB
+0
+4
+4
+Package_TO_SOT_SMD
+SC-82AB_Handsoldering
+SC-82AB
+SC-82AB
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-23
+SOT, 3 Pin (https://www.jedec.org/system/files/docs/to-236h.pdf variant AB), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-23-3
+SOT, 3 Pin (https://www.jedec.org/sites/default/files/docs/Mo-178D.PDF inferred 3-pin variant), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-23-5
+SOT, 5 Pin (https://www.jedec.org/sites/default/files/docs/Mo-178c.PDF variant AA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
 0
 5
+5
+Package_TO_SOT_SMD
+SOT-23-5_HandSoldering
+5-pin SOT23 package
+SOT-23-5 hand-soldering
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-23-6
+SOT, 6 Pin (https://www.jedec.org/sites/default/files/docs/Mo-178c.PDF variant AB), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-23-6_Handsoldering
+6-pin SOT-23 package, Handsoldering
+SOT-23-6 Handsoldering
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-23-8
+SOT, 8 Pin (https://www.jedec.org/sites/default/files/docs/Mo-178c.PDF variant BA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
+0
+8
+8
+Package_TO_SOT_SMD
+SOT-23-8_Handsoldering
+8-pin SOT-23 package, Handsoldering, http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/sot-23rj/rj_8.pdf
+SOT-23-8 Handsoldering
+0
+8
+8
+Package_TO_SOT_SMD
+SOT-23W
+SOT-23W http://www.allegromicro.com/~/media/Files/Datasheets/A112x-Datasheet.ashx?la=en&hash=7BC461E058CC246E0BAB62433B2F1ECA104CA9D3
+SOT-23W
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-23W_Handsoldering
+SOT-23W http://www.allegromicro.com/~/media/Files/Datasheets/A112x-Datasheet.ashx?la=en&hash=7BC461E058CC246E0BAB62433B2F1ECA104CA9D3
+SOT-23W for handsoldering
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-23_Handsoldering
+SOT-23, Handsoldering
+SOT-23
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-89-3
+SOT-89-3, http://ww1.microchip.com/downloads/en/DeviceDoc/3L_SOT-89_MB_C04-029C.pdf
+SOT-89-3
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-89-3_Handsoldering
+SOT-89-3 Handsoldering
+SOT-89-3 Handsoldering
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-89-5
+SOT-89-5, http://www.e-devices.ricoh.co.jp/en/products/product_power/pkg/sot-89-5.pdf
+SOT-89-5
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-89-5_Handsoldering
+SOT-89-5, http://www.e-devices.ricoh.co.jp/en/products/product_power/pkg/sot-89-5.pdf
+SOT-89-5
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-143
+SOT-143 https://www.nxp.com/docs/en/package-information/SOT143B.pdf
+SOT-143
+0
 4
+4
+Package_TO_SOT_SMD
+SOT-143R
+SOT-143R, reverse pinning, https://www.nxp.com/docs/en/package-information/SOT143R.pdf
+SOT-143R Reverse
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-143R_Handsoldering
+SOT-143R, reverse pinning, Handsoldering, https://www.nxp.com/docs/en/package-information/SOT143R.pdf
+SOT-143 Reverse Handsoldering
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-143_Handsoldering
+SOT-143 Handsoldering https://www.nxp.com/docs/en/package-information/SOT143B.pdf
+SOT-143 Handsoldering
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-223
+module CMS SOT223 4 pins
+CMS SOT
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-223-3_TabPin2
+module CMS SOT223 4 pins
+CMS SOT
+0
+4
+3
+Package_TO_SOT_SMD
+SOT-223-5
+module CMS SOT223 5 pins, http://ww1.microchip.com/downloads/en/DeviceDoc/51751a.pdf
+CMS SOT
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-223-6
+module CMS SOT223 6 pins, http://www.ti.com/lit/ds/symlink/tps737.pdf
+CMS SOT
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-223-6_TabPin3
+module CMS SOT223 6 pins, http://www.ti.com/lit/ds/symlink/tps737.pdf
+CMS SOT
+0
+6
+5
+Package_TO_SOT_SMD
+SOT-223-8
+module CMS SOT223 8 pins, https://www.diodes.com/assets/Datasheets/ZXSBMR16PT8.pdf
+CMS SOT
+0
+8
+8
+Package_TO_SOT_SMD
+SOT-323_SC-70
+SOT-323, SC-70
+SOT-323 SC-70
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-323_SC-70_Handsoldering
+SOT-323, SC-70 Handsoldering
+SOT-323 SC-70 Handsoldering
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-343_SC-70-4
+SOT-343, SC-70-4
+SOT-343 SC-70-4
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-343_SC-70-4_Handsoldering
+SOT-343, SC-70-4, Handsoldering
+SOT-343 SC-70-4 Handsoldering
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-353_SC-70-5
+SOT-353, SC-70-5
+SOT-353 SC-70-5
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-353_SC-70-5_Handsoldering
+SOT-353, SC-70-5, Handsoldering
+SOT-353 SC-70-5 Handsoldering
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-363_SC-70-6
+SOT-363, SC-70-6
+SOT-363 SC-70-6
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-363_SC-70-6_Handsoldering
+SOT-363, SC-70-6, Handsoldering
+SOT-363 SC-70-6 Handsoldering
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-383F
+8-pin SOT-383F, http://www.mouser.com/ds/2/80/CPDVR085V0C-HF-RevB-10783.pdf
+SOT-383F
+0
+9
+9
+Package_TO_SOT_SMD
+SOT-383FL
+8-pin SOT-383FL package, http://www.onsemi.com/pub_link/Collateral/ENA2267-D.PDF
+SOT-383FL
+0
+8
+8
+Package_TO_SOT_SMD
+SOT-416
+SOT-416, https://www.nxp.com/docs/en/package-information/SOT416.pdf
+SOT-416
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-523
+SOT523, https://www.diodes.com/assets/Package-Files/SOT523.pdf
+SOT-523
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-543
+SOT-543 4 lead surface package
+SOT-543 SC-107A EMD4
+0
+4
+4
+Package_TO_SOT_SMD
+SOT-553
+SOT553
+SOT-553
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-563
+SOT563
+SOT-563
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-583-8
+https://www.ti.com/lit/ds/symlink/tps62933.pdf
+SOT-583-8
+0
+8
+8
+Package_TO_SOT_SMD
+SOT-665
+SOT665
+SOT-665
+0
+5
+5
+Package_TO_SOT_SMD
+SOT-666
+SOT666
+SOT-666
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-723
+http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV
+sot 723
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-883
+SOT-883, https://assets.nexperia.com/documents/outline-drawing/SOT883.pdf
+SOT-883
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-886
+SOT-886
+SOT-886
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-963
+SOT 963 6 pins package 1x0.8mm pitch 0.35mm
+SOT 963 6 pins package 1x0.8mm pitch 0.35mm
+0
+6
+6
+Package_TO_SOT_SMD
+SOT-1123
+SOT-1123 small outline transistor (see http://www.onsemi.com/pub/Collateral/NST3906F3-D.PDF)
+SOT-1123 transistor
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-1333-1
+SOT-1333-1 
+SOT-1333-1 
+0
+9
+9
+Package_TO_SOT_SMD
+SOT-1334-1
+SOT-1334-1
+SOT-1334-1
+0
+14
+14
+Package_TO_SOT_SMD
+SuperSOT-3
+3-pin SuperSOT package https://www.fairchildsemi.com/package-drawings/MA/MA03B.pdf
+SuperSOT-3 SSOT-3
+0
+3
+3
+Package_TO_SOT_SMD
+SuperSOT-6
+6-pin SuperSOT package http://www.mouser.com/ds/2/149/FMB5551-889214.pdf
+SuperSOT-6 SSOT-6
+0
+6
+6
+Package_TO_SOT_SMD
+SuperSOT-8
+8-pin SuperSOT package, http://www.icbank.com/icbank_data/semi_package/ssot8_dim.pdf
+SuperSOT-8 SSOT-8
+0
+8
+8
+Package_TO_SOT_SMD
+TDSON-8-1
+Power MOSFET package, TDSON-8-1, 5.15x5.9mm (https://www.infineon.com/cms/en/product/packages/PG-TDSON/PG-TDSON-8-1/)
+tdson 
+0
+14
+5
+Package_TO_SOT_SMD
+TO-50-3_LongPad-NoHole_Housing
+TO-50-3 Macro T Package Style M236
+TO-50-3 Macro T Package Style M236
+0
+3
+3
+Package_TO_SOT_SMD
+TO-50-3_LongPad-WithHole_Housing
+TO-50-3 Macro T Package Style M236
+TO-50-3 Macro T Package Style M236
+0
+3
+3
+Package_TO_SOT_SMD
+TO-50-3_ShortPad-NoHole_Housing
+TO-50-3 Macro T Package Style M236
+TO-50-3 Macro T Package Style M236
+0
+3
+3
+Package_TO_SOT_SMD
+TO-50-3_ShortPad-WithHole_Housing
+TO-50-3 Macro T Package Style M236
+TO-50-3 Macro T Package Style M236
+0
+3
+3
+Package_TO_SOT_SMD
+TO-50-4_LongPad-NoHole_Housing
+TO-50-4 Macro X Package Style M238
+TO-50-4 Macro X Package Style M238
+0
+4
+4
+Package_TO_SOT_SMD
+TO-50-4_LongPad-WithHole_Housing
+TO-50-4 Macro X Package Style M238
+TO-50-4 Macro X Package Style M238
+0
+4
+4
+Package_TO_SOT_SMD
+TO-50-4_ShortPad-NoHole_Housing
+TO-50-4 Macro X Package Style M238
+TO-50-4 Macro X Package Style M238
+0
+4
+4
+Package_TO_SOT_SMD
+TO-50-4_ShortPad-WithHole_Housing
+TO-50-4 Macro X Package Style M238
+TO-50-4 Macro X Package Style M238
+0
+4
+4
+Package_TO_SOT_SMD
+TO-252-2
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+DPAK TO-252 DPAK-3 TO-252-3 SOT-428
+0
+7
+3
+Package_TO_SOT_SMD
+TO-252-2_TabPin1
+TO-252-2, tab to pin 1 https://www.wolfspeed.com/media/downloads/87/CSD01060.pdf
+TO-252-2 diode
+0
+7
+2
+Package_TO_SOT_SMD
+TO-252-3_TabPin2
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+DPAK TO-252 DPAK-3 TO-252-3 SOT-428
+0
+8
+3
+Package_TO_SOT_SMD
+TO-252-3_TabPin4
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+DPAK TO-252 DPAK-3 TO-252-3 SOT-428
+0
+8
+4
+Package_TO_SOT_SMD
+TO-252-4
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
+DPAK TO-252 DPAK-5 TO-252-5
+0
+9
+5
+Package_TO_SOT_SMD
+TO-252-5_TabPin3
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
+DPAK TO-252 DPAK-5 TO-252-5
+0
+10
+5
+Package_TO_SOT_SMD
+TO-252-5_TabPin6
+TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
+DPAK TO-252 DPAK-5 TO-252-5
+0
+10
+6
+Package_TO_SOT_SMD
+TO-263-2
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
+D2PAK DDPAK TO-263 D2PAK-3 TO-263-3 SOT-404
+0
+7
+3
+Package_TO_SOT_SMD
+TO-263-2_TabPin1
+TO-263 / D2PAK / DDPAK SMD package, tab to pin 1, https://www.wolfspeed.com/media/downloads/137/C3D06060G.pdf
+D2PAK DDPAK TO-263 D2PAK-3 TO-263-3 SOT-404 diode
+0
+7
+2
+Package_TO_SOT_SMD
+TO-263-3_TabPin2
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
+D2PAK DDPAK TO-263 D2PAK-3 TO-263-3 SOT-404
+0
+8
+3
+Package_TO_SOT_SMD
+TO-263-3_TabPin4
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
+D2PAK DDPAK TO-263 D2PAK-3 TO-263-3 SOT-404
+0
+8
+4
+Package_TO_SOT_SMD
+TO-263-4
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
+D2PAK DDPAK TO-263 D2PAK-5 TO-263-5 SOT-426
+0
+9
+5
+Package_TO_SOT_SMD
+TO-263-5_TabPin3
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
+D2PAK DDPAK TO-263 D2PAK-5 TO-263-5 SOT-426
+0
+10
+5
+Package_TO_SOT_SMD
+TO-263-5_TabPin6
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
+D2PAK DDPAK TO-263 D2PAK-5 TO-263-5 SOT-426
+0
+10
+6
+Package_TO_SOT_SMD
+TO-263-6
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
+D2PAK DDPAK TO-263 D2PAK-7 TO-263-7 SOT-427
+0
+11
+7
+Package_TO_SOT_SMD
+TO-263-7_TabPin4
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
+D2PAK DDPAK TO-263 D2PAK-7 TO-263-7 SOT-427
+0
+12
+7
+Package_TO_SOT_SMD
+TO-263-7_TabPin8
+TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
+D2PAK DDPAK TO-263 D2PAK-7 TO-263-7 SOT-427
+0
+12
+8
+Package_TO_SOT_SMD
+TO-263-9_TabPin5
+TO-263 / D2PAK / DDPAK SMD package, http://www.ti.com/lit/ds/symlink/lm4755.pdf
+D2PAK DDPAK TO-263 D2PAK-9 TO-263-9
+0
+14
+9
+Package_TO_SOT_SMD
+TO-263-9_TabPin10
+TO-263 / D2PAK / DDPAK SMD package, http://www.ti.com/lit/ds/symlink/lm4755.pdf
+D2PAK DDPAK TO-263 D2PAK-9 TO-263-9
+0
+14
+10
+Package_TO_SOT_SMD
+TO-268-2
+TO-268/D3PAK SMD package, http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf
+D3PAK TO-268 D3PAK-3 TO-268-3
+0
+7
+3
+Package_TO_SOT_SMD
+TO-269AA
+SMD package TO-269AA (e.g. diode bridge), see http://www.vishay.com/docs/88854/padlayouts.pdf
+TO-269AA MBS diode bridge
+0
+4
+4
+Package_TO_SOT_SMD
+TO-277A
+Thermal enhanced ultra thin SMD package; 3 leads; body: 4.3x6.1x0.43mm, https://www.vishay.com/docs/95570/to-277asmpc.pdf
+TO-277A SMPC
+0
+12
+3
+Package_TO_SOT_SMD
+TO-277B
+TO-227B https://media.digikey.com/pdf/Data%20Sheets/Littelfuse%20PDFs/DST2050S.pdf
+TO-277B
+0
+9
+3
+Package_TO_SOT_SMD
+TSOT-23
+3-pin TSOT23 package, http://www.analog.com.tw/pdf/All_In_One.pdf
+TSOT-23
+0
+3
+3
+Package_TO_SOT_SMD
+TSOT-23-5
+TSOT, 5 Pin (https://www.jedec.org/sites/default/files/docs/MO-193D.pdf variant AB), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TSOT TO_SOT_SMD
+0
+5
+5
+Package_TO_SOT_SMD
+TSOT-23-5_HandSoldering
+5-pin TSOT23 package, http://cds.linear.com/docs/en/packaging/SOT_5_05-08-1635.pdf
+TSOT-23-5 Hand-soldering
+0
+5
+5
+Package_TO_SOT_SMD
+TSOT-23-6
+TSOT, 6 Pin (https://www.jedec.org/sites/default/files/docs/MO-193D.pdf variant AA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TSOT TO_SOT_SMD
+0
+6
+6
+Package_TO_SOT_SMD
+TSOT-23-6_HandSoldering
+6-pin TSOT23 package, http://cds.linear.com/docs/en/packaging/SOT_6_05-08-1636.pdf
+TSOT-23-6 MK06A TSOT-6 Hand-soldering
+0
+6
+6
+Package_TO_SOT_SMD
+TSOT-23-8
+TSOT, 8 Pin (https://www.jedec.org/sites/default/files/docs/MO-193D.pdf variant BA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TSOT TO_SOT_SMD
+0
+8
+8
+Package_TO_SOT_SMD
+TSOT-23-8_HandSoldering
+8-pin TSOT23 package, http://cds.linear.com/docs/en/packaging/SOT_8_05-08-1637.pdf
+TSOT-23-8 Hand-soldering
+0
+8
+8
+Package_TO_SOT_SMD
+TSOT-23_HandSoldering
+5-pin TSOT23 package, http://cds.linear.com/docs/en/packaging/SOT_5_05-08-1635.pdf
+TSOT-23 Hand-soldering
+0
+3
+3
+Package_TO_SOT_SMD
+Texas_DRT-3
+Texas Instrument DRT-3 1x0.8mm Pitch 0.7mm http://www.ti.com/lit/ds/symlink/tpd2eusb30.pdf
+DRT-3 1x0.8mm Pitch 0.7mm
+0
+3
+3
+Package_TO_SOT_SMD
+Texas_NDQ
+Texas Instruments, NDQ, 5 pin (https://www.ti.com/lit/ml/mmsf022/mmsf022.pdf)
+ti pfm dap
+0
+6
+6
+Package_TO_SOT_SMD
+Texas_NDW-7_TabPin4
+NDW0007A SMD package, http://www.ti.com/lit/ml/mmsf024/mmsf024.pdf
+NDW NDW
+0
+12
+7
+Package_TO_SOT_SMD
+Texas_NDW-7_TabPin8
+NDW0007A SMD package, http://www.ti.com/lit/ml/mmsf024/mmsf024.pdf
+NDW NDW
+0
+12
+8
+Package_TO_SOT_SMD
+Texas_NDY0011A
+TO-PMOD-11 11-pin switching regulator package, http://www.ti.com/lit/ml/mmsf025/mmsf025.pdf
+Texas TO-PMOD NDY00011A
+0
+12
+12
+Package_TO_SOT_SMD
+Texas_R-PDSO-G5_DCK-5
+DCK R-PDSO-G5, JEDEC MO-203C Var AA, https://www.ti.com/lit/ds/symlink/tmp20.pdf#page=23
+DCK R-PDSO-G5 MO-203C
+0
+5
+5
+Package_TO_SOT_SMD
+Texas_R-PDSO-G6
+R-PDSO-G6, http://www.ti.com/lit/ds/slis144b/slis144b.pdf
+R-PDSO-G6 SC-70-6
+0
+6
+6
+Package_TO_SOT_SMD
+Texas_R-PDSO-N5_DRL-5
+R-PDSO-N5, DRL, JEDEC MO-293B Var UAAD-1, https://www.ti.com/lit/ml/mpds158d/mpds158d.pdf
+SOT R-PDSO-N5 DRL
+0
+5
+5
+Package_TO_SOT_SMD
+Texas_R-PDSO-N6_DRL-6
+R-PDSO-N6, DRL, similar to JEDEC MO-293B Var UAAD (but not the same) , https://www.ti.com/lit/pdf/mpds159f
+SOT R-PDSO-N6 DRL
+0
+6
+6
+Package_TO_SOT_SMD
+VSOF5
+VSOF5
+VSOF5
+0
+5
+5
+Package_TO_SOT_SMD
+Vishay_PowerPAK_SC70-6L_Dual
+Vishay PowerPAK SC70 dual transistor package http://www.vishay.com/docs/70487/70487.pdf
+powerpak sc70 sc-70 dual
+0
+8
+6
+Package_TO_SOT_SMD
+Vishay_PowerPAK_SC70-6L_Single
+Vishay PowerPAK SC70 single transistor package http://www.vishay.com/docs/70486/70486.pdf
+powerpak sc70 sc-70
+0
+6
+3
