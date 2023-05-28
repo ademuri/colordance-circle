@@ -1,12 +1,10 @@
 #include "TeensyLightController.hpp"
 
-const std::array<int, 6> TeensyLightController::kPoleLightIndexes = {6,  9,  5,
-                                                                     12, 10, 0};
+const std::array<int, 6> TeensyLightController::kPoleLightIndexes = {7,  8,  4,
+                                                                     13, 10, 1};
 
-// const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7, 8, 4,
-// 13, 11, 1};
-const std::array<int, 6> TeensyLightController::kPoleGridIndexes = {7,  8,  4,
-                                                                    13, 10, 1};
+const std::array<int, 6> TeensyLightController::kGridLightIndexes = {6,  9,  5,
+                                                                     12, 11, 0};
 
 TeensyLightController::TeensyLightController() {
   for (int i = 0; i < kTotalLeds; i++) {
@@ -23,7 +21,7 @@ TeensyLightController::TeensyLightController() {
 void TeensyLightController::WriteOutLights() {
   for (uint8_t pole_number = 0; pole_number < Pole::kNumPoles; pole_number++) {
     auto& grid_lights = poles[pole_number].get_grid_lights();
-    int pole_index = kPoleGridIndexes[pole_number];
+    int pole_index = kGridLightIndexes[pole_number];
 
     leds[pole_index * kLedsPerOutput + 6] =
         Pole::ClampCRGBForDisplay(grid_lights[0][0]);
