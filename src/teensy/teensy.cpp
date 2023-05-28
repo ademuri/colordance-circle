@@ -25,11 +25,10 @@ Buttons buttons(bank1, bank2);
 TeensyEnvironmentController environment_controller;
 FakeParamController param_controller;
 // SerialParamController param_controller;
-// TeensySdLogger logger{param_controller, environment_controller};
+TeensySdLogger logger{param_controller, environment_controller};
 // Runner runner(light_controller.get_poles(), buttons, param_controller,
 //               environment_controller, logger);
 // TeensySdLogger logger{param_controller, environment_controller};
-FakeLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), buttons, param_controller,
               environment_controller, logger);
 
@@ -47,6 +46,13 @@ void setup() {
   Entropy.Initialize();
   randomSeed(Entropy.random(0, 32767));
 
+  Serial.print("Intializing logger... ");
+  if (logger.Begin()) {
+    Serial.println("done.");
+  } else {
+    Serial.println("FAILED.");
+  }
+
   Serial.println("Brain initialization complete");
 }
 
@@ -56,11 +62,7 @@ void loop() {
     Serial.println(millis());
     print_at = millis() + 5000;
   }
-  // runner.Step();
-  // param_controller.SetRunnerState(runner.State());
-  for (uint8_t pole = 0; pole < 6; pole++) {
-    light_controller.get_poles()[pole].SetGridLight(0, 0, CHSV(0, 255, 255));
-  }
+  runner.Step();
+  param_controller.SetRunnerState(runner.State());
   light_controller.WriteOutLights();
-  delay(10);
 }

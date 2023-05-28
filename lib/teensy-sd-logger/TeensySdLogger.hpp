@@ -10,6 +10,8 @@ class TeensySdLogger : public Logger {
   TeensySdLogger(const ParamController& param_controller,
                  const EnvironmentController& environment_controller);
 
+  bool Begin();
+
  protected:
   void Log(const char* message) override;
 
