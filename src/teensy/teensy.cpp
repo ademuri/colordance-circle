@@ -26,9 +26,6 @@ TeensyEnvironmentController environment_controller;
 FakeParamController param_controller;
 // SerialParamController param_controller;
 TeensySdLogger logger{param_controller, environment_controller};
-// Runner runner(light_controller.get_poles(), buttons, param_controller,
-//               environment_controller, logger);
-// TeensySdLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), buttons, param_controller,
               environment_controller, logger);
 
