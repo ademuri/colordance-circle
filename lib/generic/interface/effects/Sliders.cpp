@@ -78,6 +78,7 @@ void Sliders::UpdateSlider1(uint8_t val) { leftIndex = val / 43; }
 void Sliders::UpdateSlider2(uint8_t val) { rightIndex = val / 43; }
 
 void Sliders::DoManualShift(bool didManual) {
+  UNUSED(didManual);
   if (leftIndex == rightIndex) {
     // uint8_t hueLeftOld = hueLeft;
     // hueLeft = hueRight;
@@ -89,9 +90,15 @@ void Sliders::DoManualShift(bool didManual) {
   }
 }
 
-void Sliders::DoAutomaticShift(bool didManual) { return; }
+void Sliders::DoAutomaticShift(bool didManual) {
+  UNUSED(didManual);
+  return;
+}
 
-void Sliders::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void Sliders::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+  return;
+}
 
 void Sliders::ResetModes() {
   pole_left->SetHue(0);

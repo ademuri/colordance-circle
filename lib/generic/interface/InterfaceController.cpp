@@ -217,8 +217,8 @@ void InterfaceController::DoStep() {
     }
     buttons_.SetButton(9, i, CRGB(CHSV(0, 0, shiftCountBrightness)));
   }
-  uint8_t timeSinceLastShift = effectTime - lastShiftTime;
   uint8_t shiftBrightness = 50;
+  // uint8_t timeSinceLastShift = effectTime - lastShiftTime;
   // if (beatsPerShift > 0) {
   //   shiftBrightness = 255 * timeSinceLastShift / (beatsPerShift *
   //   millisPerBeat);

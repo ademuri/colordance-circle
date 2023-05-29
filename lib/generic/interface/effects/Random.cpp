@@ -98,11 +98,20 @@ void Random::UpdateSlider2(uint8_t val) {
   }
 }
 
-void Random::DoAutomaticShift(bool didManual) { doMove = true; }
+void Random::DoAutomaticShift(bool didManual) {
+  UNUSED(didManual);
+  doMove = true;
+}
 
-void Random::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void Random::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+  return;
+}
 
-void Random::DoManualShift(bool didAutomatic) { doMove = true; }
+void Random::DoManualShift(bool didAutomatic) {
+  UNUSED(didAutomatic);
+  doMove = true;
+}
 
 void Random::InitializeEffect() {
   uint8_t hue = 0;

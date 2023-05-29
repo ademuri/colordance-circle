@@ -37,9 +37,10 @@ void ControlPoleEffectPinwheel::DoSetGrid(Grid<CHSV>& grid_lights,
 
 uint8_t ControlPoleEffectPinwheel::GetBigSquare(uint8_t shiftIndex) {
   shiftIndex %= 12;
-  return (shiftIndex < 4
-              ? shiftIndex
-              : shiftIndex < 7 ? 3 : shiftIndex < 10 ? 9 - shiftIndex : 0) %
+  return (shiftIndex < 4    ? shiftIndex
+          : shiftIndex < 7  ? 3
+          : shiftIndex < 10 ? 9 - shiftIndex
+                            : 0) %
          4;
 }
 

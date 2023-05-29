@@ -143,12 +143,17 @@ void MovingPole::UpdateSlider2(uint8_t val) {
 }
 
 void MovingPole::DoAutomaticShift(bool didManual) {
+  UNUSED(didManual);
   autoMovingPole->SetHue(baseHue + 127);
 }
 
-void MovingPole::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void MovingPole::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+  return;
+}
 
 void MovingPole::DoManualShift(bool didAutomatic) {
+  UNUSED(didAutomatic);
   if (!didAutomatic && movingPoleIndex == 6) {
     movingPoleIndex = 0;
     movingPole->SetHue(baseHue + 127);

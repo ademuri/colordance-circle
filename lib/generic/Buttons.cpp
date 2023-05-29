@@ -91,10 +91,10 @@ CRGB* Buttons::getStripBank2(const int index) {
 }
 
 void Buttons::TurnOffAll() {
-  for (int i = 0; i < sizeof(bank1_) / sizeof(bank1_[0]); i++) {
+  for (uint16_t i = 0; i < sizeof(bank1_) / sizeof(bank1_[0]); i++) {
     bank1_[i] = CRGB(0, 0, 0);
   }
-  for (int i = 0; i < sizeof(bank2_) / sizeof(bank2_[0]); i++) {
+  for (uint16_t i = 0; i < sizeof(bank2_) / sizeof(bank2_[0]); i++) {
     bank2_[i] = CRGB(0, 0, 0);
   }
   // for (int i=0; i<16; i++) {

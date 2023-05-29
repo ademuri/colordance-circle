@@ -11,5 +11,5 @@ class FakeParamController : public ParamController {
 
   void SetRawParam(Param param, uint8_t value);
 
-  void SetRunnerState(RunnerState state) {}
+  void SetRunnerState(RunnerState state) { UNUSED(state); }
 };

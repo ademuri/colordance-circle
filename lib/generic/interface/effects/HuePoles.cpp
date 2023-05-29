@@ -99,11 +99,18 @@ void HuePoles::UpdateSlider2(uint8_t val) {
   hueDistance = 127 - 2 * hDis;  // for button setting
 }
 
-void HuePoles::DoAutomaticShift(bool didManual) { return; }
+void HuePoles::DoAutomaticShift(bool didManual) {
+  UNUSED(didManual);
+  return;
+}
 
-void HuePoles::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void HuePoles::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+  return;
+}
 
 void HuePoles::DoManualShift(bool didAutomatic) {
+  UNUSED(didAutomatic);
   smoothColor = !smoothColor;
   for (auto& pole : controlPoles) {
     pole.SetSmoothColor(smoothColor);

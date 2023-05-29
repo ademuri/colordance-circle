@@ -113,6 +113,7 @@ void SideToSide::UpdateSlider2(uint8_t val) {
 }
 
 void SideToSide::DoAutomaticShift(bool didManual) {
+  UNUSED(didManual);
   for (ControlPole& pole : controlPoles) {
     pole.ResetFade();
   }
@@ -135,9 +136,15 @@ void SideToSide::DoAutomaticShift(bool didManual) {
   poleOffset += goBackwards ? -1 : 1;
 }
 
-void SideToSide::DoAutomaticPartialShift(uint8_t shiftFraction) { return; }
+void SideToSide::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+  return;
+}
 
-void SideToSide::DoManualShift(bool didAutomatic) { return; }
+void SideToSide::DoManualShift(bool didAutomatic) {
+  UNUSED(didAutomatic);
+  return;
+}
 
 void SideToSide::ResetModes() {
   for (ControlPole& pole : controlPoles) {

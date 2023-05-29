@@ -154,7 +154,7 @@ void BackAndForth::DoManualShift(bool didAutomatic) {
 }
 
 void BackAndForth::UpdateIndex() {
-  if (goIn && rightIndex == 0 || !goIn && leftIndex == 0) {
+  if ((goIn && rightIndex == 0) || (!goIn && leftIndex == 0)) {
     goIn = !goIn;
   }
   if (goIn) {

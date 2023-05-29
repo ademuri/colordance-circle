@@ -114,7 +114,9 @@ void Split::DoAutomaticShift(bool didManual) {
   }
 }
 
-void Split::DoAutomaticPartialShift(uint8_t shiftFraction) {}
+void Split::DoAutomaticPartialShift(uint8_t shiftFraction) {
+  UNUSED(shiftFraction);
+}
 
 void Split::DoManualShift(bool didAutomatic) {
   if (!didAutomatic) {
