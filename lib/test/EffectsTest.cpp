@@ -17,10 +17,16 @@
 #include "PolesTest.hpp"
 #include "TestLightsEffect.hpp"
 
-constexpr auto effect_names =
-    std::array{"HuePoles", "BackAndForth", "Sliders", "SideToSide"};
-// Effect index starts at this value.
-constexpr uint8_t kEffectOffset = 3;
+const std::map<InterfaceController::EffectIndex, std::string_view>
+    kEffectNames = {
+        {InterfaceController::EffectIndex::kBackAndForth, "BackAndForth"},
+        {InterfaceController::EffectIndex::kHuePoles, "HuePoles"},
+        {InterfaceController::EffectIndex::kSideToSide, "SideToSide"},
+        {InterfaceController::EffectIndex::kSliders, "Sliders"},
+        {InterfaceController::EffectIndex::kMovingPole, "MovingPole"},
+        {InterfaceController::EffectIndex::kSplit, "Split"},
+        {InterfaceController::EffectIndex::kRandom, "Random"},
+};
 
 class EffectsTest : public PolesTest {
  protected:
@@ -91,11 +97,9 @@ void EffectsTest::RunPowerTest(Effect& effect, std::string_view effect_name) {
 }
 
 TEST_F(EffectsTest, power_consumption) {
-  for (uint8_t effect_index = 0; effect_index < effect_names.size();
-       effect_index++) {
-    const std::string_view effect_name = effect_names[effect_index];
-    param_controller.SetRawParam(Param::kEffect, effect_index + kEffectOffset);
-    RunPowerTest(controller, effect_name);
+  for (const auto effect : kEffectNames) {
+    param_controller.SetRawParam(Param::kEffect, effect.first);
+    RunPowerTest(controller, effect.second);
   }
 
   IdleEffect idle_effect{poles, buttons, param_controller};
@@ -135,11 +139,9 @@ TEST_F(EffectsTest, InvalidParams) {
 
 TEST_F(EffectsTest, StableForAllEffects) {
   uint32_t time = 0;
-  for (uint8_t effect_index = 0; effect_index < effect_names.size();
-       effect_index++) {
-    std::cout << "Testing effect '" << effect_names[effect_index]
-              << "' for stability...\n";
-    param_controller.SetRawParam(Param::kEffect, effect_index + kEffectOffset);
+  for (const auto effect : kEffectNames) {
+    std::cout << "Testing effect '" << effect.second << "' for stability...\n";
+    param_controller.SetRawParam(Param::kEffect, effect.first);
     for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
       controller.Step();
       time += 10;
@@ -369,18 +371,15 @@ TEST_F(EffectsTest, ShiftButton) {
 
 TEST_P(ParamTest, StableForAllParams) {
   uint32_t time = 0;
-  for (uint8_t effect_index = 0; effect_index < effect_names.size();
-       effect_index++) {
-    param_controller.SetRawParam(Param::kEffect, std::get<0>(GetParam()));
-    param_controller.SetRawParam(Param::kOption1, std::get<1>(GetParam()));
-    param_controller.SetRawParam(Param::kOption2, std::get<2>(GetParam()));
-    param_controller.SetRawParam(Param::kSlider1, std::get<3>(GetParam()));
-    param_controller.SetRawParam(Param::kSlider2, std::get<4>(GetParam()));
-    for (uint32_t cycle = 0; cycle < 10 * 60 * 100; cycle++) {
-      controller.Step();
-      time += 10;
-      SetMillis(time);
-    }
+  param_controller.SetRawParam(Param::kEffect, std::get<0>(GetParam()));
+  param_controller.SetRawParam(Param::kOption1, std::get<1>(GetParam()));
+  param_controller.SetRawParam(Param::kOption2, std::get<2>(GetParam()));
+  param_controller.SetRawParam(Param::kSlider1, std::get<3>(GetParam()));
+  param_controller.SetRawParam(Param::kSlider2, std::get<4>(GetParam()));
+  for (uint32_t cycle = 0; cycle < 10 * 60 * 100; cycle++) {
+    controller.Step();
+    time += 10;
+    SetMillis(time);
   }
 }
 
