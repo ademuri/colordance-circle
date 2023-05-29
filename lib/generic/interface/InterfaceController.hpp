@@ -42,13 +42,12 @@ class InterfaceController : public Effect {
   void ResetBeatQueue();
   void TurnOnPause();
 
-  std::array<InterfaceEffect*, kNumEffects> interfaceEffects() {
-    static std::array<InterfaceEffect*, 7> effects = {
+  auto interfaceEffects() {
+    return std::array<InterfaceEffect*, 7>{
         std::addressof(backAndForth), std::addressof(huePoles),
         std::addressof(sideToSide),   std::addressof(sliders),
         std::addressof(movingPole),   std::addressof(split),
         std::addressof(random)};
-    return effects;
   }
 
   // std::array<InterfaceEffect, 5> interfaceEffects;
