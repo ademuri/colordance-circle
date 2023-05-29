@@ -150,6 +150,7 @@ void setup() {
   // colordance-brain power supply can source 1A at 5V. Leave lots of margin for
   // its load (the RS422 is power-hungry).
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 1000);
+  FastLED.setMaxRefreshRate(50);
 
   Serial.println("FastLED initialized");
   delay(100);
