@@ -23,8 +23,8 @@ Buttons::Bank2 bank2;
 auto light_controller = TeensyLightController();
 Buttons buttons(bank1, bank2);
 TeensyEnvironmentController environment_controller;
-FakeParamController param_controller;
-// SerialParamController param_controller;
+// FakeParamController param_controller;
+SerialParamController param_controller;
 TeensySdLogger logger{param_controller, environment_controller};
 Runner runner(light_controller.get_poles(), buttons, param_controller,
               environment_controller, logger);
