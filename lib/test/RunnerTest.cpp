@@ -105,7 +105,7 @@ TEST_F(RunnerTest, BatteryVoltageCheckHasHysteresis) {
 
 TEST_F(RunnerTest, GoesToIdleMode) {
   param_controller.SetRawParam(Param::kEffect,
-                               InterfaceController::kSlidersIndex);
+                               InterfaceController::EffectIndex::kSliders);
   param_controller.SetRawParam(Param::kSlider1, 0);
   param_controller.SetRawParam(Param::kSlider2, 255);
   runner.Step();

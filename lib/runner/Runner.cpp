@@ -16,7 +16,6 @@ Runner::Runner(Poles& poles, Buttons& buttons,
 void Runner::Step() {
   environment_controller_.Step();
   if (environment_controller_.TestLightsPressed()) {
-    Serial.println("Running test program");
     test_lights_timer_.Reset();
   }
 

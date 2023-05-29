@@ -20,6 +20,18 @@ class InterfaceController : public Effect {
   InterfaceController(Poles& poles, Buttons& buttons,
                       ParamController& paramController);
 
+  // Keep these in sync with the array in interfaceEffects() below
+  static constexpr uint8_t kNumEffects = 7;
+  enum EffectIndex {
+    kBackAndForth,
+    kHuePoles,
+    kSideToSide,
+    kSliders,
+    kMovingPole,
+    kSplit,
+    kRandom,
+  };
+
  protected:
   void DoStep() override;
 
@@ -30,12 +42,13 @@ class InterfaceController : public Effect {
   void ResetBeatQueue();
   void TurnOnPause();
 
-  auto interfaceEffects() {
-    return std::array<InterfaceEffect*, 7>{
+  std::array<InterfaceEffect*, kNumEffects> interfaceEffects() {
+    static std::array<InterfaceEffect*, 7> effects = {
         std::addressof(backAndForth), std::addressof(huePoles),
         std::addressof(sideToSide),   std::addressof(sliders),
         std::addressof(movingPole),   std::addressof(split),
         std::addressof(random)};
+    return effects;
   }
 
   // std::array<InterfaceEffect, 5> interfaceEffects;

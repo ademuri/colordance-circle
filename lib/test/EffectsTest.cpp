@@ -152,7 +152,7 @@ TEST_F(EffectsTest, HuePolesTest) {
   uint32_t time = 0;
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
-                               InterfaceController::kHuePolesIndex);
+                               InterfaceController::EffectIndex::kHuePoles);
   controller.Step();
 
   // Behavior for HuePoles is that 2 lights are on on each pole
@@ -172,7 +172,7 @@ TEST_F(EffectsTest, BackAndForthTest) {
   uint32_t time = 0;
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
-                               InterfaceController::kBackAndForthIndex);
+                               InterfaceController::EffectIndex::kBackAndForth);
   controller.Step();
 
   for (uint32_t i = 0; i < 60 * 100; i++) {
@@ -188,7 +188,7 @@ TEST_F(EffectsTest, SlidersTest) {
   uint32_t time = 0;
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
-                               InterfaceController::kSlidersIndex);
+                               InterfaceController::EffectIndex::kSliders);
   controller.Step();
 
   // Each slider controls the pole position of 4 lights - the default is that
@@ -219,7 +219,7 @@ TEST_F(EffectsTest, SideToSideTest) {
   uint32_t time = 0;
   SetMillis(time);
   param_controller.SetRawParam(Param::kEffect,
-                               InterfaceController::kSideToSideIndex);
+                               InterfaceController::EffectIndex::kSideToSide);
   controller.Step();
 
   // Only 1 pole on by default
@@ -256,18 +256,23 @@ TEST_F(EffectsTest, TestLightsEffect) {
 
 class ParamTest : public EffectsTest,
                   public ::testing::WithParamInterface<
-                      std::tuple<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t>> {
-};
+                      std::tuple<InterfaceController::EffectIndex, uint8_t,
+                                 uint8_t, uint8_t, uint8_t>> {};
 
-const std::vector<uint8_t> kEffects = {InterfaceController::kHuePolesIndex,
-                                       InterfaceController::kBackAndForthIndex,
-                                       InterfaceController::kSlidersIndex,
-                                       InterfaceController::kSideToSideIndex};
+const std::vector<InterfaceController::EffectIndex> kEffects = {
+    InterfaceController::EffectIndex::kBackAndForth,
+    InterfaceController::EffectIndex::kHuePoles,
+    InterfaceController::EffectIndex::kSideToSide,
+    InterfaceController::EffectIndex::kSliders,
+    InterfaceController::EffectIndex::kMovingPole,
+    InterfaceController::EffectIndex::kSplit,
+    InterfaceController::EffectIndex::kRandom,
+};
 const std::vector<uint8_t> kOptions = {0, 1};
 const std::vector<uint8_t> kSliders = {0, 1, 64, 128, 192, 254, 255};
 
 TEST_F(EffectsTest, StableWhenTogglingOption1) {
-  for (uint8_t effect_index : kEffects) {
+  for (InterfaceController::EffectIndex effect_index : kEffects) {
     std::ostringstream message;
     message << "effect: " << effect_index;
     SCOPED_TRACE(message.str());
