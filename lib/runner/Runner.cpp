@@ -20,14 +20,13 @@ void Runner::Step() {
   }
 
   bool battery_low = false;
-  // if (state_ == RunnerState::LOW_POWER) {
-  //   battery_low = environment_controller_.GetBatteryMillivolts() <
-  //                 (kBatteryLowThresholdMillivolts +
-  //                 kBatteryDeadBandMillivolts);
-  // } else {
-  //   battery_low = environment_controller_.GetBatteryMillivolts() <
-  //                 kBatteryLowThresholdMillivolts;
-  // }
+  if (state_ == RunnerState::LOW_POWER) {
+    battery_low = environment_controller_.GetBatteryMillivolts() <
+                  (kBatteryLowThresholdMillivolts + kBatteryDeadBandMillivolts);
+  } else {
+    battery_low = environment_controller_.GetBatteryMillivolts() <
+                  kBatteryLowThresholdMillivolts;
+  }
 
   param_controller_.Step();
   if (param_controller_.ParamChanged() ||

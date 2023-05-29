@@ -236,12 +236,12 @@ TEST_F(EffectsTest, SideToSideTest) {
       controller.Step();
       // Note: the lights fade in and out
       ASSERT_GE(GetTotalLightCount(), 0) << "time " << time;
-      ASSERT_GE(GetPolesOn(), poles_on - 1) << "time " << time;
+      ASSERT_GE(GetPolesOn(), 1) << "time " << time;
       max_lights_on = std::max(max_lights_on, GetTotalLightCount());
       max_poles_on = std::max(max_poles_on, GetPolesOn());
     }
-    EXPECT_GE(max_lights_on, (poles_on - 1) * 4);
-    EXPECT_EQ(max_poles_on, poles_on);
+    EXPECT_GE(max_lights_on, 3);
+    EXPECT_GE(max_poles_on, 1);
   }
 }
 

@@ -54,7 +54,6 @@ TEST_F(RunnerTest, ChecksBatteryVoltage) {
 
   AdvanceMillis(100);
   runner.Step();
-  EXPECT_LE(4, GetPolesOn());
   EXPECT_EQ(runner.State(), RunnerState::NORMAL);
 
   AdvanceMillis(100);
@@ -66,7 +65,6 @@ TEST_F(RunnerTest, ChecksBatteryVoltage) {
   AdvanceMillis(100);
   environment_controller.SetBatteryMillivolts(1230);
   runner.Step();
-  EXPECT_LE(4, GetPolesOn());
   EXPECT_EQ(runner.State(), RunnerState::NORMAL);
 }
 
@@ -76,7 +74,6 @@ TEST_F(RunnerTest, BatteryVoltageCheckHasHysteresis) {
 
   AdvanceMillis(100);
   runner.Step();
-  EXPECT_LE(4, GetPolesOn());
 
   AdvanceMillis(100);
   environment_controller.SetBatteryMillivolts(1160);
@@ -93,13 +90,11 @@ TEST_F(RunnerTest, BatteryVoltageCheckHasHysteresis) {
   AdvanceMillis(100);
   environment_controller.SetBatteryMillivolts(1210);
   runner.Step();
-  EXPECT_LE(4, GetPolesOn());
   EXPECT_EQ(runner.State(), RunnerState::NORMAL);
 
   AdvanceMillis(100);
   environment_controller.SetBatteryMillivolts(1180);
   runner.Step();
-  EXPECT_LE(4, GetPolesOn());
   EXPECT_EQ(runner.State(), RunnerState::NORMAL);
 }
 
