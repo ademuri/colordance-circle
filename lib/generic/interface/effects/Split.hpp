@@ -59,7 +59,7 @@ class Split : public InterfaceEffect {
   uint8_t hueVal = 0;
 
   uint8_t option2Hue = 64;
-  u_int8_t baseHue = 0;
+  uint8_t baseHue = 0;
 
   bool smoothPoleShift = true;
 };
