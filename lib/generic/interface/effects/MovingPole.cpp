@@ -95,12 +95,12 @@ void MovingPole::DoSetOptionButtons(Buttons buttons) {
 
   // Slider 1
   for (int i = 0; i < 3; i++) {
-    buttons.SetButton(13, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 255)));
+    buttons.SetButton(12, i, CRGB(CHSV(baseHue + hueDistance * i, 255, 255)));
   }
 
   // Slider 2
   for (int i = 0; i < 3; i++) {
-    buttons.SetButton(14, i, CRGB(CHSV(movingSpeed255, 255, 200)));
+    buttons.SetButton(13, i, CRGB(CHSV(movingSpeed255, 255, 200)));
   }
 }
 

@@ -1,5 +1,9 @@
 #include "Buttons.hpp"
 
+#ifndef ARDUINO
+#include <cstdio>
+#endif
+
 Buttons::Buttons(Bank1& bank1, Bank2& bank2) : bank1_(bank1), bank2_(bank2) {}
 
 // TODO: Change index to enum
@@ -66,6 +70,11 @@ void Buttons::SetButton(uint8_t button_index, const uint8_t led_index,
     default:
 #ifdef ARDUINO
       button = getStripBank1(0);
+#else
+      fprintf(stderr,
+              "Invalid call to Buttons::SetButton(button_index: %u, led_index: "
+              "%u, rgb: (%u, %u, %u))\n",
+              button_index, led_index, rgb.r, rgb.g, rgb.b);
 #endif
       break;
   }
