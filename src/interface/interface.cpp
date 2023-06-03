@@ -11,6 +11,7 @@
 #include "InterfaceParamController.hpp"
 #include "LowPowerEffect.hpp"
 #include "Pole.hpp"
+#include "TestLightsEffect.hpp"
 #include "interface/InterfaceController.hpp"
 
 // Behavior flags
@@ -119,6 +120,7 @@ InterfaceParamController param_controller{brain_out_data};
 InterfaceController interface_controller{poles, buttons, param_controller};
 IdleEffect idle_effect{poles, buttons, param_controller};
 LowPowerEffect low_power_effect{poles, buttons, param_controller};
+TestLightsEffect test_lights_effect{poles, buttons, param_controller};
 
 uint8_t effect_last_pressed = 0;
 
@@ -271,6 +273,10 @@ void loop() {
 
       case RunnerState::LOW_POWER:
         low_power_effect.Step();
+        break;
+
+      case RunnerState::TEST_LIGHTS:
+        test_lights_effect.Step();
         break;
     }
     FastLED.show();

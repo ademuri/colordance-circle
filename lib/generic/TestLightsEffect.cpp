@@ -20,4 +20,9 @@ void TestLightsEffect::DoStep() {
   }
 
   SetPoleEffect(poles_, millis());
+  for (uint8_t i = 0; i < 14; i++) {
+    for (uint8_t j = 0; j < 15; j++) {
+      buttons_.SetButton(i, j, CHSV(millis() / 10, 255, 255));
+    }
+  }
 }
