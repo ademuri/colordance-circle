@@ -57,6 +57,13 @@ void InterfaceController::DoStep() {
   // Offset the pause time so unpausing continues smoothly
   uint32_t effectTime = systemTime - pauseTime;
 
+  if (effectTime - lastEffectTime > 3000) {
+    lastEffectTime = systemTime - MILLIS_PER_RUN_LOOP;
+    effectTime = systemTime;
+    lastBeatTime = systemTime;
+    nextBeatTime = systemTime + millisPerBeat;
+  }
+
   /*
    * Updates beat timing.
    */
