@@ -88,7 +88,7 @@ void MovingPole::DoSetOptionButtons(Buttons buttons) {
     if (still) {
       buttons.SetButton(8, 1, CRGB(CHSV(baseHue, 255, 255)));
     } else {
-      buttons.SetButton(8, 4 * currentFrame / FRAMES_PER_LOOP,
+      buttons.SetButton(8, movingPole->GetLastShiftIndex(),
                         CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
     }
   }

@@ -57,6 +57,7 @@ class ControlPole {
   CHSV GetHSV();
   uint32_t GetTimerShiftOffset();
   uint8_t GetShiftsPerLoop();
+  uint8_t GetLastShiftIndex();
   uint8_t UpdateGrid(uint16_t frame, uint16_t lastFrame, bool multiply);
   Grid<CHSV> const& GetGrid();
 

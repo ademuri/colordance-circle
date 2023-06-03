@@ -132,6 +132,8 @@ uint8_t ControlPole::GetShiftsPerLoop() {
   return currentEffect->GetAdjustedShiftsPerLoop(backAndForth);
 }
 
+uint8_t ControlPole::GetLastShiftIndex() { return lastShiftIndex; }
+
 uint8_t ControlPole::UpdateGrid(uint16_t frame, uint16_t lastFrame,
                                 bool multiply) {
   uint16_t const framesPerShift =
