@@ -1,5 +1,6 @@
 #include <EasyTransfer.h>
 #include <FastLED.h>
+#include <Watchdog_t4.h>
 #include <debounce-filter.h>
 #include <median-filter.h>
 #include <quantization-filter.h>
@@ -124,6 +125,10 @@ TestLightsEffect test_lights_effect{poles, buttons, param_controller};
 
 uint8_t effect_last_pressed = 0;
 
+WDT_T4<WDT1> watchdog;
+
+void WatchdogCallback() { Serial.println("Warning: watchdog not fed"); }
+
 void setup() {
   pinMode(kLed, OUTPUT);
   digitalWrite(kLed, HIGH);
@@ -183,6 +188,12 @@ void setup() {
   brain_in.begin(details(brain_in_data), &Serial7);
 
   digitalWrite(kLed, LOW);
+
+  WDT_timings_t config;
+  config.trigger = 5;  /* in seconds, 0->128 */
+  config.timeout = 10; /* in seconds, 0->128 */
+  config.callback = WatchdogCallback;
+  watchdog.begin(config);
 }
 
 void readControls() {
@@ -282,6 +293,7 @@ void loop() {
     FastLED.show();
   }
   digitalWrite(13, brain_in_data.alive);
+  watchdog.feed();
   // for (int i = 0; i < 6; i++) {
   //   Serial.print(brain_out_data.analog_inputs[i] / 4);
   //   Serial.print(" ");

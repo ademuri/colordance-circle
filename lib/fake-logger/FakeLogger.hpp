@@ -12,7 +12,6 @@ class FakeLogger : public Logger {
 
   void ResetTimerForTest() { log_timer_.Reset(); }
 
- protected:
   void Log(const char* message) override {
     strncpy(prev_message_, message, kLogLineBytes);
   }

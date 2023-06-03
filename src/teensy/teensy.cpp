@@ -1,4 +1,5 @@
 #include <Entropy.h>
+#include <Watchdog_t4.h>
 
 #include <ColordanceTypes.hpp>
 #include <memory>
@@ -31,7 +32,19 @@ Runner runner(light_controller.get_poles(), buttons, param_controller,
 
 uint32_t print_at = 0;
 
+WDT_T4<WDT1> watchdog;
+
 }  // namespace
+
+void WatchdogCallback() {
+  static constexpr uint32_t kBufferSize = 200;
+  static char buffer[kBufferSize];
+  Serial.println("Warning: watchdog not fed");
+  int ret = snprintf(buffer, kBufferSize, "%10ul, Watchdog warning");
+  if (ret > 0) {
+    logger.Log(buffer);
+  }
+}
 
 void setup() {
   Serial.begin(115200);
@@ -43,7 +56,13 @@ void setup() {
   Entropy.Initialize();
   randomSeed(Entropy.random(0, 32767));
 
-  Serial.print("Intializing logger... ");
+  WDT_timings_t config;
+  config.trigger = 5;  /* in seconds, 0->128 */
+  config.timeout = 10; /* in seconds, 0->128 */
+  config.callback = WatchdogCallback;
+  watchdog.begin(config);
+
+  Serial.print("Initializing logger... ");
   if (logger.Begin()) {
     Serial.println("done.");
   } else {
@@ -62,4 +81,5 @@ void loop() {
   runner.Step();
   param_controller.SetRunnerState(runner.State());
   light_controller.WriteOutLights();
+  watchdog.feed();
 }

@@ -19,10 +19,10 @@ class Logger {
   // Performs non-blocking work. Writes to logs periodically.
   void Step();
 
- protected:
   // Writes out the log message.
   virtual void Log(const char* message) { UNUSED(message); }
 
+ protected:
   Timer log_timer_{kLogIntervalMillis};
 
  private:

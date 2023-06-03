@@ -12,7 +12,6 @@ class TeensySdLogger : public Logger {
 
   bool Begin();
 
- protected:
   void Log(const char* message) override;
 
  private:
