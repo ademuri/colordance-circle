@@ -21,8 +21,7 @@ class Runner {
   RunnerState State();
 
   // How long to wait to go to idle mode after the last user interaction.
-  //   static constexpr uint32_t kIdleTimeout = 5 * 60 * 1000;
-  static constexpr uint32_t kIdleTimeout = 10 * 1000;
+  static constexpr uint32_t kIdleTimeout = 5 * 60 * 1000;
 
   // How long to stay in the test lights pattern after the button is pressed.
   static constexpr uint32_t kTestLightsDuration = 30 * 1000;
