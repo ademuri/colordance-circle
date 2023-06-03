@@ -2,6 +2,7 @@
 #include <FastLED.h>
 #include <debounce-filter.h>
 #include <median-filter.h>
+#include <quantization-filter.h>
 
 #include <vector>
 
@@ -64,7 +65,7 @@ const std::vector<int> PCB_ORDER_INPUT_PINS = {
 
 constexpr int kLed = 13;
 
-std::vector<MedianFilter<uint16_t, uint16_t, 3>> analog_inputs;
+std::vector<QuantizationFilter<uint16_t>> analog_inputs;
 std::vector<uint16_t> prev_analog_inputs;
 
 EasyTransfer brain_out;
@@ -132,13 +133,13 @@ void setup() {
 
   for (auto analog_pin : ANALOG_INPUT_PINS) {
     pinMode(analog_pin, INPUT);
-    analog_inputs.push_back(MedianFilter<uint16_t, uint16_t, 3>(
-        filter_functions::ForAnalogReadDynamic(analog_pin)));
+    analog_inputs.push_back(QuantizationFilter<uint16_t>(
+        filter_functions::ForAnalogReadDynamic(analog_pin), /*bucket_size=*/4,
+        /*hysteresis=*/4));
     prev_analog_inputs.push_back(analogRead(analog_pin));
   }
 
-  // Controls only use 8 bits of resolution
-  analogReadResolution(8);
+  analogReadResolution(10);
 
   Serial.println("Pins initialized");
 
@@ -196,7 +197,7 @@ void readControls() {
   for (uint8_t i = 0;
        i < ANALOG_INPUT_PINS.size() && i < ControlsIn::kAnalogInputSize; i++) {
     analog_inputs[i].Run();
-    brain_out_data.analog_inputs[i] = analog_inputs[i].GetFilteredValue();
+    brain_out_data.analog_inputs[i] = analog_inputs[i].GetFilteredValue() / 4;
   }
 }
 
@@ -262,7 +263,7 @@ void loop() {
   }
   digitalWrite(13, brain_in_data.alive);
   // for (int i = 0; i < 6; i++) {
-  //   Serial.print(brain_out_data.analog_inputs[i]);
+  //   Serial.print(brain_out_data.analog_inputs[i] / 4);
   //   Serial.print(" ");
   // }
   // Serial.println();
