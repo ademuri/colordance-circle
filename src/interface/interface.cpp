@@ -7,7 +7,9 @@
 #include <vector>
 
 #include "Controls.hpp"
+#include "IdleEffect.hpp"
 #include "InterfaceParamController.hpp"
+#include "LowPowerEffect.hpp"
 #include "Pole.hpp"
 #include "interface/InterfaceController.hpp"
 
@@ -115,6 +117,8 @@ Poles poles;
 Buttons buttons(bank1, bank2);
 InterfaceParamController param_controller{brain_out_data};
 InterfaceController interface_controller{poles, buttons, param_controller};
+IdleEffect idle_effect{poles, buttons, param_controller};
+LowPowerEffect low_power_effect{poles, buttons, param_controller};
 
 uint8_t effect_last_pressed = 0;
 
@@ -255,11 +259,21 @@ void loop() {
 
     // Run the main effect here on the interface - we keep this in sync with the
     // one on the brain, so that this one can output to the buttons.
-    if (brain_in_data.runner_state == RunnerState::NORMAL) {
-      interface_controller.Step();
-      param_controller.Step();
-      FastLED.show();
+    switch (brain_in_data.runner_state) {
+      case RunnerState::NORMAL:
+        interface_controller.Step();
+        param_controller.Step();
+        break;
+
+      case RunnerState::IDLE:
+        idle_effect.Step();
+        break;
+
+      case RunnerState::LOW_POWER:
+        low_power_effect.Step();
+        break;
     }
+    FastLED.show();
   }
   digitalWrite(13, brain_in_data.alive);
   // for (int i = 0; i < 6; i++) {

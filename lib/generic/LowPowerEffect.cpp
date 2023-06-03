@@ -22,4 +22,9 @@ void LowPowerEffect::DoStep() {
   pole2.SetGridLight(0, 0, rgb);
 
   SetPoleLowerEffect(poles_, millis());
+
+  buttons_.TurnOffAll();
+  for (uint8_t i = 0; i < 15; i += 3) {
+    buttons_.SetButton(Buttons::kHeartButton, i, CHSV(0, 255, 128));
+  }
 }

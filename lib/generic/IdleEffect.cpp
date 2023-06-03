@@ -21,6 +21,12 @@ void IdleEffect::DoStep() {
       3, 0, CHSV(hue + 192, 255, Brightness(angle + 192)));
 
   SetPoleEffect(poles_, millis());
+
+  buttons_.TurnOffAll();
+  for (uint8_t i = 0; i < 15; i++) {
+    buttons_.SetButton(Buttons::kHeartButton, i,
+                       CHSV((millis() / 10) + i * 16, 255, 255));
+  }
 }
 
 // static

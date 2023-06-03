@@ -209,11 +209,12 @@ void InterfaceController::DoStep() {
   uint8_t beatBrightness =
       140 - 140 * (effectTime - lastBeatTime) / millisPerBeat;
   for (int i = 0; i < 15; i++) {
-    buttons_.SetButton(10, i,
+    buttons_.SetButton(Buttons::kHeartButton, i,
                        CRGB(CHSV(beatButtonHue - 30, 255, beatBrightness)));
   }
   for (int i = 7; i < 10; i++) {
-    buttons_.SetButton(10, i, CRGB(CHSV(beatButtonHue, 255, 200)));
+    buttons_.SetButton(Buttons::kHeartButton, i,
+                       CRGB(CHSV(beatButtonHue, 255, 200)));
   }
 
   // Set Shift button

@@ -19,6 +19,8 @@ class Buttons {
                  const CRGB& rgb);
   void TurnOffAll();
 
+  static constexpr uint8_t kHeartButton = 10;
+
  private:
   CRGB* getStripBank1(const int index);
   CRGB* getStripBank2(const int index);
