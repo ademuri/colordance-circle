@@ -232,7 +232,7 @@ const std::vector<InterfaceController::EffectIndex> kEffects = {
     InterfaceController::EffectIndex::kSplit,
     InterfaceController::EffectIndex::kRandom,
 };
-const std::vector<uint8_t> kOptions = {0, 1};
+const std::vector<uint8_t> kOptions = {0, 1, 2, 3, 4};
 const std::vector<uint8_t> kSliders = {0, 1, 64, 128, 192, 254, 255};
 
 TEST_F(EffectsTest, StableWhenTogglingOption1) {
@@ -388,16 +388,30 @@ TEST_F(EffectsTest, StableForAllEffects) {
 }
 
 TEST_P(ParamTest, StableForAllParams) {
-  uint32_t time = 0;
   param_controller.SetRawParam(Param::kEffect, std::get<0>(GetParam()));
-  param_controller.SetRawParam(Param::kOption1, std::get<1>(GetParam()));
-  param_controller.SetRawParam(Param::kOption2, std::get<2>(GetParam()));
   param_controller.SetRawParam(Param::kSlider1, std::get<3>(GetParam()));
   param_controller.SetRawParam(Param::kSlider2, std::get<4>(GetParam()));
-  for (uint32_t cycle = 0; cycle < 10 * 60 * 100; cycle++) {
+
+  for (uint32_t i = 0; i < std::get<1>(GetParam()); i++) {
+    param_controller.SetRawParam(Param::kOption1, 1);
     controller.Step();
-    time += 10;
-    SetMillis(time);
+    AdvanceMillis(10);
+    param_controller.SetRawParam(Param::kOption1, 0);
+    controller.Step();
+    AdvanceMillis(10);
+  }
+  for (uint32_t i = 0; i < std::get<2>(GetParam()); i++) {
+    param_controller.SetRawParam(Param::kOption2, 1);
+    controller.Step();
+    AdvanceMillis(10);
+    param_controller.SetRawParam(Param::kOption2, 0);
+    controller.Step();
+    AdvanceMillis(10);
+  }
+
+  for (uint32_t cycle = 0; cycle < 30 * 100; cycle++) {
+    controller.Step();
+    AdvanceMillis(10);
   }
 }
 
