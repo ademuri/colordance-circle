@@ -26,7 +26,7 @@ void Logger::Step() {
   }
   static char line[kLogLineBytes];
   int ret = snprintf(
-      line, kLogLineBytes, "%10ul, %d, %d, %d, %d, %04d, %d",
+      line, kLogLineBytes, "%10u, %d, %d, %d, %d, %04d, %d",
       // TODO: switch to real-time clock
       millis() / 1000, param_controller_.GetRawParam(Param::kEffect),
       param_controller_.GetRawParam(Param::kSlider1),
