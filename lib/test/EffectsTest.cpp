@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cstdio>
-#include <interface/InterfaceController.hpp>
 #include <iostream>
 #include <map>
 #include <string>
@@ -16,6 +15,7 @@
 #include "Pole.hpp"
 #include "PolesTest.hpp"
 #include "TestLightsEffect.hpp"
+#include "interface/InterfaceController.hpp"
 
 const std::map<InterfaceController::EffectIndex, std::string_view>
     kEffectNames = {
@@ -96,7 +96,7 @@ void EffectsTest::RunPowerTest(Effect& effect, std::string_view effect_name) {
   }
 }
 
-TEST_F(EffectsTest, power_consumption) {
+TEST_F(EffectsTest, PowerConsumption) {
   for (const auto effect : kEffectNames) {
     param_controller.SetRawParam(Param::kEffect, effect.first);
     RunPowerTest(controller, effect.second);
