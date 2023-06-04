@@ -40,7 +40,7 @@ void WatchdogCallback() {
   static constexpr uint32_t kBufferSize = 200;
   static char buffer[kBufferSize];
   Serial.println("Warning: watchdog not fed");
-  int ret = snprintf(buffer, kBufferSize, "%10ul, Watchdog warning", millis());
+  int ret = snprintf(buffer, kBufferSize, "%10lu, Watchdog warning", millis());
   if (ret > 0) {
     logger.Log(buffer);
   }
