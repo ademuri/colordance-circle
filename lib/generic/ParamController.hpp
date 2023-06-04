@@ -36,9 +36,10 @@ class ParamController {
   // Perform periodic work
   virtual void Step();
 
- protected:
+  // Visible for testing
   void ParseControlsIn(const ControlsIn& in);
 
+ protected:
   Params params_ =
       std::array<uint8_t, static_cast<std::size_t>(Param::kLastParam)>();
   bool param_changed_ = false;
