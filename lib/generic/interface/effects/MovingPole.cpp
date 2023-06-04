@@ -2,6 +2,13 @@
 
 #include "ColordanceTypes.hpp"
 
+static constexpr uint8_t kNumModes = 4;
+static constexpr std::array<Mode, kNumModes> modes = {
+    Mode::kLine, Mode::kLine, Mode::kCircle, Mode::kSmallSquare};
+static constexpr std::array<Speed, kNumModes> speeds = {
+    Speed::kDefault, Speed::kStill, Speed::kDefault, Speed::kDefault};
+static constexpr std::array<uint8_t, kNumModes> rotations = {0, 2, 0, 0};
+
 MovingPole::MovingPole()
     : InterfaceEffect(),
       movingPoles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},
@@ -88,7 +95,7 @@ void MovingPole::DoSetOptionButtons(Buttons buttons) {
     if (still) {
       buttons.SetButton(8, 1, CRGB(CHSV(baseHue, 255, 255)));
     } else {
-      buttons.SetButton(8, movingPole->GetLastShiftIndex(),
+      buttons.SetButton(8, 4 * currentFrame / FRAMES_PER_LOOP,
                         CRGB(CHSV(baseHue + hueDistance * i, 255, 200)));
     }
   }
