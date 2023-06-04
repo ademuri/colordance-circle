@@ -33,9 +33,7 @@ class Random : public InterfaceEffect {
 
   uint8_t movingPoleIndex = 0;
 
-  Mode modes[3] = {Mode::kLine, Mode::kCircle, Mode::kSmallSquare};
   uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 3;
 
   uint8_t poleOffset = 0;
   bool goBackwards = false;

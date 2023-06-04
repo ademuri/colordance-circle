@@ -39,10 +39,7 @@ class SideToSide : public InterfaceEffect {
   uint8_t shiftIndex = 0;
   uint8_t hueDistance = 0;
 
-  Mode modes[4] = {Mode::kLine, Mode::kLine, Mode::kCircle, Mode::kPinwheel};
-  uint8_t rotations[4] = {0, 3, 0, 0};
   uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 4;
   uint8_t numOfPolesOn = 1;
   bool backAndForth = true;
   bool smoothPoleShift = true;

@@ -37,13 +37,6 @@ class Split : public InterfaceEffect {
 
   uint8_t middleIndex = 0;
 
-  Mode middleModes[4] = {Mode::kLine, Mode::kCircle, Mode::kPinwheel,
-                         Mode::kSmallSquare};
-  Mode modes[5] = {Mode::kLine, Mode::kCircle, Mode::kCircle,
-                   Mode::kSmallSquare, Mode::kSmallSquare};
-  Speed speeds[5] = {Speed::kDefault, Speed::kDefault, Speed::kDefault,
-                     Speed::kDefault, Speed::kStill};
-  uint8_t rotations[5] = {0, 2, 0, 0, 0};
   uint8_t modeIndex = 0;
   uint8_t modeIndexMiddle = 0;
   const uint8_t kNumModes = 4;
