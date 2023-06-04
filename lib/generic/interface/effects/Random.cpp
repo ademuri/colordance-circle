@@ -2,6 +2,10 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumModes = 3;
+constexpr std::array<Mode, kNumModes> modes = {Mode::kLine, Mode::kCircle,
+                                               Mode::kSmallSquare};
+
 Random::Random() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {

@@ -2,6 +2,15 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumModes = 5;
+constexpr std::array<Mode, kNumModes> modes = {Mode::kLine, Mode::kLine,
+                                               Mode::kCircle, Mode::kPinwheel,
+                                               Mode::kSmallSquare};
+constexpr std::array<Speed, kNumModes> speeds = {
+    Speed::kDefault, Speed::kStill, Speed::kDefault, Speed::kDefault,
+    Speed::kDefault};
+constexpr std::array<uint8_t, kNumModes> rotations = {0, 2, 0, 0, 0};
+
 /**
  * @brief Effect with 2 opposing poles on. DONE
  */

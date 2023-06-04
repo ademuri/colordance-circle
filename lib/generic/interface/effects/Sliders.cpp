@@ -2,6 +2,12 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumModes = 3;
+constexpr std::array<Mode, kNumModes> modesLeft = {Mode::kSmallSquare,
+                                                   Mode::kCircle, Mode::kLine};
+constexpr std::array<Mode, kNumModes> modesRight = {Mode::kCorners,
+                                                    Mode::kCircle, Mode::kLine};
+
 Sliders::Sliders()
     : InterfaceEffect(),
       poles{ControlPole(FRAMES_PER_LOOP), ControlPole(FRAMES_PER_LOOP)},

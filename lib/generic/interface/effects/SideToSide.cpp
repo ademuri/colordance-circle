@@ -2,6 +2,11 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumModes = 4;
+constexpr std::array<Mode, kNumModes> modes = {Mode::kLine, Mode::kLine,
+                                               Mode::kCircle, Mode::kPinwheel};
+constexpr std::array<uint8_t, kNumModes> rotations = {0, 3, 0, 0};
+
 SideToSide::SideToSide() : InterfaceEffect() {
   controlPoles.reserve(Pole::kNumPoles);
   for (int i = 0; i < Pole::kNumPoles; i++) {

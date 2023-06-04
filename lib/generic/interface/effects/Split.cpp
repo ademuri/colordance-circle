@@ -2,6 +2,19 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumMiddleModes = 4;
+constexpr std::array<Mode, kNumMiddleModes> middleModes = {
+    Mode::kLine, Mode::kCircle, Mode::kPinwheel, Mode::kSmallSquare};
+
+constexpr uint8_t kNumModes = 5;
+constexpr std::array<Mode, kNumModes> modes = {
+    Mode::kLine, Mode::kCircle, Mode::kCircle, Mode::kSmallSquare,
+    Mode::kSmallSquare};
+constexpr std::array<Speed, kNumModes> speeds = {
+    Speed::kDefault, Speed::kDefault, Speed::kDefault, Speed::kDefault,
+    Speed::kStill};
+constexpr std::array<uint8_t, kNumModes> rotations = {0, 2, 0, 0, 0};
+
 /**
  * @brief Effect with 2 opposing poles on. DONE
  */
@@ -44,7 +57,7 @@ void Split::DoSetEffectButton(Buttons buttons, uint8_t buttonIndex) {
 
 void Split::DoSetOptionButtons(Buttons buttons) {
   // Option 1
-  uint8_t modeHue = modeIndex * (255 / kNumModes);
+  uint8_t modeHue = modeIndex * (255 / kNumMiddleModes);
   for (int i = 0; i < 4; i++) {
     buttons.SetButton(7, i, CRGB(CHSV(modeHue, 255, 200)));
   }
@@ -76,7 +89,7 @@ void Split::DoSetOptionButtons(Buttons buttons) {
  */
 void Split::UpdateOption1() {
   modeIndexMiddle++;
-  modeIndexMiddle %= kNumModes;
+  modeIndexMiddle %= kNumMiddleModes;
   controlPoleMiddle->SetMode(middleModes[modeIndexMiddle]);
 }
 
@@ -85,7 +98,7 @@ void Split::UpdateOption1() {
  */
 void Split::UpdateOption2() {
   modeIndex++;
-  modeIndex %= 5;
+  modeIndex %= kNumModes;
   controlPoleLeft->SetMode(modes[modeIndex]);
   controlPoleLeft->SetShiftSpeed(speeds[modeIndex]);
   controlPoleLeft->SetRotation(rotations[modeIndex]);

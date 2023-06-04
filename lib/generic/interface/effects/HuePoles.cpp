@@ -2,6 +2,13 @@
 
 #include "ColordanceTypes.hpp"
 
+constexpr uint8_t kNumModes = 4;
+constexpr std::array<Mode, kNumModes> modes = {
+    Mode::kLine, Mode::kLine, Mode::kCircle, Mode::kSmallSquare};
+constexpr std::array<Speed, kNumModes> speeds = {
+    Speed::kDefault, Speed::kStill, Speed::kDefault, Speed::kDefault};
+constexpr std::array<uint8_t, kNumModes> rotations = {0, 2, 0, 0};
+
 /**
  * @brief Effect with 6 pooes, even hue spread. DE
  */

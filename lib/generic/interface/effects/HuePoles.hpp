@@ -37,13 +37,7 @@ class HuePoles : public InterfaceEffect {
   bool goBackwards = false;
   bool smoothColor = true;
   bool still = true;
-
-  Mode modes[4] = {Mode::kLine, Mode::kLine, Mode::kCircle, Mode::kSmallSquare};
-  Speed speeds[4] = {Speed::kDefault, Speed::kStill, Speed::kDefault,
-                     Speed::kDefault};
-  uint8_t rotations[4] = {0, 2, 0, 0};
   uint8_t modeIndex = 0;
-  const uint8_t kNumModes = 5;
 
   bool backAndForth = true;
   bool smoothPoleShift = true;
