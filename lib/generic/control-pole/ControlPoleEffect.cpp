@@ -11,7 +11,11 @@ void ControlPoleEffect::SetGrid(Grid<CHSV>& grid_lights, uint8_t shiftIndex) {
  */
 uint16_t ControlPoleEffect::GetFramesPerShift(uint16_t framesPerLoop,
                                               bool backAndForth) {
-  return framesPerLoop / GetAdjustedShiftsPerLoop(backAndForth);
+  uint8_t adjusted_shifts = GetAdjustedShiftsPerLoop(backAndForth);
+  if (adjusted_shifts == 0) {
+    return 1;
+  }
+  return framesPerLoop / adjusted_shifts;
 }
 
 void ControlPoleEffect::SetHue(uint8_t hue) { currentHue = hue; }

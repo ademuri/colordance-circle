@@ -112,44 +112,6 @@ TEST_F(EffectsTest, power_consumption) {
   RunPowerTest(test_lights_effect, "Test Lights");
 }
 
-TEST_F(EffectsTest, InvalidParams) {
-  constexpr uint32_t kStepMs = 10;
-  // 15 seconds should be enough to detect badness
-  constexpr uint32_t kCycles = 15 * 1000 / kStepMs;
-
-  constexpr auto kParams = std::array{
-      Param::kBeat,    Param::kLoopShift, Param::kShift,   Param::kPause,
-      Param::kEffect,  Param::kOption1,   Param::kOption1, Param::kOption2,
-      Param::kSlider1, Param::kSlider2};
-
-  uint32_t time = 0;
-
-  for (Param param : kParams) {
-    std::cout << "Testing param " << static_cast<uint32_t>(param) << "\n";
-    for (uint16_t value = 0; value < 256; value++) {
-      param_controller.SetRawParam(param, value);
-      for (uint32_t cycle = 0; cycle < kCycles; cycle++) {
-        controller.Step();
-        time += kStepMs;
-        SetMillis(time);
-      }
-    }
-  }
-}
-
-TEST_F(EffectsTest, StableForAllEffects) {
-  uint32_t time = 0;
-  for (const auto effect : kEffectNames) {
-    std::cout << "Testing effect '" << effect.second << "' for stability...\n";
-    param_controller.SetRawParam(Param::kEffect, effect.first);
-    for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
-      controller.Step();
-      time += 10;
-      SetMillis(time);
-    }
-  }
-}
-
 TEST_F(EffectsTest, HuePolesTest) {
   uint32_t time = 0;
   SetMillis(time);
@@ -291,6 +253,24 @@ TEST_F(EffectsTest, StableWhenTogglingOption1) {
   }
 }
 
+TEST_F(EffectsTest, StableWhenTogglingOption2) {
+  for (InterfaceController::EffectIndex effect_index : kEffects) {
+    std::ostringstream message;
+    message << "effect: " << effect_index;
+    SCOPED_TRACE(message.str());
+
+    param_controller.SetRawParam(Param::kEffect, effect_index);
+    for (int i = 0; i < 10; i++) {
+      AdvanceMillis(10);
+      param_controller.SetRawParam(Param::kOption2, 1);
+      controller.Step();
+      AdvanceMillis(10);
+      param_controller.SetRawParam(Param::kOption2, 0);
+      controller.Step();
+    }
+  }
+}
+
 TEST_F(EffectsTest, EffectsPause) {
   for (uint8_t effect_index : kEffects) {
     std::ostringstream message;
@@ -365,6 +345,44 @@ TEST_F(EffectsTest, ShiftButton) {
       beat_counter = (beat_counter + 1) % 10;
       AdvanceMillis(10);
       controller.Step();
+    }
+  }
+}
+
+TEST_F(EffectsTest, InvalidParams) {
+  constexpr uint32_t kStepMs = 10;
+  // 15 seconds should be enough to detect badness
+  constexpr uint32_t kCycles = 15 * 1000 / kStepMs;
+
+  constexpr auto kParams = std::array{
+      Param::kBeat,    Param::kLoopShift, Param::kShift,   Param::kPause,
+      Param::kEffect,  Param::kOption1,   Param::kOption1, Param::kOption2,
+      Param::kSlider1, Param::kSlider2};
+
+  uint32_t time = 0;
+
+  for (Param param : kParams) {
+    std::cout << "Testing param " << static_cast<uint32_t>(param) << "\n";
+    for (uint16_t value = 0; value < 256; value++) {
+      param_controller.SetRawParam(param, value);
+      for (uint32_t cycle = 0; cycle < kCycles; cycle++) {
+        controller.Step();
+        time += kStepMs;
+        SetMillis(time);
+      }
+    }
+  }
+}
+
+TEST_F(EffectsTest, StableForAllEffects) {
+  uint32_t time = 0;
+  for (const auto effect : kEffectNames) {
+    std::cout << "Testing effect '" << effect.second << "' for stability...\n";
+    param_controller.SetRawParam(Param::kEffect, effect.first);
+    for (uint32_t cycle = 0; cycle < 12 * 60 * 60 * 100; cycle++) {
+      controller.Step();
+      time += 10;
+      SetMillis(time);
     }
   }
 }
