@@ -16,6 +16,9 @@ class FakeLogger : public Logger {
     strncpy(prev_message_, message, kLogLineBytes);
   }
 
+ protected:
+  char* GetTimestamp() override;
+
  private:
   char prev_message_[kLogLineBytes] = "";
 };

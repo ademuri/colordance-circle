@@ -25,10 +25,11 @@ void Logger::Step() {
     return;
   }
   static char line[kLogLineBytes];
+  char* timestamp = GetTimestamp();
   int ret = snprintf(
-      line, kLogLineBytes, "%10lu, %d, %d, %d, %d, %04d, %d",
+      line, kLogLineBytes, "%s, %d, %d, %d, %d, %04d, %d",
       // TODO: switch to real-time clock
-      millis() / 1000, param_controller_.GetRawParam(Param::kEffect),
+      timestamp, param_controller_.GetRawParam(Param::kEffect),
       param_controller_.GetRawParam(Param::kSlider1),
       param_controller_.GetRawParam(Param::kSlider2), param_changed_,
       environment_controller_.GetBatteryMillivolts(), motion_detected_);

@@ -14,6 +14,9 @@ class TeensySdLogger : public Logger {
 
   void Log(const char* message) override;
 
+ protected:
+  char* GetTimestamp() override;
+
  private:
   bool sd_init_ = false;
   File log_file_;

@@ -1,5 +1,7 @@
 #include "TeensySdLogger.hpp"
 
+#include <TimeLib.h>
+
 TeensySdLogger::TeensySdLogger(
     const ParamController& param_controller,
     const EnvironmentController& environment_controller)
@@ -59,4 +61,15 @@ void TeensySdLogger::Log(const char* message) {
     log_file_.flush();
     sd_flush_timer_.Reset();
   }
+}
+
+char* TeensySdLogger::GetTimestamp() {
+  static constexpr uint32_t kBufferSize = 30;
+  static char buffer[kBufferSize];
+
+  time_t time = now();
+  snprintf(buffer, kBufferSize, "%u-%u-%u %u:%u:%u", year(time), month(time),
+           day(time), hour(time), minute(time), second(time));
+
+  return buffer;
 }

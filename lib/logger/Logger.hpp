@@ -23,6 +23,8 @@ class Logger {
   virtual void Log(const char* message) { UNUSED(message); }
 
  protected:
+  virtual char* GetTimestamp() = 0;
+
   Timer log_timer_{kLogIntervalMillis};
 
  private:

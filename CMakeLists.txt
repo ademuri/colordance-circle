@@ -41,6 +41,7 @@ endif(COVERAGE)
 
 file(GLOB LIBRARY_SOURCES
     "lib/fake-environment-controller/*.cpp"
+    "lib/fake-logger/*.cpp"
     "lib/fake-param-controller/*.cpp"
     "lib/generic/*.cpp"
     "lib/generic/control-pole/*.cpp"
