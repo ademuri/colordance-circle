@@ -1,4 +1,5 @@
 #include <Entropy.h>
+#include <TimeLib.h>
 #include <Watchdog_t4.h>
 
 #include <ColordanceTypes.hpp>
@@ -46,10 +47,22 @@ void WatchdogCallback() {
   }
 }
 
+time_t GetTeensyTime() { return Teensy3Clock.get(); }
+
+void SetRTC(time_t time) {
+  Teensy3Clock.set(time);
+  setTime(time);
+}
+
 void setup() {
   Serial.begin(115200);
 
   Serial.println("Brain initializing...");
+
+  setSyncProvider(GetTeensyTime);
+
+  // Take epoch time, in seconds
+  // SetRTC(0);
 
   // See
   // https://forum.pjrc.com/threads/61974-Teensy4-x-Entropy-library-documentation
