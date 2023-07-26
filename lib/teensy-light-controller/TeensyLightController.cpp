@@ -58,6 +58,14 @@ void TeensyLightController::WriteOutLights() {
         Pole::ClampCRGBForDisplay(grid_lights[3][2]);
     leds[pole_index * kLedsPerOutput + 14] =
         Pole::ClampCRGBForDisplay(grid_lights[3][3]);
+
+    // TODO: measure how this performs, and if it is slow, (1) change it to a
+    // memcopy, or (2) directly set the pole lights rather than using a buffer
+    const int pole_light_index = kPoleLightIndexes[pole_number];
+    const PoleLights& pole_lights = poles[pole_number].get_pole_lights();
+    for (uint8_t i = 0; i < kLightsPerPole; i++) {
+      leds[pole_light_index + i] = pole_lights[i];
+    }
   }
   FastLED.show();
 }
