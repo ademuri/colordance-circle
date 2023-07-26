@@ -30,7 +30,8 @@ TEST_F(LoggerTest, Logs) {
   runner.Step();
   AdvanceMillis(kLogIntervalMillis + 100);
   runner.Step();
-  EXPECT_STREQ(logger.PreviousMessage(), "        10, 0, 0, 0, 0, 1200, 0");
+  EXPECT_STREQ(logger.PreviousMessage(),
+               "1970-01-01 00:00:00, 0, 0, 0, 0, 1200, 0");
 
   AdvanceMillis(kLogIntervalMillis + 100);
   param_controller.SetRawParam(Param::kEffect, 2);
@@ -38,10 +39,12 @@ TEST_F(LoggerTest, Logs) {
   param_controller.SetRawParam(Param::kSlider2, 4);
   environment_controller.SetBatteryMillivolts(1210);
   runner.Step();
-  EXPECT_STREQ(logger.PreviousMessage(), "        20, 2, 3, 4, 1, 1210, 0");
+  EXPECT_STREQ(logger.PreviousMessage(),
+               "1970-01-01 00:00:00, 2, 3, 4, 1, 1210, 0");
 
   AdvanceMillis(kLogIntervalMillis + 100);
   environment_controller.SetMotionDetected(true);
   runner.Step();
-  EXPECT_STREQ(logger.PreviousMessage(), "        30, 2, 3, 4, 0, 1210, 1");
+  EXPECT_STREQ(logger.PreviousMessage(),
+               "1970-01-01 00:00:00, 2, 3, 4, 0, 1210, 1");
 }
