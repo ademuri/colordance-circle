@@ -6,6 +6,25 @@
 #include "InterfaceEffect.hpp"
 #include "PoleEffect.hpp"
 
+namespace {
+
+constexpr uint16_t MILLIS_PER_RUN_LOOP = 20;
+constexpr uint16_t FRAMES_PER_LOOP = 840;
+
+constexpr uint32_t BEAT_RESET_WAIT_TIME = 240000;
+constexpr uint16_t DEFAULT_MILLIS_PER_BEAT = 1000;  // 80bpm
+constexpr uint16_t MIN_MILLIS_PER_BEAT = 300;
+constexpr uint16_t MAX_MILLIS_PER_BEAT = 1500;
+constexpr uint16_t SET_BEAT_TOLERANCE = 200;
+
+constexpr uint8_t DEFAULT_BEATS_PER_SHIFT = 4;
+constexpr uint8_t MAX_BEATS_PER_SHIFT = 8;
+
+constexpr uint8_t BEATS_TO_RECORD = 4;
+
+
+} // namespace
+
 InterfaceController::InterfaceController(Poles& poles, Buttons& buttons,
                                          ParamController& paramController)
     : Effect(poles, buttons, paramController) {

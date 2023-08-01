@@ -20,8 +20,6 @@ class InterfaceController : public Effect {
   InterfaceController(Poles& poles, Buttons& buttons,
                       ParamController& paramController);
 
-  // Keep these in sync with the array in interfaceEffects() below
-  static constexpr uint8_t kNumEffects = 7;
   enum EffectIndex {
     kBackAndForth,
     kHuePoles,
@@ -59,9 +57,6 @@ class InterfaceController : public Effect {
   MovingPole movingPole;
   Random random;
 
-  const uint16_t MILLIS_PER_RUN_LOOP = 20;
-  const uint16_t FRAMES_PER_LOOP = 840;
-
   uint32_t lastEffectTime = 0;
 
   // Used to track button presses
@@ -74,11 +69,6 @@ class InterfaceController : public Effect {
   uint32_t pauseTime = 0;
 
   // Beat
-  const uint32_t BEAT_RESET_WAIT_TIME = 240000;
-  const uint16_t DEFAULT_MILLIS_PER_BEAT = 1000;  // 80bpm
-  const uint16_t MIN_MILLIS_PER_BEAT = 300;
-  const uint16_t MAX_MILLIS_PER_BEAT = 1500;
-  const uint16_t SET_BEAT_TOLERANCE = 200;
   uint32_t lastBeatTime = 0;
   uint32_t nextBeatTime = 750;
   uint32_t lastSetBeatTime = 0;
@@ -86,8 +76,6 @@ class InterfaceController : public Effect {
   uint16_t millisPerBeat = 750;
 
   // Shift
-  const uint8_t DEFAULT_BEATS_PER_SHIFT = 4;
-  const uint8_t MAX_BEATS_PER_SHIFT = 8;
   bool doShiftOnNextBeat = false;
   uint8_t beatsSinceAutoShift = 0;
   uint8_t beatsSinceManualShift = 0;
@@ -96,7 +84,6 @@ class InterfaceController : public Effect {
   uint32_t lastShiftTime = 0;
 
   // Beat tracking
-  const uint8_t BEATS_TO_RECORD = 4;
   std::queue<uint16_t> beatQueue;
   uint16_t beatTrackingTime = 0;
 
