@@ -48,7 +48,6 @@ class InterfaceController : public Effect {
         std::addressof(random)};
   }
 
-  // std::array<InterfaceEffect, 5> interfaceEffects;
   BackAndForth backAndForth;
   HuePoles huePoles;
   SideToSide sideToSide;
