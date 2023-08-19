@@ -63,8 +63,9 @@ void TeensyLightController::WriteOutLights() {
     // memcopy, or (2) directly set the pole lights rather than using a buffer
     const int pole_light_index = kPoleLightIndexes[pole_number];
     const PoleLights& pole_lights = poles[pole_number].get_pole_lights();
+    static_assert(kLightsPerPole <= kLedsPerOutput, "kLightsPerPole must be <= kLedsPerOutput");
     for (uint8_t i = 0; i < kLightsPerPole; i++) {
-      leds[pole_light_index + i] = pole_lights[i];
+      leds[pole_light_index * kLedsPerOutput + i] = pole_lights[i];
     }
   }
   FastLED.show();

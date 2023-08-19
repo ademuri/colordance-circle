@@ -16,7 +16,7 @@ class TeensyLightController {
   // The number of LED output pins
   static constexpr int kNumLedOutputs = 14;
   // TODO: make this bigger when pole LEDs are added
-  static constexpr int kLedsPerOutput = 16;
+  static constexpr int kLedsPerOutput = 45;
 
   static constexpr int kTotalLeds = kNumLedOutputs * kLedsPerOutput;
 
