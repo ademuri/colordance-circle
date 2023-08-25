@@ -13,7 +13,7 @@ class Buttons {
   using Bank1 = std::array<CRGB, kMaxLedsPerStrip * kStripsPerBank1>;
   using Bank2 = std::array<CRGB, kMaxLedsPerStrip * kStripsPerBank2>;
 
-  Buttons(Bank1& bank1, Bank2& bank2);
+  explicit Buttons(Bank1& bank1, Bank2& bank2);
 
   void SetButton(uint8_t button_index, const uint8_t led_index,
                  const CRGB& rgb);

@@ -4,7 +4,13 @@
 
 #ifdef ARDUINO
 
+#pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wpedantic"
+
 #include <FastLED.h>
+
+#pragma GCC diagnostic pop
 
 // Arduino.h, automatically included by the IDE, defines min and max macros
 // (which it shouldn't). Apparently FastLED depends on them, so don't undef
