@@ -48,6 +48,7 @@ file(GLOB LIBRARY_SOURCES
     "lib/generic/helper-pole/*.cpp"
     "lib/generic/interface/*.cpp"
     "lib/generic/interface/effects/*.cpp"
+    "lib/mini-light-controller/*.cpp"
     "lib/logger/*.cpp"
     "lib/runner/*.cpp"
     "lib/stdin-param-controller/*.cpp"
@@ -61,6 +62,7 @@ target_include_directories(generic PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-environment-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-logger>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-param-controller>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/mini-light-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/stdin-param-controller>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/generic>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/logger>
