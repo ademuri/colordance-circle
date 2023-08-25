@@ -49,7 +49,12 @@ uint16_t MiniLightController::NativeToBoardLedIndex(const uint16_t i) {
 MiniLightController::LedIndices
 MiniLightController::GridLightToNativeLedIndices(uint16_t x, uint16_t y) {
   MiniLightController::LedIndices indices;
-  // TODO: implement this
+  uint8_t index = 0;
+  for (uint8_t row = 0; row < 4; row++) {
+    for (uint8_t col = 0; col < 4; col++) {
+      indices[index++] = (y * 4 + row) * 16 + col + x * 4;
+    }
+  }
 
   return indices;
 }
